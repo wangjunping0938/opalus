@@ -1,0 +1,107 @@
+{% extends "layout/admin.html" %}
+{% block title %}用户管理{% endblock %}
+{% block layout_css %}
+    <style type="text/css">
+
+    </style>
+{% endblock %}
+
+{% block layout_js %}
+    <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+{% endblock %}
+
+{% block layout_slider %}
+{%endblock%}
+
+{% block content %}
+
+<div>
+
+    <div class="navbar navbar-default border-n nav-stab">
+        <div class="navbar-header">
+            <div class="navbar-brand">
+                {{ meta.title }}
+            </div>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav nav-list">
+                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.user_list') }}">全部</a></li>
+                <li role="presentation" class="{{ meta.css_verify }}"><a href="{{ url_for('admin.user_list', status=1) }}">待审核</a></li>
+                <li role="presentation" class="{{ meta.css_disable }}"><a href="{{ url_for('admin.user_list', status=-1) }}">禁用</a></li>
+                <li role="presentation" class="{{ meta.css_success }}"><a href="{{ url_for('admin.user_list', status=5) }}">通过</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <table class="table table-striped ph-list">
+        <th>
+            <div class="checkbox list-checkbox">
+              <label>
+                  <input type="checkbox" id="check-all" value="" aria-label="...">
+              </label>
+            </div>
+        </th>
+        <th>ID</th>
+        <th>账户</th>
+        <th>权限</th>
+        <th>状态</th>
+        <th>创建时间</th>
+        <th>操作</th>
+        {% for d in meta.data %}
+            <tr id="item-{{ d._id }}">
+                <td>
+                    <div class="checkbox list-checkbox">
+                      <label>
+                          <input type="checkbox" name="check-item" value="{{ d._id }}" aria-label="...">
+                      </label>
+                    </div>
+                </td>
+                <td>{{ d._id }}</td>
+                <td>{{ d.account }}</td>
+                <td>
+                    {% if d.role_id==1 %}
+                        <span>用户</span>
+                    {%endif%}
+                    {% if d.role_id==2 %}
+                        <span>编辑</span>
+                    {%endif%}
+                    {% if d.role_id==5 %}
+                        <span>管理员</span>
+                    {%endif%}
+                    {% if d.role_id==8 %}
+                        <span>超级管理员</span>
+                    {%endif%}
+                </td>
+                <td>
+                    {% if d.status==0 %}
+                        <span class="label label-danger">禁用</span>
+                    {%endif%}
+                    {% if d.status==1 %}
+                        <span class="label label-warning">审核</span>
+                    {%endif%}
+                    {% if d.status==5 %}
+                        <span class="label label-success">激活</span>
+                    {%endif%}
+                </td>
+                <td>{{ d.created_at | date("%Y-%m-%d") }}</td>
+                <td>
+                    <a href="{{ url_for('admin.user_submit', id=d._id) }}">编辑</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <!--分页-->
+    {{ meta.pager|safe }}
+
+</div>
+
+
+{% endblock %}

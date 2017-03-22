@@ -1,0 +1,152 @@
+{% extends "layout/admin.html" %}
+{% block title %}用户管理{% endblock %}
+{% block layout_css %}
+    <style type="text/css">
+
+    </style>
+{% endblock %}
+
+{% block layout_js %}
+    <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+  $("#user-form").validate({
+    //ignore: ".ignore",
+    //debug: true,
+
+    rules: {
+        account: {
+            required: true,
+            email: true
+        }
+    },
+
+    messages: {
+        account: {
+            required: "请输入邮箱",
+            email: "邮箱格式不正确"
+        }
+
+    },
+    submitHandler: function(form) {
+      $(form).ajaxSubmit({
+        dataType: 'json',
+        beforeSubmit: function(){
+          //alert('before'); 
+        },
+        success: function(data){
+          if(data.success){
+            alert('更新成功');
+            window.location.href=data.redirect_to;
+          }else{
+            alert(data.message);
+          }
+        }
+      });
+    }
+   });
+
+{% endblock %}
+
+{% block layout_slider %}
+{%endblock%}
+
+{% block content %}
+
+    <div class="navbar navbar-default border-n nav-stab">
+        <div class="navbar-header">
+            <div class="navbar-brand">
+                {{ meta.title }}
+            </div>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav nav-list">
+                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.user_list') }}">全部</a></li>
+                <li role="presentation" class="{{ meta.css_verify }}"><a href="{{ url_for('admin.user_list', status=1) }}">待审核</a></li>
+                <li role="presentation" class="{{ meta.css_disable }}"><a href="{{ url_for('admin.user_list', status=-1) }}">禁用</a></li>
+                <li role="presentation" class="{{ meta.css_success }}"><a href="{{ url_for('admin.user_list', status=5) }}">通过</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="ph-form">
+        <form class="form-horizontal" method="POST" action="{{ url_for('admin.user_save') }}" id="user-form">
+            {{ form.csrf_token }}
+            <input type="hidden" name="id" value="{{ meta.data._id }}" />
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="account">邮箱</label>
+                    <input type="text" name="account" class="form-control" disabled value="{{ meta.data.account }}" placeholder="邮箱">
+                </div>
+            </div>
+
+            <!--
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                    <label>
+                        <input type="checkbox"> Remember me
+                    </label>
+                    </div>
+                </div>
+            </div>
+            -->
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="account">状态</label>
+                    <div class="">
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.status==0 %}checked="checked"{%endif%} name="status" value="0">
+                            禁用
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.status==1 %}checked="checked"{%endif%} name="status" value="1">
+                            待审核
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.status==5 %}checked="checked"{%endif%} name="status" value="5">
+                            激活
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-6">
+                    <label for="account">权限</label>
+                    <div class="">
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.role_id==1 %}checked="checked"{%endif%} name="role_id" value="1">
+                            普通用户
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.role_id==2 %}checked="checked"{%endif%} name="role_id" value="2">
+                            编辑
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.role_id==5 %}checked="checked"{%endif%} name="role_id" value="5">
+                            管理员
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.role_id==8 %}checked="checked"{%endif%} name="role_id" value="8">
+                            超级管理员
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-default">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+{% endblock %}

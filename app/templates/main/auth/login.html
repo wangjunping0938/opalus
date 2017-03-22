@@ -1,0 +1,79 @@
+{% extends "layout/column.html" %}
+{% block title %}登录{% endblock %}
+{% block layout_css %}
+  <style type="text/css">
+
+  </style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+  $("#login-form").validate({
+    //ignore: ".ignore",
+    //debug: true,
+
+    rules: {
+        account: {
+            required: true,
+            email: true
+        },
+        password: "required"
+    },
+
+    messages: {
+        account: {
+            required: "请输入邮箱",
+            email: "邮箱格式不正确"
+        },
+        password: "请输入密码"
+    },
+    submitHandler: function(form) {
+      $(form).ajaxSubmit({
+        dataType: 'json',
+        beforeSubmit: function(){
+          //alert('before'); 
+        },
+        success: function(data){
+          if(data.success){
+            window.location.href=data.redirect_to;
+          }else{
+            alert(data.message);
+          }
+        }
+      });
+    }
+   });
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="" style="">
+      <h2 class="page-header"><span class="glyphicon glyphicon-user"></span>用户登录</h2>
+      <form method="POST" action="{{ url_for('main.login') }}" class="form-horizontal" id="login-form">
+        {{ form.csrf_token }}
+
+        <div class="form-group">
+          <div class="col-md-5">
+                {{ form.account(class="form-control", placeholder="邮箱") }}
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-5">
+            {{ form.password(class="form-control", placeholder="密码") }}
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-5">
+             <button type="submit" class="btn btn-primary">登陆</button>
+          </div>
+        </div>								
+      </form>
+    </div>
+{% endblock %}

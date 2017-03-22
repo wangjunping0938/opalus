@@ -1,0 +1,24 @@
+{% extends 'layout/base.html' %}
+
+{% block title%}{% endblock %}
+
+{% block layout_header %}
+<div class="">
+  {% include "block/header.html" %}
+</div>
+{% endblock %}
+
+{% block layout_slider %}
+{% endblock %}
+
+{% block layout_content %}
+    <div class="container content-body">
+	    {% block content %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block layout_footer %}
+  {% include "block/footer.html" %}
+{% endblock %}
+
+

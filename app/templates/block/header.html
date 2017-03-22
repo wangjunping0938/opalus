@@ -1,0 +1,46 @@
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="{{ url_for('main.index') }}" class="navbar-brand">太火鸟</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class=""><a href="">文档中心</a></li>
+            <li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown">更多 <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ url_for('main.about') }}">关于</a></li>
+                <li><a href="{{ url_for('main.contact') }}">联系我们</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+
+        {%- if g.user %}
+				<li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ g.user.account }}<b class="caret"></b></a>
+				  <ul class="dropdown-menu">
+            <li><a href="">个人设置</a></li>
+            {% if g.is_admin %}
+            <li><a href="{{ url_for('admin.index') }}">系统管理</a></li>
+            {%endif%}
+					<li class="divider"></li>
+          <li><a href="{{ url_for('main.logout') }}">注销</a></li>
+				  </ul>
+				</li>
+        {%else%}
+        <li><a href="{{ url_for('main.register') }}">注册</a></li>
+        <li><a href="{{ url_for('main.login') }}">登录</a></li>
+        {%endif%}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:50px;"></div>

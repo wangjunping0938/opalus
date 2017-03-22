@@ -1,0 +1,29 @@
+{% extends 'layout/base_admin.html' %}
+
+{% block title%}{% endblock %}
+
+{% block layout_header %}
+<div class="">
+  {% include "block/admin_header.html" %}
+</div>
+{% endblock %}
+
+{% block layout_slider %}
+{% endblock %}
+
+{% block layout_content %}
+    <div class="container admin-content-body">
+        <div class="col-md-2">
+            {% include "block/sitebar_admin.html" %}
+        </div>
+        <div class="col-md-10">
+	        {% block content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block layout_footer %}
+  {% include "block/footer.html" %}
+{% endblock %}
+
+

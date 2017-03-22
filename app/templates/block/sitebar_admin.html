@@ -1,0 +1,73 @@
+
+    <div class="site-bar">
+        <div class="res_mem_menu_l">
+            <h2><a href="#" class="res_mem_menu_top">后台管理</a></h2>
+            <div class="res_mem_menu_border tdn pt1">
+                <h4 class="res_mem_menu_title memMenuTitle {{ meta.css_nav_stat|default('') }}" tabindex="-1" title="展开" data-rel="mStatCenter">
+                    <u class="u u29 res_mem_opt_icon"></u>
+                    <div class="res_mem_menu_link">统计中心</div>
+                </h4>
+
+                <ul id="mStatCenter" class="bbc pb5">
+                    <li class="res_mem_list_li">
+                        <a class="res_mem_list_link" href="#order">未定义 <span class="g9">»</span></a>
+                    </li>
+                    <li class="res_mem_list_li">
+                        <a class="res_mem_list_link" href="#CashCoupon">未定义 <span class="g9">»</span></a>
+                    </li>
+                </ul>
+
+                <h4 class="res_mem_menu_title memMenuTitle {{ meta.css_nav_reptile|default('') }}" tabindex="-1" title="展开" data-rel="mReptileManage">
+                    <u class="u u29 res_mem_opt_icon"></u>
+                    <div class="res_mem_menu_link">爬虫管理</div>
+                </h4>
+                <ul id="mReptileManage" class="bbc pb5">
+                    <li class="res_mem_list_li">
+                        <a class="res_mem_list_link {{ meta.css_nav_sub_site|default('') }}" href="{{ url_for('admin.site_list') }}">网站管理 <span class="g9">»</span></a>
+                    </li>
+                    <li class="res_mem_list_li">
+                        <a class="res_mem_list_link {{ meta.css_nav_sub_product|default('') }}" href="{{ url_for('admin.product_list') }}">产品管理 <span class="g9">»</span></a>
+                    </li>
+                    <li class="res_mem_list_li">
+                        <a class="res_mem_list_link {{ meta.css_nav_sub_order|default('') }}" href="{{ url_for('admin.order_list') }}">订单管理 <span class="g9">»</span></a>
+                    </li>
+
+                </ul>
+
+                <h4 class="res_mem_menu_title memMenuTitle {{ meta.css_nav_system|default('') }}" tabindex="-1" title="展开" data-rel="mManageAccount">
+                    <u class="u u29 res_mem_opt_icon"></u>
+                    <div class="res_mem_menu_link">系统管理</div>
+                </h4>
+                <ul id="mManageAccount" class="bbc pb5">
+                    <li class="res_mem_list_li">
+                        <a class="res_mem_list_link {{ meta.css_nav_sub_user|default('') }}" href="{{ url_for('admin.user_list') }}">用户管理 <span class="g9">»</span></a>
+                    </li>
+                    <li class="res_mem_list_li">
+                        <a class="res_mem_list_link {{ meta.css_nav_sub_block|default('') }}" href="{{ url_for('admin.block_list') }}">配置管理 <span class="g9">»</span></a>
+                    </li>
+                    <li class="res_mem_list_li">
+                        <a class="res_mem_list_link {{ meta.css_nav_sub_category|default('') }}" href="{{ url_for('admin.category_list') }}">分类管理 <span class="g9">»</span></a>
+                    </li>
+                    <!--
+
+                    <li class="res_mem_list_li">
+                        <a class="res_mem_list_link" href="#Password">修改密码 <span class="g9">»</span></a>
+                    </li>
+                    <li class="res_mem_list_li">
+                        <a class="res_mem_list_link" href="javascript:">婚礼工具</a>
+                    </li>
+                    <li class="res_mem_list_li">
+                        <a class="res_mem_list_link" href="#Budget" target="_blank"><span class="pl15">结婚预算</span> <span class="g9">»</span></a>
+                    </li>
+                    <li class="res_mem_list_li">
+                        <a class="res_mem_list_link" href="#office" target="_blank"><span class="pl15">结婚登记处</span> <span class="g9">»</span></a>
+
+                    </li>
+                    -->
+
+                </ul>
+            </div>
+
+        </div>   
+    </div>
+

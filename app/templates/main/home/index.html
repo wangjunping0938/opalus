@@ -1,0 +1,86 @@
+{% extends "layout/column.html" %}
+{% block title %}首页{% endblock %}
+{% block layout_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/plugin/swiper-3.4.1.min.css') }}" type="text/css" />
+    <style type="text/css">
+
+
+    .swiper-container {
+        width: 100%;
+        height: 420px;
+    }
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+
+
+    </style>
+{% endblock %}
+
+{% block layout_js %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/plugin/swiper-3.4.1.jquery.min.js') }}"></script>
+    <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+    var swiper = new Swiper('.swiper-container', {
+        paginationClickable: true,
+        //direction: 'vertical',
+        loop: true,
+        autoplay: 3000,
+        
+        // 如果需要分页器
+        pagination: '.swiper-pagination',
+
+        // 如果需要前进后退按钮
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev'
+    });
+
+
+{% endblock %}
+
+{% block layout_slider %}
+
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" style="background-image: url('https://p4.taihuoniao.com/asset/170228/58b53fb420de8d36438bb0c6-1');"></div>
+            <div class="swiper-slide" style="background-image: url('https://p4.taihuoniao.com/asset/170303/58b8e88b20de8d006f8be4cc-1');"></div>
+            <div class="swiper-slide" style="background-image: url('https://p4.taihuoniao.com/asset/170113/58782624fc8b1236368b6c58-1');"></div>
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+        
+        <!-- 如果需要导航按钮 -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+
+    </div>
+
+{%endblock%}
+
+{% block content %}
+
+
+
+
+{% endblock %}

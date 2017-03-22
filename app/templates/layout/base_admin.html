@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <title>{% block title %}{% endblock %} - Opalus</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link href="{{ url_for('static', filename='bootstrap-3.3.7-dist/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base_admin.css') }}" type="text/css" />
+
+    <style type="text/css">
+    @charset "utf-8";
+	body {
+		font:14px/1.5 "Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti;
+	}
+    </style>
+
+
+    {% block layout_css %}{% endblock %}
+  </head>
+  <body>
+
+    {% block layout_header %}{% endblock %}
+
+      <span class="blank50"></span>
+      <div class="main">
+        <!--消息提醒-->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="alert alert-{{ category }}" data-dismiss="alert">{{ message }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      </div>
+
+    {% block layout_slider %}{% endblock %}
+
+    {% block layout_content %}
+          {% block content %}{% endblock %}
+    {% endblock %}
+
+	{% block layout_footer %}{% endblock %}
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.1.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-3.3.7-dist/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/plugin/jquery.form.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/plugin/jquery.validation_plugin.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/base.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/base_admin.js') }}"></script>
+
+    {% block layout_js %}{% endblock %}
+		<script type="text/javascript">
+		<!--
+		$(function(e){
+            // 初始化
+            phenix.initial();
+    		{% block jquery %}{% endblock %}
+		});
+		//-->
+		</script>
+
+  </body>
+</html>

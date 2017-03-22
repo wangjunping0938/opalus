@@ -1,0 +1,173 @@
+{% extends "layout/admin.html" %}
+{% block title %}{{ meta.title }}{% endblock %}
+{% block layout_css %}
+    <style type="text/css">
+
+    </style>
+{% endblock %}
+
+{% block layout_js %}
+    <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+  $("#site-form").validate({
+    //ignore: ".ignore",
+    //debug: true,
+
+    rules: {
+        mark: {
+            required: true,
+        },
+        name: "required",
+        url: "required"
+    },
+
+    messages: {
+        mark: {
+            required: "请输入唯一标识",
+        },
+        name: "请输入名称",
+        url: "请输入网址"
+    },
+    submitHandler: function(form) {
+      $(form).ajaxSubmit({
+        dataType: 'json',
+        beforeSubmit: function(){
+          //alert('before'); 
+        },
+        success: function(data){
+          if(data.success){
+            alert(data.message);
+            window.location.href=data.redirect_to;
+          }else{
+            alert(data.message);
+          }
+        }
+      });
+    }
+   });
+
+   // 选择下拉菜单事件给site_type赋值
+   $("select[name='site_from']").change(function(){
+        var type = $(this).find('option:selected').data('type');
+        $("input[name='site_type']").val(type);
+   });
+
+   // 初始化
+
+
+{% endblock %}
+
+{% block layout_slider %}
+{%endblock%}
+
+{% block content %}
+
+    <div class="navbar navbar-default border-n nav-stab">
+        <div class="navbar-header">
+            <div class="navbar-brand">
+                {{ meta.title }}
+            </div>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav nav-list">
+                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.site_list') }}">全部</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="ph-form">
+        <form class="form-horizontal" method="POST" action="{{ url_for('admin.site_save') }}" id="site-form">
+            {{ form.csrf_token }}
+            <input type="hidden" name="id" value="{{ meta.data._id }}" />
+            <input type="hidden" name="site_type" value="{{ meta.data.site_type }}" />
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <select name="site_from" class="form-control">
+                        {% for d in meta.platform_options %}
+                        <option value="{{ d.id }}" data-type="{{ d.type }}" {% if meta.data.site_from==d.id %}selected="selected"{%endif%}>{{ d.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="name">名称</label>
+                    <input type="text" name="name" class="form-control" value="{{ meta.data.name }}" placeholder="名称">
+                </div>
+                <div class="col-xs-4">
+                    <label for="mark">标识</label>
+                    <input type="text" name="mark" class="form-control" value="{{ meta.data.mark }}" placeholder="标识">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="mark">网址</label>
+                    <input type="text" name="url" class="form-control" value="{{ meta.data.url }}" placeholder="网址">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="code">代码域</label>
+                    <textarea class="form-control" name="code" rows="3">{{ meta.data.code|default('') }}</textarea>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="remark">备注</label>
+                    <textarea class="form-control" name="remark" rows="3">{{ meta.data.remark|default('') }}</textarea>
+                    <div class="description">详细说明配置调用方法</div>
+                </div>
+            </div>
+
+            <!--
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                    <label>
+                        <input type="checkbox"> Remember me
+                    </label>
+                    </div>
+                </div>
+            </div>
+            -->
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="account">状态</label>
+                    <div class="">
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.status==0 %}checked="checked"{%endif%} name="status" value="0">
+                            禁用
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.status==1 %}checked="checked"{%endif%} name="status" value="1">
+                            启用
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <a href="{{ url_for('admin.site_list') }}" class="btn btn-default">取消</a>
+                    <button type="submit" class="btn btn-default">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+{% endblock %}
