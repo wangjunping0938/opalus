@@ -1,0 +1,131 @@
+{% extends "layout/admin.html" %}
+{% block title %}{{ meta.title }}{% endblock %}
+{% block layout_css %}
+    <style type="text/css">
+
+
+    </style>
+{% endblock %}
+
+{% block layout_js %}
+    <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+	$('.btn.btn-default').click(function(){
+		$('#search-form').submit();
+	});
+
+{% endblock %}
+
+{% block layout_slider %}
+{%endblock%}
+
+{% block content %}
+
+<div>
+
+    <div class="navbar navbar-default border-n nav-stab">
+        <div class="navbar-header">
+            <div class="navbar-brand">
+                {{ meta.title }}
+            </div>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav nav-list">
+                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.growth_list') }}">全部</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div>
+    
+        <form class="navbar-form navbar-left" role="search" action="{{ url_for('admin.growth_list') }}" method="GET" id="search-form">
+          <div class="form-group">
+              <input type="text" name="target_id" class="form-control" value="{{ meta.target_id }}" placeholder="产品ID">
+          </div>
+          <div class="form-group">
+              <input type="text" name="day" class="form-control" value="{{ meta.day }}" placeholder="天(格式): 20170323">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="内容">
+          </div>
+          <button type="submit" class="btn btn-default">搜索</button>
+        </form>
+    
+    </div>
+
+    <table class="table table-striped ph-list">
+        <th>
+            <div class="checkbox list-checkbox">
+              <label>
+                  <input type="checkbox" id="check-all" value="" aria-label="...">
+              </label>
+            </div>
+        </th>
+        <th>天</th>
+        <th>产品</th>
+        <th>来源/模式</th>
+        <th>销售</th>
+        <th>浏览</th>
+        <th>喜欢</th>
+        <th>收藏</th>
+        <th>支持</th>
+        <th>评分</th>
+        <th>抓取</th>
+        <th>状态</th>
+        <th>创建时间</th>
+        <th>操作</th>
+        {% for d in meta.data %}
+            <tr id="item-{{ d._id }}">
+                <td>
+                    <div class="checkbox list-checkbox">
+                      <label>
+                          <input type="checkbox" name="check-item" class="check-item" value="{{ d._id }}" aria-label="...">
+                      </label>
+                    </div>
+                </td>
+                <td>{{ d.day }}</td>
+                <td>
+                    <p>ID: {{ d.product._id }}</p>
+                    <p>名称: {{ d.product.title }}</p>
+                    <p>编号: {{ d.product.out_number }}</p>
+                    <p>链接: {{ d.product.url }}</p>
+                </td>
+                <td>
+                    {{ d.site_from_label }}-[{{ d.site_type_label }}]
+                </td>
+                <td>{{ d.sale_count }}</td>
+                <td>{{ d.view_count }}</td>
+                <td>{{ d.love_count }}</td>
+                <td>{{ d.favorite_count }}</td>
+                <td>{{ d.support_count }}</td>
+                <td>{{ d.rate }}</td>
+                <td>{{ d.grab_count }}</td>
+                <td>
+                    {% if d.status==0 %}
+                        <span class="label label-danger">禁用</span>
+                    {%endif%}
+                    {% if d.status==1 %}
+                        <span class="label label-success">启用</span>
+                    {%endif%}
+                </td>
+                <td>{{ d.created_at | date("%Y-%m-%d") }}</td>
+                <td>
+                    --
+                    <!--<a href="{{ url_for('admin.growth_delete', ids=d._id) }}" class="confirm-request">删除</a>-->
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <!--分页-->
+    {{ meta.pager|safe }}
+
+</div>
+
+
+{% endblock %}

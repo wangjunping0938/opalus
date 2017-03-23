@@ -4,7 +4,7 @@ from flask import Blueprint, g
 admin = Blueprint('admin', __name__, static_url_path='/static',
             static_folder='../../../static', template_folder='app/templates/admin')
 
-from . import index, user, block, category, site, product, order
+from . import index, user, block, category, site, product, order, growth
 from app.helpers.auth import get_current_user
 
 @admin.before_request

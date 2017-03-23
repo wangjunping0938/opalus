@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, current_app
 from . import api
 from app.lib.grab import fetch_platform_site, push_product
 
@@ -18,8 +18,8 @@ def test_view():
 def test_push_product():
 
     data = {
-            'url': 'http://www.baidu.com',
-            'title': '百度',
+            'url': 'http://www.sina.com',
+            'title': '新浪',
             'site_from': 3,
             'site_type': 2,
             'brand_name': '太火鸟1',

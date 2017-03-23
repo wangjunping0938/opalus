@@ -1,8 +1,10 @@
 # -*- coding: UTF-8 -*- 
 #  爬虫方法集
 import datetime
+from flask import current_app
 from app.models.site import Site
 from app.models.product import Product
+from app.models.growth_record import GrowthRecord
 from app.helpers.common import force_int, force_float_2
 
 # 获取站点信息
@@ -26,6 +28,7 @@ def fetch_platform_site(mark=None):
 def push_product(**kwargs):
 
     data = {}
+    growth_data = {}
     url = kwargs.get('url', None)
     if not url:
         return {'success':False, 'message': '抓取链接不存在!'}
@@ -42,8 +45,8 @@ def push_product(**kwargs):
         return {'success':False, 'message':'产品名称不能为空!'}
 
     data['url'] = url
-    data['site_from'] = site_from
-    data['site_type'] = site_type
+    data['site_from'] = growth_data['site_from'] = site_from
+    data['site_type'] = growth_data['site_type'] = site_type
     data['title'] = title
 
     sub_title = kwargs.get('sub_title', None)   # 副名称
@@ -126,7 +129,7 @@ def push_product(**kwargs):
 
     rate = force_float_2(kwargs.get('rate', 0))   # 产品评分
     if rate:
-        data['rate'] = rate
+        data['rate'] = growth_data['rate'] = rate
 
     cost_price = force_float_2(kwargs.get('cost_price', 0)) # 成本价
     if cost_price:
@@ -138,31 +141,31 @@ def push_product(**kwargs):
 
     total_price = force_float_2(kwargs.get('total_price', 0))   # 品牌地址
     if total_price:
-        data['total_price'] = total_price
+        data['total_price'] = growth_data['total_price'] = total_price
 
     love_count = force_int(kwargs.get('love_count', 0))   # 喜欢/点赞数
     if love_count:
-        data['love_count'] = love_count
+        data['love_count'] = growth_data['love_count'] = love_count
 
     favorite_count = force_int(kwargs.get('favorite_count', 0)) # 收藏/订阅数
     if favorite_count:
-        data['favorite_count'] = favorite_count
+        data['favorite_count'] = growth_data['favorite_count'] = favorite_count
 
     comment_count = force_int(kwargs.get('comment_count', 0))   # 评论数量
     if comment_count:
-        data['comment_count'] = comment_count
+        data['comment_count'] = growth_data['comment_count'] = comment_count
 
     sale_count = force_int(kwargs.get('sale_count', 0))   # 销售数量
     if sale_count:
-        data['sale_count'] = sale_count
+        data['sale_count'] = growth_data['sale_count'] = sale_count
 
     view_count = force_int(kwargs.get('view_count', 0))   # 浏览数量
     if view_count:
-        data['view_count'] = view_count
+        data['view_count'] = growth_data['view_count'] = view_count
 
     support_count = force_int(kwargs.get('support_count', 0))   # 支持数量
     if support_count:
-        data['support_count'] = support_count
+        data['support_count'] = growth_data['support_count'] = support_count
 
     try:
         data['last_grab_at'] = datetime.datetime.now()
@@ -172,14 +175,35 @@ def push_product(**kwargs):
             product = Product(**data)
             ok = product.save()
             if not ok:
+                current_app.logger.error('爬取产品保存失败!')
                 return {'success':False, 'message':'保存失败!'}
         else:
             data['inc__grab_count'] = 1 # 自增
             ok = product.update(**data)
             if not ok:
+                current_app.logger.error('爬取产品更新失败!')
                 return {'success':False, 'message':'更新失败!'}
 
+        target_id = product._id
+        day = int(datetime.datetime.now().strftime("%Y%m%d"))
+        
+        growth_data['day'] = day
+        growth_data['target_id'] = target_id
+        growth_record = GrowthRecord.objects(day=day, target_id=target_id).first()
+        if not growth_record:
+            growth_record = GrowthRecord(**growth_data)
+            ok = growth_record.save()
+            if not ok:
+                current_app.logger.error('爬取产品增长记录保存失败!')
+                return {'success':False, 'message':'增长记录保存失败!'}
+        else:
+            growth_data['inc__grab_count'] = 1 # 自增
+            ok = growth_record.update(**growth_data)
+            if not ok:
+                current_app.logger.error('爬取产品增长数记录更新失败!')
+                return {'success':False, 'message':'增长数据更新失败!'}
     except(Exception) as e:
+        current_app.logger.error('爬取产品异常: %s' % str(e))
         return {'success':False, 'message':str(e)}
     
     return {'success':True, 'message':'success!', 'data':''}
