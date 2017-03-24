@@ -23,7 +23,7 @@ RESERVED_WORDS = [
 
 
 class SigninForm(FlaskForm):
-    account = StringField('用户名', validators=[DataRequired(), Length(min=4, max=16, message="长度大于4小于16")],
+    account = StringField('用户名', validators=[DataRequired(), Length(min=4, max=30, message="长度大于4小于30")],
             )
     password = PasswordField('密码', validators=[DataRequired()]
     )

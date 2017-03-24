@@ -7,15 +7,15 @@
 
 ### 环境布署
 - 进入当前项目目录
-- 创建虚拟环境：/opt/python3/bin/virtualenv env
-- 切换到虚拟环境：source /opt/project/python/test/venv/bin/activate
-- 关闭虚拟环境：deactivate
+- 创建虚拟环境(只在第一次布署时创建)：/opt/python3/bin/virtualenv env
+- 切换到虚拟环境：source env/bin/activate
 
-- 通过pip install -r requirements.txt在该环境下进行安装。
-
+- 通过/opt/python3/bin/pip3 install -r requirements.txt在该环境下进行安装。
 
 ### 启动程序uwsgi:
 - source env/bin/activate   #切换当前虚拟环境
 - uwsgi uwsgi.ini   #启动uwsgi服务器
 - ***快捷启动: sh deploy.sh start|stop|restart
+
+- 关闭虚拟环境：deactivate
 
