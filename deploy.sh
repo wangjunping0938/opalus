@@ -17,7 +17,7 @@ then
         echo "uwsgi is running!"
         exit 0
     else
-        uwsgi ./uwsgi.ini --no-site --vhost
+        uwsgi --ini ./uwsgi.ini --vhost
         echo "Start uwsgi service [OK]"
     fi
     
@@ -27,7 +27,7 @@ elif [ $1 = stop ];then
     echo "Stop uwsgi service [OK]"
 elif [ $1 = restart ];then
     killall -9 uwsgi
-    uwsgi --ini ./uwsgi.ini --no-site --vhost
+    uwsgi --ini ./uwsgi.ini --vhost
     echo "Restart uwsgi service [OK]"
 
 else
