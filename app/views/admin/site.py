@@ -60,7 +60,7 @@ def site_submit():
     meta = {
         'title': '配置管理',
         'css_nav_sub_site': 'active',
-        'css_nav_system': 'active'
+        'css_nav_reptile': 'active'
     }
     id = request.args.get('id', None)
     meta['data'] = None
@@ -82,7 +82,7 @@ def site_save():
     meta = {
         'title': '网站管理',
         'css_nav_sub_site': 'active',
-        'css_nav_system': 'active'
+        'css_nav_reptile': 'active'
     }
 
     form = SaveForm()
@@ -111,7 +111,7 @@ def site_delete():
     meta = {
         'title': '网站管理',
         'css_nav_sub_site': 'active',
-        'css_nav_system': 'active'
+        'css_nav_reptile': 'active'
     }
 
     ids = request.values.get('ids', '')
