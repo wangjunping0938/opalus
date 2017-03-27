@@ -10,6 +10,7 @@ from . import test, product, site
 def load_current_user():
     pass
 
+
 class Base():
     def __init__(self):
         pass

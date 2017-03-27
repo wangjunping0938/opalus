@@ -31,7 +31,7 @@ class DevelopmentConfig(Config):
         'password':''
     }
 
-    CSRF_ENABLED = True
+    WTF_CSRF_ENABLED = False
     SECRET_KEY = 'opalus'
     WTF_CSRF_SECRET_KEY = 'opalus'
 
@@ -49,7 +49,7 @@ class TestingConfig(Config):
         'password':''
     }
 
-    CSRF_ENABLED = True
+    WTF_CSRF_ENABLED = False
     SECRET_KEY = 'opalus'
     WTF_CSRF_SECRET_KEY = 'opalus'
 
@@ -65,7 +65,7 @@ class ProductionConfig(Config):
         'password':''
     }
 
-    CSRF_ENABLED = True
+    WTF_CSRF_ENABLED = False
     SECRET_KEY = 'opalus'
     WTF_CSRF_SECRET_KEY = 'opalus'
 
