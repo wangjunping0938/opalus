@@ -18,6 +18,17 @@ def fetch_platform_site(mark=None):
     site = site.to_mongo()
     # 格式过滤
     site['_id'] = str(site['_id'])
+
+    code_format = []
+    if site['code']:
+        arr = site['code'].split('##')
+        for d in arr:
+            s = d.split('&&')
+            if len(s)<3:
+                return {'success':False, 'message':'配置代码格式有错!'}
+            code_format.append({'title':s[0], 'field':s[1], 'conf':s[2]})
+
+    site['code_format'] = code_format
     site['created_at'] = site['created_at'].strftime("%Y-%m-%d %H:%M:%S")
     site['updated_at'] = site['updated_at'].strftime("%Y-%m-%d %H:%M:%S")
 
@@ -133,11 +144,11 @@ def push_product(**kwargs):
 
     cost_price = force_float_2(kwargs.get('cost_price', 0)) # 成本价
     if cost_price:
-        data['cost_price'] = cost_price
+        data['cost_price'] = growth_data['cost_price'] = cost_price
 
     sale_price = force_float_2(kwargs.get('sale_price', 0))   # 品牌联系方式
     if sale_price:
-        data['sale_price'] = sale_price
+        data['sale_price'] = growth_data['sale_price'] = sale_price
 
     total_price = force_float_2(kwargs.get('total_price', 0))   # 品牌地址
     if total_price:

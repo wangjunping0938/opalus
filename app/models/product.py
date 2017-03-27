@@ -49,18 +49,6 @@ class Product(db.Document):
     support_count = db.IntField(default=0)    # 支持人数
     grab_count = db.IntField(default=1)    # 抓取次数
 
-    ## 记录变化值{value, date}
-    cost_price_record = db.ListField()
-    sale_price_record = db.ListField()   
-
-    love_count_record = db.ListField()
-    favorite_count_record = db.ListField()
-    comment_count_record = db.ListField()
-    sale_count_record = db.ListField()
-    view_count_record = db.ListField()
-    support_count_record = db.ListField()
-    rate_record = db.ListField()
-
     created_at = db.DateTimeField()
     updated_at = db.DateTimeField(default=datetime.datetime.now)
 
