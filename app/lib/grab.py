@@ -195,6 +195,12 @@ def push_product(**kwargs):
                 current_app.logger.error('爬取产品更新失败!')
                 return {'success':False, 'message':'更新失败!'}
 
+    except(Exception) as e:
+        current_app.logger.error('爬取产品异常: %s' % str(e))
+        return {'success':False, 'message': '爬取产品异常: %s' % str(e)}
+
+    try:
+
         target_id = product._id
         day = int(datetime.datetime.now().strftime("%Y%m%d"))
         
@@ -215,6 +221,6 @@ def push_product(**kwargs):
                 return {'success':False, 'message':'增长数据更新失败!'}
     except(Exception) as e:
         current_app.logger.error('爬取产品异常: %s' % str(e))
-        return {'success':False, 'message':str(e)}
+        return {'success':False, 'message': '记录增长值异常: %s' % str(e)}
     
     return {'success':True, 'message':'success!', 'data':''}

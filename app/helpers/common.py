@@ -5,6 +5,14 @@ import base64
 # 加密
 import hashlib
 
+def isset(v): 
+   try : 
+     type (eval(v)) 
+   except : 
+     return  False
+   else : 
+     return  True
+
 def force_int(value, default=0):
     try:
         return int(value)

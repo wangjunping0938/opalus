@@ -9,7 +9,7 @@ class Product(db.Document):
     meta = {
         'collection': 'product',
         'ordering': ['-created_at'],
-        'strict': True
+        'strict': False
     }
 
     _id = db.IntField(primary_key=True, required=True, unique=True)
@@ -36,7 +36,7 @@ class Product(db.Document):
     attrbute = db.DictField() # 产品参数信息
     info = db.DictField() # 记录关于众筹信息{name, demand, rate, address, contact, time, last_time}
 
-    cost_price = db.FloatField()    # 成本价
+    cost_price = db.FloatField(default=0)    # 成本价
     sale_price = db.FloatField()    # 销售单价
     total_price = db.FloatField()    # 销售总额
 
@@ -70,11 +70,12 @@ class Product(db.Document):
 
     def update(self, *args, **kwargs):
         self.updated_at = datetime.datetime.now()
-        kwargs['updated_at'] = datetime.datetime.now()
+        if not 'updated_at' in kwargs.keys():
+            kwargs['updated_at'] = datetime.datetime.now()
 
-        if kwargs['tags'] and not isinstance(kwargs['tags'], list):
+        if 'tags' in kwargs.keys() and not isinstance(kwargs['tags'], list):
             kwargs['tags'] = kwargs['tags'].split(',')
-        if kwargs['category_tags'] and not isinstance(kwargs['category_tags'], list):
+        if 'category_tags' in kwargs.keys() and not isinstance(kwargs['category_tags'], list):
             kwargs['category_tags'] = kwargs['category_tags'].split(',')
 
         return super(Product, self).update(*args, **kwargs)

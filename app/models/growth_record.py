@@ -36,6 +36,9 @@ class GrowthRecord(db.Document):
     rate = db.FloatField(default=0)    # 评分
     grab_count = db.IntField(default=1)    # 抓取次数
 
+    cost_price = db.FloatField(default=0)    # 成本价
+    sale_price = db.FloatField(default=0)    # 销售单价
+
     created_at = db.DateTimeField()
     updated_at = db.DateTimeField(default=datetime.datetime.now)
 
