@@ -58,7 +58,7 @@ class SignupForm(FlaskForm):
     def save(self):
         data = self.data;
         data.pop('password_confirm')
-        data.pop('csrf_token')
+        #data.pop('csrf_token')
         user = User(**data)
         user.save()
         return user
