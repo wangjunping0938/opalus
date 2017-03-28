@@ -146,7 +146,7 @@ def push_product(**kwargs):
     if cost_price:
         data['cost_price'] = growth_data['cost_price'] = cost_price
 
-    sale_price = force_float_2(kwargs.get('sale_price', 0))   # 品牌联系方式
+    sale_price = force_float_2(kwargs.get('sale_price', 0))   # 销售价格
     if sale_price:
         data['sale_price'] = growth_data['sale_price'] = sale_price
 
@@ -220,7 +220,7 @@ def push_product(**kwargs):
                 current_app.logger.error('爬取产品增长数记录更新失败!')
                 return {'success':False, 'message':'增长数据更新失败!'}
     except(Exception) as e:
-        current_app.logger.error('爬取产品异常: %s' % str(e))
+        current_app.logger.error('记录产品增长值异常: %s' % str(e))
         return {'success':False, 'message': '记录增长值异常: %s' % str(e)}
     
     return {'success':True, 'message':'success!', 'data':''}
