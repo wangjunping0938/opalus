@@ -40,7 +40,6 @@ class SaveForm(FlaskForm):
     def save(self, **param):
         data = self.data;
         data['user_id'] = param['user_id']
-        data.pop('csrf_token')
         data.pop('id')
         block = Block(**data)
         block.save()
