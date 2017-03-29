@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-from flask import render_template, request, current_app, url_for, jsonify, g
+from flask import render_template, request, current_app, url_for, jsonify, g, redirect, flash
 from . import admin
 from app.models.product import Product
 from app.helpers.pager import Pager
@@ -58,6 +58,33 @@ def product_list():
     meta['pager'] = pager.render_view()
 
     return render_template('admin/product/list.html', meta=meta)
+
+## 详情
+@admin.route('/product/view/<int:id>')
+def product_view(id):
+    meta = {
+        'title': '产品管理',
+        'css_nav_sub_product': 'active',
+        'css_nav_reptile': 'active'
+    }
+    meta['data'] = None
+    if id:
+        product = Product.objects(_id=id).first()
+        if not product:
+            flash('产品不存在或已删除!', 'error')
+            return redirect(url_for('admin.product_list'))
+
+        product = product.to_mongo()
+
+        if product['site_from']:
+            product['site_from_label'] = platform_options(product['site_from'])['name']
+        if product['site_type']:
+            product['site_type_label'] = platform_type(product['site_type'])
+
+        meta['title'] = product['title']
+        meta['data'] = product
+
+    return render_template('admin/product/view.html', meta=meta)
 
 ## 编辑
 @admin.route('/product/submit')

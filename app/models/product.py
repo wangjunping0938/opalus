@@ -22,7 +22,8 @@ class Product(db.Document):
     brand = db.DictField()
     url = db.StringField() # 原文链接
     tags = db.ListField() # 标签
-    cover_url = db.StringField(max_length=100) # 封面
+    cover_url = db.StringField(max_length=200) # 封面
+    o_cover_url = db.StringField(max_length=200) # 原封面地址
     kind = db.IntField(default=1)    # 类型:
     category_id = db.IntField(default=0)    # 分类ID
     category_tags = db.ListField() # 分类标签

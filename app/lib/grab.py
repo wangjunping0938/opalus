@@ -84,6 +84,10 @@ def push_product(**kwargs):
     if cover_url:
         data['cover_url'] = cover_url
 
+    o_cover_url = kwargs.get('o_cover_url', None)   # 原封面图地址
+    if o_cover_url:
+        data['o_cover_url'] = o_cover_url
+
     brand = {}
     brand_name = kwargs.get('brand_name', None) # 品牌名称
     if brand_name:

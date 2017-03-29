@@ -1,0 +1,101 @@
+{% extends "layout/admin.html" %}
+{% block title %}{{ meta.title }}{% endblock %}
+{% block layout_css %}
+    <style type="text/css">
+        .p-view {width:100%;background:#fff;padding:10px 0 10px 10px;}
+        .p-view p span{
+            margin: 10px;
+        }
+
+    </style>
+{% endblock %}
+
+{% block layout_js %}
+    <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+
+{% endblock %}
+
+{% block layout_slider %}
+{%endblock%}
+
+{% block content %}
+
+<div>
+
+    <div class="navbar navbar-default border-n nav-stab">
+        <div class="navbar-header">
+            <div class="navbar-brand">
+                {{ meta.title }}
+            </div>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav nav-list">
+                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.product_list') }}">全部</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!--
+    <div class="">
+        <div class="form-inline">
+            <div class="form-group">
+                <a href="{{ url_for('admin.product_submit') }}" class="btn btn-default">
+                    <i class="glyphicon glyphicon-edit"></i> 创建
+                </a>
+            </div>
+            <div class="form-group">
+                <a href="{{ url_for('admin.product_delete') }}" class="btn btn-default ajax-batch-delete">
+                    <i class="glyphicon glyphicon-trash"></i> 删除
+                </a>
+            </div>
+
+        </div>
+    </div>
+    -->
+
+
+    <div class="p-view">
+        <div>
+            <h2>产品信息</h2>
+            <p><span>产品ID: </span><span>{{ meta.data._id }}</span></p>
+            <p><span>产品图: </span><span><img src="{{ meta.data.cover_url }}" width="50" /></span></p>
+            <p><span>产品名称: </span><span>{{ meta.data.title }}</span></p>
+            <p><span>产品编号: </span><span>{{ meta.data.out_number }}</span></p>
+            <p><span>产品链接: </span><span>{{ meta.data.url }}</span></p>
+            <p><span>来自: </span><span>{{ meta.data.site_from_label }}</span></p>
+            <p><span>销售模式: </span><span>{{ meta.data.site_type_label }}</span></p>
+            <p><span>分类: </span><span>{{ meta.data.category_tags }}</span></p>
+            <p><span>标签: </span><span>{{ meta.data.tags }}</span></p>
+
+            <p><span>成本价¥: </span><span>{{ meta.data.cost_price }}</span></p>
+            <p><span>销售价¥: </span><span>{{ meta.data.sale_price }}</span></p>
+            <p><span>销售总额: </span><span>{{ meta.data.total_price }}</span></p>
+
+            <p><span>喜欢/点赞数: </span><span>{{ meta.data.love_count }}</span></p>
+            <p><span>收藏/订阅数: </span><span>{{ meta.data.favorite_count }}</span></p>
+            <p><span>评论数: </span><span>{{ meta.data.comment_count }}</span></p>
+            <p><span>浏览数: </span><span>{{ meta.data.view_count }}</span></p>
+            <p><span>支持数: </span><span>{{ meta.data.support_count }}</span></p>
+            <p><span>销售数: </span><span>{{ meta.data.sale_count }}</span></p>
+
+            <p><span>评分: </span><span>{{ meta.data.rate }}</span></p>
+            <p><span>简述: </span><span>{{ meta.data.resume }}</span></p>
+            <p><span>描述: </span><span>{{ meta.data.content }}</span></p>
+            <p><span>品牌: </span><span>{{ meta.data.brand }}</span></p>
+            <p><span>众筹信息: </span><span>{{ meta.data.info }}</span></p>
+        </div> 
+
+
+    </div>
+
+</div>
+
+
+{% endblock %}

@@ -119,7 +119,9 @@
                     <p>{{ d.last_grab_at | date("%Y-%m-%d") }}</p>
                 </td>
                 <td>
-                    <a href="#">详情</a>
+                    <a href="{{ url_for('admin.product_view', id=d._id) }}">详情</a>
+                    |
+                    <a href="{{ url_for('admin.growth_list', target_id=d._id) }}">统计</a>
                 </td>
             </tr>
         {% endfor %}
