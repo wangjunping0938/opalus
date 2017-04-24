@@ -13,6 +13,7 @@ class SaveForm(FlaskForm):
     mark = StringField('唯一标识', validators=[DataRequired(message="唯一标识不能为空"), Length(min=4, max=16, message="长度大于4小于16")])
     name = StringField('名称', validators=[DataRequired(message="名称不能为空")])
     url = StringField('网址', validators=[DataRequired(message="网址不能为空")])
+    last_url = StringField()
     code = StringField()
     remark = StringField()
     kind = IntegerField()
@@ -35,6 +36,7 @@ class SaveForm(FlaskForm):
         data['name'] = self.data['name']
         data['code'] = self.data['code']
         data['url'] = self.data['url']
+        data['last_url'] = self.data['last_url']
         data['category_id'] = self.data['category_id']
         data['site_from'] = self.data['site_from']
         data['site_type'] = self.data['site_type']
