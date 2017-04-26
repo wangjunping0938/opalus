@@ -20,8 +20,8 @@ import sys
 class JdzcPipeline(object):
 	def process_item(self, item, spider):
 		postItem = dict(item)
-		url = "http://opalus.test.com/api/product/update"
-		requests.post("http://opalus.test.com/api/product/update",item)
+		url = "http://opalus.taihuoniao.com/api/product/update"
+		requests.post("http://opalus.taihuoniao.com/api/product/update",item)
 		try:
 			image = item['o_cover_url']
 			if os.path.exists(image):
