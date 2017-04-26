@@ -1,0 +1,41 @@
+#!/bin/bash
+path=$(pwd)
+log_path=$(echo $path | awk -F"spider" '{print $1}')
+start_log="$log_path"spider/jdzc/log/start_spider.log
+START(){
+	nohup sh jdzc >> $start_log &
+	pid=$(ps aux |grep jdzc|awk '{print $2}')
+	if [ ! -n "$pid" ];then
+		echo -e "jdzc_spider start\t\t\t[\033[31mFailed!\033[0m]"
+	else
+		echo -e "jdzc_spider start\t\t\t[\033[32mSuccess!\033[0m]"
+	fi
+}
+STOP(){
+	pid1=$(ps aux |grep "jdzc_spider"|grep -v grep |awk '{print $2}')
+	pid2=$(ps aux |grep "url_spider"|grep -v grep |awk '{print $2}')
+	pid3=$(ps aux |grep "new_jdzc_spider"|grep -v grep|awk '{print $2}')
+	pid4=$(ps aux |grep "phantomjs" |grep -v grep |awk '{print $2}')
+	pid5=$(ps aux |grep "sh jdzc"|grep -v grep |awk '{print $2}')
+	for i in $pid1 $pid2 $pid3 $pid4 $pid5
+	do
+		kill -9 $i
+	done
+	if [ $? -eq 0 ];then
+		echo -e "jdzc_spider stop\t\t\t[\033[32mSuccess!\033[0m]"
+	else
+		echo -e "jdzc_spider stop\t\t\t[\033[31mFailed!\033[0m]"
+	fi
+	
+}
+case $1 in
+start)
+	START
+;;
+stop)
+	STOP
+;;
+*)
+	echo "Usage:[stop|start]"	
+;;
+esac

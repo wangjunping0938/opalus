@@ -19,20 +19,18 @@ import sys
 
 class JdzcPipeline(object):
 	def process_item(self, item, spider):
-		postItem = dict(item)
-		url = "http://opalus.test.com/api/product/update"
-		requests.post("http://opalus.test.com/api/product/update",item)
-		try:
-			image = item['o_cover_url']
-			if os.path.exists(image):
-				pass
-			else:
-				data = urllib.request.urlopen(item['cover_url']).read()
-				with open(image,'wb') as f:
-					f.write(data)
-		except KeyError:
+		data = dict(item)
+		client = pymongo.MongoClient('localhost',27017)
+		db = client.opalus
+		coll = db.url_list
+		url = item['url']
+		url_list = coll.distinct("url",{"site_from":1})
+		if url in url_list:
 			pass
-		time.sleep(0.2)
+		else:
+			coll.save(data)
+		time.sleep(0.1)
+
 		return item
 
 

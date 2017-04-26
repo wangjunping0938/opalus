@@ -76,4 +76,5 @@ class JdzcItem(scrapy.Item):
 	info_last_time = scrapy.Field()	#string
 	#原产品封面图地址
 	o_cover_url = scrapy.Field()	#string
-	URL = scrapy.Field()
+	#站点页面总数
+	page_count = scrapy.Field()

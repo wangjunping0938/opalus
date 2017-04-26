@@ -1,0 +1,77 @@
+#!/bin/bash
+path=$(pwd)
+env_path=$(echo $path | awk -F"spider" '{print $1}')env/bin/activate
+log_path=$(echo $path | awk -F"spider" '{print $1}')
+jdzc_log="$log_path"spider/jdzc/log/jdzc.log
+url_log="$log_path"spider/jdzc/log/url.log
+check_url_log="$log_path"spider/jdzc/log/check_url.log
+remove_url_log="$log_path"spider/jdzc/log/remove_url.log
+new_log="$log_path"spider/jdzc/log/new.log
+source $env_path
+python check_url.py
+if [ $? -eq 2 ];then
+	python remove_url.py
+	if [ $? -eq 0 ];then
+		nohup scrapy crawl url_spider >> $url_log &
+		while [ 1 -eq 1 ]
+		do
+			url_pid=$(ps -A -o stat,pid,cmd |grep "url_spider" |grep -v grep |awk '{print $2}')
+			if [ ! -n "$url_pid" ];then
+				sleep 2
+				break
+			else
+				sleep 10
+				continue
+			fi
+		done
+		nohup scrapy crawl jdzc_spider >> $jdzc_log &
+		while [ 1 -eq 1 ]
+		do
+			jdzc_pid=$(ps -A -o stat,pid,cmd |grep "jdzc_spider" |grep -v grep |awk '{print $2}')
+			if [ ! -n "$url_pid" ];then
+				sleep 2
+				break
+			else
+				sleep 10
+				continue
+			fi
+		done
+	else
+		echo "url链接地址未完成移除" >> $remove_url_log
+	fi
+elif [ $? -eq 1 ];then
+	python remove_url.py
+	if [ $? -eq 0 ];then
+		nohup scrapy crawl url_spider >> $url_log &
+			#url_pid=$(ps -A -o stat,pid,cmd |grep "url_spider" |grep -v grep |awk '{print $2}')
+		while [ 1 -eq 1 ]
+		do
+			url_pid=$(ps -A -o stat,pid,cmd |grep "url_spider" |grep -v grep |awk '{print $2}')
+			if [ ! -n "$url_pid" ];then
+				sleep 2
+				break
+			else
+				sleep 10
+				continue
+			fi
+		done
+		nohup scrapy crawl new_jdzc_spider >> $new_log &
+		while [ 1 -eq 1 ]
+		do
+			new_jdzc_pid=$(ps -A -o stat,pid,cmd |grep "new_jdzc_spider" |grep -v grep |awk '{print $2}')
+			if [ ! -n "$new_jdzc_pid" ];then
+				sleep 2
+				break
+			else
+				sleep 10
+				continue
+			fi
+		done
+	else
+		echo "url链接地址未完成移除" >> $remove_url_log
+	fi
+else
+	echo "url链接检测没有变化,不再进行爬去" >> $check_url_log
+fi
+deactivate
+exit 0
