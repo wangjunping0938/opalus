@@ -10,15 +10,20 @@ from scrapy.selector import Selector
 import pymongo
 
 class JdzcSpiderSpider(scrapy.Spider):
-	name = "jdzc_spider"
+	name = "new_jdzc_spider"
 	allowed_domains = ["z.jd.com"]
 	start_urls = []
 	client = pymongo.MongoClient('localhost',27017)
 	db = client.opalus
 	coll = db.url_list
+	conn = db.url_product
 	url_list = coll.distinct('url',{"site_from":1})
+	url = conn.distinct('url',{"site_from":1})
 	for i in url_list:
-		start_urls.append(i)
+		if i in url:
+			pass
+		else:
+			start_urls.append(i)
 		
 		
 
@@ -26,8 +31,8 @@ class JdzcSpiderSpider(scrapy.Spider):
 		items = []
 		item = JdzcItem()
 		#引用浏览器
-		js = re.sub(r'\n','',os.popen('which phantomjs').read())
-		browser = webdriver.PhantomJS(executable_path = js)
+		phantomjs = re.sub(r'\n','',os.popen('which phantomjs').read())
+		browser = webdriver.PhantomJS(executable_path = phantomjs)
 		browser.get(response.url)
 		browser.implicitly_wait(10)
 		html = browser.page_source
