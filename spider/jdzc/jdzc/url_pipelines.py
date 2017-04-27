@@ -29,7 +29,7 @@ class JdzcPipeline(object):
 			pass
 		else:
 			coll.save(data)
-		time.sleep(0.1)
+		time.sleep(1)
 
 		return item
 
