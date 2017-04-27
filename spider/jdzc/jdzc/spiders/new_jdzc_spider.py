@@ -2,8 +2,6 @@
 import scrapy
 import os
 import re
-import time
-import fileinput
 from jdzc.items import JdzcItem
 from selenium import webdriver
 from scrapy.selector import Selector
@@ -12,27 +10,29 @@ import pymongo
 class JdzcSpiderSpider(scrapy.Spider):
 	name = "new_jdzc_spider"
 	allowed_domains = ["z.jd.com"]
-	start_urls = []
+	#从数据库获取url地址
 	client = pymongo.MongoClient('localhost',27017)
 	db = client.opalus
+	#新url地址
 	coll = db.url_list
-	conn = db.url_product
-	url_list = coll.distinct('url',{"site_from":1})
-	url = conn.distinct('url',{"site_from":1})
+	url_list = coll.distinct("url",{"site_from":1})
+	#旧url地址
+	conn = db.product
+	url = conn.distinct("url",{"site_from":1})	
+	#判断是否已经爬去并添加起始地址
+	start_urls = []
 	for i in url_list:
 		if i in url:
 			pass
 		else:
 			start_urls.append(i)
-		
-		
 
 	def parse(self, response):
 		items = []
 		item = JdzcItem()
 		#引用浏览器
-		phantomjs = re.sub(r'\n','',os.popen('which phantomjs').read())
-		browser = webdriver.PhantomJS(executable_path = phantomjs)
+		js = re.sub(r'\n','',os.popen('which phantomjs').read())
+		browser = webdriver.PhantomJS(executable_path = js)    
 		browser.get(response.url)
 		browser.implicitly_wait(10)
 		html = browser.page_source

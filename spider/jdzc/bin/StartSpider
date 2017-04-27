@@ -1,33 +1,104 @@
 #!/bin/bash
-path=$(pwd)
-log_path=$(echo $path | awk -F"spider" '{print $1}')
-start_log="$log_path"spider/jdzc/log/start_spider.log
+#该脚本用于启动爬虫后台进程
+#脚本路径
+path=$(cd "$(dirname "$0")";pwd)
+#日志路径
+log_path=$(echo $path |awk -F"/bin" '{print $1}')/log
+spider_log=$(echo $path |awk -F"/bin" '{print $1}')/log/spider.log
+time_now=$(date '+%Y-%m-%d-%T')
+
 START(){
-	nohup sh jdzc >> $start_log &
-	pid=$(ps aux |grep jdzc|awk '{print $2}')
-	if [ ! -n "$pid" ];then
-		echo -e "jdzc_spider start\t\t\t[\033[31mFailed!\033[0m]"
+	nohup sh $path/daemon >> $spider_log 2>&1 &
+	daemon_pid=$(ps -ef |grep "sh $path/daemon" |grep -v grep |awk '{print $2}'|wc -l)
+	if [ "$daemon_pid" -gt 0 ];then
+		echo -e "JDZC spider start\t\t\t[\033[32mSuccess!\033[0m]"
 	else
-		echo -e "jdzc_spider start\t\t\t[\033[32mSuccess!\033[0m]"
+		echo -e "JDZC spider start\t\t\t[\033[31mFailed!\033[0m]"
 	fi
 }
+
 STOP(){
-	pid1=$(ps aux |grep "jdzc_spider"|grep -v grep |awk '{print $2}')
-	pid2=$(ps aux |grep "url_spider"|grep -v grep |awk '{print $2}')
-	pid3=$(ps aux |grep "new_jdzc_spider"|grep -v grep|awk '{print $2}')
-	pid4=$(ps aux |grep "phantomjs" |grep -v grep |awk '{print $2}')
-	pid5=$(ps aux |grep "sh jdzc"|grep -v grep |awk '{print $2}')
-	for i in $pid1 $pid2 $pid3 $pid4 $pid5
-	do
-		kill -9 $i
-	done
-	if [ $? -eq 0 ];then
-		echo -e "jdzc_spider stop\t\t\t[\033[32mSuccess!\033[0m]"
-	else
-		echo -e "jdzc_spider stop\t\t\t[\033[31mFailed!\033[0m]"
-	fi
 	
+	pid_url=$(ps -ef |grep "scrapy crawl url_spider" |grep -v grep |awk '{print $2}'|wc -l)
+	if [ "$pid_url" -gt 0 ];then
+		pid=$(ps -ef |grep "scrapy crawl url_spider" |grep -v grep |awk '{print $2}')
+		for i in $pid
+		do
+			kill -9 $i
+		done
+	fi	
+	pid_jdzc=$(ps -ef |grep "scrapy crawl jdzc_spider" |grep -v grep |awk '{print $2}'|wc -l)
+	if [ "$pid_jdzc" -gt 0 ];then
+		pid=$(ps -ef |grep "scrapy crawl jdzc_spider" |grep -v grep |awk '{print $2}')
+		for i in $pid
+		do
+			kill -9 $i
+		done
+	fi	
+	pid_new_jdzc=$(ps -ef |grep "scrapy crawl new_jdzc_spider" |grep -v grep |awk '{print $2}'|wc -l)
+	if [ "$pid_new_jdzc" -gt 0 ];then
+		pid=$(ps -ef |grep "scrapy crawl new_jdzc_spider" |grep -v grep |awk '{print $2}')
+		for i in $pid
+		do
+			kill -9 $i
+		done
+	fi
+	pid_sh_url=$(ps -ef |grep "sh" |grep "url_spider"|grep -v grep |awk '{print $2}'|wc -l)
+	if [ "$pid_sh_url" -gt 0 ];then
+		pid=$(ps -ef |grep "sh" |grep "url_spider"|grep -v grep |awk '{print $2}')
+		for i in $pid
+		do
+			kill -9 $i
+		done
+	fi
+	pid_sh_jdzc=$(ps -ef |grep "sh" |grep "jdzc_spider"|grep -v grep |awk '{print $2}'|wc -l)
+	if [ "$pid_sh_jdzc" -gt 0 ];then
+		pid_sh_jdzc=$(ps -ef |grep "sh" |grep "jdzc_spider"|grep -v grep |awk '{print $2}'|wc -l)
+		for i in $pid
+		do
+			kill -9 $i
+		done
+	fi
+	pid_sh_new_jdzc=$(ps -ef |grep "sh" |grep "new_jdzc_spider"|grep -v grep |awk '{print $2}'|wc -l)
+	if [ "$pid_sh_new_jdzc" -gt 0 ];then
+		pid=$(ps -ef |grep "sh" |grep "new_jdzc_spider"|grep -v grep |awk '{print $2}')
+		for i in $pid
+		do
+			kill -9 $i
+		done
+	fi
+	pid_sh_daemon=$(ps -ef |grep "sh" |grep "daemon" |grep -v grep |awk '{print $2}'|wc -l)
+	if [ "$pid_sh_daemon" -gt 0 ];then
+		pid=$(ps -ef |grep "sh" |grep "daemon" |grep -v grep |awk '{print $2}')
+		for i in $pid
+		do
+			kill -9 $i
+		done
+	fi
+	pid_sleep=$(ps -ef |grep "sleep" |grep -v grep |awk '{print $2}'|wc -l)
+	if [ "$pid_sleep" -gt 0 ];then
+		pid=$(ps -ef |grep "sleep" |grep -v grep |awk '{print $2}')
+		for i in $pid
+		do
+			kill -9 $i
+		done
+	fi
+	pid_phantomjs=$(ps aux |grep phantomjs |grep -v grep |awk '{print $2}'|wc -l)
+	if [ "$pid_phantomjs" -gt 0 ];then
+		pid=$(ps aux |grep phantomjs |grep -v grep |awk '{print $2}')
+		for i in $pid
+		do
+			kill -9 $i
+		done
+	fi
+	if [ -n "$pid" ];then
+		echo -e "JDZC spider stop\t\t\t[\033[32mSuccess!\033[0m]"
+	else
+		echo -e "JDZC spider stop\t\t\t[\033[31mFailed!\033[0m]"
+		echo "有部分相关进程未被停止,请手动查看并操作"
+	fi
 }
+
 case $1 in
 start)
 	START
@@ -35,7 +106,12 @@ start)
 stop)
 	STOP
 ;;
+restart)
+	STOP
+	sleep 1
+	START
+;;
 *)
-	echo "Usage:[stop|start]"	
+	echo "usage:[start|stop|restart]"
 ;;
 esac

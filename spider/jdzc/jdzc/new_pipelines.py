@@ -32,7 +32,7 @@ class JdzcPipeline(object):
 					f.write(data)
 		except KeyError:
 			pass
-		time.sleep(0.2)
+		time.sleep(1)
 		return item
 
 

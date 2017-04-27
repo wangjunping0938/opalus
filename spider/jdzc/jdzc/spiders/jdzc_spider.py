@@ -12,11 +12,11 @@ import pymongo
 class JdzcSpiderSpider(scrapy.Spider):
 	name = "jdzc_spider"
 	allowed_domains = ["z.jd.com"]
-	start_urls = []
 	client = pymongo.MongoClient('localhost',27017)
 	db = client.opalus
 	coll = db.url_list
 	url_list = coll.distinct('url',{"site_from":1})
+	start_urls = []
 	for i in url_list:
 		start_urls.append(i)
 		

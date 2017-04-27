@@ -6,7 +6,6 @@ env_path=$(echo $path | awk -F"spider" '{print $1}')env/bin/activate
 #日志路径
 log_path=$(echo $path |awk -F"/bin" '{print $1}')/log
 spider_log=$(echo $path |awk -F"/bin" '{print $1}')/log/spider.log
-remove_url_log=$(echo $path |awk -F"/bin" '{print $1}')/log/remove_url.log
 check_log=$(echo $path |awk -F"/bin" '{print $1}')/log/check.log
 time_now=$(date '+%Y-%m-%d-%T')
 
@@ -14,34 +13,34 @@ cd $log_path
 source $env_path
 source /etc/profile
 python=$(which python)
-echo $time_now"------脚本$0 执行scrapy crawl jdzc_spider进去内容爬取" >> $check_log
-nohup scrapy crawl jdzc_spider >> $spider_log 2>&1 &
+echo $time_now"------脚本$0 执行scrapy new_jdzc_spider爬取新内容" >> $check_log
+nohup scrapy crawl new_jdzc_spider >> $spider_log 2>&1 &
 sleep 5
-jdzc_spider_pid=$(ps -ef |grep "scrapy crawl jdzc_spider" |grep -v grep |awk '{print $2}'|wc -l)
-while [ $jdzc_spider_pid -gt 0 ]
+new_jdzc_spider_pid=$(ps -ef |grep "scrapy crawl new_jdzc_spider" |grep -v grep |awk '{print $2}'|wc -l)
+while [ $new_jdzc_spider_pid -gt 0 ]
 do
 	sleep 2
-	jdzc_spider_pid=$(ps -ef |grep "scrapy crawl jdzc_spider" |grep -v grep |awk '{print $2}'|wc -l)
+	new_jdzc_spider_pid=$(ps -ef |grep "scrapy crawl new_jdzc_spider" |grep -v grep |awk '{print $2}'|wc -l)
 done
 
 pid=$(ps aux |grep phantomjs |grep -v grep |awk '{print $2}'|wc -l)
 if [ "$pid" -eq 0 ];then
-	echo $time_now"------脚本$0 执行scrapy crawl jdzc_spider爬取内容爬取完成" >> $check_log
+	echo $time_now"------脚本$0 执行scrapy new_jdzc_spider爬取新增完成" >> $check_log
 else
 	ps aux |grep phantomjs |grep -v grep |awk '{print $2}'|xargs kill -9
 	pid=$(ps aux |grep phantomjs |grep -v grep |awk '{print $2}'|wc -l)
 	if [ "$pid" -eq 0 ];then
-		echo $time_now"------脚本$0 执行scrapy crawl jdzc_spider爬取内容爬取完成" >> $check_log
+		echo $time_now"------脚本$0 执行scrapy new_jdzc_spider爬取新增完成" >> $check_log
 	else
 		echo $time_now"------脚本$0 有遗留进程请手动查看并操作" >> $check_log
 	fi
 fi
 
-echo $time_now"------脚本$0 执行$path/remove_url.py清除url" >> $check_log
+echo $time_now"------脚本$0 执行$path/remove_url.py脚本清除url" >> $check_log
 $python $path/remove_url.py
 if [ $? -eq 0 ];then
-	echo $time_now"------脚本$0 执行$path/remove_url.py,url地址清除成功!" >> $check_log
+	echo $time_now"------脚本$0 执行$path/remove_url.py地址清除成功!" >> $check_log
 else
-	echo $time_now"------脚本$0 执行$path/remove_url.py,url地址清除失败!" >> $check_log
+	echo $time_now"------脚本$0 执行$path/remove_url.py地址清除失败!" >> $check_log
 fi
 echo -e "\n\n" >> $check_log

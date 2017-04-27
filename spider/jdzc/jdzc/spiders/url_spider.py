@@ -2,8 +2,6 @@
 import scrapy
 import os
 import re
-import time
-import fileinput
 from jdzc.items import JdzcItem
 from selenium import webdriver
 from scrapy.selector import Selector
@@ -11,24 +9,29 @@ import pymongo
 
 class JdzcSpiderSpider(scrapy.Spider):
 	name = "url_spider"
-	allowed_domains = ["z.jd.com/bigger/search.html"]
-	start_urls = ["https://z.jd.com/bigger/search.html"]
+	allowed_domains = ["z.jd.com"]
+	start_url = "https://z.jd.com/bigger/search.html"
+	#浏览器执行文件路径
 	js = re.sub(r'\n','',os.popen('which phantomjs').read())
+	#引用浏览器
 	browser = webdriver.PhantomJS(executable_path = js)
-	browser.get(start_urls[0])
+	browser.get(start_url)
 	browser.implicitly_wait(10)
 	page = browser.page_source
-	page_count = Selector(text=page).xpath('//div[@class="pagesbox"]//a/text()').extract()[-2]
-	for i in range(1,int(page_count) + 1):
-		start_urls.append(start_urls[0] + '?page=' + str(i))
+	#获取页面数量
+	#page_count = Selector(text=page).xpath('//div[@class="pagesbox"]//a/text()').extract()[-2]
+	#起始页面列表
+	start_urls = []
+	for i in range(1,2): #(1,int(page_count) + 1):
+		start_urls.append(start_url + '?page=' + str(i))
 		
 		
 
 	def parse(self, response):
 		items = []
-		item = JdzcItem()
-		#引用浏览器
+		#浏览器执行文件路径
 		js = re.sub(r'\n','',os.popen('which phantomjs').read())
+		#引用浏览器
 		browser = webdriver.PhantomJS(executable_path = js)
 		browser.get(response.url)
 		browser.implicitly_wait(10)
@@ -36,12 +39,15 @@ class JdzcSpiderSpider(scrapy.Spider):
 		#网址
 		try:
 			url_list = Selector(text=html).xpath('//div[@class="i-tits"]//a/@href').extract()
-			for i in url_list:
-				item['url'] = "https://z.jd.com" + i
-				items.append(item)
+			if url_list:
+				for i in url_list:
+					item = JdzcItem()
+					item['url'] = "https://z.jd.com" + i
+					item['site_from'] = 1
+					items.append(item)
+			else:
+				pass
 		except IndexError as s:
 			pass
-		item['site_from'] = 1
-		items.append(item)
-		time.sleep(1)
+
 		return items
