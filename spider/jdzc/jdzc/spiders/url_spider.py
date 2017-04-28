@@ -19,10 +19,10 @@ class JdzcSpiderSpider(scrapy.Spider):
 	browser.implicitly_wait(10)
 	page = browser.page_source
 	#获取页面数量
-	#page_count = Selector(text=page).xpath('//div[@class="pagesbox"]//a/text()').extract()[-2]
+	page_count = Selector(text=page).xpath('//div[@class="pagesbox"]//a/text()').extract()[-2]
 	#起始页面列表
 	start_urls = []
-	for i in range(1,2): #(1,int(page_count) + 1):
+	for i in range(1,int(page_count) + 1):
 		start_urls.append(start_url + '?page=' + str(i))
 		
 		
