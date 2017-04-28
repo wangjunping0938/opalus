@@ -10,6 +10,8 @@ check_log=$(echo $path |awk -F"/bin" '{print $1}')/log/check.log
 time_now=$(date '+%Y-%m-%d-%T')
 
 cd $path
+source $env_path
+source /etc/profile
 python=$(which python)
 while [ 1 -eq 1 ]
 do
