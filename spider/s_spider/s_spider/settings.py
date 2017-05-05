@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for jdzc project
+# Scrapy settings for s_spider project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,17 +9,17 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'jdzc'
+BOT_NAME = 's_spider'
 
-SPIDER_MODULES = ['jdzc.spiders']
-NEWSPIDER_MODULE = 'jdzc.spiders'
+SPIDER_MODULES = ['s_spider.spiders']
+NEWSPIDER_MODULE = 's_spider.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'jdzc (+http://www.yourdomain.com)'
+#USER_AGENT = 's_spider (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -47,13 +47,13 @@ COOKIES_ENABLED = False
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'jdzc.middlewares.JdzcSpiderMiddleware': 543,
+#    's_spider.middlewares.SSpiderSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'jdzc.middlewares.MyCustomDownloaderMiddleware': 543,
+#    's_spider.middlewares.MyCustomDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -65,9 +65,8 @@ COOKIES_ENABLED = False
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'jdzc.pipelines.JdzcPipeline': 1,
-	'jdzc.url_pipelines.JdzcPipeline': 2,
-	'jdzc.new_pipelines.JdzcPipeline': 3,
+    's_spider.url_pipelines.SSpiderPipeline': 1,
+    's_spider.pipelines.SSpiderPipeline': 2,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

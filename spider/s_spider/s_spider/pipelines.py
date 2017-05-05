@@ -4,24 +4,20 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
-
 import time
 import os.path
 import urllib
-import pymongo
 import requests
+import pymongo
 import re
-from jdzc.items import JdzcItem
-from selenium import webdriver
-from scrapy.selector import Selector
-from pymongo import *
-import sys
 
-class JdzcPipeline(object):
+
+
+class SSpiderPipeline(object):
 	def process_item(self, item, spider):
 		postItem = dict(item)
-		url = "http://opalus.taihuoniao.com/api/product/update"
-		requests.post("http://opalus.taihuoniao.com/api/product/update",item)
+		url = "http://opalus.test.com/api/product/update"
+		requests.post("http://opalus.test.com/api/product/update",item)
 		try:
 			image = item['o_cover_url']
 			if os.path.exists(image):
