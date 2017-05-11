@@ -68,8 +68,6 @@ class SSpiderItem(scrapy.Item):
 	info_demand = scrapy.Field()
 	#众筹发起人/公司地址	String
 	info_address = scrapy.Field()
-	#众筹发起人/公司地址	String
-	info_address = scrapy.Field()
 	#众筹联系电话		String
 	info_contact = scrapy.Field()
 	#工作时间			String
