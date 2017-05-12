@@ -9,23 +9,26 @@ def connMongo():
 	db = client.opalus
 	return db
 
-def startUrlList():
+def urlStartUrlList():
 	#从site表获取起始url地址
 	startUrlList = []
 	start_url_list = StartUrlList()
 	second_url_list = secondUrlList()
-	details_url_list = detailsUrlList()
-	if second_url_list and details_url_list:
-		startUrlList = details_url_list
-		return startUrlList
-	elif second_url_list and not details_url_list:
-		startUrlList = second_url_list
-		return startUrlList
-	elif not second_url_list and not details_url_list:
-		startUrlList = start_url_list
+	if second_url_list:
+		startUrlList = second_url_list + start_url_list
 		return startUrlList
 	else:
-		print ('start_url_list为空,没有起始地址可以添加')
+		startUrlList = start_url_list
+		return startUrlList
+
+def contentStartUrlList():
+	startUrlList = []
+	details_url_list = detailsUrlList()
+	if details_url_list:
+		startUrlList = details_url_list
+		return startUrlList
+	else:
+		print ('详情页url地址为空,无法添加url地址')
 		pass
 
 def StartUrlList():

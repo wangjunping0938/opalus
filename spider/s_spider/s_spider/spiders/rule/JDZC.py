@@ -9,64 +9,6 @@ sys.path.append(os.path.abspath('../'))
 import phantomJS
 import connMongoDB
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#获取二级页面url方法
-def urlList(html,url):
-	#获取页面列表
-	try:
-		page_count = Selector(text=html).xpath('//div[@class="pagesbox"]//a/text()').extract()[-2]
-		site_from = connMongoDB.connMongo().site.distinct('site_from',{'url':url})[0]
-		if page_count:
-			url_list = []
-			for i in range(1,3):#int(page_count) + 1):
-				sub_url = url + '?page=' + str(i)
-				if url in connMongoDB.connMongo().url_list.distinct('url',{"site_from":site_from}):
-					continue
-				else:
-					url_list.append(sub_url)
-			return url_list
-		else:
-			pass
-	except IndexError as s:
-		pass
-def urlTitle(url):
-	#获取url站点来源名称
-	if url in connMongoDB.connMongo().site.distinct('url'):
-		try:
-			title = connMongoDB.connMongo().site.distinct('mark',{'url':url})[0]
-			return title
-		except IndexError as s:
-			pass
-	elif url in connMongoDB.connMongo().url_list.distinct('url'):
-		try:
-			title = connMongoDB.connMongo().url_list.distinct('mark',{'url':url})[0]
-			return title
-		except IndexError as s:
-			pass
-	else:
-		pass
-
-
-
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#获取详情页url方法
-def urlDetailsList(html,url):
-	try:
-		UrlList = []
-		url_list = Selector(text=html).xpath('//div[@class="i-tits"]//a/@href').extract()
-		url_list = set(url_list)
-		domain = os.path.split(os.path.split(url)[0])[0]
-		for i in url_list:
-			i = domain + i
-			UrlList.append(i)
-		return UrlList
-	except IndexError as s:
-		pass
-	
-
-
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #获取内容的方法
 def favoriteCount(html):
@@ -111,34 +53,6 @@ def infoLastTime(html):
 	except IndexError as s:
 		pass
 	
-#站点来源
-def siteFrom(url):	
-	if url in connMongoDB.connMongo().site.distinct('url'):
-		for i in connMongoDB.connMongo().site.find({'url':url}):
-			site_from = i['site_from']
-			return site_from
-	elif url in connMongoDB.connMongo().url_list.distinct('url'):
-		for i in connMongoDB.connMongo().url_list.find({'url':url}):
-			site_from = i['site_from']
-			return site_from
-	else:
-		site_from = ''
-		return site_from
-	
-#销售模式
-def siteType(url):
-	if url in connMongoDB.connMongo().site.distinct('url'):
-		for i in connMongoDB.connMongo().site.find({'url':url}):
-			site_type = i['site_type']
-			return site_type
-	elif url in connMongoDB.connMongo().url_list.distinct('url'):
-		for i in connMongoDB.connMongo().url_list.find({'url':url}):
-			site_type = i['site_type']
-			return site_type
-	else:
-		site_type = ''
-		return site_type
-
 #项目名称
 def title(html):
 	try:

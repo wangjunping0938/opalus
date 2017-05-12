@@ -76,3 +76,5 @@ class SSpiderItem(scrapy.Item):
 	info_rate = scrapy.Field()
 	#众筹剩余时间		String
 	info_last_time = scrapy.Field()
+	#站点标识
+	mark = scrapy.Field()

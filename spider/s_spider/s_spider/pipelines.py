@@ -20,7 +20,7 @@ class SSpiderPipeline(object):
 	def process_item(self, item, spider):
 		postItem = dict(item)
 		back_num = len(postItem)
-		if back_num == 4:
+		if back_num == 5:
 			coll = connMongoDB.connMongo().url_list
 			coll.save(postItem)
 			time.sleep(1)
@@ -38,12 +38,15 @@ class SSpiderPipeline(object):
 		
 			try:
 				image = item['o_cover_url']
-				if os.path.exists(image):
-					pass
+				if image:
+					if os.path.exists(image):
+						pass
+					else:
+						data = urllib.request.urlopen(item['cover_url']).read()
+						with open(image,'wb') as f:
+							f.write(data)
 				else:
-					data = urllib.request.urlopen(item['cover_url']).read()
-					with open(image,'wb') as f:
-						f.write(data)
+					pass
 			except KeyError:
 				pass
 			time.sleep(1)

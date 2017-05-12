@@ -26,63 +26,6 @@ def html(url):
 	return html
 html(url)
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#获取二级页面url方法
-def urlList(html,url):
-	try:
-		temp_list = Selector(text=html).xpath('//a/@href').extract()
-		second_url_list = []
-		for i in temp_list:
-			if 'activity' in i:
-				if not i.startswith('http'):
-					i = 'http://h5.yit.com' + i
-					second_url_list.append(re.split(r'\?',i)[0])
-				else:
-					second_url_list.append(re.split(r'\?',i)[0])
-			else:
-				pass
-		second_url_list = set(second_url_list)
-		return second_url_list
-	except IndexError as s:
-		pass
-def urlTitle(url):
-	#获取url站点来源名称
-	if url in connMongoDB.connMongo().site.distinct('url'):
-		try:
-			title = connMongoDB.connMongo().site.distinct('mark',{'url':url})[0]
-			return title
-		except IndexError as s:
-			pass
-	elif url in connMongoDB.connMongo().url_list.distinct('url'):
-		try:
-			title = connMongoDB.connMongo().url_list.distinct('mark',{'url':url})[0]
-			return title
-		except IndexError as s:
-			pass
-	else:
-		pass
-
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#获取详情页url方法
-def urlDetailsList(html,url):
-	try:
-		temp_list = Selector(text=html).xpath('//a/@href').extract()
-		details_url_list = []
-		
-		for i in temp_list:
-			if 'product' in i:
-				details_url_list.append(re.split(r'\&_spm',i)[0])
-			else:
-				pass
-		details_url_list = set(details_url_list)
-		return details_url_list
-	except IndexError as s:
-		pass
-
-
-
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #获取内容方法
 def outNumber(url):
 	'''获取产品编号'''
@@ -96,35 +39,6 @@ def outNumber(url):
 			return out_number
 		except IndexError as s:
 			pass
-
-
-def siteFrom(url):
-	'''url站点来源'''
-	if url in connMongoDB.connMongo().site.distinct('url'):
-		for i in connMongoDB.connMongo().site.find({'url':url}):
-			site_from = i['site_from']
-			return site_from
-	elif url in connMongoDB.connMongo().url_list.distinct('url'):
-		for i in connMongoDB.connMongo().url_list.find({'url':url}):
-			site_from = i['site_from']
-			return site_from
-	else:
-		site_from = ''
-		return site_from
-
-def siteType(url):
-	'''站点销售模式'''
-	if url in connMongoDB.connMongo().site.distinct('url'):
-		for i in connMongoDB.connMongo().site.find({'url':url}):
-			site_type = i['site_type']
-			return site_type
-	elif url in connMongoDB.connMongo().url_list.distinct('url'):
-		for i in connMongoDB.connMongo().url_list.find({'url':url}):
-			site_type = i['site_type']
-			return site_type
-	else:
-		site_type = ''
-		return site_type
 
 def title(html):
 	'''获取产品名称'''
