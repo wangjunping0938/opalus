@@ -5,9 +5,9 @@ from scrapy.selector import Selector
 import os
 import re
 import sys
-sys.path.append(os.path.abspath('../'))
-import connMongoDB
-import phantomJS
+sys.path.append(os.path.abspath('.'))
+from . import connMongoDB
+from . import phantomJS
 
 
 html = ''

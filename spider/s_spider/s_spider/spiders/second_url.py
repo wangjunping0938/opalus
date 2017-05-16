@@ -8,9 +8,7 @@ import os
 import sys
 sys.path.append(os.path.abspath('.'))
 sys.path.append(os.path.abspath('./rule'))
-import SECOND
-import connMongoDB
-import phantomJS
+import rule
 import time
 
 
@@ -18,9 +16,9 @@ import time
 class SecondUrlSpider(scrapy.Spider):
 	name = "second_url"
 	#爬虫的域名范围列表
-	allow_domains = connMongoDB.domainList()
+	allow_domains = rule.connMongoDB.domainList()
 	#爬虫将爬取的页面url列表
-	start_urls = connMongoDB.urlStartUrlList()
+	start_urls = rule.connMongoDB.urlStartUrlList()
 	print ('test############################')
 	print (allow_domains)
 	print ('test############################')
@@ -31,20 +29,20 @@ class SecondUrlSpider(scrapy.Spider):
 		#当前请求的url
 		url = response.url
 		#当前请求的url的站点来源
-		site_from = SECOND.siteFrom(url)
-		site_type = SECOND.siteType(url)
-		start_url_list = connMongoDB.StartUrlList()
-		second_url_list = connMongoDB.secondUrlList()
-		title = SECOND.urlTitle(url)
+		site_from = rule.SECOND.siteFrom(url)
+		site_type = rule.SECOND.siteType(url)
+		start_url_list = rule.connMongoDB.StartUrlList()
+		second_url_list = rule.connMongoDB.secondUrlList()
+		title = rule.SECOND.urlTitle(url)
 		items = []
 		#调用浏览器phantomjs获取url页面源代码
-		browser = phantomJS.browser()
+		browser = rule.phantomJS.browser()
 		browser.get(url)
 		browser.implicitly_wait(20)
 		html = browser.page_source
 		#获取二级页面url
 		if url in start_url_list:
-			url_list = SECOND.urlList(html,url)
+			url_list = rule.SECOND.urlList(html,url)
 			print ('test########################')
 			print (url_list)
 			print ('test########################')
@@ -69,7 +67,7 @@ class SecondUrlSpider(scrapy.Spider):
 			else:
 				pass
 		elif url in second_url_list:
-			url_list = SECOND.urlList(html,url)
+			url_list = rule.SECOND.urlList(html,url)
 			print ('test########################')
 			print (url_list)
 			print ('test########################')

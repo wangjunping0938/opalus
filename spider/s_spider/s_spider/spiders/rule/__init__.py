@@ -2,6 +2,8 @@
 #
 # Please refer to the documentation for information on how to create and manage
 # your spiders.
-from . import rule
-#from . import connMongoDB
-#from . import phantomJS
+from . import JDZC
+from . import YTSHG
+from . import phantomJS
+from . import connMongoDB
+from . import SECOND

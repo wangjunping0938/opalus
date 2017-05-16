@@ -4,9 +4,11 @@ from scrapy.selector import Selector
 import os
 import re
 import sys
-sys.path.append(os.path.abspath('../'))
-import phantomJS
-import connMongoDB
+sys.path.append(os.path.abspath('.'))
+#引用浏览器
+from . import phantomJS
+#链接数据库
+from . import connMongoDB
 
 def urlList(html,url):
 	#获取二级页面url方法
@@ -14,6 +16,7 @@ def urlList(html,url):
 		site_from = siteFrom(url)
 		title = urlTitle(url)	
 		UrlList = []
+		#获取京东二级页面方法
 		if title =='JDZC' :
 			page_count = Selector(text=html).xpath('//div[@class="pagesbox"]//a/text()').extract()[-2]
 			for i in range(1,3):#int(page_count) + 1):
@@ -22,6 +25,7 @@ def urlList(html,url):
 					continue
 				else:
 					UrlList.append(i)
+		#获取一条二级页面方法
 		elif title == 'YTSHG':
 			url_list = Selector(text=html).xpath('//a/@href').extract()
 			for i in url_list:
@@ -40,8 +44,10 @@ def urlList(html,url):
 	except IndexError as s:
 		pass
 
+
+
 def urlTitle(url):
-	#获取url站点来源标识
+	#统一获取url站点标识
 	if url in connMongoDB.connMongo().site.distinct('url'):
 		try:
 			title = connMongoDB.connMongo().site.distinct('mark',{'url':url})[0]
@@ -57,12 +63,15 @@ def urlTitle(url):
 	else:
 		pass
 
+
+
 def urlDetailsList(html,url):
 	#获取详情页url方法
 	try:
 		url_list = Selector(text=html).xpath('//div[@class="i-tits"]//a/@href').extract()
 		url_list = set(url_list)
 		UrlList = []
+		#获取京东详情页url方法
 		if url_list:
 			for i in url_list:
 				domain = os.path.split(os.path.split(url)[0])[0]
@@ -71,6 +80,7 @@ def urlDetailsList(html,url):
 				UrlList.append(i)
 			UrlList = set(UrlList)
 			return UrlList	
+		#获取一条详情页url方法
 		elif not url_list:
 			url_list = Selector(text=html).xpath('//a/@href').extract()
 			for i in url_list:
@@ -86,8 +96,10 @@ def urlDetailsList(html,url):
 	except IndexError as s:
 		pass
 
+
+
 def siteFrom(url):	
-	#获取站点来源
+	#统一获取站点来源
 	if url in connMongoDB.connMongo().site.distinct('url'):
 		for i in connMongoDB.connMongo().site.find({'url':url}):
 			site_from = i['site_from']
@@ -101,7 +113,7 @@ def siteFrom(url):
 		return site_from
 
 def siteType(url):
-	#获取站点销售模式
+	#统一获取站点销售模式
 	if url in connMongoDB.connMongo().site.distinct('url'):
 		for i in connMongoDB.connMongo().site.find({'url':url}):
 			site_type = i['site_type']

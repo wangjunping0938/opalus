@@ -23,7 +23,7 @@ class SSpiderPipeline(object):
 		if back_num == 5:
 			coll = connMongoDB.connMongo().url_list
 			coll.save(postItem)
-			time.sleep(1)
+			time.sleep(2)
 			return item
 		else:
 			url = "http://opalus.test.com/api/product/update"
@@ -32,10 +32,6 @@ class SSpiderPipeline(object):
 			print (requests.post(url,postItem).status_code)
 			print (requests.post(url,postItem).text)
 			print ('########################################################')
-			print (postItem)
-			print (item)
-			
-		
 			try:
 				image = item['o_cover_url']
 				if image:
@@ -49,6 +45,6 @@ class SSpiderPipeline(object):
 					pass
 			except KeyError:
 				pass
-			time.sleep(1)
+			time.sleep(2)
 			return item
 						
