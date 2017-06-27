@@ -15,14 +15,14 @@ class Site(db.Document):
     _id = db.StringField()
     mark = db.StringField(max_length=20, required=True, unique=True)    # 唯一标识
     name = db.StringField(max_length=20) # 名称
-    url = db.StringField(max_length=50) # 网址
+    url = db.StringField(max_length=200) # 网址
     user_id = db.IntField(default=0)    # 用户ID
     kind = db.IntField(default=1)    # 类型:
     category_id = db.IntField(default=0)    # 分类
     site_from = db.IntField(default=0)    # 站点来源
     site_type = db.IntField(default=0)    # 站点模式 1.销售；2.众筹；3.--
     code = db.StringField() # 规则块
-    remark = db.StringField(max_length=100, required=True)   # 备注
+    remark = db.StringField(max_length=200, required=True)   # 备注
 
     last_url = db.StringField(max_length=200) # 最后一次抓取网址
     last_on = db.DateTimeField()    # 最后一次抓取时间
