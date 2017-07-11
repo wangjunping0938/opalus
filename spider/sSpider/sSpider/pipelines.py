@@ -11,16 +11,24 @@ import requests
 import re
 import os
 import sys
+import pymongo
 
 
 class SspiderPipeline(object):
-    def process_item(self, item, spider):
+	def process_item(self, item, spider):
 		post_item=dict(item)
 		item_count=len(post_item)
-		if item_count==4:
-			self.connectMongoDB().url_list.save({"url":item['url']},{"$set":{post_item}})
+		if item['mark']==2:
+			self.connectMongoDB().url_list.save(post_item)
 			time.sleep(2)
-			return item
+		elif item['mark']==3:
+			self.connectMongoDB().url_list.save(post_item)
+			time.sleep(2)
+		elif item['mark']=="content":
+			self.connectMongoDB().url_list.save(post_item)
+		return item
+		
+		"""
 		else:
 			url="http://www.opalustest.com/api/product/update"
 			requests.post(url,item)
@@ -39,7 +47,7 @@ class SspiderPipeline(object):
 				pass
 			time.sleep(2)
 			return item
-
+		"""
 	def connectMongoDB(self):
 		client=pymongo.MongoClient("localhost",27017)
 		db=client.opalus

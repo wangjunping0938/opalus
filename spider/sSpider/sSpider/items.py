@@ -75,3 +75,15 @@ class SspiderItem(scrapy.Item):
 	info_rate = scrapy.Field()
 	#众筹剩余时间		String
 	info_last_time = scrapy.Field()
+	#标记
+	mark=scrapy.Field()
+	#名称
+	name=scrapy.Field()
+	#指纹
+	fingerprint=scrapy.Field()
+	#时间
+	date=scrapy.Field()
+	#作者
+	author=scrapy.Field()
+	#视频
+	video=scrapy.Field()

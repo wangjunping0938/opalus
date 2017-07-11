@@ -1,0 +1,10 @@
+url:::Selector(text=html).xpath('//a[@uigs="account_name_0"]/@href').extract()[0]
+ydqw:::Selector(text=html).xpath('//div//a[@id="js_share_source"]/@href').extract()[0]
+link:::for i in Selector(text=html).xpath(\'//div[@class="weui_media_bd"]/h4/@hrefs\').extract():\n\tlink=response.urljoin(i)\n\turl.append(link)
+title:::Selector(text=html).xpath('//title/text()').extract()[0]
+date:::Selector(text=html).xpath('//div//em/text()').extract()[0]
+author:::Selector(text=html).xpath('//div//a[@id="post-user"]/text()').extract()[0]
+video:::"https://res.wx.qq.com/voice/getvoice?mediaid="+Selector(text=html).xpath("//p/mpvoice/@voice_encode_fileid").extract()[0]
+content:::cont=Selector(text=html).xpath('//div[@class="rich_media_content "]//p').extract()\nfor i in cont:\n\ttxt=Selector(text=i).xpath('.//text()').extract()\n\timg=Selector(text=i).xpath('.//img/@data-src').extract()\n\tif txt:\n\t\tcontent.append({'type':1,'value':txt[0]})\n\tif img:\n\t\tcontent.append({'type':2,'value':img[0]})
+mark:::content
+fingerprint:::1
