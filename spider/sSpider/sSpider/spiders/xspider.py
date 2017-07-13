@@ -17,11 +17,7 @@ class XspiderSpider(scrapy.Spider):
 	allowed_domains=[]
 	start_urls=[]
 	start_mark=""
-	print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-	print(allowed_domains)
-	print(start_urls)
-	print(start_mark)
-	print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+
 
 	#0.###
 	def __init__(self):
@@ -30,14 +26,23 @@ class XspiderSpider(scrapy.Spider):
 		start_site_mark=self.getStartSiteMark("spider001")		#启动站点标识
 		url_count=self.getUrlCount("spider001")		#url数量
 		if start_mark==1:
-			self.allowed_domains=self.addSiteUrls1(start_site_mark)[0]
-			self.start_urls=self.addSiteUrls1(start_site_mark)[1]
+			try:
+				self.allowed_domains=self.addSiteUrls1(start_site_mark)[0]
+				self.start_urls=self.addSiteUrls1(start_site_mark)[1]
+			except IndexError:
+				pass
 		elif start_mark==2:
-			self.allowed_domains=self.addSiteUrls2(start_site_mark)[0]
-			self.start_urls=self.addSiteUrls2(start_site_mark)[1]
+			try:
+				self.allowed_domains=self.addSiteUrls2(start_site_mark)[0]
+				self.start_urls=self.addSiteUrls2(start_site_mark)[1]
+			except IndexError:
+				pass
 		elif start_mark==3:
-			self.allowed_domains=self.addSiteUrls3(url_count,1000)[0]
-			self.start_urls=self.addSiteUrls3(url_count,1000)[1]
+			try:
+				self.allowed_domains=self.addSiteUrls3(url_count,1000)[0]
+				self.start_urls=self.addSiteUrls3(url_count,1000)[1]
+			except IndexError:
+				pass
 		else:
 			pass
 
