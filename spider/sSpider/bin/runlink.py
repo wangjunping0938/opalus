@@ -20,13 +20,14 @@ def checkData():
 	count=connectMongoDB().url_list.count({"url_type_mark":10})
 	return count
 
-		
+
 if checkData()>0:
 	script_path=os.path.abspath(os.path.dirname(inspect.getfile(inspect.currentframe())))
+	connectMongoDB().url_list.save({"_id" : "spider001", "start_mark" : None, "start_site_mark" : None, "url_count" : None})	
 	for i in connectMongoDB().url_list.distinct('site_mark',{"url_type_mark":10}):
 		connectMongoDB().url_list.update({"_id":"spider001"},{"$set":{"start_mark":2,"start_site_mark":i}})
-		time.sleep(2)
-		os.system("sh"+" "+script_path+"/startspider.sh"+" "+i+" "+"&")
 		time.sleep(5)
+		os.system("sh"+" "+script_path+"/startspider.sh"+" "+i+"_link"+" "+"&")
+		time.sleep(10)
 else:
 	pass

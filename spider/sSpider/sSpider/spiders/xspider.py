@@ -25,6 +25,9 @@ class XspiderSpider(scrapy.Spider):
 		self.start_mark=start_mark		#启动类型标识
 		start_site_mark=self.getStartSiteMark("spider001")		#启动站点标识
 		url_count=self.getUrlCount("spider001")		#url数量
+		print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+		print(url_count)
+		print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
 		if start_mark==1:
 			try:
 				self.allowed_domains=self.addSiteUrls1(start_site_mark)[0]
@@ -121,8 +124,11 @@ class XspiderSpider(scrapy.Spider):
 	#6.###
 	def getStartMark(self,ID):
 		'''获取启动类型标识'''
-		start_mark=self.connectMongoDB().url_list.distinct("start_mark",{"_id":ID})
-		return int(start_mark[0])
+		try:
+			start_mark=self.connectMongoDB().url_list.distinct("start_mark",{"_id":ID})
+			return int(start_mark[0])
+		except TypeError:
+			pass
 
 
 	#7.###
@@ -169,6 +175,8 @@ class XspiderSpider(scrapy.Spider):
 			return int(count)
 		except UnboundLocalError:
 			pass
+		except TypeError:
+			pass
 
 
 	#10.###
@@ -176,10 +184,12 @@ class XspiderSpider(scrapy.Spider):
 		'''根据当前请求url获取该url所在站点规则'''
 		rule={}
 		path='/'.join(re.split(r'\/',os.path.abspath(os.path.dirname(inspect.getfile(inspect.currentframe()))))[:-2])+'/rule/'
-		for i in open(path+mark+".rule"):
-			rule[re.split(r":::",i)[0]]=re.split(r":::",i)[1][:-1]
-		return rule
-
+		if os.path.exists(path+mark+".rule"):
+			for i in open(path+mark+".rule"):
+				rule[re.split(r":::",i)[0]]=re.split(r":::",i)[1][:-1]
+			return rule
+		else:
+			return rule
 	#11.###
 	def getSubPageUrls(self,html,items,mark,rule):
 		'''获取子页面url'''
@@ -215,7 +225,7 @@ class XspiderSpider(scrapy.Spider):
 			items.append(item)
 		return items
 
-
+	#14.###
 	def getDetailsHtml(self,html,rule,browser):
 		'''当详情页内容不全是重新加载页面'''
 		try:
@@ -229,9 +239,12 @@ class XspiderSpider(scrapy.Spider):
 				pass
 		except IndexError:
 			pass
+		except KeyError:
+			pass
 
-
+	#15.###
 	def getDetailsContent(self,html,items,rule,browser,response):
+		'''获取详情页内容'''
 		new_html=self.getDetailsHtml(html,rule,browser)
 		if new_html:
 			html=new_html
@@ -263,14 +276,23 @@ class XspiderSpider(scrapy.Spider):
 		mark=self.getUrlSiteMark(unquote(response.url))
 		rule=self.getUrlSiteRule(mark)
 		if self.start_mark==1:
-			items=self.getSubPageUrls(html,items,mark,rule)
-			return items
+			if rule:
+				items=self.getSubPageUrls(html,items,mark,rule)
+				return items
+			else:
+				pass
 		elif self.start_mark==2:
-			items=self.getDetailsUrls(html,items,mark,rule,response)
-			return items
+			if rule:
+				items=self.getDetailsUrls(html,items,mark,rule,response)
+				return items
+			else:
+				pass
 		elif self.start_mark==3:
-			items=self.getDetailsContent(html,items,rule,browser,response)
-			return items
+			if rule:
+				items=self.getDetailsContent(html,items,rule,browser,response)
+				return items
+			else:
+				pass
 		else:
 			pass
 
