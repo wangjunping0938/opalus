@@ -17,6 +17,17 @@
                     </li>
                 </ul>
 
+                <h4 class="res_mem_menu_title memMenuTitle {{ meta.css_nav_article|default('') }}" tabindex="-1" title="展开" data-rel="mArticle">
+                    <u class="u u29 res_mem_opt_icon"></u>
+                    <div class="res_mem_menu_link">文章管理</div>
+                </h4>
+
+                <ul id="mArticle" class="bbc pb5">
+                    <li class="res_mem_list_li">
+                        <a class="res_mem_list_link {{ meta.css_nav_sub_article|default('') }}" href="{{ url_for('admin.article_list') }}">文章列表 <span class="g9">»</span></a>
+                    </li>
+                </ul>
+
                 <h4 class="res_mem_menu_title memMenuTitle {{ meta.css_nav_reptile|default('') }}" tabindex="-1" title="展开" data-rel="mReptileManage">
                     <u class="u u29 res_mem_opt_icon"></u>
                     <div class="res_mem_menu_link">爬虫管理</div>

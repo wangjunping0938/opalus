@@ -1,0 +1,136 @@
+{% extends "layout/admin.html" %}
+{% block title %}{{ meta.title }}{% endblock %}
+{% block layout_css %}
+    <style type="text/css">
+
+
+    </style>
+{% endblock %}
+
+{% block layout_js %}
+    <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+
+{% endblock %}
+
+{% block layout_slider %}
+{%endblock%}
+
+{% block content %}
+
+<div>
+
+    <div class="navbar navbar-default border-n nav-stab">
+        <div class="navbar-header">
+            <div class="navbar-brand">
+                {{ meta.title }}
+            </div>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav nav-list">
+                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.product_list') }}">全部</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!--
+    <div class="">
+        <div class="form-inline">
+            <div class="form-group">
+                <a href="{{ url_for('admin.product_submit') }}" class="btn btn-default">
+                    <i class="glyphicon glyphicon-edit"></i> 创建
+                </a>
+            </div>
+            <div class="form-group">
+                <a href="{{ url_for('admin.product_delete') }}" class="btn btn-default ajax-batch-delete">
+                    <i class="glyphicon glyphicon-trash"></i> 删除
+                </a>
+            </div>
+
+        </div>
+    </div>
+    -->
+
+
+    <table class="table table-striped ph-list">
+        <th>
+            <div class="checkbox list-checkbox">
+              <label>
+                  <input type="checkbox" id="check-all" value="" aria-label="...">
+              </label>
+            </div>
+        </th>
+        <th>ID</th>
+        <th>封面</th>
+        <th>产品信息</th>
+        <th>分类|标签</th>
+        <th>价格</th>
+        <th>数量</th>
+        <th>来源/模式</th>
+        <th>创建/最后抓取时间</th>
+        <th>操作</th>
+        {% for d in meta.data %}
+            <tr id="item-{{ d._id }}">
+                <td>
+                    <div class="checkbox list-checkbox">
+                      <label>
+                          <input type="checkbox" name="check-item" class="check-item" value="{{ d._id }}" aria-label="...">
+                      </label>
+                    </div>
+                </td>
+                <td>{{ d._id }}</td>
+                <td>
+                    <img src="{{ d.cover_url }}" width="100" />
+                </td>
+                <td>
+                    <p>名称: {{ d.title }}</p>
+                    <p>编号: {{ d.out_number }}</p>
+                    <p>链接: <a href="{{ d.url }}" target="_blank">{{ d.url }}</a></p>
+                </td>
+                <td>
+                    <p>分类: {{ d.category_tags_s }}</p>
+                    <p>标签: {{ d.tags_s }}</p>
+                </td>
+                <td>
+                    <p>成本价: {{ d.cost_price }}</p>
+                    <p>销售价: {{ d.sale_price }}</p>
+                    <p>销售总额: {{ d.total_price }}</p>
+                </td>
+                <td>
+                    <p>抓取数: {{ d.grab_count }}</p>
+                    <p>销售数: {{ d.sale_count }}</p>
+                    <p>评论数: {{ d.comment_count }}</p>
+                    <p>喜欢/点赞数: {{ d.love_count }}</p>
+                    <p>收藏/订阅: {{ d.favorite_count }}</p>
+                    <p>支持数: {{ d.support_count }}</p>
+                    <p>浏览数: {{ d.view_count }}</p>
+                </td>
+                <td>
+                    <p>{{ d.site_from_label }}[{{ d.site_type_label }}]</p>
+                </td>
+                <td>
+                    <p>{{ d.created_at | date("%Y-%m-%d") }}</p>
+                    <p>{{ d.last_grab_at | date("%Y-%m-%d") }}</p>
+                </td>
+                <td>
+                    <a href="{{ url_for('admin.product_view', id=d._id) }}">详情</a>
+                    |
+                    <a href="{{ url_for('admin.growth_list', target_id=d._id) }}">统计</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <!--分页-->
+    {{ meta.pager|safe }}
+
+</div>
+
+
+{% endblock %}
