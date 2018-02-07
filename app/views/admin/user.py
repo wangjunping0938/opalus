@@ -46,6 +46,7 @@ def user_submit():
         'css_nav_sub_user': 'active',
         'css_nav_system': 'active'
     }
+    meta['referer_url'] = request.environ.get('HTTP_REFERER') if request.environ.get('HTTP_REFERER') else ''
     id = int(request.args.get('id', 0))
     meta['data'] = None
     if id != 0:
@@ -70,7 +71,8 @@ def user_save():
     if form.validate_on_submit():
         user = form.update_one();
         if user:
-            return jsonify(success=True, message='操作成功!', redirect_to=url_for('admin.user_list'))
+            redirect_to = request.form.get('referer_url') if request.form.get('referer_url') else url_for('admin.user_list')
+            return jsonify(success=True, message='操作成功!', redirect_to = redirect_to)
         else:
             return jsonify(success=False, message='操作失败!')
     else:

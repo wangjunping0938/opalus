@@ -28,7 +28,7 @@ class SaveForm(FlaskForm):
         data = self.data
         data.pop('id')
         data.pop('user_id')
-        data.pop('csrf_token')
+        #data.pop('csrf_token')
         ok = category.update(**data)
         return ok
 

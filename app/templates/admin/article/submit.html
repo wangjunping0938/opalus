@@ -74,6 +74,7 @@
         <form class="form-horizontal" method="POST" action="{{ url_for('admin.product_save') }}" id="product-form">
             {{ form.csrf_token }}
             <input type="hidden" name="id" value="{{ meta.data._id }}" />
+            <input type="hidden" name="referer_url" value="{{ meta.referer_url }}" />
             <div class="form-group">
                 <div class="col-xs-4">
                     <label for="name">名称</label>

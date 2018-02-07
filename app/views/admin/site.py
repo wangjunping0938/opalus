@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-from flask import render_template, request, current_app, url_for, jsonify, g
+from flask import render_template, request, current_app, url_for, jsonify, g, flash
 from . import admin
 from app.models.site import Site
 from app.helpers.pager import Pager
@@ -18,7 +18,7 @@ def site_list():
     }
     query = {}
     page = int(request.args.get('page', 1))
-    per_page = 20
+    per_page = int(request.args.get('per_page', 20))
     status = int(request.args.get('status', 0))
     deleted = int(request.args.get('deleted', 0))
     page_url = url_for('admin.site_list', page="#p#", status=status)
@@ -71,8 +71,7 @@ def site_submit():
     form = SaveForm()
 
     meta['platform_options'] = platform_options()
-
-    #current_app.logger.debug(id)
+    meta['referer_url'] = request.environ.get('HTTP_REFERER') if request.environ.get('HTTP_REFERER') else ''
     
     return render_template('admin/site/submit.html', meta=meta, form=form)
 
@@ -98,7 +97,9 @@ def site_save():
             return jsonify(success=False, message=str(e))
 
         if site:
-            return jsonify(success=True, message='操作成功!', redirect_to=url_for('admin.site_list'))
+            flash('操作成功!', 'success')
+            redirect_to = request.form.get('referer_url') if request.form.get('referer_url') else url_for('admin.site_list')
+            return jsonify(success=True, message='操作成功!', redirect_to = redirect_to)
         else:
             return jsonify(success=False, message='操作失败!')
     else:

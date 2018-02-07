@@ -53,6 +53,7 @@ def block_submit():
         'css_nav_sub_block': 'active',
         'css_nav_system': 'active'
     }
+    meta['referer_url'] = request.environ.get('HTTP_REFERER') if request.environ.get('HTTP_REFERER') else ''
     id = request.args.get('id', None)
     meta['data'] = None
     if id:
@@ -87,7 +88,8 @@ def block_save():
             return jsonify(success=False, message=str(e))
 
         if block:
-            return jsonify(success=True, message='操作成功!', redirect_to=url_for('admin.block_list'))
+            redirect_to = request.form.get('referer_url') if request.form.get('referer_url') else url_for('admin.block_list')
+            return jsonify(success=True, message='操作成功!', redirect_to=redirect_to)
         else:
             return jsonify(success=False, message='操作失败!')
     else:

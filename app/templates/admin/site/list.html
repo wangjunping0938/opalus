@@ -85,8 +85,8 @@
                     <p>{{ d.name }}</p>
                 </td>
                 <td>
-                  <p>{{ d.url }}</p>
-                  <p>{{ d.last_url }}</p>
+                  <p><a href="{{ d.url }}" target="_blank">{{ d.url }}</a></p>
+                  <p><a href="{{ d.last_url }}" target="_blank">{{ d.last_url }}</a></p>
                 </td>
                 <td>
                     {{ d.site_from_label }}-[{{ d.site_type_label }}]
@@ -102,9 +102,19 @@
                 </td>
                 <td>{{ d.created_at | date("%Y-%m-%d") }}</td>
                 <td>
-                    <a href="{{ url_for('admin.site_submit', id=d._id) }}">编辑</a>
-                    |
-                    <a href="{{ url_for('admin.site_delete', ids=d._id) }}" class="confirm-request">删除</a>
+                    <p>
+                        {% if d.status==0 %}
+                            <a href="{{ url_for('admin.site_submit', id=d._id) }}">启用</a>
+                        {%endif%}
+                        {% if d.status==1 %}
+                            <a href="{{ url_for('admin.site_submit', id=d._id) }}">禁用</a>
+                        {%endif%}                   
+                    </p>
+                    <p>
+                        <a href="{{ url_for('admin.site_submit', id=d._id) }}">编辑</a>
+                        |
+                        <a href="{{ url_for('admin.site_delete', ids=d._id) }}" class="confirm-request">删除</a>
+                    </p>
                 </td>
             </tr>
         {% endfor %}

@@ -41,7 +41,6 @@
         },
         success: function(data){
           if(data.success){
-            alert(data.message);
             window.location.href=data.redirect_to;
           }else{
             alert(data.message);
@@ -85,6 +84,7 @@
         <form class="form-horizontal" method="POST" action="{{ url_for('admin.site_save') }}" id="site-form">
             {{ form.csrf_token }}
             <input type="hidden" name="id" value="{{ meta.data._id }}" />
+            <input type="hidden" name="referer_url" value="{{ meta.referer_url }}" />
             <input type="hidden" name="site_type" value="{{ meta.data.site_type }}" />
 
             <div class="form-group">
