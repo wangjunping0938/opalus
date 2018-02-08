@@ -18,7 +18,6 @@ class SaveForm(FlaskForm):
     remark = StringField()
     kind = IntegerField()
     category_id = IntegerField()
-    status = IntegerField()
     user_id = IntegerField()
     site_from = IntegerField()
     site_type = IntegerField()
@@ -42,7 +41,6 @@ class SaveForm(FlaskForm):
         data['site_type'] = self.data['site_type']
         data['remark'] = self.data['remark']
         data['kind'] = self.data['kind']
-        data['status'] = self.data['status']
 
         ok = site.update(**data)
         return ok
@@ -54,3 +52,19 @@ class SaveForm(FlaskForm):
         site = Site(**data)
         site.save()
         return site
+
+
+class setStatus(FlaskForm):
+    id = StringField()
+    status = IntegerField()
+
+    def set_status(self):
+        id = self.data['id']
+        site = Site.objects(_id=bson.objectid.ObjectId(id)).first()
+        if not site:
+            raise ValueError('内容不存在!')
+        data = {}
+        data['status'] = self.data['status']
+        ok = site.update(**data)
+        return ok
+

@@ -44,12 +44,17 @@
           {% block content %}{% endblock %}
     {% endblock %}
 
-	{% block layout_footer %}{% endblock %}
+	  {% block layout_footer %}{% endblock %}
+
+    <!-- mustache templates begin -->
+    {% block templates %}{% endblock %}
+    <!-- mustache templates end -->
 
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.1.1.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-3.3.7-dist/js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/plugin/jquery.form.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/plugin/jquery.validation_plugin.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/plugin/mustache.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/base.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/base_admin.js') }}"></script>
 

@@ -5,7 +5,7 @@ from . import admin
 from app.models.site import Site
 from app.helpers.pager import Pager
 from app.helpers.constant import platform_options, platform_type
-from app.forms.site import SaveForm
+from app.forms.site import SaveForm, setStatus
 import bson
 
 ## 列表
@@ -100,6 +100,27 @@ def site_save():
             flash('操作成功!', 'success')
             redirect_to = request.form.get('referer_url') if request.form.get('referer_url') else url_for('admin.site_list')
             return jsonify(success=True, message='操作成功!', redirect_to = redirect_to)
+        else:
+            return jsonify(success=False, message='操作失败!')
+    else:
+        return jsonify(success=False, message=str(form.errors))
+
+## 操作状态
+@admin.route('/site/set_status', methods=['POST'])
+def site_set_status():
+    meta = {}
+
+    form = setStatus()
+    if form.validate_on_submit():
+        id = request.form.get('id')
+        
+        try:
+            site = form.set_status()
+        except(Exception) as e:
+            return jsonify(success=False, message=str(e))
+
+        if site:
+            return jsonify(success=True, message='操作成功!')
         else:
             return jsonify(success=False, message='操作失败!')
     else:

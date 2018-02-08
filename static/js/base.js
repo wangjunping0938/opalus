@@ -172,4 +172,9 @@ phenix.in_array = function(arr, val) {
     return -1;
 }; // 返回-1表示没找到，返回其他值表示找到的索引
 
-
+// Mustache render result
+phenix.ajax_render = function(eid, data){
+    var template = $(eid).html(), rendered = Mustache.render(template, data);
+    //console.log(template);
+    return rendered;
+};

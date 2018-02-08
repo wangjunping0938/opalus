@@ -1,0 +1,18 @@
+{% raw %}
+<script id="admin-status-label-tpl" type="text/template">
+    {{#statusLabel}}
+        <span class="label label-success">启用</span>
+    {{/statusLabel}}
+    {{^statusLabel}}
+        <span class="label label-danger">禁用</span>
+    {{/statusLabel}}
+</script>
+<script id="admin-status-handle-tpl" type="text/template">
+    {{#statusLabel}}
+        <a href="javascript:void(0);" data-id="{{ id }}" data-evt="0">禁用</a>
+    {{/statusLabel}}
+    {{^statusLabel}}
+        <a href="javascript:void(0);" data-id="{{ id }}" data-evt="1">启用</a>
+    {{/statusLabel}}
+</script>
+{% endraw %}
