@@ -1,9 +1,10 @@
 # -*- coding:utf-8 -*-
-import datetime
+#import datetime
 from . import db
+from .base import Base
 
 # 网站管理表- site
-class Site(db.Document):
+class Site(Base):
 
     meta = {
         'collection': 'site',
@@ -27,25 +28,12 @@ class Site(db.Document):
     last_url = db.StringField(max_length=200) # 最后一次抓取网址
     last_on = db.DateTimeField()    # 最后一次抓取时间
 
-    status = db.IntField(default=1)    # 状态: 0.禁用；1.启用
+    status = db.IntField(default=0)    # 状态: 0.禁用；1.启用
     deleted = db.IntField(default=0)    # 是否软删除
 
     created_at = db.DateTimeField()
-    updated_at = db.DateTimeField(default=datetime.datetime.now)
+    updated_at = db.DateTimeField()
 
-
-    def save(self, *args, **kwargs):
-        if not self.created_at:
-            self.created_at = datetime.datetime.now()
-        if not self.updated_at:
-            self.updated_at = datetime.datetime.now()
-        return super(Site, self).save(*args, **kwargs)
-
-
-    def update(self, *args, **kwargs):
-        kwargs['updated_at'] = datetime.datetime.now()
-        self.updated_at = datetime.datetime.now()
-        return super(Site, self).update(*args, **kwargs)
 
     def mark_delete(self):
         return super(Site, self).update(deleted=1)

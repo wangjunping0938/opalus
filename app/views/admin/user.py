@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-from flask import render_template, request, current_app, url_for, jsonify
+from flask import render_template, request, current_app, url_for, jsonify, flash
 from . import admin
 from app.models.user import User
 from app.helpers.pager import Pager
@@ -30,7 +30,7 @@ def user_list():
     else:
         meta['css_all'] = 'active'
 
-    data = User.objects(**query).order_by('create_at').paginate(page=page, per_page=per_page)
+    data = User.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
     total_count = User.objects(**query).count()
     meta['data'] = data.items
 
@@ -71,6 +71,7 @@ def user_save():
     if form.validate_on_submit():
         user = form.update_one();
         if user:
+            flash('操作成功!', 'success')
             redirect_to = request.form.get('referer_url') if request.form.get('referer_url') else url_for('admin.user_list')
             return jsonify(success=True, message='操作成功!', redirect_to = redirect_to)
         else:

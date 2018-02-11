@@ -49,7 +49,7 @@
             </div>
         </th>
         <th>ID</th>
-        <th>账户</th>
+        <th>账户信息</th>
         <th>权限</th>
         <th>状态</th>
         <th>创建时间</th>
@@ -64,7 +64,13 @@
                     </div>
                 </td>
                 <td>{{ d._id }}</td>
-                <td>{{ d.account }}</td>
+                <td>
+                    <p>账户: {{ d.account }}</p>
+                    <p>电话: {{ d.phone|default('--') }}</p>
+                    <p>邮箱: {{ d.email|default('--') }}</p>
+                    <p>姓名: {{ d.profile.realname|default('--') }}</p>
+                    <p>职位: {{ d.profile.position|default('--') }}</p>
+                </td>
                 <td>
                     {% if d.role_id==1 %}
                         <span>用户</span>

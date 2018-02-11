@@ -1,15 +1,17 @@
 # -*- coding:utf-8 -*-
 import datetime
 from . import db
+from .base import Base
 from app.models.base import *
 
 # 产品表- product
-class Product(db.Document):
+class Product(Base):
 
     meta = {
+        'increase_key': True,
         'collection': 'product',
         'ordering': ['-created_at'],
-        'strict': False
+        'strict': True 
     }
 
     _id = db.IntField(primary_key=True, required=True, unique=True)
@@ -55,25 +57,14 @@ class Product(db.Document):
 
 
     def save(self, *args, **kwargs):
-        # ID 自增
-        sequence = Sequence._get_collection()
-        sequence = sequence.find_one_and_update({'name':'product_id'}, {'$inc':{'val':1}}, upsert=True)
-        self._id = sequence['val']
         if self.tags and not isinstance(self.tags, list):
             self.tags = self.tags.split(',')
         if self.category_tags and not isinstance(self.category_tags, list):
             self.category_tags = self.category_tags.split(',')
-        if not self.created_at:
-            self.created_at = datetime.datetime.now()
-            self.updated_at = datetime.datetime.now()
         return super(Product, self).save(*args, **kwargs)
 
 
     def update(self, *args, **kwargs):
-        self.updated_at = datetime.datetime.now()
-        if not 'updated_at' in kwargs.keys():
-            kwargs['updated_at'] = datetime.datetime.now()
-
         if 'tags' in kwargs.keys() and not isinstance(kwargs['tags'], list):
             kwargs['tags'] = kwargs['tags'].split(',')
         if 'category_tags' in kwargs.keys() and not isinstance(kwargs['category_tags'], list):

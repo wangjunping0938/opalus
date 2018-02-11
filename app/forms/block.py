@@ -16,7 +16,6 @@ class SaveForm(FlaskForm):
     content = StringField()
     remark = StringField()
     kind = IntegerField()
-    status = IntegerField()
     user_id = IntegerField()
 
     def update_one(self):
@@ -32,7 +31,6 @@ class SaveForm(FlaskForm):
         data['content'] = self.data['content']
         data['remark'] = self.data['remark']
         data['kind'] = self.data['kind']
-        data['status'] = self.data['status']
 
         ok = block.update(**data)
         return ok
@@ -44,3 +42,17 @@ class SaveForm(FlaskForm):
         block = Block(**data)
         block.save()
         return block
+
+class setStatus(FlaskForm):
+    id = StringField()
+    status = IntegerField()
+
+    def set_status(self):
+        id = self.data['id']
+        block = Block.objects(_id=bson.objectid.ObjectId(id)).first()
+        if not block:
+            raise ValueError('内容不存在!')
+        data = {}
+        data['status'] = self.data['status']
+        ok = block.update(**data)
+        return ok

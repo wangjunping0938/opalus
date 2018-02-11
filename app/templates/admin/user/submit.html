@@ -40,7 +40,6 @@
         },
         success: function(data){
           if(data.success){
-            alert('更新成功');
             window.location.href=data.redirect_to;
           }else{
             alert(data.message);
@@ -80,8 +79,26 @@
             <input type="hidden" name="referer_url" value="{{ meta.referer_url }}" />
             <div class="form-group">
                 <div class="col-xs-4">
-                    <label for="account">邮箱</label>
+                    <label for="account">账户</label>
                     <input type="text" name="account" class="form-control" disabled value="{{ meta.data.account }}" placeholder="邮箱">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-2">
+                    <label for="account">姓名</label>
+                    <input type="text" name="profile_realname" class="form-control" value="{{ meta.data.profile.realname }}" placeholder="姓名">
+                </div>
+                <div class="col-xs-2">
+                    <label for="account">职位</label>
+                    <input type="text" name="profile_position" class="form-control" value="{{ meta.data.profile.position }}" placeholder="姓名">
+                </div>
+                <div class="col-xs-2">
+                    <label for="account">手机</label>
+                    <input type="text" name="phone" class="form-control" value="{{ meta.data.phone }}" placeholder="手机">
+                </div>
+                <div class="col-xs-3">
+                    <label for="account">邮箱</label>
+                    <input type="text" name="email" class="form-control" value="{{ meta.data.email }}" placeholder="邮箱">
                 </div>
             </div>
 

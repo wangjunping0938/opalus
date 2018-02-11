@@ -39,7 +39,6 @@
         },
         success: function(data){
           if(data.success){
-            alert(data.message);
             window.location.href=data.redirect_to;
           }else{
             alert(data.message);
@@ -118,22 +117,6 @@
                 </div>
             </div>
             -->
-
-            <div class="form-group">
-                <div class="col-xs-4">
-                    <label for="account">状态</label>
-                    <div class="">
-                        <label class="checkbox-inline">
-                            <input type="radio" {% if meta.data.status==0 %}checked="checked"{%endif%} name="status" value="0">
-                            禁用
-                        </label>
-                        <label class="checkbox-inline">
-                            <input type="radio" {% if meta.data.status==1 %}checked="checked"{%endif%} name="status" value="1">
-                            启用
-                        </label>
-                    </div>
-                </div>
-            </div>
 
             <div class="form-group">
                 <div class="col-sm-10">

@@ -1,9 +1,10 @@
 # -*- coding:utf-8 -*-
 import datetime
 from . import db
+from .base import Base
 
 # 配置表- block
-class Block(db.Document):
+class Block(Base):
 
     meta = {
         'collection': 'block',
@@ -28,16 +29,10 @@ class Block(db.Document):
 
 
     def save(self, *args, **kwargs):
-        if not self.created_at:
-            self.created_at = datetime.datetime.now()
-        if not self.updated_at:
-            self.updated_at = datetime.datetime.now()
         return super(Block, self).save(*args, **kwargs)
 
 
     def update(self, *args, **kwargs):
-        self.updated_at = datetime.datetime.now()
-        kwargs['updated_at'] = datetime.datetime.now()
         return super(Block, self).update(*args, **kwargs)
 
     def mark_delete(self):

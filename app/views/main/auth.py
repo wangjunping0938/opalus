@@ -1,6 +1,6 @@
 from . import main
 
-from flask import render_template, jsonify, url_for, request, redirect, flash
+from flask import render_template, jsonify, url_for, request, redirect, flash, current_app
 from ...forms import SigninForm, SignupForm
 from ...helpers import login_user, logout_user
 
@@ -35,6 +35,7 @@ def register():
             user = form.save();
             if user:
                 login_user(user)
+                flash('注册成功!', 'success')
                 return jsonify(success=True, message='注册成功!', redirect_to=url_for('main.index'))
             else:
                 return jsonify(success=False, message='注册失败!')

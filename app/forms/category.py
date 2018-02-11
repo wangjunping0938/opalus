@@ -14,7 +14,6 @@ class SaveForm(FlaskForm):
     mark = StringField('标识', validators=[DataRequired(message="标识不能为空"), Length(min=4, max=16, message="长度大于4小于16")])
     name = StringField('名称', validators=[DataRequired(message="名称不能为空"), Length(min=4, max=16, message="长度大于4小于16")])
     kind = IntegerField('类型', validators=[NumberRange(min=1, max=8, message="类型设置不正确")])
-    status = IntegerField('状态', validators=[NumberRange(min=0, max=5, message="状态设置不正确")])
     remark = StringField()
     user_id = IntegerField()
     pid = IntegerField()
@@ -39,3 +38,17 @@ class SaveForm(FlaskForm):
         category = Category(**data)
         category.save()
         return category
+
+class setStatus(FlaskForm):
+    id = StringField()
+    status = IntegerField()
+
+    def set_status(self):
+        id = self.data['id']
+        category = Category.objects(_id=id).first()
+        if not category:
+            raise ValueError('内容不存在!')
+        data = {}
+        data['status'] = self.data['status']
+        ok = category.update(**data)
+        return ok

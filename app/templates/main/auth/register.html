@@ -20,8 +20,7 @@
 
     rules: {
         account: {
-            required: true,
-            email: true
+            required: true
         },
         password: "required",
         password_confirm: {
@@ -32,8 +31,7 @@
 
     messages: {
         account: {
-            required: "请输入邮箱",
-            email: "邮箱格式不正确"
+            required: "请输入账户名"
         },
         password: "请输入密码",
         password_confirm: {
@@ -49,7 +47,6 @@
         },
         success: function(data){
           if(data.success){
-            alert('注册成功');
             window.location.href=data.redirect_to;
           }else{
             alert(data.message);
@@ -69,7 +66,7 @@
 
         <div class="form-group">
           <div class="col-md-5">
-                {{ form.account(class="form-control", placeholder="邮箱") }}
+                {{ form.account(class="form-control", placeholder="账户") }}
           </div>
         </div>
         <div class="form-group">

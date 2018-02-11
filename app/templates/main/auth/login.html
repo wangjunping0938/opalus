@@ -20,16 +20,14 @@
 
     rules: {
         account: {
-            required: true,
-            email: true
+            required: true
         },
         password: "required"
     },
 
     messages: {
         account: {
-            required: "请输入邮箱",
-            email: "邮箱格式不正确"
+            required: "请输入邮箱"
         },
         password: "请输入密码"
     },
@@ -61,7 +59,7 @@
 
         <div class="form-group">
           <div class="col-md-5">
-                {{ form.account(class="form-control", placeholder="邮箱") }}
+                {{ form.account(class="form-control", placeholder="账户/邮箱/手机号") }}
           </div>
         </div>
         <div class="form-group">

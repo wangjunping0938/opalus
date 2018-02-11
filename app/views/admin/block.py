@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
 
-from flask import render_template, request, current_app, url_for, jsonify, g
+from flask import render_template, request, current_app, url_for, jsonify, g, flash
 from . import admin
 from app.models.block import Block
 from app.helpers.pager import Pager
-from app.forms.block import SaveForm
+from app.forms.block import SaveForm, setStatus
 import bson
 
 ## 列表
@@ -88,8 +88,30 @@ def block_save():
             return jsonify(success=False, message=str(e))
 
         if block:
+            flash('操作成功!', 'success')
             redirect_to = request.form.get('referer_url') if request.form.get('referer_url') else url_for('admin.block_list')
             return jsonify(success=True, message='操作成功!', redirect_to=redirect_to)
+        else:
+            return jsonify(success=False, message='操作失败!')
+    else:
+        return jsonify(success=False, message=str(form.errors))
+
+## 操作状态
+@admin.route('/block/set_status', methods=['POST'])
+def block_set_status():
+    meta = {}
+
+    form = setStatus()
+    if form.validate_on_submit():
+        id = request.form.get('id')
+        
+        try:
+            block = form.set_status()
+        except(Exception) as e:
+            return jsonify(success=False, message=str(e))
+
+        if block:
+            return jsonify(success=True, message='操作成功!')
         else:
             return jsonify(success=False, message='操作失败!')
     else:
@@ -99,11 +121,7 @@ def block_save():
 ## 删除
 @admin.route('/block/delete', methods=['POST'])
 def block_delete():
-    meta = {
-        'title': '配置管理',
-        'css_nav_sub_block': 'active',
-        'css_nav_system': 'active'
-    }
+    meta = {}
 
     ids = request.values.get('ids', '')
     type = request.values.get('type', 1)

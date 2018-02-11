@@ -13,6 +13,22 @@
 {% endblock %}
 
 {% block jquery %}
+    $('.status-handle').on('click', 'a', function(){
+        var id = $(this).data('id');
+        var evt = $(this).data('evt');
+        var url = "{{ url_for('admin.category_set_status') }}";
+        $.post(url, {id: id, status: evt}, function(rs){
+            if (rs.success) {
+                var statusLabel = evt == 0 ? false : true
+                var render = phenix.ajax_render('#admin-status-label-tpl', {id: id, status: evt, statusLabel: statusLabel})
+                $('#item-'+id).find('.status-label').html(render)
+                var render = phenix.ajax_render('#admin-status-handle-tpl', {id: id, status: evt, statusLabel: statusLabel})
+                $('#item-'+id).find('.status-handle').html(render)
+            }else{
+                alert(rs.message)
+            }
+        })
+    });
 
 {% endblock %}
 
@@ -86,18 +102,30 @@
                 <td>{{ d.pid }}</td>
                 <td>{{ d.user_id }}</td>
                 <td>
-                    {% if d.status==0 %}
-                        <span class="label label-danger">禁用</span>
-                    {%endif%}
-                    {% if d.status==1 %}
-                        <span class="label label-success">启用</span>
-                    {%endif%}
+                    <p class="status-label">
+                        {% if d.status==0 %}
+                            <span class="label label-danger">禁用</span>
+                        {%endif%}
+                        {% if d.status==1 %}
+                            <span class="label label-success">启用</span>
+                        {%endif%}
+                    </p>
                 </td>
                 <td>{{ d.created_at | date("%Y-%m-%d") }}</td>
                 <td>
-                    <a href="{{ url_for('admin.category_submit', id=d._id) }}">编辑</a>
-                    |
-                    <a href="{{ url_for('admin.category_delete', ids=d._id) }}" class="confirm-request">删除</a>
+                    <p class="status-handle">
+                        {% if d.status==0 %}
+                            <a href="javascript:void(0);" data-id="{{ d._id }}" data-evt="1">启用</a>
+                        {%endif%}
+                        {% if d.status==1 %}
+                            <a href="javascript:void(0);" data-id="{{ d._id }}" data-evt="0">禁用</a>
+                        {%endif%}                   
+                    </p>
+                    <p>
+                        <a href="{{ url_for('admin.category_submit', id=d._id) }}">编辑</a>
+                        |
+                        <a href="{{ url_for('admin.category_delete', ids=d._id) }}" class="confirm-request">删除</a>
+                    </p>
                 </td>
             </tr>
         {% endfor %}
@@ -108,5 +136,9 @@
 
 </div>
 
-
 {% endblock %}
+
+{% block templates %}
+  {% include "mustache/admin_status.mustache" %}
+{% endblock %}
+

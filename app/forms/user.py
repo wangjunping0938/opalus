@@ -1,8 +1,9 @@
 # coding: utf-8
 
-from wtforms import TextAreaField, StringField, IntegerField, PasswordField
-from wtforms.validators import DataRequired, Length, EqualTo, NumberRange
+from wtforms import TextAreaField, StringField, IntegerField, PasswordField, FormField
+from wtforms.validators import DataRequired, Length, EqualTo, NumberRange, Email
 from flask_wtf import FlaskForm, RecaptchaField
+from flask import current_app
 
 #from .base import BaseForm
 from ..models.user import User
@@ -21,6 +22,12 @@ RESERVED_WORDS = [
     'mac', 'windows', 'ios', 'lab',
 ]
 
+# 用户基础信息
+class ProfileForm(FlaskForm):
+    realname = StringField('真实姓名')
+    address = StringField('地址')
+    sex = IntegerField('姓别')
+    position = StringField('职位')
 
 class SigninForm(FlaskForm):
     account = StringField('用户名', validators=[DataRequired(), Length(min=4, max=30, message="长度大于4小于30")],
@@ -43,7 +50,6 @@ class SigninForm(FlaskForm):
 
 class SignupForm(FlaskForm):
     account = StringField('用户名', validators=[DataRequired(message="账户不能为空"), Length(min=4, max=30, message="长度大于4小于30")])
-
     password = PasswordField('密码', validators=[DataRequired(), Length(min=6, max=20, message="长度大于6小于20")])
     password_confirm = PasswordField('确认密码', validators=[DataRequired(message="确认密码"), EqualTo('password', message='密码不一致')])
 
@@ -55,10 +61,10 @@ class SignupForm(FlaskForm):
         if User.objects(account=account).first():
             raise ValueError('账号已存在')
 
-    def save(self):
+    def save(self, **param):
         data = self.data;
+        current_app.logger.debug(data)
         data.pop('password_confirm')
-        #data.pop('csrf_token')
         user = User(**data)
         user.save()
         return user
@@ -66,8 +72,17 @@ class SignupForm(FlaskForm):
 class SaveForm(FlaskForm):
     #account = StringField('用户名', validators=[DataRequired(message="账户不能为空"), Length(min=4, max=16, message="长度大于4小于16")])
     id = IntegerField('ID', validators=[DataRequired(message="ID不能为空")])
+    phone = StringField('手机', validators=[Length(min=11, max=20, message="手机格式不正确")])
+    email = StringField('邮箱', validators=[Email(message="邮箱格式不正确")])
     role_id = IntegerField('权限', validators=[NumberRange(min=1, max=8, message="权限设置不正确")])
     status = IntegerField('状态', validators=[NumberRange(min=0, max=5, message="状态设置不正确")])
+    profile = FormField(ProfileForm)
+    # 个人信息
+    profile_realname = StringField('真实姓名')
+    profile_address = StringField('地址')
+    profile_sex = IntegerField('姓别')
+    profile_position = StringField('职位')
+
 
     #csrf_token = StringField('auth', validators=[DataRequired(message="不能为空")])
     #password = PasswordField('密码', validators=[DataRequired(), Length(min=6, max=20, message="长度大于6小于20")])
@@ -81,6 +96,20 @@ class SaveForm(FlaskForm):
         data = {}
         data['role_id'] = self.data['role_id']
         data['status'] = self.data['status']
+        data['phone'] = self.data['phone']
+        data['email'] = self.data['email']
+
+        profile_data = {}
+        if self.data['profile_realname']:
+            profile_data['realname'] = self.data['profile_realname']
+        if self.data['profile_address']:
+            profile_data['address'] = self.data['profile_address']
+        if self.data['profile_sex']:
+            profile_data['sex'] = self.data['profile_sex']
+        if self.data['profile_position']:
+            profile_data['position'] = self.data['profile_position']
+
+        data['profile'] = profile_data
 
         ok = user.update(**data)
         return ok
@@ -90,3 +119,4 @@ class SaveForm(FlaskForm):
         user = User(**data)
         user.save()
         return user
+

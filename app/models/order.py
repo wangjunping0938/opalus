@@ -1,9 +1,10 @@
 # -*- coding:utf-8 -*-
 import datetime
 from . import db
+from .base import Base
 
 # 订单表- order
-class Order(db.Document):
+class Order(Base):
 
     meta = {
         'collection': 'order',
@@ -25,20 +26,6 @@ class Order(db.Document):
 
     created_at = db.DateTimeField()
     updated_at = db.DateTimeField(default=datetime.datetime.now)
-
-
-    def save(self, *args, **kwargs):
-        if not self.created_at:
-            self.created_at = datetime.datetime.now()
-        if not self.updated_at:
-            self.updated_at = datetime.datetime.now()
-        return super(Order, self).save(*args, **kwargs)
-
-
-    def update(self, *args, **kwargs):
-        kwargs['updated_at'] = datetime.datetime.now()
-        self.updated_at = datetime.datetime.now()
-        return super(Order, self).update(*args, **kwargs)
 
     def mark_delete(self):
         return super(Order, self).update(deleted=1)

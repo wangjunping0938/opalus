@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
 
-from flask import render_template, request, current_app, url_for, jsonify, g
+from flask import render_template, request, current_app, url_for, jsonify, g, flash
 from . import admin
 from app.models.category import Category
 from app.helpers.pager import Pager
-from app.forms.category import SaveForm
+from app.forms.category import SaveForm, setStatus
 
 @admin.route('/category/list')
 def category_list():
@@ -33,7 +33,7 @@ def category_list():
 
     query['deleted'] = deleted
 
-    data = Category.objects(**query).order_by('create_at').paginate(page=page, per_page=per_page)
+    data = Category.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
     total_count = Category.objects(**query).count()
     meta['data'] = data.items
 
@@ -80,6 +80,7 @@ def category_save():
             return jsonify(success=False, message=str(e))
 
         if category:
+            flash('操作成功!', 'success')
             redirect_to = request.form.get('referer_url') if request.form.get('referer_url') else url_for('admin.category_list')
             return jsonify(success=True, message='操作成功!', redirect_to = redirect_to)
         else:
@@ -110,3 +111,24 @@ def category_delete():
         return jsonify(success=False, message=str(e))
 
     return jsonify(success=True, message='操作成功!', data={'ids': ids, 'type':type}, redirect_to=url_for('admin.category_list'))
+
+## 操作状态
+@admin.route('/category/set_status', methods=['POST'])
+def category_set_status():
+    meta = {}
+
+    form = setStatus()
+    if form.validate_on_submit():
+        id = request.form.get('id')
+        
+        try:
+            category = form.set_status()
+        except(Exception) as e:
+            return jsonify(success=False, message=str(e))
+
+        if category:
+            return jsonify(success=True, message='操作成功!')
+        else:
+            return jsonify(success=False, message='操作失败!')
+    else:
+        return jsonify(success=False, message=str(form.errors))
