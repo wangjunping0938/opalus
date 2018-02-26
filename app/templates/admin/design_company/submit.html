@@ -14,24 +14,16 @@
 
 {% block jquery %}
 
-  $("#site-form").validate({
+  $("#design_company-form").validate({
     //ignore: ".ignore",
     //debug: true,
 
     rules: {
-        mark: {
-            required: true,
-        },
-        name: "required",
-        url: "required"
+        name: "required"
     },
 
     messages: {
-        mark: {
-            required: "请输入唯一标识",
-        },
-        name: "请输入名称",
-        url: "请输入网址"
+        name: "请输入名称"
     },
     submitHandler: function(form) {
       $(form).ajaxSubmit({
@@ -74,14 +66,14 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav nav-list">
-                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.site_list') }}">全部</a></li>
+                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.design_company_list') }}">全部</a></li>
             </ul>
         </div>
     </div>
 
 
     <div class="ph-form">
-        <form class="form-horizontal" method="POST" action="{{ url_for('admin.site_save') }}" id="site-form">
+        <form class="form-horizontal" method="POST" action="{{ url_for('admin.design_company_save') }}" id="design_company-form">
             {{ form.csrf_token }}
             <input type="hidden" name="id" value="{{ meta.data._id }}" />
             <input type="hidden" name="referer_url" value="{{ meta.referer_url }}" />
@@ -89,23 +81,12 @@
 
             <div class="form-group">
                 <div class="col-xs-4">
-                    <select name="site_from" class="form-control">
-                        {% for d in meta.platform_options %}
-                        <option value="{{ d.id }}" data-type="{{ d.type }}" {% if meta.data.site_from==d.id %}selected="selected"{%endif%}>{{ d.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-            </div>
-
-            <div class="form-group">
-                <div class="col-xs-4">
                     <label for="name">名称</label>
-                    <input type="text" name="name" class="form-control" value="{{ meta.data.name }}" placeholder="名称">
+                    <input type="text" name="name" class="form-control" value="{{ meta.data.name }}" placeholder="公司全称">
                 </div>
                 <div class="col-xs-4">
-                    <label for="mark">标识</label>
-                    <input type="text" name="mark" class="form-control" value="{{ meta.data.mark }}" placeholder="标识">
+                    <label for="short_name">短名称</label>
+                    <input type="text" name="short_name" class="form-control" value="{{ meta.data.short_name }}" placeholder="公司简称">
                 </div>
             </div>
 
@@ -114,28 +95,70 @@
                     <label for="url">网址</label>
                     <input type="text" name="url" class="form-control" value="{{ meta.data.url }}" placeholder="网址">
                 </div>
-            </div>
-
-            <div class="form-group">
                 <div class="col-xs-4">
-                    <label for="last_url">最后一次抓取地址</label>
-                    <input type="text" name="last_url" class="form-control" value="{{ meta.data.last_url }}" placeholder="最后一次抓取地址">
+                    <label for="logo_url">logo地址</label>
+                    <input type="text" name="logo_url" class="form-control" value="{{ meta.data.logo_url }}" placeholder="">
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-xs-8">
-                    <label for="code">代码域</label>
-                    <textarea class="form-control" name="code" rows="3">{{ meta.data.code|default('') }}</textarea>
+                    <label for="tags">标签</label>
+                    <input type="text" name="tags" class="form-control" value="{{ meta.data.tags }}" placeholder="标签">
+                    <div class="description">多个标签用','分隔</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-3">
+                    <label for="size">公司规模</label>
+                    <select name="size" class="form-control">
+                        {% for d in meta.company_size_options %}
+                        <option value="{{ d.id }}" data-type="" {% if meta.data.size==d.id %}selected="selected"{%endif%}>{{ d.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-xs-3">
+                    <label for="size_label">说明</label>
+                    <input type="text" name="size_label" class="form-control" value="{{ meta.data.size_label }}" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-3">
+                    <label for="nature">公司性质</label>
+                    <select name="nature" class="form-control">
+                        {% for d in meta.company_nature_options %}
+                        <option value="{{ d.id }}" data-type="" {% if meta.data.nature==d.id %}selected="selected"{%endif%}>{{ d.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-xs-3">
+                    <label for="nature_label">说明</label>
+                    <input type="text" name="nature_label" class="form-control" value="{{ meta.data.nature_label }}" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-10">
+                    <label for="advantage">亮点、优势</label>
+                    <textarea class="form-control" name="advantage" rows="3">{{ meta.data.advantage|default('') }}</textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-10">
+                    <label for="description">简述</label>
+                    <textarea class="form-control" name="description" rows="3">{{ meta.data.description|default('') }}</textarea>
                 </div>
             </div>
 
 
             <div class="form-group">
-                <div class="col-xs-8">
+                <div class="col-xs-10">
                     <label for="remark">备注</label>
                     <textarea class="form-control" name="remark" rows="3">{{ meta.data.remark|default('') }}</textarea>
-                    <div class="description">详细说明配置调用方法</div>
+                    <div class="description">自定义内容</div>
                 </div>
             </div>
 
@@ -171,7 +194,7 @@
 
             <div class="form-group">
                 <div class="col-sm-10">
-                    <a href="{{ url_for('admin.site_list') }}" class="btn btn-default">取消</a>
+                    <a href="{{ url_for('admin.design_company_list') }}" class="btn btn-default">取消</a>
                     <button type="submit" class="btn btn-default">提交</button>
                 </div>
             </div>

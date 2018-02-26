@@ -30,7 +30,7 @@
 
                 <h4 class="res_mem_menu_title memMenuTitle {{ meta.css_nav_reptile|default('') }}" tabindex="-1" title="展开" data-rel="mReptileManage">
                     <u class="u u29 res_mem_opt_icon"></u>
-                    <div class="res_mem_menu_link">爬虫管理</div>
+                    <div class="res_mem_menu_link">销售渠道管理</div>
                 </h4>
                 <ul id="mReptileManage" class="bbc pb5">
                     <li class="res_mem_list_li">
@@ -47,6 +47,18 @@
                         <a class="res_mem_list_link {{ meta.css_nav_sub_order|default('') }}" href="{{ url_for('admin.order_list') }}">订单管理 <span class="g9">»</span></a>
                     </li>
                     -->
+
+                </ul>
+
+                <h4 class="res_mem_menu_title memMenuTitle {{ meta.css_nav_design|default('') }}" tabindex="-1" title="展开" data-rel="mDesignManage">
+                    <u class="u u29 res_mem_opt_icon"></u>
+                    <div class="res_mem_menu_link">设计公司管理</div>
+                </h4>
+                <ul id="mDesignManage" class="bbc pb5">
+                    <li class="res_mem_list_li">
+                        <a class="res_mem_list_link {{ meta.css_nav_sub_design_company|default('') }}" href="{{ url_for('admin.design_company_list') }}">公司管理 <span class="g9">»</span></a>
+                    </li>
+
 
                 </ul>
 

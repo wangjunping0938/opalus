@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 import datetime
 from flask import current_app
-
 from app.models import db
 
 class Base(db.Document):
