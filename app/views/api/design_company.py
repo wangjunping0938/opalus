@@ -880,6 +880,7 @@ def design_company_test():
             try:
                 #design_company = DesignCompany(name=name)
                 #design_company.save()
+                pass
             except(Exception) as e:
                 print(e)
 
