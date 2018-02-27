@@ -3,6 +3,7 @@ from wtforms import TextAreaField, StringField, IntegerField, DateTimeField
 from wtforms.validators import DataRequired, Length, EqualTo, NumberRange
 from flask_wtf import FlaskForm
 import bson
+from flask import current_app
 
 #from .base import BaseForm
 from ..models.design_company import DesignCompany
@@ -12,11 +13,11 @@ class SaveForm(FlaskForm):
     id = StringField()
     ## 基本信息
     name = StringField('名称', validators=[DataRequired(message="名称不能为空"), Length(min=4, max=50, message="长度大于4小于50个字符")])
-    short_name = StringField('短名称', validators=[Length(min=2, max=20, message="长度大于2小于20个字符")])
+    short_name = StringField('短名称', validators=[Length(max=20, message="长度小于20个字符")])
     url = StringField('网址', validators=[Length(max=200, message="长度小于200个字符")])
     logo_url = StringField('logo', validators=[Length(max=200, message="长度小于200个字符")])
-    size = IntegerField()
-    size_label = StringField('公司规模', validators=[Length(max=20, message="长度小于20个字符")])
+    scale = IntegerField()
+    scale_label = StringField('公司规模', validators=[Length(max=20, message="长度小于20个字符")])
     nature = IntegerField()
     nature_label = StringField('公司性质', validators=[Length(max=20, message="长度小于20个字符")])
     advantage = StringField('公司亮点', validators=[Length(max=1000, message="长度小于1000个字符")])
@@ -36,13 +37,14 @@ class SaveForm(FlaskForm):
 
     ## 附加
     tags = StringField('标签', validators=[Length(max=100, message="长度小于100个字符")])   # 标签
-    branch = IntegerField() # 分公司数量
-    wx_public_no = StringField('公众号', validators=[Length(max=30, message="长度小于30个字符")]) # 公众号ID
+    branch = StringField('分公司数', validators=[Length(max=20, message="长度小于20个字符")]) # 分公司数量
+    wx_public_no = StringField('公众号ID', validators=[Length(max=20, message="长度小于20个字符")]) # 公众号ID
+    wx_public = StringField('公众号名称', validators=[Length(max=30, message="长度小于30个字符")]) # 公众号名称
     remark = StringField('备注', validators=[Length(max=200, message="长度小于200个字符")])   # 备注
     perfect_degree = IntegerField() # 信息完整度
     craw_count = IntegerField() # 抓取频次
     kind = IntegerField()    # 类型: 预设
-    #type = IntegerField()    # 类型: 预设
+    type = IntegerField()    # 类型: 预设
     craw_user_id = IntegerField()    # 抓取人ID：1.军平；2.董永胜; 3.--;
     user_id = IntegerField()
     last_on = DateTimeField()    # 最后一次抓取时间
@@ -52,26 +54,36 @@ class SaveForm(FlaskForm):
         design_company = DesignCompany.objects(_id=bson.objectid.ObjectId(id)).first()
         if not design_company:
             raise ValueError('内容不存在!')
-        data = {}
 
+        '''
+        data = {}
         data['name'] = self.data['name']
         data['short_name'] = self.data['short_name']
         data['url'] = self.data['url']
         data['logo_url'] = self.data['logo_url']
-        data['size'] = self.data['size']
-        data['size_label'] = self.data['size_label']
+        data['scale'] = self.data['scale']
+        data['scale_label'] = self.data['scale_label']
         data['nature'] = self.data['nature']
         data['nature_label'] = self.data['nature_label']
         data['advantage'] = self.data['advantage']
         data['description'] = self.data['description']
         data['remark'] = self.data['remark']
-        #data['tags'] = self.data['tags']
-        #data['branch'] = self.data['branch']
-        #data['wx_public_no'] = self.data['wx_public_no']
+        data['tags'] = self.data['tags']
+        data['branch'] = self.data['branch']
+        data['wx_public_no'] = self.data['wx_public_no']
+        data['wx_public'] = self.data['wx_public']
+        '''
 
-        #data = self.data
-        #data.pop('id')
+        data = self.data
+        data.pop('id')
 
+        current_app.logger.debug(data)
+        for key in self.data:
+            if self.data[key] == None:
+                #current_app.logger.debug(key)
+                data.pop(key)
+
+        #current_app.logger.debug(data)
         ok = design_company.update(**data)
         return ok
 

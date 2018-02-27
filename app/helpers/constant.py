@@ -33,7 +33,7 @@ def platform_type(id=0):
         return '--'
 
 # 企业规模
-def company_size_options(id=0):
+def company_scale_options(id=0):
     data = [
                 {'id':0, 'name': '--'},
                 {'id':1, 'name': '20人以下'},

@@ -83,8 +83,10 @@
         <th>LOGO</th>
         <th>公司信息</th>
         <th>创建用户</th>
+        <th>抓取信息</th>
+        <th>完善度</th>
         <th>状态</th>
-        <th>创建时间</th>
+        <th>创建/最后抓取时间</th>
         <th>操作</th>
         {% for d in meta.data %}
             <tr id="item-{{ d._id }}">
@@ -111,6 +113,14 @@
 
                 <td>{{ d.user_id }}</td>
                 <td>
+                    <p>抓取次数: {{ d.craw_count }}</p>
+                    <p>负责人: {{ d.craw_user }}</p>                
+                    {% if d.last_on %}
+                        <p>最后抓取时间: {{ d.last_on | date("%Y-%m-%d") }}</p>
+                    {%endif%}
+                </td>
+                <td>{{ d.perfect_degree }}</td>
+                <td>
                     <p class="status-label">
                         {% if d.status==0 %}
                             <span class="label label-danger">禁用</span>
@@ -120,7 +130,9 @@
                         {%endif%}
                     </p>
                 </td>
-                <td>{{ d.created_at | date("%Y-%m-%d") }}</td>
+                <td>
+                    <p>{{ d.created_at | date("%Y-%m-%d") }}</p>
+                </td>
                 <td>
                     <p class="status-handle">
                         {% if d.status==0 %}

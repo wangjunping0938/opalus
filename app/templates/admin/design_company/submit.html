@@ -77,7 +77,6 @@
             {{ form.csrf_token }}
             <input type="hidden" name="id" value="{{ meta.data._id }}" />
             <input type="hidden" name="referer_url" value="{{ meta.referer_url }}" />
-            <input type="hidden" name="site_type" value="{{ meta.data.site_type }}" />
 
             <div class="form-group">
                 <div class="col-xs-4">
@@ -104,23 +103,63 @@
             <div class="form-group">
                 <div class="col-xs-8">
                     <label for="tags">标签</label>
-                    <input type="text" name="tags" class="form-control" value="{{ meta.data.tags }}" placeholder="标签">
+                    <input type="text" name="tags" class="form-control" value="{{ meta.data.tags_label }}" placeholder="标签">
                     <div class="description">多个标签用','分隔</div>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-xs-3">
-                    <label for="size">公司规模</label>
-                    <select name="size" class="form-control">
-                        {% for d in meta.company_size_options %}
-                        <option value="{{ d.id }}" data-type="" {% if meta.data.size==d.id %}selected="selected"{%endif%}>{{ d.name }}</option>
+                    <label for="province">省/直辖市/自治区</label>
+                    <input type="text" name="province" class="form-control" value="{{ meta.data.province }}" placeholder="">
+                </div>
+                <div class="col-xs-3">
+                    <label for="city">城市</label>
+                    <input type="text" name="city" class="form-control" value="{{ meta.data.city }}" placeholder="">
+                </div>
+                <div class="col-xs-2">
+                    <label for="zip_code">邮编</label>
+                    <input type="text" name="zip_code" class="form-control" value="{{ meta.data.zip_code }}" placeholder="">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="address">详细地址</label>
+                    <input type="text" name="address" class="form-control" value="{{ meta.data.address }}" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-2">
+                    <label for="contact_name">联系人</label>
+                    <input type="text" name="contact_name" class="form-control" value="{{ meta.data.contact_name }}" placeholder="">
+                </div>
+                <div class="col-xs-2">
+                    <label for="contact_phone">联系人电话</label>
+                    <input type="text" name="contact_phone" class="form-control" value="{{ meta.data.contact_phone }}" placeholder="">
+                </div>
+                <div class="col-xs-2">
+                    <label for="contact_email">邮箱</label>
+                    <input type="text" name="contact_email" class="form-control" value="{{ meta.data.contact_email }}" placeholder="">
+                </div>
+                <div class="col-xs-2">
+                    <label for="tel">公司电话</label>
+                    <input type="text" name="tel" class="form-control" value="{{ meta.data.tel }}" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-3">
+                    <label for="scale">公司规模</label>
+                    <select name="scale" class="form-control">
+                        {% for d in meta.company_scale_options %}
+                        <option value="{{ d.id }}" data-type="" {% if meta.data.scale==d.id %}selected="selected"{%endif%}>{{ d.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="col-xs-3">
-                    <label for="size_label">说明</label>
-                    <input type="text" name="size_label" class="form-control" value="{{ meta.data.size_label }}" placeholder="">
+                    <label for="scale_label">说明</label>
+                    <input type="text" name="scale_label" class="form-control" value="{{ meta.data.scale_label }}" placeholder="">
                 </div>
             </div>
 
@@ -136,6 +175,21 @@
                 <div class="col-xs-3">
                     <label for="nature_label">说明</label>
                     <input type="text" name="nature_label" class="form-control" value="{{ meta.data.nature_label }}" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-2">
+                    <label for="branch">分公司</label>
+                    <input type="text" name="branch" class="form-control" value="{{ meta.data.branch }}" placeholder="">
+                </div>
+                <div class="col-xs-2">
+                    <label for="wx_public_no">公众号ID</label>
+                    <input type="text" name="wx_public_no" class="form-control" value="{{ meta.data.wx_public_no }}" placeholder="">
+                </div>
+                <div class="col-xs-2">
+                    <label for="wx_public_no">公众号名称</label>
+                    <input type="text" name="wx_public" class="form-control" value="{{ meta.data.wx_public }}" placeholder="">
                 </div>
             </div>
 
@@ -158,7 +212,7 @@
                 <div class="col-xs-10">
                     <label for="remark">备注</label>
                     <textarea class="form-control" name="remark" rows="3">{{ meta.data.remark|default('') }}</textarea>
-                    <div class="description">自定义内容</div>
+                    <div class="description">人工备注</div>
                 </div>
             </div>
 

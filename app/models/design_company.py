@@ -18,43 +18,44 @@ class DesignCompany(Base):
     user_id = db.IntField(default=0)    # 用户ID
 
     ## 基本信息
-    name = db.StringField(max_length=50) # 名称
-    short_name = db.StringField(max_length=20) # 短名称
-    url = db.StringField(max_length=200) # 网址
-    logo_url = db.StringField(max_length=200) # LOGO地址
-    size = db.IntField(default=0)    # 公司规模
-    size_label = db.StringField(max_length=20) # 公司规模_label
+    name = db.StringField(max_length=50, required=True, unique=True) # 名称
+    short_name = db.StringField(max_length=20, default='') # 短名称
+    url = db.StringField(max_length=200, default='') # 网址
+    logo_url = db.StringField(max_length=200, default='') # LOGO地址
+    scale = db.IntField(default=0)    # 公司规模
+    scale_label = db.StringField(max_length=20, default='') # 公司规模_label
     nature = db.IntField(default=0)    # 公司性质
-    nature_label = db.StringField(max_length=20) # 公司性质_label
-    advantage = db.StringField(max_length=1000) # 公司亮点、专业优势
-    description = db.StringField(max_length=1000) # 公司描述
+    nature_label = db.StringField(max_length=20, default='') # 公司性质_label
+    advantage = db.StringField(max_length=1000, default='') # 公司亮点、专业优势
+    description = db.StringField(max_length=1000, default='') # 公司描述
 
 
     ## 联系信息
     province_id = db.IntField(default=0)    # 省
-    province = db.StringField(max_length=20) # 省_label
+    province = db.StringField(max_length=20, default='') # 省_label
     city_id = db.IntField(default=0)    # 市
-    city = db.StringField(max_length=20) # 市_label
-    address = db.StringField(max_length=500) # 详细地址
-    zip_code = db.StringField(max_length=10) # 邮编
-    contact_name = db.StringField(max_length=20) # 联系人姓名
-    contact_phone = db.StringField(max_length=20) # 联系人电话
-    contact_email = db.StringField(max_length=200) # 联系人邮箱
-    tel = db.StringField(max_length=20) # 公司电话
+    city = db.StringField(max_length=20, default='') # 市_label
+    address = db.StringField(max_length=500, default='') # 详细地址
+    zip_code = db.StringField(max_length=10, default='') # 邮编
+    contact_name = db.StringField(max_length=20, default='') # 联系人姓名
+    contact_phone = db.StringField(max_length=20, default='') # 联系人电话
+    contact_email = db.StringField(max_length=200, default='') # 联系人邮箱
+    tel = db.StringField(max_length=20, default='') # 公司电话
 
 
     ## 附加
     tags = db.ListField()   # 标签
-    branch = db.IntField(default=0) # 分公司数量
-    wx_public_no = db.StringField(max_length=50) # 公众号ID
+    branch = db.StringField(max_length=20, default='') # 分公司数量
+    wx_public_no = db.StringField(max_length=20, default='') # 公众号ID
+    wx_public = db.StringField(max_length=30, default='') # 公众号名称
 
-    remark = db.StringField(max_length=200)   # 备注
+    remark = db.StringField(max_length=200, default='')   # 备注
 
     perfect_degree = db.IntField(default=0) # 信息完整度
     craw_count = db.IntField(default=0) # 抓取频次
     kind = db.IntField(default=0)    # 类型: 预设
     type = db.IntField(default=0)    # 类型: 预设
-    craw_user_id = db.IntField(default=0)    # 抓取人ID：1.军平；2.董永胜; 3.--;
+    craw_user_id = db.IntField(default=0)    # 抓取人ID：1.军平；2.小董; 3.--;
 
 
     last_on = db.DateTimeField()    # 最后一次抓取时间
@@ -78,10 +79,11 @@ class DesignCompany(Base):
 
 
     def update(self, *args, **kwargs):
+        # 移除number
+        if 'number' in kwargs.keys():
+            kwargs.pop('number')
         if 'tags' in kwargs.keys() and not isinstance(kwargs['tags'], list):
             kwargs['tags'] = kwargs['tags'].split(',')
-        else:
-            kwargs['tags'] = []
 
         return super(DesignCompany, self).update(*args, **kwargs)
 

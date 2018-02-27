@@ -4,7 +4,7 @@ from flask import render_template, request, current_app, url_for, jsonify, g, fl
 from . import admin
 from app.models.design_company import DesignCompany
 from app.helpers.pager import Pager
-from app.helpers.constant import company_size_options, company_nature_options
+from app.helpers.constant import company_scale_options, company_nature_options
 from app.forms.design_company import SaveForm, setStatus
 import bson
 
@@ -18,7 +18,7 @@ def design_company_list():
     }
     query = {}
     page = int(request.args.get('page', 1))
-    per_page = int(request.args.get('per_page', 20))
+    per_page = int(request.args.get('per_page', 100))
     status = int(request.args.get('status', 0))
     deleted = int(request.args.get('deleted', 0))
     page_url = url_for('admin.design_company_list', page="#p#", status=status)
@@ -38,7 +38,14 @@ def design_company_list():
 
     # 过滤数据
     for i, d in enumerate(data.items):
-        pass
+        craw_user = '--'
+        if d.craw_user_id:
+            if d.craw_user_id == 1:
+                craw_user = '军平'
+            if d.craw_user_id == 2:
+                craw_user = '小董'
+            
+        data.items[i].craw_user = craw_user
 
     meta['data'] = data.items
 
@@ -59,11 +66,12 @@ def design_company_submit():
     meta['data'] = None
     if id:
         design_company = DesignCompany.objects(_id=bson.objectid.ObjectId(id)).first()
+        design_company.tags_label = ','.join(design_company.tags)
         meta['data'] = design_company
 
     form = SaveForm()
 
-    meta['company_size_options'] = company_size_options()
+    meta['company_scale_options'] = company_scale_options()
     meta['company_nature_options'] = company_nature_options()
     meta['referer_url'] = request.environ.get('HTTP_REFERER') if request.environ.get('HTTP_REFERER') else ''
     

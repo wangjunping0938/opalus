@@ -228,3 +228,8 @@ def push_product(**kwargs):
         return {'success':False, 'message': '记录增长值异常: %s' % str(e)}
     
     return {'success':True, 'message':'success!', 'data':''}
+
+
+# 更新抓取产品信息
+def push_design_company(**kwargs):
+    pass
