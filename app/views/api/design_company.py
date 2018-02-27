@@ -15,12 +15,16 @@ def design_company_list():
     status = int(request.args.get('status', 0))
     craw_user_id = int(request.args.get('craw_user_id', 0))
     deleted = int(request.args.get('deleted', 0))
+    name = request.args.get('name', None)
     if status == -1:
         query['status'] = 0
     if status == 1:
         query['status'] = 1
     else:
         pass
+
+    if name:
+        query['name'] = name
 
     if craw_user_id:
         query['craw_user_id'] = craw_user_id
@@ -71,8 +75,8 @@ def design_company_view():
     return jsonify(code=0, message='success!', data=design_company)
 
 ## 保存/更新公司信息
-@api.route('/design_company/save', methods=['POST'])
-def design_company_save():
+@api.route('/design_company/update', methods=['POST'])
+def design_company_update():
     number = request.values.get('number', None)
     data = request.values.to_dict()
 
@@ -869,13 +873,13 @@ def design_company_test():
     北京迪沃客文化创意有限公司
     """
     l = str.split('\n')
-    #l = []
+    l = []
     for i in l:
         name = i.strip()
         if name:
             try:
-                design_company = DesignCompany(name=name)
-                design_company.save()
+                #design_company = DesignCompany(name=name)
+                #design_company.save()
             except(Exception) as e:
                 print(e)
 
