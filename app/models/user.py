@@ -17,8 +17,8 @@ class User(Base):
 
     _id = db.IntField(primary_key=True, required=True, unique=True)
     account = db.StringField(min_value=4, max_value=20, required=True, unique=True)
-    phone = db.StringField(max_value=20)
-    email = db.StringField(max_value=50)
+    phone = db.StringField(max_value=20, default='')
+    email = db.StringField(max_value=50, default='')
     password = db.StringField(max_value=20)
     type = db.IntField(default=1)
     role_id = db.IntField(default=1)

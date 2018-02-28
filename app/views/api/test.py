@@ -1,6 +1,7 @@
 from flask import request, jsonify, current_app
 from . import api
 from app.lib.grab import fetch_platform_site, push_product
+from app.helpers import gen_sha1
 
 ## TEST
 @api.route('/test/view')
@@ -37,3 +38,7 @@ def test_push_product():
     result = push_product(**data)
 
     return jsonify(code=0, message='缺少请求参数！', data=result)
+
+@api.route('/test/tools')
+def test_tools():
+    return gen_sha1('123456:thn:wangjunping')

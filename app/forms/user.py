@@ -72,8 +72,8 @@ class SignupForm(FlaskForm):
 class SaveForm(FlaskForm):
     #account = StringField('用户名', validators=[DataRequired(message="账户不能为空"), Length(min=4, max=16, message="长度大于4小于16")])
     id = IntegerField('ID', validators=[DataRequired(message="ID不能为空")])
-    phone = StringField('手机', validators=[Length(min=11, max=20, message="手机格式不正确")])
-    email = StringField('邮箱', validators=[Email(message="邮箱格式不正确")])
+    phone = StringField('手机', validators=[Length(max=20, message="手机格式不正确")])
+    email = StringField('邮箱', validators=[Length(max=30, message="邮箱格式不正确")])
     role_id = IntegerField('权限', validators=[NumberRange(min=1, max=8, message="权限设置不正确")])
     status = IntegerField('状态', validators=[NumberRange(min=0, max=5, message="状态设置不正确")])
     profile = FormField(ProfileForm)

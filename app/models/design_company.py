@@ -48,6 +48,7 @@ class DesignCompany(Base):
     branch = db.StringField(max_length=20, default='') # 分公司数量
     wx_public_no = db.StringField(max_length=20, default='') # 公众号ID
     wx_public = db.StringField(max_length=30, default='') # 公众号名称
+    wx_public_qr = db.StringField(max_length=500, default='') # 公众号二维码
 
     remark = db.StringField(max_length=200, default='')   # 备注
 
