@@ -11,11 +11,11 @@ def design_company_list():
     query = {}
     meta = {}
     page = int(request.args.get('page', 1))
-    per_page = int(request.args.get('per_page', 2))
+    per_page = int(request.args.get('per_page', 20))
     status = int(request.args.get('status', 0))
     craw_user_id = int(request.args.get('craw_user_id', 0))
     deleted = int(request.args.get('deleted', 0))
-    name = request.args.get('name', None)
+    name = request.args.get('name', '')
     if status == -1:
         query['status'] = 0
     if status == 1:
@@ -104,13 +104,14 @@ def design_company_update():
         data['inc__craw_count'] = 1 # 自增
         data['last_on'] = datetime.datetime.now()
         design_company.update(**data)
+
+        if design_company:
+            return jsonify(code=0, message='success!', data=data)
+        else:
+            return jsonify(code=3010, message='更新失败！')
+
     except(Exception) as e:
         return jsonify(success=False, message=str(e))
-
-    if design_company:
-        return jsonify(code=0, message='success!', data=data)
-    else:
-        return jsonify(code=3010, message=result['message'])
 
 ## 更新脚本
 @api.route('/design_company/test')

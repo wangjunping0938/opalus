@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 import datetime
-from werkzeug import security
-from app.models import db, current_app
+from . import db, current_app
 from .base import Base
 
 
@@ -10,6 +9,7 @@ class DesignCase(Base):
     meta = {
         'collection': 'design_case',
         'ordering': ['-created_at'],
+        'id_field': '_id',
         'strict': True
     }
 
@@ -22,7 +22,8 @@ class DesignCase(Base):
     images = db.StringField(max_value=1000, default='')
     prize_label = db.StringField(max_value=30, default='')
     type = db.IntField(default=1) # 类型: 1.公司奖项案例
-    target_id = db.StringField(default='')
+    target_id = db.StringField(max_value=20, default='')
+    user_id = db.IntField(default=0)    # 用户ID
 
     tags = db.ListField()   # 标签
     status = db.IntField(default=1)

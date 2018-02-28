@@ -21,7 +21,16 @@ def design_company_list():
     per_page = int(request.args.get('per_page', 100))
     status = int(request.args.get('status', 0))
     deleted = int(request.args.get('deleted', 0))
-    page_url = url_for('admin.design_company_list', page="#p#", status=status)
+
+    t = int(request.args.get('t', 1))
+    q = request.args.get('q', '')
+
+    if q:
+        if t==1:
+            query['number'] = q.strip()
+        if t==2:
+            query['name'] = {"$regex": q.strip()}
+
     if status == -1:
         meta['css_disable'] = 'active'
         query['status'] = 0
@@ -32,6 +41,8 @@ def design_company_list():
         meta['css_all'] = 'active'
 
     query['deleted'] = deleted
+
+    page_url = url_for('admin.design_company_list', page="#p#", q=q, t=t, status=status)
 
     data = DesignCompany.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
     total_count = DesignCompany.objects(**query).count()

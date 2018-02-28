@@ -17,7 +17,7 @@
     $('.status-handle').on('click', 'a', function(){
         var id = $(this).data('id');
         var evt = $(this).data('evt');
-        var url = "{{ url_for('admin.design_company_set_status') }}";
+        var url = "{{ url_for('admin.design_case_set_status') }}";
         $.post(url, {id: id, status: evt}, function(rs){
             if (rs.success) {
                 var statusLabel = evt == 0 ? false : true
@@ -49,7 +49,7 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav nav-list">
-                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.design_company_list') }}">全部</a></li>
+                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.design_case_list') }}">全部</a></li>
             </ul>
         </div>
     </div>
@@ -58,35 +58,17 @@
     <div class="fl">
         <div class="navbar-form navbar-left options-bar">
             <div class="form-group">
-                <a href="{{ url_for('admin.design_company_submit') }}" class="btn btn-default btn-sm">
+                <a href="{{ url_for('admin.design_case_submit') }}" class="btn btn-default btn-sm">
                     <i class="glyphicon glyphicon-edit"></i> 创建
                 </a>
             </div>
             <div class="form-group">
-                <a href="{{ url_for('admin.design_company_delete') }}" class="btn btn-default btn-sm ajax-batch-delete">
+                <a href="{{ url_for('admin.design_case_delete') }}" class="btn btn-default btn-sm ajax-batch-delete">
                     <i class="glyphicon glyphicon-trash"></i> 删除
                 </a>
             </div>
 
         </div>
-    </div>
-
-    <div class="fr">
-        <form class="navbar-form navbar-left options-bar" role="search" action="{{ url_for('admin.design_company_list') }}" method="GET" id="search-form">
-          <div class="form-group">
-            <input class="form-control input-sm" type="text" name="q" value="{{ request.args.get('q', '') }}" class="form-control" placeholder="关键字...">
-          </div>
-
-          <div class="form-group">
-              <select name="t" class="form-control input-sm">
-                  <option value="1" {% if request.args.get('t') == '1' %}selected="selected"{%endif%}>编号</option>
-                  <option value="2" {% if request.args.get('t') == '2' %}selected="selected"{%endif%}>名称</option>
-              </select>
-          </div>
-
-          <button type="submit" class="btn btn-default btn-sm">搜索</button>
-        </form>
-    
     </div>
 
 
@@ -98,13 +80,13 @@
               </label>
             </div>
         </th>
-        <th>LOGO</th>
-        <th>公司信息</th>
+        <th>封面</th>
+        <th>标题</th>
+        <th>类型</th>
         <th>创建用户</th>
-        <th>抓取信息</th>
-        <th>完善度</th>
+        <th>关联ID</th>
         <th>状态</th>
-        <th>创建/最后抓取时间</th>
+        <th>创建</th>
         <th>操作</th>
         {% for d in meta.data %}
             <tr id="item-{{ d._id }}">
@@ -116,28 +98,19 @@
                     </div>
                 </td>
                 <td>
-                    {% if d.logo_url %}
-                        <img src="{{ d.logo_url }}" width="80" />
+                    {% if d.cover_url %}
+                        <img src="{{ d.cover_url }}" width="80" />
                     {% else %}
                         <img src="{{ url_for('static', filename='images/avatar_100.png') }}" width="80" />
                     {% endif %}
                 </td>
                 <td>
-                    <p>简称: {{ d.short_name }}</p>
-                    <p>名称: {{ d.name }}</p>
-                    <p>网址: <a href="{{ d.url }}" target="_blank">{{ d.url }}</a></p>
-                    <p>编号: {{ d.number }}</p>
+                    <p>名称: {{ d.title }}</p>
                 </td>
 
+                <td>{{ d.type }}</td>
                 <td>{{ d.user_id }}</td>
-                <td>
-                    <p>抓取次数: {{ d.craw_count }}</p>
-                    <p>负责人: {{ d.craw_user }}</p>                
-                    {% if d.last_on %}
-                        <p>最后抓取时间: {{ d.last_on | date("%Y-%m-%d") }}</p>
-                    {%endif%}
-                </td>
-                <td>{{ d.perfect_degree }}</td>
+                <td>{{ d.target_id }}</td>
                 <td>
                     <p class="status-label">
                         {% if d.status==0 %}
@@ -161,9 +134,9 @@
                         {%endif%}                   
                     </p>
                     <p>
-                        <a href="{{ url_for('admin.design_company_submit', id=d._id) }}">编辑</a>
+                        <a href="{{ url_for('admin.design_case_submit', id=d._id) }}">编辑</a>
                         |
-                        <a href="{{ url_for('admin.design_company_delete', ids=d._id) }}" class="confirm-request">删除</a>
+                        <a href="{{ url_for('admin.design_case_delete', ids=d._id) }}" class="confirm-request">删除</a>
                     </p>
                 </td>
             </tr>

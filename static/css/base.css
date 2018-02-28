@@ -38,3 +38,14 @@ form .description {
     font-size: 0.8em;
     margin-top: 0.5em;
 }
+
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+
+.clear {
+    clear: both;
+}

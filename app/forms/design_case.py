@@ -3,7 +3,7 @@ from wtforms import TextAreaField, StringField, IntegerField, DateTimeField
 from wtforms.validators import DataRequired, Length, EqualTo, NumberRange
 from flask_wtf import FlaskForm
 import bson
-#from flask import current_app
+from flask import current_app
 
 from ..models.design_case import DesignCase
 from ..helpers import *
@@ -31,12 +31,11 @@ class SaveForm(FlaskForm):
         data = self.data
         data.pop('id')
 
-        current_app.logger.debug(data)
         for key in self.data:
             if self.data[key] == None:
                 data.pop(key)
 
-        #current_app.logger.debug(data)
+        current_app.logger.debug(data)
         ok = item.update(**data)
         return ok
 

@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import datetime
 from werkzeug import security
-from app.models import db, current_app
+from . import db, current_app
 from .base import Base
 from app.helpers import gen_sha1
 

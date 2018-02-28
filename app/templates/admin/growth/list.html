@@ -41,21 +41,19 @@
         </div>
     </div>
 
-    <div>
-    
-        <form class="navbar-form navbar-left" role="search" action="{{ url_for('admin.growth_list') }}" method="GET" id="search-form">
+    <div class="fr">
+        <form class="navbar-form navbar-left options-bar" role="search" action="{{ url_for('admin.growth_list') }}" method="GET" id="search-form">
           <div class="form-group">
-              <input type="text" name="target_id" class="form-control" value="{{ meta.target_id }}" placeholder="产品ID">
+              <input type="text" name="target_id" class="form-control input-sm" value="{{ meta.target_id }}" placeholder="产品ID">
           </div>
           <div class="form-group">
-              <input type="text" name="day" class="form-control" value="{{ meta.day }}" placeholder="天(格式): 20170323">
+              <input type="text" name="day" class="form-control input-sm" value="{{ meta.day }}" placeholder="天(格式): 20170323">
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="内容">
+            <input type="text" class="form-control input-sm" placeholder="内容">
           </div>
-          <button type="submit" class="btn btn-default">搜索</button>
+          <button type="submit" class="btn btn-default btn-sm">搜索</button>
         </form>
-    
     </div>
 
     <table class="table table-striped ph-list">

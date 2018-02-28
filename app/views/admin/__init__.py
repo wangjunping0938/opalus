@@ -5,7 +5,7 @@ admin = Blueprint('admin', __name__, static_url_path='/static',
             static_folder='../../../static', template_folder='app/templates/admin')
 
 from app import csrf
-from . import index, user, block, category, site, product, order, growth, article, design_company
+from . import index, user, block, category, site, product, order, growth, article, design_company, design_case
 from app.helpers.auth import get_current_user
 
 @admin.before_request

@@ -1,7 +1,7 @@
 from . import main
 
 from flask import render_template, jsonify, url_for, request, redirect, flash, current_app
-from ...forms import SigninForm, SignupForm
+from ...forms.user import SigninForm, SignupForm
 from ...helpers import login_user, logout_user
 
 ## 登录

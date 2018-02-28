@@ -1,0 +1,144 @@
+{% extends "layout/admin.html" %}
+{% block title %}{{ meta.title }}{% endblock %}
+{% block layout_css %}
+    <style type="text/css">
+
+    </style>
+{% endblock %}
+
+{% block layout_js %}
+    <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+  $("#item-form").validate({
+    //ignore: ".ignore",
+    //debug: true,
+
+    rules: {
+        title: "required"
+    },
+
+    messages: {
+        title: "请输入标题"
+    },
+    submitHandler: function(form) {
+      $(form).ajaxSubmit({
+        dataType: 'json',
+        beforeSubmit: function(){
+          //alert('before'); 
+        },
+        success: function(data){
+          if(data.success){
+            window.location.href=data.redirect_to;
+          }else{
+            alert(data.message);
+          }
+        }
+      });
+    }
+   });
+
+   // 初始化
+
+
+{% endblock %}
+
+{% block layout_slider %}
+{%endblock%}
+
+{% block content %}
+
+    <div class="navbar navbar-default border-n nav-stab">
+        <div class="navbar-header">
+            <div class="navbar-brand">
+                {{ meta.title }}
+            </div>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav nav-list">
+                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.design_case_list') }}">全部</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="ph-form">
+        <form class="form-horizontal" method="POST" action="{{ url_for('admin.design_case_save') }}" id="item-form">
+            {{ form.csrf_token }}
+            <input type="hidden" name="id" value="{{ meta.data._id }}" />
+            <input type="hidden" name="referer_url" value="{{ meta.referer_url }}" />
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="title">标题</label>
+                    <input type="text" name="title" class="form-control" value="{{ meta.data.title }}" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="cover_url">封面地址</label>
+                    <input type="text" name="cover_url" class="form-control" value="{{ meta.data.cover_url }}" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="tags">标签</label>
+                    <input type="text" name="tags" class="form-control" value="{{ meta.data.tags_label }}" placeholder="标签">
+                    <div class="description">多个标签用','分隔</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="prize_label">获得奖项</label>
+                    <input type="text" name="prize_label" class="form-control" value="{{ meta.data.prize_label }}" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-3">
+                    <label for="target_id">关联ID</label>
+                    <input type="text" name="target_id" class="form-control" value="{{ meta.data.target_id }}" placeholder="">
+                    <div class="description">如果：设计公司编号</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="images">图片集</label>
+                    <input type="text" name="images" class="form-control" value="{{ meta.data.images }}" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-10">
+                    <label for="description">简述</label>
+                    <textarea class="form-control" name="description" rows="3">{{ meta.data.description|default('') }}</textarea>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-xs-10">
+                    <label for="content">内容</label>
+                    <textarea class="form-control" name="content" rows="3">{{ meta.data.content|default('') }}</textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <a href="{{ url_for('admin.design_case_list') }}" class="btn btn-default">取消</a>
+                    <button type="submit" class="btn btn-default">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+{% endblock %}
