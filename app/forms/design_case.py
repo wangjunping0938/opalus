@@ -6,7 +6,7 @@ from bson import ObjectId
 from flask import current_app
 
 from ..models.design_case import DesignCase
-from ..helpers import *
+#from ..helpers import *
 
 class SaveForm(FlaskForm):
     id = StringField()

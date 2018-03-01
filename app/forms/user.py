@@ -7,7 +7,7 @@ from flask import current_app
 
 #from .base import BaseForm
 from ..models.user import User
-from ..helpers import *
+#from ..helpers import *
 
 RESERVED_WORDS = [
     'root', 'admin', 'bot', 'robot', 'master', 'webmaster',

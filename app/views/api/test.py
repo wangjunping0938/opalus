@@ -1,7 +1,7 @@
 from flask import request, jsonify, current_app
 from . import api
 from app.lib.grab import fetch_platform_site, push_product
-from app.helpers import gen_sha1
+from app.helpers.common import gen_sha1
 
 ## TEST
 @api.route('/test/view')

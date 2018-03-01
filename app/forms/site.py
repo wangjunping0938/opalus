@@ -6,7 +6,7 @@ from bson import ObjectId
 
 #from .base import BaseForm
 from ..models.site import Site
-from ..helpers import *
+#from ..helpers import *
 
 class SaveForm(FlaskForm):
     id = StringField()

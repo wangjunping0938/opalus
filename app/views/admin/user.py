@@ -4,6 +4,7 @@ from flask import render_template, request, current_app, url_for, jsonify, flash
 from . import admin
 from app.models.user import User
 from app.helpers.pager import Pager
+from app.helpers.common import force_int
 from app.forms.user import SaveForm
 
 @admin.route('/user/list')
@@ -24,7 +25,7 @@ def user_list():
 
     if q:
         if t==1:
-            query['_id'] = int(q.strip())
+            query['_id'] = force_int(q.strip(), 0)
         if t==2:
             query['account'] = {"$regex": q.strip()}
         if t==3:

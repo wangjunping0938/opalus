@@ -3,7 +3,7 @@ import datetime
 from werkzeug import security
 from . import db, current_app
 from .base import Base
-from app.helpers import gen_sha1
+from app.helpers.common import gen_sha1
 
 
 class User(Base):

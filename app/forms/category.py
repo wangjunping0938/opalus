@@ -6,7 +6,7 @@ from flask_wtf import FlaskForm
 
 #from .base import BaseForm
 from ..models.category import Category
-from ..helpers import *
+#from ..helpers import *
 
 class SaveForm(FlaskForm):
     id = StringField()

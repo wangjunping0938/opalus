@@ -7,7 +7,7 @@ from flask import current_app
 
 #from .base import BaseForm
 from ..models.design_company import DesignCompany
-from ..helpers import *
+#from ..helpers import *
 
 class SaveForm(FlaskForm):
     id = StringField()
@@ -20,8 +20,8 @@ class SaveForm(FlaskForm):
     scale_label = StringField('公司规模', validators=[Length(max=20, message="长度小于20个字符")])
     nature = IntegerField()
     nature_label = StringField('公司性质', validators=[Length(max=20, message="长度小于20个字符")])
-    advantage = StringField('公司亮点', validators=[Length(max=1000, message="长度小于1000个字符")])
-    description = StringField('公司描述', validators=[Length(max=1000, message="长度小于1000个字符")])
+    advantage = StringField('公司亮点', validators=[Length(max=10000, message="长度小于10000个字符")])
+    description = StringField('公司描述', validators=[Length(max=50000, message="长度小于50000个字符")])
 
     ## 联系信息
     province_id = IntegerField()
