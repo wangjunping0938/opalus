@@ -13,11 +13,25 @@ def user_list():
         'css_nav_sub_user': 'active',
         'css_nav_system': 'active'
     }
+
     query = {}
     page = int(request.args.get('page', 1))
-    per_page = 20
+    per_page = int(request.args.get('per_page', 100))
     status = int(request.args.get('status', 0))
-    page_url = url_for('admin.user_list', page="#p#", status=status)
+
+    t = int(request.args.get('t', 1))
+    q = request.args.get('q', '')
+
+    if q:
+        if t==1:
+            query['_id'] = int(q.strip())
+        if t==2:
+            query['account'] = {"$regex": q.strip()}
+        if t==3:
+            query['phone'] = q.strip()
+        if t==4:
+            query['email'] = q.strip()
+
     if status == -1:
         meta['css_disable'] = 'active'
         query['status'] = 0
@@ -30,6 +44,7 @@ def user_list():
     else:
         meta['css_all'] = 'active'
 
+    page_url = url_for('admin.user_list', page="#p#", q=q, t=t, status=status)
     data = User.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
     total_count = User.objects(**query).count()
     meta['data'] = data.items

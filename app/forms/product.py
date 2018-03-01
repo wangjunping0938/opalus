@@ -2,7 +2,7 @@
 from wtforms import TextAreaField, StringField, IntegerField 
 from wtforms.validators import DataRequired, Length, EqualTo, NumberRange
 from flask_wtf import FlaskForm
-import bson
+from bson import ObjectId
 
 #from .base import BaseForm
 from ..models.product import Product 
@@ -22,7 +22,7 @@ class SaveForm(FlaskForm):
 
     def update_one(self):
         id = self.data['id']
-        product = Product.objects(_id=bson.objectid.ObjectId(id)).first()
+        product = Product.objects(_id=ObjectId(id)).first()
         if not product:
             raise ValueError('内容不存在!')
         data = {}

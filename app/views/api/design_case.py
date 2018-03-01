@@ -3,7 +3,7 @@ from . import api
 import datetime
 from app.models.design_case import DesignCase
 from app.helpers.pager import Pager
-import bson
+from bson import ObjectId
 
 ## 列表
 @api.route('/design_case/list')
@@ -54,7 +54,7 @@ def design_case_view():
     if not id:
         return jsonify(code=3001, message='ID不存在!')
 
-    item = DesignCase.objects(_id=bson.objectid.ObjectId(id)).first()
+    item = DesignCase.objects(_id=ObjectId(id)).first()
     if not item:
         return jsonify(code=3002, message='公司不存在!')
 
@@ -76,7 +76,7 @@ def design_case_submit():
 
     try:
         if id:
-            item = DesignCase.objects(_id=bson.objectid.ObjectId(id)).first()
+            item = DesignCase.objects(_id=ObjectId(id)).first()
             if not item:
                 return jsonify(code=3002, message='内容不存在!')
 

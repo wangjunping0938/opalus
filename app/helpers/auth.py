@@ -32,6 +32,8 @@ def logout_user():
     session.pop('uid')
     session.pop('token')
 
+
+# 拦截器，没有使用
 class require_role(object):
     def __init__(self, role):
         self.role = role
@@ -64,6 +66,6 @@ class require_role(object):
         return wrapper
 
 
-require_user = require_role('user')
-require_staff = require_role('staff')
-require_admin = require_role('admin')
+#require_user = require_role('user')
+#require_staff = require_role('staff')
+#require_admin = require_role('admin')

@@ -5,14 +5,11 @@ import os
 from flask_mongoengine import MongoEngine, MongoEngineSessionInterface
 from flask_wtf.csrf import CSRFProtect
 from jinja2 import filters
-# 装饰器
-from .helpers.filters import *
+# 加载装饰器
+from .helpers.filters import format_datatime
 
 db = MongoEngine()
 csrf = CSRFProtect()
-
-def format_datatime(value, format='%Y-%m-%d %H:%M'):
-    return value.strftime(format)
 
 def create_app(config_name):
     app = Flask(__name__,
@@ -23,7 +20,6 @@ def create_app(config_name):
     app.config.from_object(config[config_name]) #  这里config.py是文件
     config[config_name].init_app(app)
 
-    app.config['DEBUG'] = True
     db.init_app(app)
     csrf.init_app(app)
     #app.session_interface = MongoEngineSessionInterface(db)

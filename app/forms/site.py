@@ -2,7 +2,7 @@
 from wtforms import TextAreaField, StringField, IntegerField, DateTimeField
 from wtforms.validators import DataRequired, Length, EqualTo, NumberRange
 from flask_wtf import FlaskForm
-import bson
+from bson import ObjectId
 
 #from .base import BaseForm
 from ..models.site import Site
@@ -26,7 +26,7 @@ class SaveForm(FlaskForm):
 
     def update(self):
         id = self.data['id']
-        site = Site.objects(_id=bson.objectid.ObjectId(id)).first()
+        site = Site.objects(_id=ObjectId(id)).first()
         if not site:
             raise ValueError('内容不存在!')
         data = {}
@@ -60,7 +60,7 @@ class setStatus(FlaskForm):
 
     def set_status(self):
         id = self.data['id']
-        site = Site.objects(_id=bson.objectid.ObjectId(id)).first()
+        site = Site.objects(_id=ObjectId(id)).first()
         if not site:
             raise ValueError('内容不存在!')
         data = {}

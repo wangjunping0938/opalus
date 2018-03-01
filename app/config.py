@@ -39,6 +39,7 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config): 
+    DEBUG = True
     TESTING = True
     # MongoDB配置
     MONGODB_SETTINGS = {
@@ -56,6 +57,7 @@ class TestingConfig(Config):
     PASSWORD_SECRET = 'opalus'
 
 class ProductionConfig(Config):
+    DEBUG = False
     # MongoDB配置
     MONGODB_SETTINGS = {
         'db': 'opalus',

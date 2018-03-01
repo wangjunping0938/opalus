@@ -39,6 +39,25 @@
         </div>
     </div>
 
+    <div class="fr">
+        <form class="navbar-form navbar-left options-bar" role="search" action="{{ url_for('admin.user_list') }}" method="GET" id="search-form">
+          <div class="form-group">
+            <input class="form-control input-sm" type="text" name="q" value="{{ request.args.get('q', '') }}" class="form-control" placeholder="关键字...">
+          </div>
+
+          <div class="form-group">
+              <select name="t" class="form-control input-sm">
+                  <option value="1" {% if request.args.get('t') == '1' %}selected="selected"{%endif%}>ID</option>
+                  <option value="2" {% if request.args.get('t') == '2' %}selected="selected"{%endif%}>账户</option>
+                  <option value="3" {% if request.args.get('t') == '3' %}selected="selected"{%endif%}>手机</option>
+                  <option value="4" {% if request.args.get('t') == '4' %}selected="selected"{%endif%}>邮箱</option>
+              </select>
+          </div>
+
+          <button type="submit" class="btn btn-default btn-sm">搜索</button>
+        </form>
+    </div>
+
 
     <table class="table table-striped ph-list">
         <th>

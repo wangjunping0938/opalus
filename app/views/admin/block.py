@@ -5,7 +5,7 @@ from . import admin
 from app.models.block import Block
 from app.helpers.pager import Pager
 from app.forms.block import SaveForm, setStatus
-import bson
+from bson import ObjectId
 
 ## 列表
 @admin.route('/block/list')
@@ -57,7 +57,7 @@ def block_submit():
     id = request.args.get('id', None)
     meta['data'] = None
     if id:
-        block = Block.objects(_id=bson.objectid.ObjectId(id)).first()
+        block = Block.objects(_id=ObjectId(id)).first()
         meta['data'] = block
 
     form = SaveForm()
@@ -131,7 +131,7 @@ def block_delete():
     try:
         arr = ids.split(',')
         for d in arr:
-            block = Block.objects(_id=bson.objectid.ObjectId(d)).first()
+            block = Block.objects(_id=ObjectId(d)).first()
             block.mark_delete() if block else None
     except(Exception) as e:
         return jsonify(success=False, message=str(e))

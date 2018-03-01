@@ -6,7 +6,7 @@ from app.models.design_company import DesignCompany
 from app.helpers.pager import Pager
 from app.helpers.constant import company_scale_options, company_nature_options
 from app.forms.design_company import SaveForm, setStatus
-import bson
+from bson import ObjectId
 
 ## 列表
 @admin.route('/design_company/list')
@@ -76,7 +76,7 @@ def design_company_submit():
     id = request.args.get('id', None)
     meta['data'] = None
     if id:
-        design_company = DesignCompany.objects(_id=bson.objectid.ObjectId(id)).first()
+        design_company = DesignCompany.objects(_id=ObjectId(id)).first()
         design_company.tags_label = ','.join(design_company.tags)
         meta['data'] = design_company
 
@@ -157,7 +157,7 @@ def design_company_delete():
     try:
         arr = ids.split(',')
         for d in arr:
-            design_company = DesignCompany.objects(_id=bson.objectid.ObjectId(d)).first()
+            design_company = DesignCompany.objects(_id=ObjectId(d)).first()
             design_company.mark_delete() if design_company else None
     except(Exception) as e:
         return jsonify(success=False, message=str(e))

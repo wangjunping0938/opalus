@@ -2,7 +2,7 @@
 from wtforms import TextAreaField, StringField, IntegerField, DateTimeField
 from wtforms.validators import DataRequired, Length, EqualTo, NumberRange
 from flask_wtf import FlaskForm
-import bson
+from bson import ObjectId
 from flask import current_app
 
 from ..models.design_case import DesignCase
@@ -24,7 +24,7 @@ class SaveForm(FlaskForm):
 
     def update(self):
         id = self.data['id']
-        item = DesignCase.objects(_id=bson.objectid.ObjectId(id)).first()
+        item = DesignCase.objects(_id=ObjectId(id)).first()
         if not item:
             raise ValueError('内容不存在!')
 

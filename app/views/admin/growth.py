@@ -6,7 +6,7 @@ from app.models.growth_record import GrowthRecord
 from app.models.product import Product
 from app.helpers.pager import Pager
 from app.helpers.constant import platform_options, platform_type
-import bson
+from bson import ObjectId
 
 ## 列表
 @admin.route('/growth/list')
@@ -86,7 +86,7 @@ def growth_delete():
     try:
         arr = ids.split(',')
         for d in arr:
-            growth_record = GrowthRecord.objects(_id=bson.objectid.ObjectId(d)).first()
+            growth_record = GrowthRecord.objects(_id=ObjectId(d)).first()
             growth_record.mark_delete() if growth_record else None
     except(Exception) as e:
         return jsonify(success=False, message=str(e))

@@ -26,8 +26,8 @@ class DesignCompany(Base):
     scale_label = db.StringField(max_length=20, default='') # 公司规模_label
     nature = db.IntField(default=0)    # 公司性质
     nature_label = db.StringField(max_length=20, default='') # 公司性质_label
-    advantage = db.StringField(max_length=1000, default='') # 公司亮点、专业优势
-    description = db.StringField(max_length=1000, default='') # 公司描述
+    advantage = db.StringField(max_length=10000, default='') # 公司亮点、专业优势
+    description = db.StringField(max_length=50000, default='') # 公司描述
 
 
     ## 联系信息

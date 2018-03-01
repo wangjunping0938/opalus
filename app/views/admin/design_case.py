@@ -5,7 +5,7 @@ from . import admin
 from app.models.design_case import DesignCase
 from app.helpers.pager import Pager
 from app.forms.design_case import SaveForm, setStatus
-import bson
+from bson import ObjectId
 
 ## 列表
 @admin.route('/design_case/list')
@@ -57,7 +57,7 @@ def design_case_submit():
     id = request.args.get('id', None)
     meta['data'] = None
     if id:
-        item = DesignCase.objects(_id=bson.objectid.ObjectId(id)).first()
+        item = DesignCase.objects(_id=ObjectId(id)).first()
         item.tags_label = ','.join(item.tags)
         meta['data'] = item
 
@@ -132,7 +132,7 @@ def design_case_delete():
     try:
         arr = ids.split(',')
         for d in arr:
-            item = DesignCase.objects(_id=bson.objectid.ObjectId(d)).first()
+            item = DesignCase.objects(_id=ObjectId(d)).first()
             item.mark_delete() if item else None
     except(Exception) as e:
         return jsonify(success=False, message=str(e))
