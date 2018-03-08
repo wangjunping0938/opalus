@@ -48,6 +48,8 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav nav-list">
                 <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.category_list') }}">全部</a></li>
+                <li role="presentation" class="{{ meta.css_doc }}"><a href="{{ url_for('admin.category_list', kind=1) }}">文档</a></li>
+                <li role="presentation" class="{{ meta.css_other }}"><a href="{{ url_for('admin.category_list', kind=2) }}">备用</a></li>
             </ul>
         </div>
     </div>
@@ -97,7 +99,7 @@
                 <td>{{ d._id }}</td>
                 <td>{{ d.name }}[{{ d.mark }}]</td>
                 <td>
-                    {{ d.kind }}
+                    {{ d.kind_label }}
                 </td>
                 <td>{{ d.pid }}</td>
                 <td>{{ d.user_id }}</td>

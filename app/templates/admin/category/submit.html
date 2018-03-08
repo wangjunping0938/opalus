@@ -56,13 +56,20 @@
 
 {% block content %}
 
-    <h3 class="ph-title">{{ meta.title }}</h3>
-
-    <ul class="nav nav-tabs">
-        <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.category_list') }}">全部</a></li>
-    </ul>
-
-
+    <div class="navbar navbar-default border-n nav-stab">
+        <div class="navbar-header">
+            <div class="navbar-brand">
+                {{ meta.title }}
+            </div>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav nav-list">
+                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.category_list') }}">全部</a></li>
+                <li role="presentation" class="{{ meta.css_doc }}"><a href="{{ url_for('admin.category_list', kind=1) }}">文档</a></li>
+                <li role="presentation" class="{{ meta.css_other }}"><a href="{{ url_for('admin.category_list', kind=2) }}">备用</a></li>
+            </ul>
+        </div>
+    </div>
 
     <div class="ph-form">
         <form class="form-horizontal" method="POST" action="{{ url_for('admin.category_save') }}" id="category-form">
@@ -74,7 +81,7 @@
                 <div class="col-xs-4">
                     <select name="kind" class="form-control">
                         {% for d in meta.category_kind_options %}
-                        <option value="{{ d.id }}" {% if meta.data.kind==d.id %}selected="selected"{%endif%}>{{ d.name }}</option>
+                            <option value="{{ d.id }}" {% if meta.data.kind==d.id %}selected="selected"{%endif%}>{{ d.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -93,16 +100,28 @@
             </div>
 
             <div class="form-group">
-                <div class="col-xs-4">
+                <div class="col-xs-2">
                     <label for="name">父ID</label>
-                    <input type="text" name="pid" class="form-control" value="{{ meta.data.pid|default(0) }}" placeholder="父ID">
+                    <select name="pid" class="form-control">
+                        {% for d in meta.parent_options %}
+                            <option value="{{ d._id }}" {% if meta.data.pid==d._id %}selected="selected"{%endif%}>{{ d.name }}--{{ d.kind }}</option>
+                        {% endfor %}
+                    </select>
+
                 </div>
-                <div class="col-xs-4">
+                <div class="col-xs-2">
                     <label for="mark">子ID</label>
                     <input type="text" name="cid" class="form-control" value="{{ meta.data.cid|default(0) }}" placeholder="子ID">
                 </div>
             </div>
 
+            <div class="form-group">
+                <div class="col-xs-2">
+                    <label for="mark">排序</label>
+                    <input type="number" name="sort" class="form-control" value="{{ meta.data.sort|default(0) }}" placeholder="0~100">
+                    <div class="description">数字越大越靠前</div>
+                </div>
+            </div>
 
             <div class="form-group">
                 <div class="col-xs-8">

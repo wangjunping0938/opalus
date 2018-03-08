@@ -20,6 +20,7 @@ class DesignCompany(Base):
     ## 基本信息
     name = db.StringField(max_length=50, required=True, unique=True) # 名称
     short_name = db.StringField(max_length=20, default='') # 短名称
+    english_name = db.StringField(max_length=30, default='') # 英文名称
     url = db.StringField(max_length=200, default='') # 网址
     logo_url = db.StringField(max_length=200, default='') # LOGO地址
     scale = db.IntField(default=0)    # 公司规模
@@ -42,6 +43,69 @@ class DesignCompany(Base):
     contact_email = db.StringField(max_length=200, default='') # 联系人邮箱
     tel = db.StringField(max_length=20, default='') # 公司电话
 
+    ## 公司注册信息
+    founder = db.StringField(max_length=30, default='') # 创始人
+    founder_desc = db.StringField(max_length=1000, default='') # 创始人介绍 
+    registered_capital = db.StringField(max_length=20, default='') # 注册资金
+    registered_time = db.StringField(max_length=20, default='') # 注册时间 
+    company_count = db.StringField(max_length=30, default='') # 公司数量
+    company_type = db.StringField(max_length=20, default='') # 公司类型
+    registration_number = db.StringField(max_length=30, default='') # 工商注册号
+    credit_code = db.StringField(max_length=30, default='') # 统一信用代码
+    identification_number = db.StringField(max_length=20, default='') # 纳税人识别号
+    industry = db.StringField(max_length=30, default='') # 行业
+    business_term = db.StringField(max_length=50, default='') # 营业期限
+    issue_date = db.StringField(max_length=20, default='') # 核准日期
+    registration_authority = db.StringField(max_length=100, default='') # 登记机关
+    registered_address = db.StringField(max_length=500, default='') # 注册地址
+    scope_business = db.StringField(max_length=1000, default='') # 经营范围
+    organization_code = db.StringField(max_length=50, default='') # 组织机构代码
+
+    ## 公司背景(数量)
+    key_personnel_count = db.IntField(default=0) # 主要人员
+    shareholder_count = db.IntField(default=0) # 股东信息
+    investment_abroad_count = db.IntField(default=0) # 对外投资
+    annual_return_count = db.IntField(default=0) # 公司年报
+    chage_record_count = db.IntField(default=0) # 变更记录
+    affiliated_agency_count = db.IntField(default=0) # 分支机构
+
+    ## 公司发展(数量)
+    financing_count = db.IntField(default=0) # 融资
+    core_team_count = db.IntField(default=0) # 核心团队
+    enterprise_business_count = db.IntField(default=0) # 企业业务
+    investment_events_count = db.IntField(default=0) # 投资事件
+    competitor_count = db.IntField(default=0) # 竞品信息
+
+    ## 司法风险(数量)
+    action_at_law_count = db.IntField(default=0) # 法律诉讼
+    court_announcement_count = db.IntField(default=0) # 法院公告
+    dishonest_person_count = db.IntField(default=0) # 失信人
+    person_subject_count = db.IntField(default=0) # 被执行人
+    announcement_court_count = db.IntField(default=0) # 开庭公告
+
+    ## 经营风险(数量)
+    abnormal_operation_count = db.IntField(default=0) # 经营异常
+    administrative_penalty_count = db.IntField(default=0) # 行政处罚
+    break_law_count = db.IntField(default=0) # 严重违法
+    equity_pledged_count = db.IntField(default=0) # 股权出质
+    chattel_mortgage_count = db.IntField(default=0) # 动产抵押
+    tax_notice_count = db.IntField(default=0) # 欠税公告
+    judicial_sale_count = db.IntField(default=0) # 司法拍卖
+
+    ## 经营状况(数量)
+    bid_count = db.IntField(default=0) # 招投标
+    tax_rating_count = db.IntField(default=0) # 税务评级
+    product_count = db.IntField(default=0) # 产品信息
+    import_and_export_credit_count = db.IntField(default=0) # 进出口信用
+    certification_count = db.IntField(default=0) # 资质证书
+    wx_public_count = db.IntField(default=0) # 公号
+
+    ## 知识产权(数量)
+    trademark_count = db.IntField(default=0) # 商标
+    patent_count = db.IntField(default=0) # 专利
+    software_copyright_count = db.IntField(default=0) # 软件著作权
+    works_copyright_count = db.IntField(default=0) # 作品著作权
+    icp_count = db.IntField(default=0) # 网站备案
 
     ## 附加
     tags = db.ListField()   # 标签

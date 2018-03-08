@@ -18,8 +18,6 @@ def login():
             return jsonify(success=False, message=str(form.errors))
 
         next_url = request.args.get('next', '/')
-        #account = request.form['account']
-        #password = request.form['password']
 
         return jsonify(success=False, message='创建失败!')
 

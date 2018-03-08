@@ -15,26 +15,44 @@ def category_list():
     }
     query = {}
     page = int(request.args.get('page', 1))
-    per_page = 20
+    per_page = int(request.args.get('per_page', 100))
     status = int(request.args.get('status', 0))
+    kind = int(request.args.get('kind', 0))
     deleted = int(request.args.get('deleted', 0))
-    page_url = url_for('admin.category_list', page="#p#", status=status)
-    if status == -1:
-        meta['css_disable'] = 'active'
-        query['status'] = 0
-    elif status == 1:
-        query['status'] = 1
-        meta['css_verify'] = 'active'
-    elif status == 5:
-        query['status'] = 5
-        meta['css_success'] = 'active'
+    if kind:
+        query['kind'] = kind
+        if kind == 1:
+            meta['css_doc'] = 'active'
+        elif kind == 2:
+            meta['css_other'] = 'active'
+        else:
+            meta['css_all'] = 'active'
     else:
         meta['css_all'] = 'active'
 
+    if status == -1:
+        query['status'] = 0
+    elif status == 1:
+        query['status'] = 1
+    else:
+        pass
+
     query['deleted'] = deleted
 
+    page_url = url_for('admin.category_list', page="#p#", status=status, kind=kind, per_page=per_page)
     data = Category.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
     total_count = Category.objects(**query).count()
+
+    # 过滤数据
+    for i, d in enumerate(data.items):
+        kind_label = '--'
+        if d.kind == 1:
+            kind_label = '文档'
+        if d.kind == 2:
+            kind_label = '备用'
+            
+        data.items[i].kind_label = kind_label
+
     meta['data'] = data.items
 
     pager = Pager(page, per_page, total_count, page_url)
@@ -59,8 +77,10 @@ def category_submit():
     form = SaveForm()
 
     meta['category_kind_options'] = Category.category_kind_options()
+    meta['parent_options'] = Category.fetch_parent_options()
 
-    #current_app.logger.debug(id)
+    current_app.logger.debug('aaa')
+    current_app.logger.debug(type(Category.fetch_parent_options()))
     
     return render_template('admin/category/submit.html', meta=meta, form=form)
 

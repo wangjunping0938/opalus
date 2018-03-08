@@ -39,12 +39,18 @@ class SigninForm(FlaskForm):
     def validate_password(self, field):
         account = self.account.data
         user = User.objects(account=account).first()
-
         if not user:
             raise ValueError('账号不存在!')
         if user.check_password(self.password.data, account):
-            self.user = user
-            return user
+            if user.status == 1:
+                raise ValueError('账号未通过审核!')
+            if user.status == 0:
+                raise ValueError('账号已禁用!')
+
+            # 通过
+            if user.status == 5:
+                self.user = user
+                return user
         raise ValueError('账号或密码不正确!')
 
 

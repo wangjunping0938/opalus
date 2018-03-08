@@ -22,7 +22,7 @@ class User(Base):
     password = db.StringField(max_value=20)
     type = db.IntField(default=1)
     role_id = db.IntField(default=1)
-    status = db.IntField(default=1)
+    status = db.IntField(default=1) # 状态：0.禁用；1.待审核；5.激活；
     deleted = db.IntField(default=0) # 软删除
     token = db.StringField(max_value=20, required=True, unique=True)
     profile = db.DictField() # 记录个人信息{realname, sex, address, position}

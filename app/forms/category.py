@@ -18,6 +18,7 @@ class SaveForm(FlaskForm):
     user_id = IntegerField()
     pid = IntegerField()
     cid = IntegerField()
+    sort = IntegerField()
 
     def update(self):
         id = self.data['id']

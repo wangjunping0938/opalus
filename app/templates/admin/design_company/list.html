@@ -73,6 +73,7 @@
 
     <div class="fr">
         <form class="navbar-form navbar-left options-bar" role="search" action="{{ url_for('admin.design_company_list') }}" method="GET" id="search-form">
+          <input type="hidden" name="status" value="{{ request.args.get('status', '') }}" />
           <div class="form-group">
             <input class="form-control input-sm" type="text" name="q" value="{{ request.args.get('q', '') }}" class="form-control" placeholder="关键字...">
           </div>
