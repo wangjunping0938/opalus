@@ -50,7 +50,7 @@ class SaveForm(FlaskForm):
     issue_date = StringField('核准日期', validators=[Length(max=20, message="长度小于20个字符")])
     registration_authority = StringField('登记机关', validators=[Length(max=50, message="长度小于50个字符")])
     registered_address = StringField('注册地址', validators=[Length(max=500, message="长度小于500个字符")])
-    scope_business = StringField('经营范围', validators=[Length(max=50, message="长度小于50个字符")])
+    scope_business = StringField('经营范围', validators=[Length(max=2000, message="长度小于2000个字符")])
     organization_code = StringField('组织机构代码', validators=[Length(max=30, message="长度小于30个字符")])
 
     ## 公司背景(数量)

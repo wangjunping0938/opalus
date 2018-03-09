@@ -179,6 +179,13 @@
 
                 <div class="form-group">
                     <div class="col-xs-10">
+                        <label for="scope_business">经营范围</label>
+                        <textarea class="form-control" name="scope_business" rows="3">{{ meta.data.scope_business|default('') }}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-10">
                         <label for="description">简述</label>
                         <textarea class="form-control" name="description" rows="3">{{ meta.data.description|default('') }}</textarea>
                     </div>

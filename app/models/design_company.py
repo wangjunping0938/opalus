@@ -58,7 +58,7 @@ class DesignCompany(Base):
     issue_date = db.StringField(max_length=20, default='') # 核准日期
     registration_authority = db.StringField(max_length=100, default='') # 登记机关
     registered_address = db.StringField(max_length=500, default='') # 注册地址
-    scope_business = db.StringField(max_length=1000, default='') # 经营范围
+    scope_business = db.StringField(max_length=2000, default='') # 经营范围
     organization_code = db.StringField(max_length=50, default='') # 组织机构代码
 
     ## 公司背景(数量)
@@ -110,11 +110,11 @@ class DesignCompany(Base):
     ## 附加
     tags = db.ListField()   # 标签
     branch = db.StringField(max_length=20, default='') # 分公司数量
-    wx_public_no = db.StringField(max_length=20, default='') # 公众号ID
-    wx_public = db.StringField(max_length=30, default='') # 公众号名称
-    wx_public_qr = db.StringField(max_length=500, default='') # 公众号二维码
+    wx_public_no = db.StringField(max_length=200, default='') # 公众号ID
+    wx_public = db.StringField(max_length=500, default='') # 公众号名称
+    wx_public_qr = db.StringField(max_length=1000, default='') # 公众号二维码
 
-    remark = db.StringField(max_length=200, default='')   # 备注
+    remark = db.StringField(max_length=1000, default='')   # 备注
 
     perfect_degree = db.IntField(default=0) # 信息完整度
     craw_count = db.IntField(default=0) # 抓取频次
