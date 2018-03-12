@@ -3,6 +3,7 @@ from . import api
 import datetime
 from app.models.design_company import DesignCompany
 from app.helpers.pager import Pager
+from app.forms.design_company import SaveForm
 
 ## 列表
 @api.route('/design_company/list')
@@ -77,6 +78,10 @@ def design_company_view():
 ## 保存/更新公司信息
 @api.route('/design_company/update', methods=['POST'])
 def design_company_update():
+    form = SaveForm(request.values)
+    if not form.validate_on_submit():
+        return jsonify(code=3004, message=str(form.errors))
+
     number = request.values.get('number', None)
     data = request.values.to_dict()
 

@@ -12,7 +12,7 @@ from ..models.design_company import DesignCompany
 class SaveForm(FlaskForm):
     id = StringField()
     ## 基本信息
-    name = StringField('名称', validators=[DataRequired(message="名称不能为空"), Length(min=4, max=50, message="长度大于4小于50个字符")])
+    name = StringField('名称', validators=[Length(max=50, message="长度小于50个字符")])
     short_name = StringField('短名称', validators=[Length(max=20, message="长度小于20个字符")])
     url = StringField('网址', validators=[Length(max=200, message="长度小于200个字符")])
     logo_url = StringField('logo', validators=[Length(max=200, message="长度小于200个字符")])
