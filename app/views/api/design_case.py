@@ -4,6 +4,7 @@ import datetime
 from app.models.design_case import DesignCase
 from app.helpers.pager import Pager
 from bson import ObjectId
+from app.forms.design_case import SaveForm
 
 ## 列表
 @api.route('/design_case/list')
@@ -66,7 +67,12 @@ def design_case_view():
 ## 保存/更新
 @api.route('/design_case/submit', methods=['POST'])
 def design_case_submit():
+    form = SaveForm(request.values)
+    if not form.validate_on_submit():
+        return jsonify(code=3004, message=str(form.errors))
+
     id = request.values.get('id', '')
+    title = request.values.get('title', '')
     data = request.values.to_dict()
 
     for key in request.values:
@@ -74,22 +80,31 @@ def design_case_submit():
         if not request.values.get(key):
             data.pop(key)
 
+    if not data:
+        return jsonify(code=3003, message='至少传入一个参数!')
+
     try:
         if id:
-            item = DesignCase.objects(_id=ObjectId(id)).first()
-            if not item:
-                return jsonify(code=3002, message='内容不存在!')
+            if id:
+                item = DesignCase.objects(_id=ObjectId(id)).first()
+                if not item:
+                    return jsonify(code=3002, message='内容不存在!')
+                if 'id' in data:
+                    data.pop('id')
 
-            if 'id' in data:
-                data.pop('id')
+            if item:
+                item.update(**data)
 
-            if not data:
-                return jsonify(code=3003, message='至少传入一个参数!')
+        elif title:
+            item = DesignCase.objects(title=title, deleted=0).first()
+            if item:
+                item.update(**data)
+            else:
+                item = DesignCase(**data)
+                item.save()
 
-            item.update(**data)
         else:
-            item = DesignCase(**data)
-            item.save()
+            return jsonify(code=3003, message='至少传入一个参数!')
 
         if item:
             return jsonify(code=0, message='success!', data=data)

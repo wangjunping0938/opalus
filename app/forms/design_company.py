@@ -103,9 +103,9 @@ class SaveForm(FlaskForm):
 
     ## 附加
     tags = StringField('标签', validators=[Length(max=100, message="长度小于100个字符")])   # 标签
-    branch = StringField('分公司数', validators=[Length(max=20, message="长度小于20个字符")]) # 分公司数量
-    wx_public_no = StringField('公众号ID', validators=[Length(max=20, message="长度小于20个字符")]) # 公众号ID
-    wx_public = StringField('公众号名称', validators=[Length(max=30, message="长度小于30个字符")]) # 公众号名称
+    branch = StringField('分公司数', validators=[Length(max=30, message="长度小于30个字符")]) # 分公司数量
+    wx_public_no = StringField('公众号ID', validators=[Length(max=200, message="长度小于200个字符")]) # 公众号ID
+    wx_public = StringField('公众号名称', validators=[Length(max=300, message="长度小于300个字符")]) # 公众号名称
     wx_public_qr = StringField('公众号二维码', validators=[Length(max=500, message="长度小于500个字符")]) # 公众号二维码
     remark = StringField('备注', validators=[Length(max=200, message="长度小于200个字符")])   # 备注
     perfect_degree = IntegerField() # 信息完整度

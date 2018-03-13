@@ -14,7 +14,7 @@ class DesignCase(Base):
     }
 
     _id = db.StringField()
-    title = db.StringField(min_value=4, max_value=50, required=True)
+    title = db.StringField(max_value=50, required=True)
     description = db.StringField(max_value=1000, default='')
     content = db.StringField(max_value=50000, default='')
     cover_id = db.StringField(max_value=20, default='')
@@ -22,7 +22,10 @@ class DesignCase(Base):
     images = db.StringField(max_value=1000, default='')
     prize_label = db.StringField(max_value=30, default='')
     type = db.IntField(default=1) # 类型: 1.公司奖项案例
-    target_id = db.StringField(max_value=20, default='')
+    target_id = db.StringField(max_value=20, default='') # 所属公司编号
+    company_name = db.StringField(max_value=50, default='') # 公司名称
+    award_time = db.StringField(max_value=20, default='') # 获奖时间
+    is_listed = db.StringField(max_value=20, default='') # 是否上市
     user_id = db.IntField(default=0)    # 用户ID
 
     tags = db.ListField()   # 标签
