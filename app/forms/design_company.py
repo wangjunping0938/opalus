@@ -22,6 +22,7 @@ class SaveForm(FlaskForm):
     nature_label = StringField('公司性质', validators=[Length(max=20, message="长度小于20个字符")])
     advantage = StringField('公司亮点', validators=[Length(max=10000, message="长度小于10000个字符")])
     description = StringField('公司描述', validators=[Length(max=50000, message="长度小于50000个字符")])
+    english_name = StringField('英文名称', validators=[Length(max=100, message="长度小于100个字符")])
 
     ## 联系信息
     province_id = IntegerField()
@@ -32,26 +33,26 @@ class SaveForm(FlaskForm):
     zip_code = StringField('邮编', validators=[Length(max=10, message="长度小于10个字符")])
     contact_name = StringField('联系人姓名', validators=[Length(max=30, message="长度小于30个字符")])
     contact_phone = StringField('联系人电话', validators=[Length(max=20, message="长度小于20个字符")])
-    contact_email = StringField('邮箱', validators=[Length(max=50, message="长度小于50个字符")])
+    contact_email = StringField('邮箱', validators=[Length(max=200, message="长度小于200个字符")])
     tel = StringField('公司电话', validators=[Length(max=20, message="长度小于20个字符")])
 
     ## 公司注册信息
     founder = StringField('创始人', validators=[Length(max=30, message="长度小于30个字符")])
-    founder_desc = StringField('创始人介绍', validators=[Length(max=500, message="长度小于500个字符")])
-    registered_capital = StringField('注册资金', validators=[Length(max=30, message="长度小于30个字符")])
+    founder_desc = StringField('创始人介绍', validators=[Length(max=1000, message="长度小于1000个字符")])
+    registered_capital = StringField('注册资金', validators=[Length(max=50, message="长度小于50个字符")])
     registered_time = StringField('注册时间', validators=[Length(max=30, message="长度小于30个字符")])
-    company_count = StringField('公司数量', validators=[Length(max=20, message="长度小于20个字符")])
+    company_count = StringField('公司数量', validators=[Length(max=30, message="长度小于20个字符")])
     company_type = StringField('公司类型', validators=[Length(max=30, message="长度小于30个字符")])
     registration_number = StringField('纳税人识别号', validators=[Length(max=50, message="长度小于50个字符")])
-    credit_code = StringField('统一信用代码', validators=[Length(max=30, message="长度小于30个字符")])
+    credit_code = StringField('统一信用代码', validators=[Length(max=50, message="长度小于50个字符")])
     identification_number = StringField('纳税人识别号', validators=[Length(max=30, message="长度小于30个字符")])
     industry = StringField('行业', validators=[Length(max=30, message="长度小于30个字符")])
-    business_term = StringField('营业期限', validators=[Length(max=30, message="长度小于30个字符")])
+    business_term = StringField('营业期限', validators=[Length(max=50, message="长度小于30个字符")])
     issue_date = StringField('核准日期', validators=[Length(max=20, message="长度小于20个字符")])
-    registration_authority = StringField('登记机关', validators=[Length(max=50, message="长度小于50个字符")])
+    registration_authority = StringField('登记机关', validators=[Length(max=100, message="长度小于100个字符")])
     registered_address = StringField('注册地址', validators=[Length(max=500, message="长度小于500个字符")])
     scope_business = StringField('经营范围', validators=[Length(max=2000, message="长度小于2000个字符")])
-    organization_code = StringField('组织机构代码', validators=[Length(max=30, message="长度小于30个字符")])
+    organization_code = StringField('组织机构代码', validators=[Length(max=50, message="长度小于50个字符")])
 
     ## 公司背景(数量)
     key_personnel_count = IntegerField() # 主要人员
@@ -105,9 +106,9 @@ class SaveForm(FlaskForm):
     tags = StringField('标签', validators=[Length(max=100, message="长度小于100个字符")])   # 标签
     branch = StringField('分公司数', validators=[Length(max=30, message="长度小于30个字符")]) # 分公司数量
     wx_public_no = StringField('公众号ID', validators=[Length(max=200, message="长度小于200个字符")]) # 公众号ID
-    wx_public = StringField('公众号名称', validators=[Length(max=300, message="长度小于300个字符")]) # 公众号名称
-    wx_public_qr = StringField('公众号二维码', validators=[Length(max=500, message="长度小于500个字符")]) # 公众号二维码
-    remark = StringField('备注', validators=[Length(max=200, message="长度小于200个字符")])   # 备注
+    wx_public = StringField('公众号名称', validators=[Length(max=500, message="长度小于500个字符")]) # 公众号名称
+    wx_public_qr = StringField('公众号二维码', validators=[Length(max=1000, message="长度小于1000个字符")]) # 公众号二维码
+    remark = StringField('备注', validators=[Length(max=1000, message="长度小于1000个字符")])   # 备注
     perfect_degree = IntegerField() # 信息完整度
     craw_count = IntegerField() # 抓取频次
     kind = IntegerField()    # 类型: 预设

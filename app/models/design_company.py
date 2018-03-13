@@ -20,7 +20,7 @@ class DesignCompany(Base):
     ## 基本信息
     name = db.StringField(max_length=50, required=True, unique=True) # 名称
     short_name = db.StringField(max_length=20, default='') # 短名称
-    english_name = db.StringField(max_length=30, default='') # 英文名称
+    english_name = db.StringField(max_length=100, default='') # 英文名称
     url = db.StringField(max_length=200, default='') # 网址
     logo_url = db.StringField(max_length=200, default='') # LOGO地址
     scale = db.IntField(default=0)    # 公司规模
@@ -33,12 +33,12 @@ class DesignCompany(Base):
 
     ## 联系信息
     province_id = db.IntField(default=0)    # 省
-    province = db.StringField(max_length=20, default='') # 省_label
+    province = db.StringField(max_length=30, default='') # 省_label
     city_id = db.IntField(default=0)    # 市
-    city = db.StringField(max_length=20, default='') # 市_label
+    city = db.StringField(max_length=30, default='') # 市_label
     address = db.StringField(max_length=500, default='') # 详细地址
     zip_code = db.StringField(max_length=10, default='') # 邮编
-    contact_name = db.StringField(max_length=20, default='') # 联系人姓名
+    contact_name = db.StringField(max_length=30, default='') # 联系人姓名
     contact_phone = db.StringField(max_length=20, default='') # 联系人电话
     contact_email = db.StringField(max_length=200, default='') # 联系人邮箱
     tel = db.StringField(max_length=20, default='') # 公司电话
@@ -46,13 +46,13 @@ class DesignCompany(Base):
     ## 公司注册信息
     founder = db.StringField(max_length=30, default='') # 创始人
     founder_desc = db.StringField(max_length=1000, default='') # 创始人介绍 
-    registered_capital = db.StringField(max_length=20, default='') # 注册资金
-    registered_time = db.StringField(max_length=20, default='') # 注册时间 
+    registered_capital = db.StringField(max_length=50, default='') # 注册资金
+    registered_time = db.StringField(max_length=30, default='') # 注册时间 
     company_count = db.StringField(max_length=30, default='') # 公司数量
-    company_type = db.StringField(max_length=20, default='') # 公司类型
-    registration_number = db.StringField(max_length=30, default='') # 工商注册号
+    company_type = db.StringField(max_length=30, default='') # 公司类型
+    registration_number = db.StringField(max_length=50, default='') # 工商注册号
     credit_code = db.StringField(max_length=30, default='') # 统一信用代码
-    identification_number = db.StringField(max_length=20, default='') # 纳税人识别号
+    identification_number = db.StringField(max_length=30, default='') # 纳税人识别号
     industry = db.StringField(max_length=30, default='') # 行业
     business_term = db.StringField(max_length=50, default='') # 营业期限
     issue_date = db.StringField(max_length=20, default='') # 核准日期
@@ -109,7 +109,7 @@ class DesignCompany(Base):
 
     ## 附加
     tags = db.ListField()   # 标签
-    branch = db.StringField(max_length=20, default='') # 分公司数量
+    branch = db.StringField(max_length=30, default='') # 分公司数量
     wx_public_no = db.StringField(max_length=200, default='') # 公众号ID
     wx_public = db.StringField(max_length=500, default='') # 公众号名称
     wx_public_qr = db.StringField(max_length=1000, default='') # 公众号二维码
