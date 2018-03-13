@@ -23,6 +23,7 @@ class DesignCase(Base):
     prize_label = db.StringField(max_value=30, default='')
     type = db.IntField(default=1) # 类型: 1.公司奖项案例
     target_id = db.StringField(max_value=20, default='') # 所属公司编号
+    designer_name = db.StringField(max_value=30, default='') # 设计师姓名
     company_name = db.StringField(max_value=100, default='') # 公司名称
     award_time = db.StringField(max_value=20, default='') # 获奖时间
     is_listed = db.StringField(max_value=20, default='') # 是否上市
