@@ -10,7 +10,7 @@ from ..models.design_case import DesignCase
 
 class SaveForm(FlaskForm):
     id = StringField()
-    title = StringField('标题', validators=[DataRequired(message="名称不能为空"), Length(min=4, max=50, message="长度大于4小于50个字符")])
+    title = StringField('标题', validators=[DataRequired(message="名称不能为空"), Length(max=50, message="长度小于50个字符")])
     description = StringField('简述', validators=[Length(max=500, message="长度小于500个字符")])
     content = StringField('内容', validators=[Length(max=50000, message="长度小于50000个字符")])
 
@@ -22,8 +22,8 @@ class SaveForm(FlaskForm):
     user_id = IntegerField()
     tags = StringField('标签', validators=[Length(max=500, message="长度小于100个字符")])   # 标签
     company_name = StringField('公司名称', validators=[Length(max=100, message="长度小于100个字符")])
-    award_time = StringField('获奖时间', validators=[Length(max=30, message="长度小于30个字符")])
-    is_listed = StringField('是否上市', validators=[Length(max=30, message="长度小于30个字符")])
+    award_time = StringField('获奖时间', validators=[Length(max=20, message="长度小于20个字符")])
+    is_listed = StringField('是否上市', validators=[Length(max=20, message="长度小于20个字符")])
 
     def update(self):
         id = self.data['id']
