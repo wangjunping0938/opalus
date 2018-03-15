@@ -1,5 +1,4 @@
 import os
-from apscheduler.jobstores.mongodb import MongoDBJobStore
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
