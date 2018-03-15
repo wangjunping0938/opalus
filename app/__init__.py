@@ -5,11 +5,14 @@ import os
 from flask_mongoengine import MongoEngine, MongoEngineSessionInterface
 from flask_wtf.csrf import CSRFProtect
 from jinja2 import filters
+# 定时任务
+from celery import Celery
 # 加载装饰器
 from .helpers.filters import format_datatime
 
 db = MongoEngine()
 csrf = CSRFProtect()
+celery = Celery()
 
 def create_app(config_name):
     app = Flask(__name__,
@@ -23,6 +26,10 @@ def create_app(config_name):
     db.init_app(app)
     csrf.init_app(app)
     #app.session_interface = MongoEngineSessionInterface(db)
+
+    scheduler.start()
+
+    celery.init_app(app)
 
     from .views import main
     app.register_blueprint(main, url_prefix='')

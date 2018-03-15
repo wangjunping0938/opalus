@@ -1,4 +1,5 @@
 import os
+from apscheduler.jobstores.mongodb import MongoDBJobStore
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
@@ -9,6 +10,10 @@ class Config:
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     CONFDIR = os.path.join(PROJECT_DIR, 'etc')
+
+    CELERY_IMPORTS = ('tasks.add_together', )
+    CELERY_BROKER_URL = 'redis://localhost:6379/0'
+    CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
     @staticmethod
     def init_app(app): 
