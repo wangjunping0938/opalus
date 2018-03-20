@@ -1,8 +1,9 @@
 # coding: utf-8
-from . import create_app
+from app.extensions import celery
 
-def job1(a):
-  app = create_app("development")
-  app_ctx = app.app_context()
-  app_ctx.push()
-  print('aaaaaa')
+# test
+@celery.task()
+def job(a, b):
+    with open('/Users/tian/test.txt', 'a+') as f:
+        f.write("Hello, world!\n")
+    return a + b

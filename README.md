@@ -2,20 +2,25 @@
 
 ### 环境要求
 - Python 3.6+
-- MongoDB 3.0.6
+- MongoDB 3.0.6+
+- Redis 4.0+
 
 
 ### 环境布署
-- 进入当前项目目录
-- 创建虚拟环境(只在第一次布署时创建)：/opt/python3/bin/virtualenv env
-- 切换到虚拟环境：source env/bin/activate
-
-- 通过/opt/python3/bin/pip3 install -r requirements.txt在该环境下进行安装。
+- 进入当前项目目录  
+- 创建虚拟环境(只在第一次布署时创建)：/opt/python3/bin/virtualenv env  
+- 切换到虚拟环境：source env/bin/activate  
+- 通过```/opt/python3/bin/pip3 install -r requirements.txt``` 在该环境下进行安装。  
 
 ### 启动程序uwsgi:
-- source env/bin/activate   #切换当前虚拟环境
-- uwsgi --ini ./uwsgi.ini --vhost   #启动uwsgi服务器
-- ***快捷启动脚本: sh deploy.sh start|stop|restart
+- ```source env/bin/activate   #切换当前虚拟环境```  
+- ```uwsgi --ini ./uwsgi.ini --vhost   #启动uwsgi服务器```  
+- ```sh deploy.sh start|stop|restart #快捷启动脚本```  
 
-- 关闭虚拟环境：deactivate
+### 启动任务队列
+```
+celery worker -A celery_runner --loglevel=info
+```
+
+- 关闭虚拟环境：```deactivate``` 
 

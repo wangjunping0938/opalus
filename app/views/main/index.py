@@ -1,5 +1,7 @@
 from flask import render_template
 from . import main 
+from app import redis_store
+from app.jobs.base import job
 
 @main.route('/')
 def index():
@@ -12,4 +14,12 @@ def about():
 @main.route('/contact')
 def contact():
     return render_template('home/contact.html')
+
+@main.route('/test')
+def test():
+    a = 'abc'
+    redis_store.set('aa', a)
+    b = redis_store.get('aa')
+    job.delay(1, 2)
+    return b
 

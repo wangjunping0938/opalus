@@ -20,11 +20,13 @@ class DesignCase(Base):
     cover_id = db.StringField(max_value=20, default='')
     cover_url = db.StringField(max_value=100, default='')
     images = db.StringField(max_value=1000, default='')
-    prize_label = db.StringField(max_value=30, default='')
+    prize_label = db.StringField(max_value=30, default='')  # 奖项名称
+    prize_level = db.StringField(max_value=30, default='')  # 奖项级别
     type = db.IntField(default=1) # 类型: 1.公司奖项案例
     target_id = db.StringField(max_value=20, default='') # 所属公司编号
     designer_name = db.StringField(max_value=30, default='') # 设计师姓名
     company_name = db.StringField(max_value=100, default='') # 公司名称
+    en_company_name = db.StringField(max_value=200, default='') # 公司英文名称
     award_time = db.StringField(max_value=20, default='') # 获奖时间
     is_listed = db.StringField(max_value=20, default='') # 是否上市
     user_id = db.IntField(default=0)    # 用户ID

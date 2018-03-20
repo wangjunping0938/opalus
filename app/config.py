@@ -10,7 +10,7 @@ class Config:
     PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     CONFDIR = os.path.join(PROJECT_DIR, 'etc')
 
-    CELERY_IMPORTS = ('tasks.add_together', )
+    CELERY_IMPORTS = ('app.jobs.base.job', )
     CELERY_BROKER_URL = 'redis://localhost:6379/0'
     CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
@@ -35,6 +35,9 @@ class DevelopmentConfig(Config):
         'password':''
     }
 
+    #Redis 配置
+    REDIS_URL = "redis://@localhost:6379/0"
+
     WTF_CSRF_ENABLED = False
     SECRET_KEY = 'opalus'
     WTF_CSRF_SECRET_KEY = 'opalus'
@@ -54,6 +57,9 @@ class TestingConfig(Config):
         'password':''
     }
 
+    #Redis 配置
+    REDIS_URL = "redis://@localhost:6379/0"
+
     WTF_CSRF_ENABLED = False
     SECRET_KEY = 'opalus'
     WTF_CSRF_SECRET_KEY = 'opalus'
@@ -70,6 +76,9 @@ class ProductionConfig(Config):
         'username':'root',
         'password':''
     }
+
+    #Redis 配置
+    REDIS_URL = "redis://@localhost:6379/0"
 
     WTF_CSRF_ENABLED = False
     SECRET_KEY = 'opalus'
