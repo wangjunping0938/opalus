@@ -8,19 +8,22 @@
 
 ### 环境布署
 - 进入当前项目目录  
-- 创建虚拟环境(只在第一次布署时创建)：/opt/python3/bin/virtualenv env  
-- 切换到虚拟环境：source env/bin/activate  
-- 通过```/opt/python3/bin/pip3 install -r requirements.txt``` 在该环境下进行安装。  
+- 创建虚拟环境(只在第一次布署时创建)：```/opt/python3/bin/virtualenv env```  
+- 切换到虚拟环境：```source env/bin/activate```  
+- 安装依赖: ```/opt/python3/bin/pip3 install -r requirements.txt```   
 
 ### 启动程序uwsgi:
-- ```source env/bin/activate   #切换当前虚拟环境```  
-- ```uwsgi --ini ./uwsgi.ini --vhost   #启动uwsgi服务器```  
-- ```sh deploy.sh start|stop|restart #快捷启动脚本```  
+- 切换当前虚拟环境: ```source env/bin/activate```  
+- 启动uwsgi服务器: ```uwsgi --ini ./uwsgi.ini --vhost```  
+- 快捷启动脚本: ```sh deploy.sh start|stop|restart```  
 
 ### 启动任务队列
 ```
 celery worker -A celery_runner --loglevel=info
 ```
 
-- 关闭虚拟环境：```deactivate``` 
+### 退出当前虚拟环境
+```
+deactivate
+``` 
 
