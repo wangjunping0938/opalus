@@ -6,7 +6,7 @@ from flask_mongoengine import MongoEngine, MongoEngineSessionInterface
 from flask_wtf.csrf import CSRFProtect
 from jinja2 import filters
 # redis
-from flask.ext.redis import FlaskRedis
+from flask_redis import FlaskRedis
 # 定时任务
 from .extensions import celery
 # 加载装饰器
