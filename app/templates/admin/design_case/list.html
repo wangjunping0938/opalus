@@ -86,7 +86,6 @@
         <th>创建用户</th>
         <th>奖项信息</th>
         <th>公司信息</th>
-        <th>关联ID</th>
         <th>状态</th>
         <th>创建</th>
         <th>操作</th>
@@ -122,8 +121,8 @@
                   <p>名称: {{ d.company_name }}</p>
                   <p>英文名称: {{ d.en_company_name }}</p>
                   <p>是否上市: {{ d.is_listed }}</p>
+                  <p>公司编号: {{ d.target_id }}</p>
                 </td>
-                <td>{{ d.target_id }}</td>
                 <td>
                     <p class="status-label">
                         {% if d.status==0 %}

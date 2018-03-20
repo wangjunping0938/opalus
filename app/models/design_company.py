@@ -122,6 +122,8 @@ class DesignCompany(Base):
     type = db.IntField(default=0)    # 类型: 预设
     craw_user_id = db.IntField(default=0)    # 抓取人ID：1.军平；2.小董; 3.--;
 
+    cida_credit_rating = db.IntField(default=0) # 工业设计协会认证等级: 0.NULL; 1.A; 2.AA; 3.AAA;
+
 
     last_on = db.DateTimeField()    # 最后一次抓取时间
 

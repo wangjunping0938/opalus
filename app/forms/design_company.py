@@ -108,6 +108,7 @@ class SaveForm(FlaskForm):
     wx_public_no = StringField('公众号ID', validators=[Length(max=200, message="长度小于200个字符")]) # 公众号ID
     wx_public = StringField('公众号名称', validators=[Length(max=500, message="长度小于500个字符")]) # 公众号名称
     wx_public_qr = StringField('公众号二维码', validators=[Length(max=1000, message="长度小于1000个字符")]) # 公众号二维码
+    cida_credit_rating = IntegerField() # 工业设计协会认证等级: 0.NULL; 1.A; 2.AA; 3.AAA;
     remark = StringField('备注', validators=[Length(max=1000, message="长度小于1000个字符")])   # 备注
     perfect_degree = IntegerField() # 信息完整度
     craw_count = IntegerField() # 抓取频次

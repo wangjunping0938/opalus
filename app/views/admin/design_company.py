@@ -4,6 +4,7 @@ from flask import render_template, request, current_app, url_for, jsonify, g, fl
 from . import admin
 from app.models.design_company import DesignCompany
 from app.helpers.pager import Pager
+from app.helpers.common import force_int
 from app.helpers.constant import company_scale_options, company_nature_options
 from app.forms.design_company import SaveForm, setStatus
 from bson import ObjectId
@@ -17,17 +18,17 @@ def design_company_list():
         'css_nav_design': 'active'
     }
     query = {}
-    page = int(request.args.get('page', 1))
-    per_page = int(request.args.get('per_page', 100))
-    status = int(request.args.get('status', 0))
-    deleted = int(request.args.get('deleted', 0))
+    page = force_int(request.args.get('page', 1))
+    per_page = force_int(request.args.get('per_page', 100))
+    status = force_int(request.args.get('status', 0))
+    deleted = force_int(request.args.get('deleted', 0))
 
-    t = int(request.args.get('t', 1))
+    t = force_int(request.args.get('t', 1), 1)
     q = request.args.get('q', '')
 
     if q:
         if t==1:
-            query['number'] = q.strip()
+            query['number'] = force_int(q.strip())
         if t==2:
             query['name'] = {"$regex": q.strip()}
 

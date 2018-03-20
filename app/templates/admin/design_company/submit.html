@@ -171,6 +171,13 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <div class="col-xs-8">
+                        <label for="cida_credit_rating">工会认证等级</label>
+                        <input type="text" name="cida_credit_rating" class="form-control" value="{{ meta.data.cida_credit_rating }}" placeholder="">
+                        <div>工业设计协会认证等级: 0.无；1.A级；2.AA级；3.AAA级；请添数字</div>
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="col-xs-10">
                         <label for="advantage">亮点、优势</label>
                         <textarea class="form-control" name="advantage" rows="3">{{ meta.data.advantage|default('') }}</textarea>
