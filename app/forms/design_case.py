@@ -13,6 +13,7 @@ class SaveForm(FlaskForm):
     title = StringField('标题', validators=[DataRequired(message="名称不能为空"), Length(max=100, message="长度小于100个字符")])
     description = StringField('简述', validators=[Length(max=1000, message="长度小于1000个字符")])
     content = StringField('内容', validators=[Length(max=50000, message="长度小于50000个字符")])
+    category = StringField('分类', validators=[Length(max=50, message="长度小于50个字符")])
 
     cover_url = StringField('封面', validators=[Length(max=200, message="长度小于200个字符")])
     images = StringField('图集', validators=[Length(max=1000, message="长度小于1000个字符")])
