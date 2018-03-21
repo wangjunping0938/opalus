@@ -14,7 +14,7 @@ class DesignCase(Base):
     }
 
     _id = db.StringField()
-    title = db.StringField(max_value=50, required=True)
+    title = db.StringField(max_value=100, required=True)
     description = db.StringField(max_value=1000, default='')
     content = db.StringField(max_value=50000, default='')
     cover_id = db.StringField(max_value=20, default='')

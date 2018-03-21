@@ -10,7 +10,7 @@ from ..models.design_case import DesignCase
 
 class SaveForm(FlaskForm):
     id = StringField()
-    title = StringField('标题', validators=[DataRequired(message="名称不能为空"), Length(max=50, message="长度小于50个字符")])
+    title = StringField('标题', validators=[DataRequired(message="名称不能为空"), Length(max=100, message="长度小于100个字符")])
     description = StringField('简述', validators=[Length(max=1000, message="长度小于1000个字符")])
     content = StringField('内容', validators=[Length(max=50000, message="长度小于50000个字符")])
 
