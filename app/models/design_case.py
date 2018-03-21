@@ -16,8 +16,8 @@ class DesignCase(Base):
     _id = db.StringField()
     title = db.StringField(max_value=100, required=True)
     description = db.StringField(max_value=1000, default='')
-    content = db.stringfield(max_value=50000, default='')
-    category = db.stringfield(max_value=50, default='') # 分类
+    content = db.StringField(max_value=50000, default='')
+    category = db.StringField(max_value=50, default='') # 分类
     cover_id = db.StringField(max_value=20, default='')
     cover_url = db.StringField(max_value=100, default='')
     images = db.StringField(max_value=1000, default='')
