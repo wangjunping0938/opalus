@@ -23,6 +23,9 @@ class SaveForm(FlaskForm):
     advantage = StringField('公司亮点', validators=[Length(max=10000, message="长度小于10000个字符")])
     description = StringField('公司描述', validators=[Length(max=50000, message="长度小于50000个字符")])
     english_name = StringField('英文名称', validators=[Length(max=100, message="长度小于100个字符")])
+    is_high_tech = IntegerField() # 是否是高新企业: 0.否；1.是；
+    ty_score = IntegerField() # 天眼查评分
+    ty_view_count = IntegerField() # 天眼查浏览量
 
     ## 联系信息
     province_id = IntegerField()

@@ -178,6 +178,21 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <div class="col-xs-4">
+                        <label for="is_high_tech">是否是高新企业</label>
+                        <div class="">
+                            <label class="checkbox-inline">
+                                <input type="radio" {% if meta.data.is_high_tech==0 %}checked="checked"{%endif%} name="is_high_tech" value="0">
+                                否
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="radio" {% if meta.data.is_high_tech==1 %}checked="checked"{%endif%} name="is_high_tech" value="1">
+                                是
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="col-xs-10">
                         <label for="advantage">亮点、优势</label>
                         <textarea class="form-control" name="advantage" rows="3">{{ meta.data.advantage|default('') }}</textarea>
@@ -560,6 +575,31 @@
                     <div class="col-xs-2">
                         <label for="icp_count">网站备案</label>
                         <input type="text" name="icp_count" class="form-control" value="{{ meta.data.icp_count }}" placeholder="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse"
+                   href="#ty-site-info">
+                    天眼查分析
+                </a>
+            </h4>
+        </div>
+        <div id="ty-site-info" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="ty_score">评分</label>
+                        <input type="text" name="ty_score" class="form-control" value="{{ meta.data.ty_score }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="ty_view_count">浏览量</label>
+                        <input type="text" name="ty_view_count" class="form-control" value="{{ meta.data.ty_view_count }}" placeholder="">
                     </div>
                 </div>
             </div>

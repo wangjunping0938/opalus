@@ -29,6 +29,9 @@ class DesignCompany(Base):
     nature_label = db.StringField(max_length=20, default='') # 公司性质_label
     advantage = db.StringField(max_length=10000, default='') # 公司亮点、专业优势
     description = db.StringField(max_length=50000, default='') # 公司描述
+    is_high_tech = db.IntField(default=0)    # 是否是高新企业: 0.否；1.是；
+    ty_score = db.IntField(default=0)    # 天眼查评分
+    ty_view_count = db.IntField(default=0)    # 天眼查浏览量
 
 
     ## 联系信息
