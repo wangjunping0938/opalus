@@ -25,7 +25,7 @@ class SaveForm(FlaskForm):
     tags = StringField('标签', validators=[Length(max=500, message="长度小于100个字符")])   # 标签
     designer_name = StringField('设计师姓名', validators=[Length(max=30, message="长度小于30个字符")])
     company_name = StringField('公司名称', validators=[Length(max=100, message="长度小于100个字符")])
-    en_company_name = StringField('公司英文名称', validators=[Length(max=200, message="长度小于200个字符")])
+    en_company_name = StringField('公司英文名称', validators=[Length(max=500, message="长度小于500个字符")])
     award_time = StringField('获奖时间', validators=[Length(max=20, message="长度小于20个字符")])
     is_listed = StringField('是否上市', validators=[Length(max=20, message="长度小于20个字符")])
 
