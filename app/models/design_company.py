@@ -16,6 +16,7 @@ class DesignCompany(Base):
     _id = db.StringField()
     number = db.IntField(required=True, unique=True)    # 唯一标识
     user_id = db.IntField(default=0)    # 用户ID
+    d3ing_id = db.IntField(default=0)    # 铟果平台公司ID
 
     ## 基本信息
     name = db.StringField(max_length=50, required=True, unique=True) # 名称
@@ -27,11 +28,14 @@ class DesignCompany(Base):
     scale_label = db.StringField(max_length=20, default='') # 公司规模_label
     nature = db.IntField(default=0)    # 公司性质
     nature_label = db.StringField(max_length=20, default='') # 公司性质_label
+    company_status_label = db.StringField(max_length=50, default='') # 公司状态_label
     advantage = db.StringField(max_length=10000, default='') # 公司亮点、专业优势
     description = db.StringField(max_length=50000, default='') # 公司描述
     is_high_tech = db.IntField(default=0)    # 是否是高新企业: 0.否；1.是；
+    is_design_center = db.IntField(default=0)    # 是否是设计中心: 0.否；1.省级；2.国家级；
     ty_score = db.IntField(default=0)    # 天眼查评分
     ty_view_count = db.IntField(default=0)    # 天眼查浏览量
+    ty_last_time = db.StringField(max_length=50, default='') # 天眼查最后更新时间
 
 
     ## 联系信息

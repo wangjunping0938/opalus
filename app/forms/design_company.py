@@ -18,14 +18,17 @@ class SaveForm(FlaskForm):
     logo_url = StringField('logo', validators=[Length(max=200, message="长度小于200个字符")])
     scale = IntegerField()
     scale_label = StringField('公司规模', validators=[Length(max=20, message="长度小于20个字符")])
+    company_status_label = StringField('公司状态', validators=[Length(max=50, message="长度小于50个字符")])
     nature = IntegerField()
     nature_label = StringField('公司性质', validators=[Length(max=20, message="长度小于20个字符")])
     advantage = StringField('公司亮点', validators=[Length(max=10000, message="长度小于10000个字符")])
     description = StringField('公司描述', validators=[Length(max=50000, message="长度小于50000个字符")])
     english_name = StringField('英文名称', validators=[Length(max=100, message="长度小于100个字符")])
     is_high_tech = IntegerField() # 是否是高新企业: 0.否；1.是；
+    is_design_center = IntegerField() # 是否是设计中心: 0.否；1.国家级；2.省级；
     ty_score = IntegerField() # 天眼查评分
     ty_view_count = IntegerField() # 天眼查浏览量
+    ty_last_time = StringField('天眼查最后更新时间', validators=[Length(max=50, message="长度小于50个字符")])
 
     ## 联系信息
     province_id = IntegerField()

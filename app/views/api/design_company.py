@@ -4,6 +4,7 @@ import datetime
 from app.models.design_company import DesignCompany
 from app.helpers.pager import Pager
 from app.forms.design_company import SaveForm
+from app.helpers.common import force_int
 
 ## 列表
 @api.route('/design_company/list')
@@ -89,6 +90,15 @@ def design_company_update():
         data[key] = data[key].strip()
         if not request.values.get(key):
             data.pop(key)
+
+    # 公司数量整理
+    if 'company_count' in data:
+        if ',' in data['company_count']:
+            company_count_arr = data['company_count'].split(',')
+            company_count = 0
+            for n in company_count_arr:
+               company_count += force_int(n)
+            data['company_count'] = str(company_count)
 
     if not number:
         return jsonify(code=3001, message='编号不存在!')
