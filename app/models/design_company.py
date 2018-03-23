@@ -36,6 +36,12 @@ class DesignCompany(Base):
     ty_score = db.IntField(default=0)    # 天眼查评分
     ty_view_count = db.IntField(default=0)    # 天眼查浏览量
     ty_last_time = db.StringField(max_length=50, default='') # 天眼查最后更新时间
+    design_case_count = db.IntField(default=0)    # 作品数量
+    red_star_award_count = db.IntField(default=0)    # 红星奖数量
+    innovative_design_award_count = db.IntField(default=0)    # 红棉奖数量
+    china_design_award_count = db.IntField(default=0)    # 中国好设计奖数量
+    if_award_count = db.IntField(default=0)    # if奖数量
+    red_dot_award_count = db.IntField(default=0)    # 红点奖数量
 
 
     ## 联系信息
@@ -54,6 +60,7 @@ class DesignCompany(Base):
     founder = db.StringField(max_length=30, default='') # 创始人
     founder_desc = db.StringField(max_length=1000, default='') # 创始人介绍 
     registered_capital = db.StringField(max_length=50, default='') # 注册资金
+    registered_capital_format = db.IntField(default=0) # 注册资金格式化，单位百万
     registered_time = db.StringField(max_length=30, default='') # 注册时间 
     company_count = db.StringField(max_length=30, default='') # 公司数量
     company_type = db.StringField(max_length=30, default='') # 公司类型

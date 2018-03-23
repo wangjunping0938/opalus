@@ -1,0 +1,488 @@
+{% extends "layout/admin.html" %}
+{% block title %}{{ meta.title }}{% endblock %}
+{% block layout_css %}
+    <style type="text/css">
+
+    </style>
+{% endblock %}
+
+{% block layout_js %}
+    <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+  $("#item-form").validate({
+    //ignore: ".ignore",
+    //debug: true,
+
+    rules: {
+        name: "required",
+        mark: "required"
+    },
+
+    messages: {
+        name: "请输入名称",
+        mark: "请输入标识"
+    },
+    submitHandler: function(form) {
+      $(form).ajaxSubmit({
+        dataType: 'json',
+        beforeSubmit: function(){
+          //alert('before'); 
+        },
+        success: function(data){
+          if(data.success){
+            window.location.href=data.redirect_to;
+          }else{
+            alert(data.message);
+          }
+        }
+      });
+    }
+   });
+
+
+   // 初始化
+
+
+{% endblock %}
+
+{% block layout_slider %}
+{%endblock%}
+
+{% block content %}
+
+    <div class="navbar navbar-default border-n nav-stab">
+        <div class="navbar-header">
+            <div class="navbar-brand">
+                {{ meta.title }}
+            </div>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav nav-list">
+                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.design_conf_list') }}">全部</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="ph-form">
+        <form class="form-horizontal form-group-sm" method="POST" action="{{ url_for('admin.design_conf_save') }}" id="item-form">
+            {{ form.csrf_token }}
+            <input type="hidden" name="id" value="{{ meta.data._id }}" />
+            <input type="hidden" name="referer_url" value="{{ meta.referer_url }}" />
+
+
+<div class="panel-group" id="accordion">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse"
+                   href="#conf-info">
+                    配置信息
+                </a>
+            </h4>
+        </div>
+        <div id="conf-info" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-xs-3">
+                        <label for="name">名称</label>
+                        <input type="text" name="name" class="form-control" value="{{ meta.data.name }}" placeholder="">
+                    </div>
+                    <div class="col-xs-3">
+                        <label for="mark">标识</label>
+                        <input type="text" name="mark" class="form-control" value="{{ meta.data.mark }}" placeholder="">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse"
+                   href="#base-info">
+                    基本信息
+                </a>
+            </h4>
+        </div>
+        <div id="base-info" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="in_d3ing">入驻铟果</label>
+                        <input type="text" name="in_d3ing" class="form-control" value="{{ meta.data.in_d3ing }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="key_personnel_count">主要人员(数量)</label>
+                        <input type="text" name="key_personnel_count" class="form-control" value="{{ meta.data.key_personnel_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="shareholder_count">股东信息(数量)</label>
+                        <input type="text" name="shareholder_count" class="form-control" value="{{ meta.data.shareholder_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="chage_record_count">变更记录(数量)</label>
+                        <input type="text" name="chage_record_count" class="form-control" value="{{ meta.data.chage_record_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="affiliated_agency_count">分支机构(数量)</label>
+                        <input type="text" name="affiliated_agency_count" class="form-control" value="{{ meta.data.affiliated_agency_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="financing_count">融资(数量)</label>
+                        <input type="text" name="financing_count" class="form-control" value="{{ meta.data.financing_count }}" placeholder="">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="core_team_count">核心团队(数量)</label>
+                        <input type="text" name="core_team_count" class="form-control" value="{{ meta.data.core_team_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="enterprise_business_count">企业业务(数量)</label>
+                        <input type="text" name="enterprise_business_count" class="form-control" value="{{ meta.data.enterprise_business_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="competitor_count">竞品信息(数量)</label>
+                        <input type="text" name="competitor_count" class="form-control" value="{{ meta.data.competitor_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="bid_count">招投标(数量)</label>
+                        <input type="text" name="bid_count" class="form-control" value="{{ meta.data.bid_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="wx_public_count">公号(数量)</label>
+                        <input type="text" name="wx_public_count" class="form-control" value="{{ meta.data.wx_public_count }}" placeholder="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse"
+                   href="#business-info">
+                    商业力指数
+                </a>
+            </h4>
+        </div>
+        <div id="business-info" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="scale_a">公司规模(20人以下)</label>
+                        <input type="text" name="scale_a" class="form-control" value="{{ meta.data.scale_a }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="scale_b">公司规模(20-50)</label>
+                        <input type="text" name="scale_b" class="form-control" value="{{ meta.data.scale_b }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="scale_c">公司规模(50-100)</label>
+                        <input type="text" name="scale_c" class="form-control" value="{{ meta.data.scale_c }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="scale_d">公司规模(100-300)</label>
+                        <input type="text" name="scale_d" class="form-control" value="{{ meta.data.scale_d }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="scale_e">公司规模(300以上)</label>
+                        <input type="text" name="scale_e" class="form-control" value="{{ meta.data.scale_e }}" placeholder="">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="registered_capital_format">注册资金(数量)</label>
+                        <input type="text" name="registered_capital_format" class="form-control" value="{{ meta.data.registered_capital_format }}" placeholder="">
+                        <div class="description">单位:百分元</div>
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="investment_abroad_count">对外投资(数量)</label>
+                        <input type="text" name="investment_abroad_count" class="form-control" value="{{ meta.data.investment_abroad_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="annual_return_count">公司年报(数量)</label>
+                        <input type="text" name="annual_return_count" class="form-control" value="{{ meta.data.annual_return_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="branch">分公司数量(数量)</label>
+                        <input type="text" name="branch" class="form-control" value="{{ meta.data.branch }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="tax_rating_count">税务评级(数量)</label>
+                        <input type="text" name="tax_rating_count" class="form-control" value="{{ meta.data.tax_rating_count }}" placeholder="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse"
+                   href="#innovate-info">
+                    创新力指数
+                </a>
+            </h4>
+        </div>
+        <div id="innovate-info" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="red_star_award_count">红星奖(数量)</label>
+                        <input type="text" name="red_star_award_count" class="form-control" value="{{ meta.data.red_star_award_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="innovative_design_award_count">红棉奖(数量)</label>
+                        <input type="text" name="innovative_design_award_count" class="form-control" value="{{ meta.data.innovative_design_award_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="china_design_award_count">中国好设计奖(数量)</label>
+                        <input type="text" name="china_design_award_count" class="form-control" value="{{ meta.data.china_design_award_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="if_award_count">IF奖(数量)</label>
+                        <input type="text" name="if_award_count" class="form-control" value="{{ meta.data.if_award_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="red_dot_award_count">红点奖(数量)</label>
+                        <input type="text" name="red_dot_award_count" class="form-control" value="{{ meta.data.red_dot_award_count }}" placeholder="">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="trademark_count">商标(数量)</label>
+                        <input type="text" name="trademark_count" class="form-control" value="{{ meta.data.trademark_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="patent_count">专利(数量)</label>
+                        <input type="text" name="patent_count" class="form-control" value="{{ meta.data.patent_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="software_copyright_count">软件著作权(数量)</label>
+                        <input type="text" name="software_copyright_count" class="form-control" value="{{ meta.data.software_copyright_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="works_copyright_count">作品著作权(数量)</label>
+                        <input type="text" name="works_copyright_count" class="form-control" value="{{ meta.data.works_copyright_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="icp_count">网站备案(数量)</label>
+                        <input type="text" name="icp_count" class="form-control" value="{{ meta.data.icp_count }}" placeholder="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse"
+                   href="#design-info">
+                    设计力指数
+                </a>
+            </h4>
+        </div>
+        <div id="design-info" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="trademark_count">商标(数量)</label>
+                        <input type="text" name="trademark_count" class="form-control" value="{{ meta.data.trademark_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="patent_count">专利(数量)</label>
+                        <input type="text" name="patent_count" class="form-control" value="{{ meta.data.patent_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="software_copyright_count">软件著作权(数量)</label>
+                        <input type="text" name="software_copyright_count" class="form-control" value="{{ meta.data.software_copyright_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="works_copyright_count">作品著作权(数量)</label>
+                        <input type="text" name="works_copyright_count" class="form-control" value="{{ meta.data.works_copyright_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="icp_count">网站备案(数量)</label>
+                        <input type="text" name="icp_count" class="form-control" value="{{ meta.data.icp_count }}" placeholder="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse"
+                   href="#effect-info">
+                    影响力指数
+                </a>
+            </h4>
+        </div>
+        <div id="effect-info" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="is_high_tech">高新企业</label>
+                        <input type="text" name="is_high_tech" class="form-control" value="{{ meta.data.is_high_tech }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="ty_score">天眼查评分(数量)</label>
+                        <input type="text" name="ty_score" class="form-control" value="{{ meta.data.ty_score }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="ty_view_count">天眼查浏览数(数量)</label>
+                        <input type="text" name="ty_view_count" class="form-control" value="{{ meta.data.ty_view_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="certification_count">资质证书(数量)</label>
+                        <input type="text" name="certification_count" class="form-control" value="{{ meta.data.certification_count }}" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="cida_credit_rating_a">工会认证(A)</label>
+                        <input type="text" name="cida_credit_rating_a" class="form-control" value="{{ meta.data.cida_credit_rating_a }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="cida_credit_rating_b">工会认证(AA)</label>
+                        <input type="text" name="cida_credit_rating_b" class="form-control" value="{{ meta.data.cida_credit_rating_b }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="cida_credit_rating_c">工会认证(AAA)</label>
+                        <input type="text" name="cida_credit_rating_c" class="form-control" value="{{ meta.data.cida_credit_rating_c }}" placeholder="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse"
+                   href="#credit-info">
+                    社会信誉
+                </a>
+            </h4>
+        </div>
+        <div id="credit-info" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="action_at_law_count">法律诉讼(数量)</label>
+                        <input type="text" name="action_at_law_count" class="form-control" value="{{ meta.data.action_at_law_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="court_announcement_count">法院公告(数量)</label>
+                        <input type="text" name="court_announcement_count" class="form-control" value="{{ meta.data.court_announcement_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="dishonest_person_count">失信人(数量)</label>
+                        <input type="text" name="dishonest_person_count" class="form-control" value="{{ meta.data.dishonest_person_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="person_subject_count">被执行人(数量)</label>
+                        <input type="text" name="person_subject_count" class="form-control" value="{{ meta.data.person_subject_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="announcement_court_count">开庭公告(数量)</label>
+                        <input type="text" name="announcement_court_count" class="form-control" value="{{ meta.data.announcement_court_count }}" placeholder="">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="abnormal_operation_count">经营异常</label>
+                        <input type="text" name="abnormal_operation_count" class="form-control" value="{{ meta.data.abnormal_operation_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="administrative_penalty_count">行政处罚</label>
+                        <input type="text" name="administrative_penalty_count" class="form-control" value="{{ meta.data.administrative_penalty_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="break_law_count">严重违法</label>
+                        <input type="text" name="break_law_count" class="form-control" value="{{ meta.data.break_law_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="equity_pledged_count">股权出质</label>
+                        <input type="text" name="equity_pledged_count" class="form-control" value="{{ meta.data.equity_pledged_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="chattel_mortgage_count">动产抵押</label>
+                        <input type="text" name="chattel_mortgage_count" class="form-control" value="{{ meta.data.chattel_mortgage_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="tax_notice_count">欠税公告</label>
+                        <input type="text" name="tax_notice_count" class="form-control" value="{{ meta.data.tax_notice_count }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="judicial_sale_count">司法拍卖</label>
+                        <input type="text" name="judicial_sale_count" class="form-control" value="{{ meta.data.judicial_sale_count }}" placeholder="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+            <!--
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                    <label>
+                        <input type="checkbox"> Remember me
+                    </label>
+                    </div>
+                </div>
+            </div>
+            -->
+
+            <!--
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="account">状态</label>
+                    <div class="">
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.status==0 %}checked="checked"{%endif%} name="status" value="0">
+                            禁用
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.status==1 %}checked="checked"{%endif%} name="status" value="1">
+                            启用
+                        </label>
+                    </div>
+                </div>
+            </div>
+            -->
+
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <a href="{{ url_for('admin.design_company_list') }}" class="btn btn-default">取消</a>
+                    <button type="submit" class="btn btn-default">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+{% endblock %}

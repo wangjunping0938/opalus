@@ -29,6 +29,13 @@ class SaveForm(FlaskForm):
     ty_score = IntegerField() # 天眼查评分
     ty_view_count = IntegerField() # 天眼查浏览量
     ty_last_time = StringField('天眼查最后更新时间', validators=[Length(max=50, message="长度小于50个字符")])
+    design_case_count = IntegerField() # 作品数量
+    red_star_award_count = IntegerField() # 红星奖数量
+    innovative_design_award_count = IntegerField() # 红棉奖数量
+    china_design_award_count = IntegerField() # 中国好设计奖数量
+    if_award_count = IntegerField() # if奖数量
+    red_dot_award_count = IntegerField() # 红点奖数量
+
 
     ## 联系信息
     province_id = IntegerField()
@@ -46,6 +53,7 @@ class SaveForm(FlaskForm):
     founder = StringField('创始人', validators=[Length(max=30, message="长度小于30个字符")])
     founder_desc = StringField('创始人介绍', validators=[Length(max=1000, message="长度小于1000个字符")])
     registered_capital = StringField('注册资金', validators=[Length(max=50, message="长度小于50个字符")])
+    registered_capital_format = IntegerField() # 注册资金格式化数据，百万单位
     registered_time = StringField('注册时间', validators=[Length(max=30, message="长度小于30个字符")])
     company_count = StringField('公司数量', validators=[Length(max=30, message="长度小于20个字符")])
     company_type = StringField('公司类型', validators=[Length(max=30, message="长度小于30个字符")])
