@@ -100,11 +100,12 @@
         </th>
         <th>LOGO</th>
         <th>公司信息</th>
-        <th>创建用户</th>
+        <th>入驻</th>
+        <th>奖项信息</th>
         <th>抓取信息</th>
         <th>完善度</th>
         <th>状态</th>
-        <th>创建/最后抓取时间</th>
+        <th>创建/抓取时间</th>
         <th>操作</th>
         {% for d in meta.data %}
             <tr id="item-{{ d._id }}">
@@ -129,12 +130,26 @@
                     <p>编号: {{ d.number }}</p>
                 </td>
 
-                <td>{{ d.user_id }}</td>
+                <td>
+                    {% if d.d3ing_id > 0 %}
+                        <span class="label label-success">是</span>
+                    {% else %}
+                        <span class="label label-danger">否</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <p>红星奖：{{ d.red_star_award_count }}</p>
+                    <p>红棉奖：{{ d.innovative_design_award_count }}</p>
+                    <p>中国好设计奖：{{ d.china_design_award_count }}</p>
+                    <p>IF奖：{{ d.if_award_count }}</p>
+                    <p>红点奖：{{ d.red_dot_award_count }}</p>
+                    <p>作品数量：{{ d.design_case_count }}</p>
+                </td>
                 <td>
                     <p>抓取次数: {{ d.craw_count }}</p>
                     <p>负责人: {{ d.craw_user }}</p>                
                     {% if d.last_on %}
-                        <p>最后抓取时间: {{ d.last_on | date("%Y-%m-%d") }}</p>
+                        <p>抓取时间: {{ d.last_on | date("%Y-%m-%d") }}</p>
                     {%endif%}
                 </td>
                 <td>{{ d.perfect_degree }}</td>

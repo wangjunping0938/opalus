@@ -35,6 +35,7 @@ class SaveForm(FlaskForm):
     china_design_award_count = IntegerField() # 中国好设计奖数量
     if_award_count = IntegerField() # if奖数量
     red_dot_award_count = IntegerField() # 红点奖数量
+    d3ing_id = IntegerField() # 铟果平台ID
 
 
     ## 联系信息
