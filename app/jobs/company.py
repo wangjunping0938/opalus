@@ -33,7 +33,7 @@ def award_stat():
                     c.update(design_case_count=caseCount)
 
                 # 更新不同奖项数
-                awardArr = [['红星奖', 'red_star_award_count'], ['中国红棉奖', 'innovative_design_award_count'], ['中国好设计奖', 'china_design_award_count'], ['中国设计智造奖', 'dia_award_count']]
+                awardArr = [['红星奖', 'red_star_award_count'], ['中国红棉奖', 'innovative_design_award_count'], ['中国好设计奖', 'china_design_award_count'], ['中国设计智造大奖', 'dia_award_count']]
                 for aw in awardArr:
                     sCount = DesignCase.objects(target_id=str(d.number), prize_label=aw[0]).count()
                     if sCount > 0:

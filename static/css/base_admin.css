@@ -88,6 +88,11 @@
     color: #666;
 }
 
+.form-group label {
+    font-size: 12px;
+    font-weight: 500;
+}
+
 
 /**
  * options-bar
