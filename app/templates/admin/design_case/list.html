@@ -71,6 +71,34 @@
         </div>
     </div>
 
+    <div class="fr">
+        <form class="navbar-form navbar-left options-bar" role="search" action="{{ url_for('admin.design_case_list') }}" method="GET" id="search-form">
+          <input type="hidden" name="status" value="{{ request.args.get('status', '') }}" />
+          <div class="form-group">
+            <input class="form-control input-sm" type="text" name="q" value="{{ request.args.get('q', '') }}" class="form-control" placeholder="关键字...">
+          </div>
+
+          <div class="form-group">
+              <select name="prize_label" class="form-control input-sm">
+                  <option value="" {% if request.args.get('prize_label') == '' %}selected="selected"{%endif%}>--先选择--</option>
+                  <option value="红星奖" {% if request.args.get('prize_label') == '红星奖' %}selected="selected"{%endif%}>红星奖</option>
+                  <option value="中国红棉奖" {% if request.args.get('prize_label') == '中国红棉奖' %}selected="selected"{%endif%}>中国红棉奖</option>
+                  <option value="中国设计智造奖" {% if request.args.get('prize_label') == '中国设计智造奖' %}selected="selected"{%endif%}>中国设计智造奖</option>
+                  <option value="中国好设计奖" {% if request.args.get('prize_label') == '中国好设计奖' %}selected="selected"{%endif%}>中国好设计奖</option>
+                  <option value="德国if设计奖" {% if request.args.get('prize_label') == '德国if设计奖' %}selected="selected"{%endif%}>德国if设计奖</option>
+                  <option value="德国红点奖" {% if request.args.get('prize_label') == '德国红点奖' %}selected="selected"{%endif%}>德国红点奖</option>
+                  <option value="美国IDEA工业设计优秀奖" {% if request.args.get('prize_label') == '美国IDEA工业设计优秀奖' %}selected="selected"{%endif%}>美国IDEA工业设计优秀奖</option>
+              </select>
+              <select name="t" class="form-control input-sm">
+                  <option value="1" {% if request.args.get('t') == '1' %}selected="selected"{%endif%}>ID</option>
+                  <option value="2" {% if request.args.get('t') == '2' %}selected="selected"{%endif%}>标题</option>
+              </select>
+          </div>
+
+          <button type="submit" class="btn btn-default btn-sm">搜索</button>
+        </form>
+    </div>
+
 
     <table class="table table-striped ph-list">
         <th>

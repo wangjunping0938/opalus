@@ -50,8 +50,10 @@ class DesignConf(Base):
     red_star_award_count = db.IntField(default=0)    # 红星奖数量
     innovative_design_award_count = db.IntField(default=0)    # 红棉奖数量
     china_design_award_count = db.IntField(default=0)    # 中国好设计奖数量
+    dia_award_count = db.IntField(default=0)    # 中国设计智造奖数量
     if_award_count = db.IntField(default=0)    # IF奖数量
     red_dot_award_count = db.IntField(default=0)    # 红点奖数量
+    idea_award_count = db.IntField(default=0) # 美国IDEA工业设计优秀奖数量
     trademark_count = db.IntField(default=0) # 商标
     patent_count = db.IntField(default=0) # 专利
     software_copyright_count = db.IntField(default=0) # 软件著作权

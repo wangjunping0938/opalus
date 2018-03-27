@@ -6,6 +6,7 @@ from app.models.design_case import DesignCase
 from app.helpers.pager import Pager
 from app.forms.design_case import SaveForm, setStatus
 from bson import ObjectId
+from app.helpers.common import force_int
 
 ## 列表
 @admin.route('/design_case/list')
@@ -16,11 +17,27 @@ def design_case_list():
         'css_nav_design': 'active'
     }
     query = {}
-    page = int(request.args.get('page', 1))
-    per_page = int(request.args.get('per_page', 100))
-    status = int(request.args.get('status', 0))
-    deleted = int(request.args.get('deleted', 0))
-    page_url = url_for('admin.design_case_list', page="#p#", status=status)
+    page = force_int(request.args.get('page', 1))
+    per_page = force_int(request.args.get('per_page', 100))
+    status = force_int(request.args.get('status', 0))
+    deleted = force_int(request.args.get('deleted', 0))
+    prize_label = request.args.get('prize_label', '')
+
+    t = force_int(request.args.get('t', 1), 1)
+    q = request.args.get('q', '')
+
+    if q:
+        if t==1:
+            try:
+                query['_id'] = ObjectId(q.strip())
+            except(Exception) as e:
+                query['_id'] = ''
+        if t==2:
+            query['title'] = {"$regex": q.strip()}
+
+    if prize_label:
+        query['prize_label'] = prize_label
+
     if status == -1:
         meta['css_disable'] = 'active'
         query['status'] = 0
@@ -31,6 +48,8 @@ def design_case_list():
         meta['css_all'] = 'active'
 
     query['deleted'] = deleted
+
+    page_url = url_for('admin.design_case_list', page="#p#", q=q, t=t, prize_label=prize_label, status=status)
 
     data = DesignCase.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
     total_count = DesignCase.objects(**query).count()

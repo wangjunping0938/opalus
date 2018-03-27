@@ -40,8 +40,10 @@ class DesignCompany(Base):
     red_star_award_count = db.IntField(default=0)    # 红星奖数量
     innovative_design_award_count = db.IntField(default=0)    # 红棉奖数量
     china_design_award_count = db.IntField(default=0)    # 中国好设计奖数量
+    dia_award_count = db.IntField(default=0) # 中国设计智造奖数量
     if_award_count = db.IntField(default=0)    # if奖数量
     red_dot_award_count = db.IntField(default=0)    # 红点奖数量
+    idea_award_count = db.IntField(default=0) # 美国IDEA工业设计优秀奖数量
 
 
     ## 联系信息

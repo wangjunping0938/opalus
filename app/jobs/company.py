@@ -26,21 +26,22 @@ def award_stat():
             caseCount = DesignCase.objects(target_id=str(d.number)).count()
             if caseCount > 0:
                 c = DesignCompany.objects(number=d.number).first()
-                print("%s case_count: %d \n" % (d.name, caseCount))
+                print("%s case_count: %d" % (d.name, caseCount))
 
                 # 更新总数量
                 if d.design_case_count < caseCount:
                     c.update(design_case_count=caseCount)
 
                 # 更新不同奖项数
-                awardArr = [['红星奖', 'red_star_award_count'], ['红棉奖', 'innovative_design_award_count'], ['中国好设计奖', 'china_design_award_count']]
+                awardArr = [['红星奖', 'red_star_award_count'], ['中国红棉奖', 'innovative_design_award_count'], ['中国好设计奖', 'china_design_award_count'], ['中国设计智造奖', 'dia_award_count']]
                 for aw in awardArr:
                     sCount = DesignCase.objects(target_id=str(d.number), prize_label=aw[0]).count()
                     if sCount > 0:
                         if c:
-                            print("upate %s: %d" % (aw[0], sCount))
+                            print("update %s: %d" % (aw[0], sCount))
                             c.update(**{aw[1]: sCount})
 
+                print("------------------\n")
                 total += 1
 
         print("current page %s: \n" % page)
