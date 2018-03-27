@@ -2,8 +2,11 @@
 from app.extensions import celery
 from app.models.design_case import DesignCase
 from app.models.design_company import DesignCompany
+from flask import current_app, jsonify
+import requests
+import json
 
-# company award case
+# 统计奖项数量
 @celery.task()
 def award_stat():
     
@@ -50,3 +53,56 @@ def award_stat():
             isEnd = True
 
     print("is over execute count %s\n" % total)
+
+
+# 获取铟果设计公司数据并统计
+@celery.task()
+def d3in_company_stat():
+    url = "%s/%s" % (current_app.config['D3INGO_URL'], 'opalus/company/list')
+
+    page = 1
+    perPage = 100
+    isEnd = False
+    total = 0
+    params = {}
+    params['type_status'] = 1
+    params['type_verify_status'] = 1
+    params['per_page'] = perPage
+
+    while not isEnd:
+
+        try:
+            r = requests.get(url, params=params)
+        except(Exception) as e:
+            break
+            print(str(e))
+
+        if not r:
+            break
+            print('fetch info fail!!!')
+
+        result = json.loads(r.text)
+        if not 'meta' in result:
+            break
+            print("data format error!")
+            
+        if not result['meta']['status_code'] == 200:
+            break
+            print(result['meta']['message'])
+
+        for i, d in enumerate(result['data']):
+            print("公司名称: %s" % d['company_name'])
+            total += 1
+
+        print("current page %s: \n" % page)
+        page += 1
+        params['page'] = page
+        if len(result['data']) < perPage:
+            isEnd = True
+                
+    print("is over execute count %s\n" % total)
+
+
+        
+
+

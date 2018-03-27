@@ -14,6 +14,8 @@ class Config:
     CELERY_BROKER_URL = 'redis://localhost:6379/0'
     CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
+    D3INGO_URL = 'http://sa.taihuoniao.com'
+
     @staticmethod
     def init_app(app): 
         pass
@@ -83,6 +85,8 @@ class ProductionConfig(Config):
     WTF_CSRF_ENABLED = False
     SECRET_KEY = 'opalus'
     WTF_CSRF_SECRET_KEY = 'opalus'
+
+    D3INGO_URL = 'https://d3in-admin.taihuoniao.com'
 
     PASSWORD_SECRET = 'opalus'
 
