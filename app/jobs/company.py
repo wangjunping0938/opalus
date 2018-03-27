@@ -74,33 +74,34 @@ def d3in_company_stat():
         try:
             r = requests.get(url, params=params)
         except(Exception) as e:
-            break
+            continue
             print(str(e))
 
         if not r:
-            break
+            continue
             print('fetch info fail!!!')
 
         result = json.loads(r.text)
         if not 'meta' in result:
-            break
+            continue
             print("data format error!")
             
         if not result['meta']['status_code'] == 200:
-            break
+            continue
             print(result['meta']['message'])
 
         for i, d in enumerate(result['data']):
-            print("公司名称: %s" % d['company_name'])
             if not d['company_name']:
-                break
+                continue
+            print("公司名称: %s" % d['company_name'])
             company = DesignCompany.objects(name=d['company_name']).first()
             if not company:
-                break
+                continue
             ok = company.update(d3ing_id=d['id'])
             if not ok:
-                break
+                continue
             print("公司存在: %d" % d['id'])
+            print("-----------\n")
             total += 1
 
         print("current page %s: \n" % page)
