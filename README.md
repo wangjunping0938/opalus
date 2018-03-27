@@ -12,6 +12,8 @@
 - 切换到虚拟环境：```source env/bin/activate```  
 - 安装依赖: ```/opt/python3/bin/pip3 install -r requirements.txt```   
 
+### 首次配置
+- 把根目录文件```.env_example```复制到根目录```.env```，作为当前环境的配置文件  
 
 ### 开发环境启动
 - 切换当前虚拟环境: ```source env/bin/activate``` 

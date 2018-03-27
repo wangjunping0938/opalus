@@ -1,4 +1,6 @@
 import os
+import configparser
+from .env import cf
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
@@ -14,7 +16,6 @@ class Config:
     CELERY_BROKER_URL = 'redis://localhost:6379/0'
     CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
-    D3INGO_URL = 'http://sa.taihuoniao.com'
 
     @staticmethod
     def init_app(app): 
@@ -46,6 +47,8 @@ class DevelopmentConfig(Config):
 
     PASSWORD_SECRET = 'opalus'
 
+    D3INGO_URL = 'http://sa.taihuoniao.com'
+
 
 class TestingConfig(Config): 
     DEBUG = True
@@ -67,6 +70,8 @@ class TestingConfig(Config):
     WTF_CSRF_SECRET_KEY = 'opalus'
 
     PASSWORD_SECRET = 'opalus'
+
+    D3INGO_URL = 'http://sa.taihuoniao.com'
 
 class ProductionConfig(Config):
     DEBUG = False

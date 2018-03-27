@@ -7,7 +7,7 @@ fi
 
 # 加载python环境
 source env/bin/activate
-FLASK_ENV=production
+export FLASK_ENV=production
 
 if [ $1 = start ]
 then

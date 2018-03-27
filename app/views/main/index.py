@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, current_app
 from . import main 
 from app import redis_store
 from app.jobs.base import job
@@ -20,6 +20,7 @@ def test():
     a = 'abc'
     redis_store.set('aa', a)
     b = redis_store.get('aa')
-    job.delay(1, 2)
-    return b
+    #job.delay(1, 2)
+    #c = current_app.config['TEST']
+    return str(c)
 
