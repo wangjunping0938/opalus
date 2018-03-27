@@ -92,6 +92,15 @@ def d3in_company_stat():
 
         for i, d in enumerate(result['data']):
             print("公司名称: %s" % d['company_name'])
+            if not d['company_name']:
+                break
+            company = DesignCompany.objects(name=d['company_name']).first()
+            if not company:
+                break
+            ok = company.update(d3ing_id=d['id'])
+            if not ok:
+                break
+            print("公司存在: %d" % d['id'])
             total += 1
 
         print("current page %s: \n" % page)
