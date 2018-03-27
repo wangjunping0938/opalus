@@ -21,7 +21,7 @@ class User(Base):
     email = db.StringField(max_value=50, default='')
     password = db.StringField(max_value=20)
     type = db.IntField(default=1)
-    role_id = db.IntField(default=1)
+    role_id = db.IntField(default=1) # 权限: 1.用户；2.编辑；5.管理员；8.系统管理员；
     status = db.IntField(default=1) # 状态：0.禁用；1.待审核；5.激活；
     deleted = db.IntField(default=0) # 软删除
     token = db.StringField(max_value=20, required=True, unique=True)
