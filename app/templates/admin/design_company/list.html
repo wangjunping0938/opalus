@@ -128,6 +128,12 @@
                     <p>名称: {{ d.name }}</p>
                     <p>网址: <a href="{{ d.url }}" target="_blank">{{ d.url }}</a></p>
                     <p>编号: {{ d.number }}</p>
+                    <p>头衔: 
+                    {% if d.is_high_tech %}<span>高新企业</span>{%endif%} | 
+                    {% if d.is_design_center > 0 %}<span>设计中心: {% if d.is_design_center == 1 %}省级{%endif%}{% if d.is_design_center == 2 %}国家级{%endif%}</span>{%endif%} | 
+                    {% if d.cida_credit_rating > 0 %}<span>工会认证: {% if d.cida_credit_rating == 1 %}A{%endif%}{% if d.cida_credit_rating == 2 %}AA{%endif%}{% if d.cida_credit_rating == 3 %}AAA{%endif%}</span>{%endif%} | 
+                    
+                    </p>
                 </td>
 
                 <td>
