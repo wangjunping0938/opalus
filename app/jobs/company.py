@@ -97,10 +97,49 @@ def d3in_company_stat():
             company = DesignCompany.objects(name=d['company_name']).first()
             if not company:
                 continue
-            ok = company.update(d3ing_id=d['id'])
+            query = {}
+            query['d3ing_id'] = d['id']
+            # 简称
+            if d['company_abbreviation']:
+                query['short_name'] = d['company_abbreviation']
+            # 分公司数量
+            if d['branch_office']:
+                query['branch'] = str(d['branch_office'])
+            # 英文名称
+            if d['company_english']:
+                query['english_name'] = d['company_english']
+            # 规模
+            if d['company_size']:
+                query['scale'] = d['company_size']
+                query['scale_label'] = d['company_size_val']
+            # 网址
+            if d['web']:
+                query['url'] = d['web']
+            # LOGO
+            if d['logo_image']:
+                query['logo_url'] = d['logo_image']['logo']
+            ## 联系信息
+            if d['province_value']:
+                query['province'] = d['province_value']
+            if d['city_value']:
+                query['city'] = d['city_value']
+            if d['address']:
+                query['address'] = d['address']
+            if d['contact_name'] and not company['contact_name']:
+                query['contact_name'] = d['contact_name']
+            if d['phone'] and not company['contact_phone']:
+                query['contact_phone'] = d['phone']
+            if d['email'] and not company['contact_email']:
+                query['contact_email'] = d['email']
+
+
+            if not query:
+                continue
+            ok = company.update(**query)
             if not ok:
                 continue
             print("公司存在: %d" % d['id'])
+            print("更新字段: %s" % query)
             print("-----------\n")
             total += 1
 
