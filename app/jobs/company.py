@@ -74,21 +74,21 @@ def d3in_company_stat():
         try:
             r = requests.get(url, params=params)
         except(Exception) as e:
-            continue
             print(str(e))
+            continue
 
         if not r:
-            continue
             print('fetch info fail!!!')
+            continue
 
         result = json.loads(r.text)
         if not 'meta' in result:
-            continue
             print("data format error!")
+            continue
             
         if not result['meta']['status_code'] == 200:
-            continue
             print(result['meta']['message'])
+            continue
 
         for i, d in enumerate(result['data']):
             if not d['company_name']:

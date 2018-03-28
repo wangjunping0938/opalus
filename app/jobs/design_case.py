@@ -17,10 +17,11 @@ def d3in_case_stat():
     total = 0
     url = "%s/%s" % (current_app.config['D3INGO_URL'], 'opalus/design_case/list')
     query = {}
+    query['deleted'] = 0
+    params = {}
 
     while not isEnd:
-        query['deleted'] = 0
-        data = DesignCompany.objects(deleted=0).order_by('-created_at').paginate(page=page, per_page=perPage)
+        data = DesignCompany.objects(**query).order_by('-created_at').paginate(page=page, per_page=perPage)
         if not data:
             print("get data is empty! \n")
             break
@@ -31,33 +32,35 @@ def d3in_case_stat():
             if not d.d3ing_id:
                 continue
 
-            query['design_company_id'] = d.d3ing_id
+            print("d3ing_id: %d" % d.d3ing_id)
+            params['design_company_id'] = d.d3ing_id
 
             try:
                 r = requests.get(url, params=params)
             except(Exception) as e:
-                continue
                 print(str(e))
+                continue
 
             if not r:
-                continue
                 print('fetch design_case fail!!!')
+                continue
 
             result = json.loads(r.text)
             if not 'meta' in result:
-                continue
                 print("data format error!")
+                continue
                 
             if not result['meta']['status_code'] == 200:
-                continue
                 print(result['meta']['message'])
+                continue
 
             caseCount = result['meta']['pagination']['total']
             if not caseCount:
+                print("没有案例作品---%s.\n" % d.name)
                 continue
 
             #company = DesignCompany.objects()
-            ok = d.update(design_case_count=caseCount)
+            ok = d.update(d3in_case_count=caseCount)
             if not ok:
                 print("更新失败！！！\n")
                 continue
