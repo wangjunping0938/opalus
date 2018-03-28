@@ -133,13 +133,14 @@ def d3in_company_stat():
                 query['contact_email'] = d['email']
 
 
+            print("更新字段: %s" % query)
+
             if not query:
                 continue
             ok = company.update(**query)
             if not ok:
                 continue
             print("公司存在: %d" % d['id'])
-            print("更新字段: %s" % query)
             print("-----------\n")
             total += 1
 

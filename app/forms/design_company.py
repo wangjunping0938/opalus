@@ -29,7 +29,8 @@ class SaveForm(FlaskForm):
     ty_score = IntegerField() # 天眼查评分
     ty_view_count = IntegerField() # 天眼查浏览量
     ty_last_time = StringField('天眼查最后更新时间', validators=[Length(max=50, message="长度小于50个字符")])
-    design_case_count = IntegerField() # 作品数量
+    design_case_count = IntegerField() # 抓取作品数量
+    d3in_case_count = IntegerField() # 铟果作品数量
     red_star_award_count = IntegerField() # 红星奖数量
     innovative_design_award_count = IntegerField() # 红棉奖数量
     china_design_award_count = IntegerField() # 中国好设计奖数量

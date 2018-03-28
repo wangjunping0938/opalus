@@ -430,8 +430,12 @@
 
                 <div class="form-group">
                     <div class="col-xs-2">
-                        <label for="design_case_count">作品数量</label>
+                        <label for="design_case_count">抓取作品数量</label>
                         <input type="text" name="design_case_count" class="form-control" value="{{ meta.data.design_case_count|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="d3in_case_count">铟果作品数量</label>
+                        <input type="text" name="d3in_case_count" class="form-control" value="{{ meta.data.d3in_case_count|default(0) }}" placeholder="">
                     </div>
                 </div>
             </div>

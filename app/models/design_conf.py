@@ -62,7 +62,8 @@ class DesignConf(Base):
 
 
     ## 设计力指数
-    design_case_count = db.IntField(default=0) # 作品数量
+    design_case_count = db.IntField(default=0) # 抓取作品数量
+    d3in_case_count = db.IntField(default=0) # 铟果作品数量
     design_center_province = db.IntField(default=0)    # 是否是设计中心: 省级；
     design_center_county = db.IntField(default=0)    # 是否是设计中心: 国家级；
 

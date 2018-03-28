@@ -36,7 +36,8 @@ class DesignCompany(Base):
     ty_score = db.IntField(default=0)    # 天眼查评分
     ty_view_count = db.IntField(default=0)    # 天眼查浏览量
     ty_last_time = db.StringField(max_length=50, default='') # 天眼查最后更新时间
-    design_case_count = db.IntField(default=0)    # 作品数量
+    design_case_count = db.IntField(default=0)    # 抓取作品数量
+    d3in_case_count = db.IntField(default=0)    # 铟果作品数量
     red_star_award_count = db.IntField(default=0)    # 红星奖数量
     innovative_design_award_count = db.IntField(default=0)    # 红棉奖数量
     china_design_award_count = db.IntField(default=0)    # 中国好设计奖数量

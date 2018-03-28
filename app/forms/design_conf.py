@@ -59,7 +59,8 @@ class SaveForm(FlaskForm):
 
 
     ## 设计力指数
-    design_case_count = IntegerField() # 作品数量
+    design_case_count = IntegerField() # 抓取作品数量
+    d3in_case_count = IntegerField() # 铟果作品数量
     design_center_province = IntegerField()    # 是否是设计中心: 省级；
     design_center_county = IntegerField()    # 是否是设计中心: 国家级；
 
