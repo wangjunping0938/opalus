@@ -20,7 +20,7 @@ class DesignCompany(Base):
 
     ## 基本信息
     name = db.StringField(max_length=50, required=True, unique=True) # 名称
-    short_name = db.StringField(max_length=20, default='') # 短名称
+    short_name = db.StringField(max_length=50, default='') # 短名称
     english_name = db.StringField(max_length=100, default='') # 英文名称
     url = db.StringField(max_length=200, default='') # 网址
     logo_url = db.StringField(max_length=200, default='') # LOGO地址
