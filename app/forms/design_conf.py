@@ -37,6 +37,11 @@ class SaveForm(FlaskForm):
     scale_d = IntegerField()    # 公司规模: 100-300
     scale_e = IntegerField()    # 公司规模: 300以上
     registered_capital_format = IntegerField() # 注册资金
+    registered_capital_format_a = IntegerField() # 注册资金(1~100万)
+    registered_capital_format_b = IntegerField() # 注册资金(101~500万)
+    registered_capital_format_c = IntegerField() # 注册资金(501~1000万)
+    registered_capital_format_d = IntegerField() # 注册资金(1001~5000万)
+    registered_capital_format_e = IntegerField() # 注册资金(5000万以上)
     investment_abroad_count = IntegerField() # 对外投资
     annual_return_count = IntegerField() # 公司年报
     branch = IntegerField() # 分公司数量

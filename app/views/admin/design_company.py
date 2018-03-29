@@ -5,7 +5,7 @@ from . import admin
 from app.models.design_company import DesignCompany
 from app.helpers.pager import Pager
 from app.helpers.common import force_int
-from app.helpers.constant import company_scale_options, company_nature_options
+from app.helpers.constant import company_scale_options, company_nature_options, company_registered_capital_format_options
 from app.forms.design_company import SaveForm, setStatus
 from bson import ObjectId
 
@@ -85,6 +85,7 @@ def design_company_submit():
 
     meta['company_scale_options'] = company_scale_options()
     meta['company_nature_options'] = company_nature_options()
+    meta['company_registered_capital_format'] = company_registered_capital_format_options()
     meta['referer_url'] = request.environ.get('HTTP_REFERER') if request.environ.get('HTTP_REFERER') else ''
     
     return render_template('admin/design_company/submit.html', meta=meta, form=form)

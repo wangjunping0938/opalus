@@ -21,7 +21,7 @@ def award_stat():
         data = DesignCompany.objects(**query).order_by('-created_at').paginate(page=page, per_page=perPage)
         if not data:
             print("get data is empty! \n")
-            break
+            continue
 
         # 过滤数据
         for i, d in enumerate(data.items):

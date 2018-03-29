@@ -340,10 +340,19 @@
                 </div>
                 <div class="form-group">
                     <div class="col-xs-3">
-                        <label for="registered_capital">注册资金</label>
+                        <label for="registered_capital_format">注册资金</label>
+                        <select name="registered_capital_format" class="form-control">
+                            {% for d in meta.company_registered_capital_format %}
+                            <option value="{{ d.id }}" data-type="" {% if meta.data.registered_capital_format==d.id %}selected="selected"{%endif%}>{{ d.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-xs-3">
+                        <label for="registered_capital">说明</label>
                         <input type="text" name="registered_capital" class="form-control" value="{{ meta.data.registered_capital }}" placeholder="">
                     </div>
-
+                </div>
+                <div class="form-group">
                     <div class="col-xs-3">
                         <label for="registered_time">注册时间</label>
                         <input type="text" name="registered_time" class="form-control" value="{{ meta.data.registered_time }}" placeholder="">

@@ -71,3 +71,23 @@ def company_nature_options(id=0):
             if d['id']==id:
                 return d
     return {'id': 0, 'name': ''}
+
+
+# 企业注册资金
+def company_registered_capital_format_options(id=0):
+    data = [
+                {'id':0, 'name': '--'},
+                {'id':1, 'name': '1~100万'},
+                {'id':2, 'name': '101~500万'},
+                {'id':3, 'name': '501~1000万'},
+                {'id':4, 'name': '1001~5000万'},
+                {'id':5, 'name': '5000万以上'},
+            ]
+
+    if id==0:
+        return data
+    else:
+        for d in data:
+            if d['id']==id:
+                return d
+    return {'id': 0, 'name': ''}

@@ -39,7 +39,12 @@ class DesignConf(Base):
     scale_c = db.IntField(default=0)    # 公司规模: 50-100
     scale_d = db.IntField(default=0)    # 公司规模: 100-300
     scale_e = db.IntField(default=0)    # 公司规模: 300以上
-    registered_capital_format = db.IntField(default=0) # 注册资金(百万单位)
+    registered_capital_format = db.IntField(default=0) # 注册资金
+    registered_capital_format_a = db.IntField(default=0) # 注册资金(1~100万)
+    registered_capital_format_b = db.IntField(default=0) # 注册资金(101~500万)
+    registered_capital_format_c = db.IntField(default=0) # 注册资金(501~1000万)
+    registered_capital_format_d = db.IntField(default=0) # 注册资金(1001~5000万)
+    registered_capital_format_e = db.IntField(default=0) # 注册资金(5000万以上)
     investment_abroad_count = db.IntField(default=0) # 对外投资
     annual_return_count = db.IntField(default=0) # 公司年报
     branch = db.IntField(default=0) # 分公司数量
