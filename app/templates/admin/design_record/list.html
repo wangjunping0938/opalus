@@ -1,0 +1,196 @@
+{% extends "layout/admin.html" %}
+{% block title %}{{ meta.title }}{% endblock %}
+{% block layout_css %}
+    <style type="text/css">
+
+
+    </style>
+{% endblock %}
+
+{% block layout_js %}
+    <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+    $('.status-handle').on('click', 'a', function(){
+        var id = $(this).data('id');
+        var evt = $(this).data('evt');
+        var url = "{{ url_for('admin.design_record_set_status') }}";
+        $.post(url, {id: id, status: evt}, function(rs){
+            if (rs.success) {
+                var statusLabel = evt == 0 ? false : true
+                var render = phenix.ajax_render('#admin-status-label-tpl', {id: id, status: evt, statusLabel: statusLabel})
+                $('#item-'+id).find('.status-label').html(render)
+                var render = phenix.ajax_render('#admin-status-handle-tpl', {id: id, status: evt, statusLabel: statusLabel})
+                $('#item-'+id).find('.status-handle').html(render)
+            }else{
+                alert(rs.message)
+            }
+        })
+    });
+
+
+{% endblock %}
+
+{% block layout_slider %}
+{%endblock%}
+
+{% block content %}
+
+<div>
+
+    <div class="navbar navbar-default border-n nav-stab">
+        <div class="navbar-header">
+            <div class="navbar-brand">
+                {{ meta.title }}
+            </div>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav nav-list">
+                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.design_record_list') }}">全部</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="fl">
+        <div class="navbar-form navbar-left options-bar">
+            <div class="form-group">
+                <a href="{{ url_for('admin.design_record_delete') }}" class="btn btn-default btn-sm ajax-batch-delete">
+                    <i class="glyphicon glyphicon-trash"></i> 删除
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="fr">
+        <form class="navbar-form navbar-left options-bar" role="search" action="{{ url_for('admin.design_record_list') }}" method="GET" id="search-form">
+          <input type="hidden" name="status" value="{{ request.args.get('status', '') }}" />
+          <div class="form-group">
+              <select name="mark" class="form-control input-sm">
+                  <option value="" {% if request.args.get('mark') == '' %}selected="selected"{%endif%}>--配置--</option>
+                  {% for c in meta.design_conf %}
+                  <option value="{{ c.mark }}" {% if c.mark == request.args.get('mark') %}selected="selected"{%endif%}>{{ c.name }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+          <div class="form-group">
+            <input class="form-control input-sm" type="text" name="no" value="{{ request.args.get('no', '') }}" class="form-control" placeholder="期数">
+          </div>
+          <div class="form-group">
+            <input class="form-control input-sm" type="text" name="number" value="{{ request.args.get('number', '') }}" class="form-control" placeholder="编号">
+          </div>
+          <div class="form-group">
+              <select name="sort" class="form-control input-sm">
+                  <option value="0" {% if request.args.get('sort') == 0 %}selected="selected"{%endif%}>最新</option>
+                  <option value="1" {% if request.args.get('sort') == 1 %}selected="selected"{%endif%}>总分</option>
+                  <option value="2" {% if request.args.get('sort') == 2 %}selected="selected"{%endif%}>基础</option>
+                  <option value="3" {% if request.args.get('sort') == 3 %}selected="selected"{%endif%}>商业力</option>
+                  <option value="4" {% if request.args.get('sort') == 4 %}selected="selected"{%endif%}>创新力</option>
+                  <option value="5" {% if request.args.get('sort') == 5 %}selected="selected"{%endif%}>设计力</option>
+                  <option value="6" {% if request.args.get('sort') == 6 %}selected="selected"{%endif%}>影响力</option>
+                  <option value="7" {% if request.args.get('sort') == 7 %}selected="selected"{%endif%}>信誉度</option>
+
+              </select>
+          </div>
+
+          <button type="submit" class="btn btn-default btn-sm">搜索</button>
+        </form>
+    </div>
+
+
+    <table class="table table-striped ph-list">
+        <th>
+            <div class="checkbox list-checkbox">
+              <label>
+                  <input type="checkbox" id="check-all" value="" aria-label="...">
+              </label>
+            </div>
+        </th>
+        <th>标识/期</th>
+        <th>LOGO</th>
+        <th>公司信息</th>
+        <th>基础分</th>
+        <th>商业力</th>
+        <th>创新力</th>
+        <th>设计力</th>
+        <th>影响力</th>
+        <th>信誉度</th>
+        <th>总分</th>
+        <th>状态</th>
+        <th>创建时间</th>
+        <th>操作</th>
+        {% for d in meta.data %}
+            <tr id="item-{{ d._id }}">
+                <td>
+                    <div class="checkbox list-checkbox">
+                      <label>
+                          <input type="checkbox" name="check-item" class="check-item" value="{{ d._id }}" aria-label="...">
+                      </label>
+                    </div>
+                </td>
+                <td>{{ d.mark }}[{{ d.no }}]</td>
+                <td>
+                    {% if d.design_company and d.design_company.logo_url %}
+                        <img src="{{ d.design_company.logo_url }}" width="80" />
+                    {% else %}
+                        <img src="{{ url_for('static', filename='images/avatar_100.png') }}" width="80" />
+                    {% endif %}
+                </td>
+                <td>
+                    <p>名称: {{ d.design_company.name }}</p>
+                    <p>编号: {{ d.number }}</p>
+                </td>
+                <td>{{ d.base_score }}</td>
+                <td>{{ d.business_score }}</td>
+                <td>{{ d.innovate_score }}</td>
+                <td>{{ d.design_score }}</td>
+                <td>{{ d.effect_score }}</td>
+                <td>{{ d.credit_scroe }}</td>
+                <td>{{ d.total_score }}</td>
+                <td>
+                    <p class="status-label">
+                        {% if d.status==0 %}
+                            <span class="label label-danger">禁用</span>
+                        {%endif%}
+                        {% if d.status==1 %}
+                            <span class="label label-success">启用</span>
+                        {%endif%}
+                    </p>
+                </td>
+                <td>
+                    <p>{{ d.created_at | date("%Y-%m-%d") }}</p>
+                </td>
+                <td>
+                    <p class="status-handle">
+                        {% if d.status==0 %}
+                            <a href="javascript:void(0);" data-id="{{ d._id }}" data-evt="1">启用</a>
+                        {%endif%}
+                        {% if d.status==1 %}
+                            <a href="javascript:void(0);" data-id="{{ d._id }}" data-evt="0">禁用</a>
+                        {%endif%}                   
+                    </p>
+                    <p>
+                        <a href="{{ url_for('admin.design_record_submit', id=d._id) }}">编辑</a>
+                        |
+                        <a href="{{ url_for('admin.design_record_delete', ids=d._id) }}" class="confirm-request">删除</a>
+                    </p>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <!--分页-->
+    {{ meta.pager|safe }}
+
+</div>
+
+{% endblock %}
+
+{% block templates %}
+  {% include "mustache/admin_status.mustache" %}
+{% endblock %}
+

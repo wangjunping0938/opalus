@@ -3,9 +3,11 @@ from app.extensions import celery
 from app.helpers.common import force_int
 from app.models.design_conf import DesignConf
 from app.models.design_company import DesignCompany
+from app.models.design_record import DesignRecord
 from flask import current_app, jsonify
 import requests
 import json
+from werkzeug.datastructures import MultiDict
 
 # 统计奖项数量
 @celery.task()
@@ -19,7 +21,8 @@ def company_stat(mark, no):
     page = 1
     perPage = 100
     isEnd = False
-    total = 0
+    successStatCount = 0
+    failStatCount = 0
     query = {}
     query['deleted'] = 0
 
@@ -331,26 +334,55 @@ def company_stat(mark, no):
             row = {
                 'mark': mark,
                 'no': no,
-                'number': d.number,
+                'number': str(d.number),
                 'base_score': baseScore,
+                'base_group': baseConf,
                 'business_score': businessScore,
+                'business_group': businessConf,
                 'innovate_score': innovateScore,
+                'innovate_group': innovateConf,
                 'design_score': designScore,
+                'design_group': designConf,
                 'effect_score': effectScore,
+                'effect_group': effectConf,
                 'credit_scroe': creditScore,
+                'credit_group': creditConf,
                 'total_score': totalScore,
             }
-            
+
             print(row)
 
+            recordQuery = {
+                'mark': mark,
+                'no': no,
+                'number': str(d.number),
+            }
+            try:
+                item = DesignRecord.objects(**recordQuery).first()
+                if item:
+                    if item.deleted == 1:
+                        row['deleted'] = 0
+                    ok = item.update(**row)
+                else:
+                    item = DesignRecord(**row)
+                    ok = item.save()
+                    
+                if not ok:
+                    print("数据保存失败: %s" % str(ok))
+                    continue
+            except(Exception) as e:
+                print("数据保存异常: %s" % str(e))
+                continue
+            
+            successStatCount += 1
+            print("stat success: %s" % row)
             print("------------------\n")
-            total += 1
 
         print("current page %s: \n" % page)
         page += 1
         if len(data.items) < perPage:
             isEnd = True
 
-    print("is over execute count %s\n" % total)
+    print("is over execute SuccessCount %d ---- failCount: %d\n" % (successStatCount, failStatCount))
 
 
