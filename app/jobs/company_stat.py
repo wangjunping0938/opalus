@@ -239,16 +239,16 @@ def company_stat(mark, no):
 
             # 高新企业
             if d.is_high_tech:
-                designConf['is_high_tech'] = conf['is_high_tech']
+                effectConf['is_high_tech'] = conf['is_high_tech']
             # 天眼查分数
             if d.ty_score:
-                designConf['ty_score'] = d.ty_score * conf['ty_score']
+                effectConf['ty_score'] = d.ty_score * conf['ty_score']
             # 天眼查浏览数
             if d.ty_view_count:
-                designConf['ty_view_count'] = d.ty_view_count * conf['ty_view_count']
+                effectConf['ty_view_count'] = d.ty_view_count * conf['ty_view_count']
             # 资质证书
             if d.certification_count:
-                designConf['certification_count'] = d.certification_count * conf['certification_count']
+                effectConf['certification_count'] = d.certification_count * conf['certification_count']
 
             # 工会认证
             if d.cida_credit_rating:
@@ -284,40 +284,40 @@ def company_stat(mark, no):
 
             # 法律诉讼
             if d.action_at_law_count:
-                 designConf['action_at_law_count'] = d.action_at_law_count * conf['action_at_law_count']
+                 creditConf['action_at_law_count'] = d.action_at_law_count * conf['action_at_law_count']
             # 法院公告
             if d.court_announcement_count:
-                 designConf['court_announcement_count'] = d.court_announcement_count * conf['court_announcement_count']
+                 creditConf['court_announcement_count'] = d.court_announcement_count * conf['court_announcement_count']
             # 失信人
             if d.dishonest_person_count:
-                 designConf['dishonest_person_count'] = d.dishonest_person_count * conf['dishonest_person_count']
+                 creditConf['dishonest_person_count'] = d.dishonest_person_count * conf['dishonest_person_count']
             # 被执行人
             if d.person_subject_count:
-                 designConf['person_subject_count'] = d.person_subject_count * conf['person_subject_count']
+                 creditConf['person_subject_count'] = d.person_subject_count * conf['person_subject_count']
             # 开庭公告
             if d.announcement_court_count:
-                 designConf['announcement_court_count'] = d.announcement_court_count * conf['announcement_court_count']
+                 creditConf['announcement_court_count'] = d.announcement_court_count * conf['announcement_court_count']
             # 经营异常
             if d.abnormal_operation_count:
-                 designConf['abnormal_operation_count'] = d.abnormal_operation_count * conf['abnormal_operation_count']
+                 creditConf['abnormal_operation_count'] = d.abnormal_operation_count * conf['abnormal_operation_count']
             # 行政处罚
             if d.administrative_penalty_count:
-                 designConf['administrative_penalty_count'] = d.administrative_penalty_count * conf['administrative_penalty_count']
+                 creditConf['administrative_penalty_count'] = d.administrative_penalty_count * conf['administrative_penalty_count']
             # 严重违法
             if d.break_law_count:
-                 designConf['break_law_count'] = d.break_law_count * conf['break_law_count']
+                 creditConf['break_law_count'] = d.break_law_count * conf['break_law_count']
             # 股权出质
             if d.equity_pledged_count:
-                 designConf['equity_pledged_count'] = d.equity_pledged_count * conf['equity_pledged_count']
+                 creditConf['equity_pledged_count'] = d.equity_pledged_count * conf['equity_pledged_count']
             # 动产抵押
             if d.chattel_mortgage_count:
-                 designConf['chattel_mortgage_count'] = d.chattel_mortgage_count * conf['chattel_mortgage_count']
+                 creditConf['chattel_mortgage_count'] = d.chattel_mortgage_count * conf['chattel_mortgage_count']
             # 欠税公告
             if d.tax_notice_count:
-                 designConf['tax_notice_count'] = d.tax_notice_count * conf['tax_notice_count']
+                 creditConf['tax_notice_count'] = d.tax_notice_count * conf['tax_notice_count']
             # 司法拍卖
             if d.judicial_sale_count:
-                 designConf['judicial_sale_count'] = d.judicial_sale_count * conf['judicial_sale_count']
+                 creditConf['judicial_sale_count'] = d.judicial_sale_count * conf['judicial_sale_count']
 
 
             ## 统计社会信誉分值
@@ -350,8 +350,6 @@ def company_stat(mark, no):
                 'total_score': totalScore,
             }
 
-            print(row)
-
             recordQuery = {
                 'mark': mark,
                 'no': no,
@@ -375,7 +373,7 @@ def company_stat(mark, no):
                 continue
             
             successStatCount += 1
-            print("stat success: %s" % row)
+            print("stat success: %s" % d.number)
             print("------------------\n")
 
         print("current page %s: \n" % page)

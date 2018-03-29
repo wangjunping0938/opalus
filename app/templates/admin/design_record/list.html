@@ -85,14 +85,14 @@
           </div>
           <div class="form-group">
               <select name="sort" class="form-control input-sm">
-                  <option value="0" {% if request.args.get('sort') == 0 %}selected="selected"{%endif%}>最新</option>
-                  <option value="1" {% if request.args.get('sort') == 1 %}selected="selected"{%endif%}>总分</option>
-                  <option value="2" {% if request.args.get('sort') == 2 %}selected="selected"{%endif%}>基础</option>
-                  <option value="3" {% if request.args.get('sort') == 3 %}selected="selected"{%endif%}>商业力</option>
-                  <option value="4" {% if request.args.get('sort') == 4 %}selected="selected"{%endif%}>创新力</option>
-                  <option value="5" {% if request.args.get('sort') == 5 %}selected="selected"{%endif%}>设计力</option>
-                  <option value="6" {% if request.args.get('sort') == 6 %}selected="selected"{%endif%}>影响力</option>
-                  <option value="7" {% if request.args.get('sort') == 7 %}selected="selected"{%endif%}>信誉度</option>
+                  <option value="0" {% if request.args.get('sort') == '0' %}selected="selected"{%endif%}>最新</option>
+                  <option value="1" {% if request.args.get('sort') == '1' %}selected="selected"{%endif%}>总分</option>
+                  <option value="2" {% if request.args.get('sort') == '2' %}selected="selected"{%endif%}>基础</option>
+                  <option value="3" {% if request.args.get('sort') == '3' %}selected="selected"{%endif%}>商业力</option>
+                  <option value="4" {% if request.args.get('sort') == '4' %}selected="selected"{%endif%}>创新力</option>
+                  <option value="5" {% if request.args.get('sort') == '5' %}selected="selected"{%endif%}>设计力</option>
+                  <option value="6" {% if request.args.get('sort') == '6' %}selected="selected"{%endif%}>影响力</option>
+                  <option value="7" {% if request.args.get('sort') == '7' %}selected="selected"{%endif%}>信誉度</option>
 
               </select>
           </div>
