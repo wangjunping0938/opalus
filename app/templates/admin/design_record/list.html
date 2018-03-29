@@ -141,7 +141,7 @@
                     {% endif %}
                 </td>
                 <td>
-                    <p>名称: {{ d.design_company.name }}</p>
+                    <p>名称: <a href="/admin/design_company/submit?id={{ d.design_company._id }}" target="_blank">{{ d.design_company.name }}</a></p>
                     <p>编号: {{ d.number }}</p>
                 </td>
                 <td>{{ d.base_score }}</td>

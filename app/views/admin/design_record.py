@@ -72,7 +72,7 @@ def design_record_list():
     # 过滤数据
     for i, d in enumerate(data.items):
         data.items[i].design_company = {}
-        designCompany = DesignCompany.objects(number=int(d.number)).fields(['name', 'logo_url']).first()
+        designCompany = DesignCompany.objects(number=int(d.number)).fields(['_id', 'name', 'logo_url']).first()
         if designCompany:
             data.items[i].design_company = designCompany
 
