@@ -26,7 +26,7 @@ class DesignRecord(Base):
     innovate_score = db.IntField(default=0)    # 创新力分
     design_score = db.IntField(default=0)    # 设计力分
     effect_score = db.IntField(default=0)    # 影响力分
-    credit_scroe = db.IntField(default=0)    # 信誉分
+    credit_score = db.IntField(default=0)    # 信誉分
 
     ## 不同维度详细统计
     base_group = db.DictField() # 基础分组

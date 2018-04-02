@@ -7,6 +7,7 @@ from app.models.design_company import DesignCompany
 from app.models.design_conf import DesignConf
 from app.helpers.pager import Pager
 from app.helpers.common import force_int
+from app.helpers.constant import design_dimension_options, design_fields_label_options
 from app.forms.design_record import SaveForm, setStatus
 from bson import ObjectId
 
@@ -84,6 +85,10 @@ def design_record_list():
 
     pager = Pager(page, per_page, total_count, page_url)
     meta['pager'] = pager.render_view()
+    
+    meta['design_dimension_options'] = design_dimension_options()
+    meta['design_fields_label_options'] = design_fields_label_options()
+    #current_app.logger.debug('aaaa')
 
     return render_template('admin/design_record/list.html', meta=meta)
 

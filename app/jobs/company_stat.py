@@ -345,7 +345,7 @@ def company_stat(mark, no):
                 'design_group': designConf,
                 'effect_score': effectScore,
                 'effect_group': effectConf,
-                'credit_scroe': creditScore,
+                'credit_score': creditScore,
                 'credit_group': creditConf,
                 'total_score': totalScore,
             }

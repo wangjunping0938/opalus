@@ -23,7 +23,7 @@ class SaveForm(FlaskForm):
     innovate_score = IntegerField()    # 创新力分
     design_score = IntegerField()    # 设计力分
     effect_score = IntegerField()    # 影响力分
-    credit_scroe = IntegerField()    # 信誉度分
+    credit_score = IntegerField()    # 信誉度分
 
     total_score = IntegerField()    # 总分
 

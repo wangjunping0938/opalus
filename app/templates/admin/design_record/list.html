@@ -31,6 +31,18 @@
         })
     });
 
+    $('.score-detail').popover({
+        html: true,
+        trigger: 'hover',
+        placement: 'bottom',
+        content: function() {
+            var id = $(this).data('id');
+            var type = $(this).data('type');
+            var o = '#item-' + id + '-' + type;
+            return $(o).html();
+        }
+    })
+
 
 {% endblock %}
 
@@ -113,12 +125,9 @@
         <th>标识/期</th>
         <th>LOGO</th>
         <th>公司信息</th>
-        <th>基础分</th>
-        <th>商业力</th>
-        <th>创新力</th>
-        <th>设计力</th>
-        <th>影响力</th>
-        <th>信誉度</th>
+        {% for c in meta.design_dimension_options %}
+        <th>{{ c.name }}</th>
+        {%endfor%}
         <th>总分</th>
         <th>状态</th>
         <th>创建时间</th>
@@ -144,13 +153,23 @@
                     <p>名称: <a href="/admin/design_company/submit?id={{ d.design_company._id }}" target="_blank">{{ d.design_company.name }}</a></p>
                     <p>编号: {{ d.number }}</p>
                 </td>
-                <td>{{ d.base_score }}</td>
-                <td>{{ d.business_score }}</td>
-                <td>{{ d.innovate_score }}</td>
-                <td>{{ d.design_score }}</td>
-                <td>{{ d.effect_score }}</td>
-                <td>{{ d.credit_scroe }}</td>
-                <td>{{ d.total_score }}</td>
+
+                {% for c in meta.design_dimension_options %}
+                  <td>
+                    <span class="badge score-detail" data-toggle="popover" title="{{ c.name }}" data-id="{{ d._id }}" data-type="{{ c.mark }}" style="background-color: {{ c.color }}">{{ d[c.field] }}</span>
+                      <div id="item-{{ d._id }}-{{ c.mark }}" style="display:none;">
+                        {% for f in d[c.group] %}
+                          {% for g in meta.design_fields_label_options %}
+                            {% if g.field == f %}
+                              <p>{{ g.name }}: {{ d[c.group][f] }}</p>
+                            {%endif%}
+                          {%endfor%}
+                        {%endfor%}
+                      </div>
+                  </td>
+                {%endfor%}
+
+                <td><span class="badge">{{ d.total_score }}</span></td>
                 <td>
                     <p class="status-label">
                         {% if d.status==0 %}
