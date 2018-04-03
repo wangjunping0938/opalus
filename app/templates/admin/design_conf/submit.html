@@ -160,10 +160,6 @@
                         <label for="bid_count">招投标(数量)</label>
                         <input type="text" name="bid_count" class="form-control" value="{{ meta.data.bid_count|default(0) }}" placeholder="">
                     </div>
-                    <div class="col-xs-2">
-                        <label for="wx_public_count">公号(数量)</label>
-                        <input type="text" name="wx_public_count" class="form-control" value="{{ meta.data.wx_public_count|default(0) }}" placeholder="">
-                    </div>
                 </div>
             </div>
         </div>
@@ -239,10 +235,6 @@
                         <label for="branch">分公司数量(数量)</label>
                         <input type="text" name="branch" class="form-control" value="{{ meta.data.branch|default(0) }}" placeholder="">
                     </div>
-                    <div class="col-xs-2">
-                        <label for="tax_rating_count">税务评级(数量)</label>
-                        <input type="text" name="tax_rating_count" class="form-control" value="{{ meta.data.tax_rating_count|default(0) }}" placeholder="">
-                    </div>
                 </div>
             </div>
         </div>
@@ -260,6 +252,140 @@
         </div>
         <div id="innovate-info" class="panel-collapse collapse in">
             <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="trademark_count_a">商标(1-4)</label>
+                        <input type="text" name="trademark_count_a" class="form-control" value="{{ meta.data.trademark_count_a|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="trademark_count_b">商标(5-9)</label>
+                        <input type="text" name="trademark_count_b" class="form-control" value="{{ meta.data.trademark_count_b|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="trademark_count_c">商标(10-49)</label>
+                        <input type="text" name="trademark_count_c" class="form-control" value="{{ meta.data.trademark_count_c|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="trademark_count_d">商标(50-99)</label>
+                        <input type="text" name="trademark_count_d" class="form-control" value="{{ meta.data.trademark_count_d|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="trademark_count_e">商标(100-499)</label>
+                        <input type="text" name="trademark_count_e" class="form-control" value="{{ meta.data.trademark_count_e|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="trademark_count_f">商标(500+)</label>
+                        <input type="text" name="trademark_count_f" class="form-control" value="{{ meta.data.trademark_count_f|default(0) }}" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="patent_count_a">专利(1-4)</label>
+                        <input type="text" name="patent_count_a" class="form-control" value="{{ meta.data.patent_count_a|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="patent_count_b">专利(5-9)</label>
+                        <input type="text" name="patent_count_b" class="form-control" value="{{ meta.data.patent_count_b|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="patent_count_c">专利(10-49)</label>
+                        <input type="text" name="patent_count_c" class="form-control" value="{{ meta.data.patent_count_c|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="patent_count_d">专利(50-99)</label>
+                        <input type="text" name="patent_count_d" class="form-control" value="{{ meta.data.patent_count_d|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="patent_count_e">专利(100-499)</label>
+                        <input type="text" name="patent_count_e" class="form-control" value="{{ meta.data.patent_count_e|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="patent_count_f">专利(500+)</label>
+                        <input type="text" name="patent_count_f" class="form-control" value="{{ meta.data.patent_count_f|default(0) }}" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="software_copyright_count_a">软件著作权(1-4)</label>
+                        <input type="text" name="software_copyright_count_a" class="form-control" value="{{ meta.data.software_copyright_count_a|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="software_copyright_count_b">软件著作权(5-9)</label>
+                        <input type="text" name="software_copyright_count_b" class="form-control" value="{{ meta.data.software_copyright_count_b|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="software_copyright_count_c">软件著作权(10-49)</label>
+                        <input type="text" name="software_copyright_count_c" class="form-control" value="{{ meta.data.software_copyright_count_c|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="software_copyright_count_d">软件著作权(50-99)</label>
+                        <input type="text" name="software_copyright_count_d" class="form-control" value="{{ meta.data.software_copyright_count_d|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="software_copyright_count_e">软件著作权(100-499)</label>
+                        <input type="text" name="software_copyright_count_e" class="form-control" value="{{ meta.data.software_copyright_count_e|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="software_copyright_count_f">软件著作权(500+)</label>
+                        <input type="text" name="software_copyright_count_f" class="form-control" value="{{ meta.data.software_copyright_count_f|default(0) }}" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="works_copyright_count_a">作品著作权(1-4)</label>
+                        <input type="text" name="works_copyright_count_a" class="form-control" value="{{ meta.data.works_copyright_count_a|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="works_copyright_count_b">作品著作权(5-9)</label>
+                        <input type="text" name="works_copyright_count_b" class="form-control" value="{{ meta.data.works_copyright_count_b|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="works_copyright_count_c">作品著作权(10-49)</label>
+                        <input type="text" name="works_copyright_count_c" class="form-control" value="{{ meta.data.works_copyright_count_c|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="works_copyright_count_d">作品著作权(50-99)</label>
+                        <input type="text" name="works_copyright_count_d" class="form-control" value="{{ meta.data.works_copyright_count_d|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="works_copyright_count_e">作品著作权(100-499)</label>
+                        <input type="text" name="works_copyright_count_e" class="form-control" value="{{ meta.data.works_copyright_count_e|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="works_copyright_count_f">作品著作权(500+)</label>
+                        <input type="text" name="works_copyright_count_f" class="form-control" value="{{ meta.data.works_copyright_count_f|default(0) }}" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="icp_count">网站备案(数量)</label>
+                        <input type="text" name="icp_count" class="form-control" value="{{ meta.data.icp_count|default(0) }}" placeholder="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse"
+                   href="#design-info">
+                    设计力指数
+                </a>
+            </h4>
+        </div>
+        <div id="design-info" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="design_center_province">设计中心(省级)</label>
+                        <input type="text" name="design_center_province" class="form-control" value="{{ meta.data.design_center_province|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="design_center_county">设计中心(国家级)</label>
+                        <input type="text" name="design_center_county" class="form-control" value="{{ meta.data.design_center_county|default(0) }}" placeholder="">
+                    </div>
+                </div>
                 <div class="form-group">
                     <div class="col-xs-2">
                         <label for="red_star_award_count">红星奖(数量)</label>
@@ -292,52 +418,9 @@
                         <label for="idea_award_count">IDEA工业设计奖(数量)</label>
                         <input type="text" name="idea_award_count" class="form-control" value="{{ meta.data.idea_award_count|default(0) }}" placeholder="">
                     </div>
-                </div>
-
-                <div class="form-group">
                     <div class="col-xs-2">
-                        <label for="trademark_count">商标(数量)</label>
-                        <input type="text" name="trademark_count" class="form-control" value="{{ meta.data.trademark_count|default(0) }}" placeholder="">
-                    </div>
-                    <div class="col-xs-2">
-                        <label for="patent_count">专利(数量)</label>
-                        <input type="text" name="patent_count" class="form-control" value="{{ meta.data.patent_count|default(0) }}" placeholder="">
-                    </div>
-                    <div class="col-xs-2">
-                        <label for="software_copyright_count">软件著作权(数量)</label>
-                        <input type="text" name="software_copyright_count" class="form-control" value="{{ meta.data.software_copyright_count|default(0) }}" placeholder="">
-                    </div>
-                    <div class="col-xs-2">
-                        <label for="works_copyright_count">作品著作权(数量)</label>
-                        <input type="text" name="works_copyright_count" class="form-control" value="{{ meta.data.works_copyright_count|default(0) }}" placeholder="">
-                    </div>
-                    <div class="col-xs-2">
-                        <label for="icp_count">网站备案(数量)</label>
-                        <input type="text" name="icp_count" class="form-control" value="{{ meta.data.icp_count|default(0) }}" placeholder="">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a data-toggle="collapse"
-                   href="#design-info">
-                    设计力指数
-                </a>
-            </h4>
-        </div>
-        <div id="design-info" class="panel-collapse collapse in">
-            <div class="panel-body">
-                <div class="form-group">
-                    <div class="col-xs-2">
-                        <label for="design_center_province">设计中心(省级)</label>
-                        <input type="text" name="design_center_province" class="form-control" value="{{ meta.data.design_center_province|default(0) }}" placeholder="">
-                    </div>
-                    <div class="col-xs-2">
-                        <label for="design_center_county">设计中心(国家级)</label>
-                        <input type="text" name="design_center_county" class="form-control" value="{{ meta.data.design_center_county|default(0) }}" placeholder="">
+                        <label for="gmark_award_count">G-Mark设计奖(数量)</label>
+                        <input type="text" name="gmark_award_count" class="form-control" value="{{ meta.data.gmark_award_count|default(0) }}" placeholder="">
                     </div>
                 </div>
                 <div class="form-group">
@@ -376,6 +459,10 @@
                     <div class="col-xs-2">
                         <label for="certification_count">资质证书(数量)</label>
                         <input type="text" name="certification_count" class="form-control" value="{{ meta.data.certification_count|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="wx_public_count">公号(数量)</label>
+                        <input type="text" name="wx_public_count" class="form-control" value="{{ meta.data.wx_public_count|default(0) }}" placeholder="">
                     </div>
                 </div>
                 <div class="form-group">
@@ -484,6 +571,12 @@
                     <div class="col-xs-2">
                         <label for="judicial_sale_count">司法拍卖</label>
                         <input type="text" name="judicial_sale_count" class="form-control" value="{{ meta.data.judicial_sale_count|default(0) }}" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="tax_rating_count">税务评级(数量)</label>
+                        <input type="text" name="tax_rating_count" class="form-control" value="{{ meta.data.tax_rating_count|default(0) }}" placeholder="">
                     </div>
                 </div>
             </div>

@@ -19,6 +19,7 @@ class DesignRecord(Base):
     mark = db.StringField(max_length=20, default='') # 所属配置标识
     no = db.IntField(default=0) # 统计期数
     type = db.IntField(default=1) # 类型：1.--;
+    is_d3in = db.IntField(default=0) # 是否入驻铟果：0.否；1.是；
 
     ## 不同维度打分
     base_score = db.IntField(default=0)    # 基础分

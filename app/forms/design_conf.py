@@ -16,6 +16,7 @@ class SaveForm(FlaskForm):
     mark = StringField('标识', validators=[Length(max=20, message="长度小于20个字符")])
     type = IntegerField()    # 类型：1.默认；2.--；
 
+
     ## 基本信息
     in_d3ing = IntegerField()    # 是否入驻铟果平台
     key_personnel_count = IntegerField()    # 主要人员
@@ -27,7 +28,6 @@ class SaveForm(FlaskForm):
     enterprise_business_count = IntegerField() # 企业业务
     competitor_count = IntegerField() # 竞品信息
     bid_count = IntegerField() # 招投标
-    wx_public_count = IntegerField() # 公号
 
 
     ## 商业力指数
@@ -45,21 +45,38 @@ class SaveForm(FlaskForm):
     investment_abroad_count = IntegerField() # 对外投资
     annual_return_count = IntegerField() # 公司年报
     branch = IntegerField() # 分公司数量
-    tax_rating_count = IntegerField() # 税务评级
 
 
     ## 创新力指数
-    red_star_award_count = IntegerField()    # 红星奖数量
-    innovative_design_award_count = IntegerField()    # 红棉奖数量
-    china_design_award_count = IntegerField()    # 中国好设计奖数量
-    dia_award_count = IntegerField() # 中国设计智造奖数量
-    if_award_count = IntegerField()    # IF奖数量
-    red_dot_award_count = IntegerField()    # 红点奖数量
-    idea_award_count = IntegerField() # 美国IDEA工业设计优秀奖数量
     trademark_count = IntegerField() # 商标
+    trademark_count_a = IntegerField() # 商标(1-4)
+    trademark_count_b = IntegerField() # 商标(5-9)
+    trademark_count_c = IntegerField() # 商标(10-49)
+    trademark_count_d = IntegerField() # 商标(50-99)
+    trademark_count_e = IntegerField() # 商标(100-499)
+    trademark_count_f = IntegerField() # 商标(500+)
     patent_count = IntegerField() # 专利
+    patent_count_a = IntegerField() # 专利(1-4)
+    patent_count_b = IntegerField() # 专利(5-9)
+    patent_count_c = IntegerField() # 专利(10-49)
+    patent_count_d = IntegerField() # 专利(50-99)
+    patent_count_e = IntegerField() # 专利(100-499)
+    patent_count_f = IntegerField() # 专利(500+)
     software_copyright_count = IntegerField() # 软件著作权
+    software_copyright_count_a = IntegerField() # 软件著作权(1-4)
+    software_copyright_count_b = IntegerField() # 软件著作权(5-9)
+    software_copyright_count_c = IntegerField() # 软件著作权(10-49)
+    software_copyright_count_d = IntegerField() # 软件著作权(50-99)
+    software_copyright_count_e = IntegerField() # 软件著作权(100-499)
+    software_copyright_count_f = IntegerField() # 软件著作权(500+)
+
     works_copyright_count = IntegerField() # 作品著作权
+    works_copyright_count_a = IntegerField() # 作品著作权(1-4)
+    works_copyright_count_b = IntegerField() # 作品著作权(5-9)
+    works_copyright_count_c = IntegerField() # 作品著作权(10-49)
+    works_copyright_count_d = IntegerField() # 作品著作权(50-99)
+    works_copyright_count_e = IntegerField() # 作品著作权(100-499)
+    works_copyright_count_f = IntegerField() # 作品著作权(500+)
     icp_count = IntegerField() # 网站备案
 
 
@@ -68,6 +85,14 @@ class SaveForm(FlaskForm):
     d3in_case_count = IntegerField() # 铟果作品数量
     design_center_province = IntegerField()    # 是否是设计中心: 省级；
     design_center_county = IntegerField()    # 是否是设计中心: 国家级；
+    red_star_award_count = IntegerField()    # 红星奖数量
+    innovative_design_award_count = IntegerField()    # 红棉奖数量
+    china_design_award_count = IntegerField()    # 中国好设计奖数量
+    dia_award_count = IntegerField() # 中国设计智造奖数量
+    if_award_count = IntegerField()    # IF奖数量
+    red_dot_award_count = IntegerField()    # 红点奖数量
+    idea_award_count = IntegerField() # 美国IDEA工业设计优秀奖数量
+    gmark_award_count = IntegerField() # G-Mark设计奖数量
 
 
     ## 影响力指数
@@ -84,6 +109,7 @@ class SaveForm(FlaskForm):
     cida_credit_rating_a = IntegerField() # 工会认证：A
     cida_credit_rating_b = IntegerField() # 工会认证：AA
     cida_credit_rating_c = IntegerField() # 工会认证：AAA
+    wx_public_count = IntegerField() # 公号
 
 
     ## 社会信誉
@@ -100,7 +126,7 @@ class SaveForm(FlaskForm):
     chattel_mortgage_count = IntegerField() # 动产抵押
     tax_notice_count = IntegerField() # 欠税公告
     judicial_sale_count = IntegerField() # 司法拍卖
-    user_id = IntegerField()
+    tax_rating_count = IntegerField() # 税务评级
 
     def update(self):
         id = self.data['id']

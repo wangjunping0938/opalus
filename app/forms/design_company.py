@@ -38,6 +38,7 @@ class SaveForm(FlaskForm):
     if_award_count = IntegerField() # if奖数量
     red_dot_award_count = IntegerField() # 红点奖数量
     idea_award_count = IntegerField() # 美国IDEA工业设计优秀奖数量
+    gmark_award_count = IntegerField() # G-Mark设计奖数量
     d3ing_id = IntegerField() # 铟果平台ID
 
 

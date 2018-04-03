@@ -50,14 +50,7 @@ def design_company_list():
 
     # 过滤数据
     for i, d in enumerate(data.items):
-        craw_user = '--'
-        if d.craw_user_id:
-            if d.craw_user_id == 1:
-                craw_user = '军平'
-            if d.craw_user_id == 2:
-                craw_user = '小董'
-            
-        data.items[i].craw_user = craw_user
+        pass
 
     meta['data'] = data.items
 

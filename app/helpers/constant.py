@@ -97,9 +97,9 @@ def company_registered_capital_format_options(id=0):
 def design_dimension_options(mark=''):
     data = [
                 {'id': 1, 'mark': 'base', 'name': '基础分', 'field': 'base_score', 'group': 'base_group', 'color': '#778899'},
-                {'id': 2, 'mark': 'business', 'name': '商业力', 'field': 'business_score', 'group': 'business_group', 'color': '#40E0D0'},
-                {'id': 3, 'mark': 'innovate', 'name': '创新力', 'field': 'innovate_score', 'group': 'innovate_group', 'color': '#B0E0E6'},
-                {'id': 4, 'mark': 'design', 'name': '设计力', 'field': 'design_score', 'group': 'design_group', 'color': '#00FF00'},
+                {'id': 2, 'mark': 'business', 'name': '商业力', 'field': 'business_score', 'group': 'business_group', 'color': '#9932CC'},
+                {'id': 3, 'mark': 'innovate', 'name': '创新力', 'field': 'innovate_score', 'group': 'innovate_group', 'color': '#00BFFF'},
+                {'id': 4, 'mark': 'design', 'name': '设计力', 'field': 'design_score', 'group': 'design_group', 'color': '#F08080'},
                 {'id': 5, 'mark': 'effect', 'name': '影响力', 'field': 'effect_score', 'group': 'effect_group', 'color': '#4169E1'},
                 {'id': 6, 'mark': 'credit', 'name': '信誉度', 'field': 'credit_score', 'group': 'credit_group', 'color': '#66CDAA'},
             ]
@@ -127,7 +127,6 @@ def design_fields_label_options(field=''):
                 {'field': 'enterprise_business_count', 'name': '企业业务', 'group': 'base'},
                 {'field': 'competitor_count', 'name': '竞品信息', 'group': 'base'},
                 {'field': 'bid_count', 'name': '招投标', 'group': 'base'},
-                {'field': 'wx_public_count', 'name': '公号', 'group': 'base'},
                 # 商业力
                 {'field': 'scale', 'name': '公司规模', 'group': 'business'},
                 {'field': 'registered_capital_format', 'name': '注册资金', 'group': 'business'},
@@ -136,13 +135,6 @@ def design_fields_label_options(field=''):
                 {'field': 'branch', 'name': '分公司数', 'group': 'business'},
                 {'field': 'tax_rating_count', 'name': '税务评级', 'group': 'business'},
                 # 创新力
-                {'field': 'red_star_award_count', 'name': '红星奖', 'group': 'innovate'},
-                {'field': 'innovative_design_award_count', 'name': '红棉奖', 'group': 'innovate'},
-                {'field': 'china_design_award_count', 'name': '中国好设计奖', 'group': 'innovate'},
-                {'field': 'dia_award_count', 'name': '中国设计智造大奖', 'group': 'innovate'},
-                {'field': 'if_award_count', 'name': 'if奖', 'group': 'innovate'},
-                {'field': 'red_dot_award_count', 'name': '红点奖', 'group': 'innovate'},
-                {'field': 'idea_award_count', 'name': 'IDEA工业设计奖', 'group': 'innovate'},
                 {'field': 'trademark_count', 'name': '商标', 'group': 'innovate'},
                 {'field': 'patent_count', 'name': '专利', 'group': 'innovate'},
                 {'field': 'software_copyright_count', 'name': '软件著作权', 'group': 'innovate'},
@@ -152,12 +144,21 @@ def design_fields_label_options(field=''):
                 {'field': 'design_center', 'name': '设计中心', 'group': 'design'},
                 {'field': 'design_case_count', 'name': '抓取作品数', 'group': 'design'},
                 {'field': 'd3in_case_count', 'name': '铟果作品数', 'group': 'design'},
+                {'field': 'red_star_award_count', 'name': '红星奖', 'group': 'design'},
+                {'field': 'innovative_design_award_count', 'name': '红棉奖', 'group': 'design'},
+                {'field': 'china_design_award_count', 'name': '中国好设计奖', 'group': 'design'},
+                {'field': 'dia_award_count', 'name': '中国设计智造大奖', 'group': 'design'},
+                {'field': 'if_award_count', 'name': 'if奖', 'group': 'design'},
+                {'field': 'red_dot_award_count', 'name': '红点奖', 'group': 'design'},
+                {'field': 'idea_award_count', 'name': 'IDEA工业设计奖', 'group': 'design'},
+                {'field': 'gmark_award_count', 'name': 'G-Mark设计奖', 'group': 'design'},
                 # 影响力
                 {'field': 'is_high_tech', 'name': '高新企业', 'group': 'effect'},
                 {'field': 'ty_score', 'name': '天眼查分数', 'group': 'effect'},
                 {'field': 'ty_view_count', 'name': '天眼查浏览数', 'group': 'effect'},
                 {'field': 'certification_count', 'name': '资质证书', 'group': 'effect'},
                 {'field': 'cida_credit_rating', 'name': '工会认证', 'group': 'effect'},
+                {'field': 'wx_public_count', 'name': '公号', 'group': 'effect'},
                 # 社会信誉
                 {'field': 'action_at_law_count', 'name': '法律诉讼', 'group': 'credit'},
                 {'field': 'court_announcement_count', 'name': '法院公告', 'group': 'credit'},

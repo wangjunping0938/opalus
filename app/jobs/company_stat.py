@@ -35,6 +35,8 @@ def company_stat(mark, no):
 
         # 过滤数据
         for i, d in enumerate(data.items):
+            ## 是否入驻铟果
+            is_d3in = 0
             ## 基本信息统计
             baseConf = {
                 'in_d3ing': 0,
@@ -46,10 +48,10 @@ def company_stat(mark, no):
                 'enterprise_business_count': 0,
                 'competitor_count': 0,
                 'bid_count': 0,
-                'wx_public_count': 0,
             }
             # 入驻铟果
             if d.d3ing_id:
+                is_d3in = 1
                 baseConf['in_d3ing'] = conf['in_d3ing']
             # 主要成员
             if d.key_personnel_count:
@@ -78,9 +80,6 @@ def company_stat(mark, no):
             # 招投标
             if d.bid_count:
                 baseConf['bid_count'] = d.bid_count * conf['bid_count']
-            # 公号
-            if d.wx_public_count:
-                baseConf['wx_public_count'] = d.wx_public_count * conf['wx_public_count']
 
             ## 统计基本信息分值
             baseScore = 0
@@ -145,13 +144,6 @@ def company_stat(mark, no):
 
             ## 创新力指数
             innovateConf = {
-                'red_star_award_count': 0,
-                'innovative_design_award_count': 0,
-                'china_design_award_count': 0,
-                'dia_award_count': 0,
-                'if_award_count': 0,
-                'red_dot_award_count': 0,
-                'idea_award_count': 0,
                 'trademark_count': 0,
                 'patent_count': 0,
                 'software_copyright_count': 0,
@@ -159,39 +151,64 @@ def company_stat(mark, no):
                 'icp_count': 0,
             }
 
-            # 红星奖
-            if d.red_star_award_count:
-                innovateConf['red_star_award_count'] = d.red_star_award_count * conf['red_star_award_count']
-            # 红棉奖
-            if d.innovative_design_award_count:
-                innovateConf['innovative_design_award_count'] = d.innovative_design_award_count * conf['innovative_design_award_count']
-            # 中国好设计奖
-            if d.china_design_award_count:
-                innovateConf['china_design_award_count'] = d.china_design_award_count * conf['china_design_award_count']
-            # 中国设计智造大奖
-            if d.dia_award_count:
-                innovateConf['dia_award_count'] = d.dia_award_count * conf['dia_award_count']
-            # if奖
-            if d.if_award_count:
-                innovateConf['if_award_count'] = d.if_award_count * conf['if_award_count']
-            # 红点奖
-            if d.red_dot_award_count:
-                innovateConf['red_dot_award_count'] = d.red_dot_award_count * conf['red_dot_award_count']
-            # IDEA工业设计奖
-            if d.idea_award_count:
-                innovateConf['idea_award_count'] = d.idea_award_count * conf['idea_award_count']
             # 商标
             if d.trademark_count:
-                innovateConf['trademark_count'] = d.trademark_count * conf['trademark_count']
+                if d.trademark_count < 5:
+                    innovateConf['trademark_count'] = conf['trademark_count_a']
+                elif d.trademark_count >= 5 and d.trademark_count < 10:
+                    innovateConf['trademark_count'] = conf['trademark_count_b']
+                elif d.trademark_count >= 10 and d.trademark_count < 50:
+                    innovateConf['trademark_count'] = conf['trademark_count_c']
+                elif d.trademark_count >= 50 and d.trademark_count < 100:
+                    innovateConf['trademark_count'] = conf['trademark_count_d']
+                elif d.trademark_count >= 100 and d.trademark_count < 500:
+                    innovateConf['trademark_count'] = conf['trademark_count_e']
+                elif d.trademark_count >= 500:
+                    innovateConf['trademark_count'] = conf['trademark_count_f']
+
             # 专利
             if d.patent_count:
-                innovateConf['patent_count'] = d.patent_count * conf['patent_count']
+                if d.patent_count < 5:
+                    innovateConf['patent_count'] = conf['patent_count_a']
+                elif d.patent_count >= 5 and d.patent_count < 10:
+                    innovateConf['patent_count'] = conf['patent_count_b']
+                elif d.patent_count >= 10 and d.patent_count < 50:
+                    innovateConf['patent_count'] = conf['patent_count_c']
+                elif d.patent_count >= 50 and d.patent_count < 100:
+                    innovateConf['patent_count'] = conf['patent_count_d']
+                elif d.patent_count >= 100 and d.patent_count < 500:
+                    innovateConf['patent_count'] = conf['patent_count_e']
+                elif d.patent_count >= 500:
+                    innovateConf['patent_count'] = conf['patent_count_f']
             # 软件著作权
             if d.software_copyright_count:
-                innovateConf['software_copyright_count'] = d.software_copyright_count * conf['software_copyright_count']
+                if d.software_copyright_count < 5:
+                    innovateConf['software_copyright_count'] = conf['software_copyright_count_a']
+                elif d.software_copyright_count >= 5 and d.software_copyright_count < 10:
+                    innovateConf['software_copyright_count'] = conf['software_copyright_count_b']
+                elif d.software_copyright_count >= 10 and d.software_copyright_count < 50:
+                    innovateConf['software_copyright_count'] = conf['software_copyright_count_c']
+                elif d.software_copyright_count >= 50 and d.software_copyright_count < 100:
+                    innovateConf['software_copyright_count'] = conf['software_copyright_count_d']
+                elif d.software_copyright_count >= 100 and d.software_copyright_count < 500:
+                    innovateConf['software_copyright_count'] = conf['software_copyright_count_e']
+                elif d.software_copyright_count >= 500:
+                    innovateConf['software_copyright_count'] = conf['software_copyright_count_f']
+
             # 作品著作权
             if d.works_copyright_count:
-                innovateConf['works_copyright_count'] = d.works_copyright_count * conf['works_copyright_count']
+                if d.works_copyright_count < 5:
+                    innovateConf['works_copyright_count'] = conf['works_copyright_count_a']
+                elif d.works_copyright_count >= 5 and d.works_copyright_count < 10:
+                    innovateConf['works_copyright_count'] = conf['works_copyright_count_b']
+                elif d.works_copyright_count >= 10 and d.works_copyright_count < 50:
+                    innovateConf['works_copyright_count'] = conf['works_copyright_count_c']
+                elif d.works_copyright_count >= 50 and d.works_copyright_count < 100:
+                    innovateConf['works_copyright_count'] = conf['works_copyright_count_d']
+                elif d.works_copyright_count >= 100 and d.works_copyright_count < 500:
+                    innovateConf['works_copyright_count'] = conf['works_copyright_count_e']
+                elif d.works_copyright_count >= 500:
+                    innovateConf['works_copyright_count'] = conf['works_copyright_count_f']
             # 网站备案
             if d.icp_count:
                 innovateConf['icp_count'] = d.icp_count * conf['icp_count']
@@ -207,6 +224,14 @@ def company_stat(mark, no):
                 'design_center': 0,
                 'design_case_count': 0,
                 'd3in_case_count': 0,
+                'red_star_award_count': 0,
+                'innovative_design_award_count': 0,
+                'china_design_award_count': 0,
+                'dia_award_count': 0,
+                'if_award_count': 0,
+                'red_dot_award_count': 0,
+                'idea_award_count': 0,
+                'gmark_award_count': 0,
             }
 
             # 设计中心--省级/国家级
@@ -223,6 +248,31 @@ def company_stat(mark, no):
             if d.d3in_case_count:
                 designConf['d3in_case_count'] = d.d3in_case_count * conf['d3in_case_count']
 
+            # 红星奖
+            if d.red_star_award_count:
+                designConf['red_star_award_count'] = d.red_star_award_count * conf['red_star_award_count']
+            # 红棉奖
+            if d.innovative_design_award_count:
+                designConf['innovative_design_award_count'] = d.innovative_design_award_count * conf['innovative_design_award_count']
+            # 中国好设计奖
+            if d.china_design_award_count:
+                designConf['china_design_award_count'] = d.china_design_award_count * conf['china_design_award_count']
+            # 中国设计智造大奖
+            if d.dia_award_count:
+                designConf['dia_award_count'] = d.dia_award_count * conf['dia_award_count']
+            # if奖
+            if d.if_award_count:
+                designConf['if_award_count'] = d.if_award_count * conf['if_award_count']
+            # 红点奖
+            if d.red_dot_award_count:
+                designConf['red_dot_award_count'] = d.red_dot_award_count * conf['red_dot_award_count']
+            # IDEA工业设计奖
+            if d.idea_award_count:
+                designConf['idea_award_count'] = d.idea_award_count * conf['idea_award_count']
+            # G-Mark设计奖
+            if d.gmark_award_count:
+                designConf['gmark_award_count'] = d.gmark_award_count * conf['gmark_award_count']
+
             ## 统计设计力指数分值
             designScore = 0
             for k, v in designConf.items():
@@ -236,6 +286,7 @@ def company_stat(mark, no):
                 'ty_view_count': 0,
                 'certification_count': 0,
                 'cida_credit_rating': 0,
+                'wx_public_count': 0,
             }
 
             # 高新企业
@@ -271,6 +322,10 @@ def company_stat(mark, no):
                     designConf['cida_credit_rating'] = conf['cida_credit_rating_b']
                 elif d.cida_credit_rating == 3:
                     designConf['cida_credit_rating'] = conf['cida_credit_rating_c']
+
+            # 公号
+            if d.wx_public_count:
+                designConf['wx_public_count'] = d.wx_public_count * conf['wx_public_count']
 
 
             ## 统计影响力指数分值
@@ -348,6 +403,7 @@ def company_stat(mark, no):
                 'mark': mark,
                 'no': no,
                 'number': str(d.number),
+                'is_d3in': is_d3in,
                 'base_score': baseScore,
                 'base_group': baseConf,
                 'business_score': businessScore,

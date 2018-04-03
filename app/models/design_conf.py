@@ -30,7 +30,6 @@ class DesignConf(Base):
     enterprise_business_count = db.IntField(default=0) # 企业业务
     competitor_count = db.IntField(default=0) # 竞品信息
     bid_count = db.IntField(default=0) # 招投标
-    wx_public_count = db.IntField(default=0) # 公号
 
 
     ## 商业力指数
@@ -48,21 +47,37 @@ class DesignConf(Base):
     investment_abroad_count = db.IntField(default=0) # 对外投资
     annual_return_count = db.IntField(default=0) # 公司年报
     branch = db.IntField(default=0) # 分公司数量
-    tax_rating_count = db.IntField(default=0) # 税务评级
 
 
     ## 创新力指数
-    red_star_award_count = db.IntField(default=0)    # 红星奖数量
-    innovative_design_award_count = db.IntField(default=0)    # 红棉奖数量
-    china_design_award_count = db.IntField(default=0)    # 中国好设计奖数量
-    dia_award_count = db.IntField(default=0)    # 中国设计智造奖数量
-    if_award_count = db.IntField(default=0)    # IF奖数量
-    red_dot_award_count = db.IntField(default=0)    # 红点奖数量
-    idea_award_count = db.IntField(default=0) # 美国IDEA工业设计优秀奖数量
     trademark_count = db.IntField(default=0) # 商标
+    trademark_count_a = db.IntField(default=0) # 商标(1-4)
+    trademark_count_b = db.IntField(default=0) # 商标(5-9)
+    trademark_count_c = db.IntField(default=0) # 商标(10-49)
+    trademark_count_d = db.IntField(default=0) # 商标(50-99)
+    trademark_count_e = db.IntField(default=0) # 商标(100-499)
+    trademark_count_f = db.IntField(default=0) # 商标(500+)
     patent_count = db.IntField(default=0) # 专利
+    patent_count_a = db.IntField(default=0) # 专利(1-4)
+    patent_count_b = db.IntField(default=0) # 专利(5-9)
+    patent_count_c = db.IntField(default=0) # 专利(10-49)
+    patent_count_d = db.IntField(default=0) # 专利(50-99)
+    patent_count_e = db.IntField(default=0) # 专利(100-499)
+    patent_count_f = db.IntField(default=0) # 专利(500+)
     software_copyright_count = db.IntField(default=0) # 软件著作权
+    software_copyright_count_a = db.IntField(default=0) # 软件著作权(1-4)
+    software_copyright_count_b = db.IntField(default=0) # 软件著作权(5-9)
+    software_copyright_count_c = db.IntField(default=0) # 软件著作权(10-49)
+    software_copyright_count_d = db.IntField(default=0) # 软件著作权(50-99)
+    software_copyright_count_e = db.IntField(default=0) # 软件著作权(100-499)
+    software_copyright_count_f = db.IntField(default=0) # 软件著作权(500+)
     works_copyright_count = db.IntField(default=0) # 作品著作权
+    works_copyright_count_a = db.IntField(default=0) # 作品著作权(1-4)
+    works_copyright_count_b = db.IntField(default=0) # 作品著作权(5-9)
+    works_copyright_count_c = db.IntField(default=0) # 作品著作权(10-49)
+    works_copyright_count_d = db.IntField(default=0) # 作品著作权(50-99)
+    works_copyright_count_e = db.IntField(default=0) # 作品著作权(100-499)
+    works_copyright_count_f = db.IntField(default=0) # 作品著作权(500+)
     icp_count = db.IntField(default=0) # 网站备案
 
 
@@ -71,6 +86,14 @@ class DesignConf(Base):
     d3in_case_count = db.IntField(default=0) # 铟果作品数量
     design_center_province = db.IntField(default=0)    # 是否是设计中心: 省级；
     design_center_county = db.IntField(default=0)    # 是否是设计中心: 国家级；
+    red_star_award_count = db.IntField(default=0)    # 红星奖数量
+    innovative_design_award_count = db.IntField(default=0)    # 红棉奖数量
+    china_design_award_count = db.IntField(default=0)    # 中国好设计奖数量
+    dia_award_count = db.IntField(default=0)    # 中国设计智造奖数量
+    if_award_count = db.IntField(default=0)    # IF奖数量
+    red_dot_award_count = db.IntField(default=0)    # 红点奖数量
+    idea_award_count = db.IntField(default=0) # 美国IDEA工业设计优秀奖数量
+    gmark_award_count = db.IntField(default=0) # G-Mark设计奖数量
 
 
     ## 影响力指数
@@ -87,6 +110,7 @@ class DesignConf(Base):
     cida_credit_rating_a = db.IntField(default=0) # 工会认证：A
     cida_credit_rating_b = db.IntField(default=0) # 工会认证：AA
     cida_credit_rating_c = db.IntField(default=0) # 工会认证：AAA
+    wx_public_count = db.IntField(default=0) # 公号
 
 
     ## 社会信誉
@@ -103,6 +127,7 @@ class DesignConf(Base):
     chattel_mortgage_count = db.IntField(default=0) # 动产抵押
     tax_notice_count = db.IntField(default=0) # 欠税公告
     judicial_sale_count = db.IntField(default=0) # 司法拍卖
+    tax_rating_count = db.IntField(default=0) # 税务评级
 
 
     status = db.IntField(default=0)    # 状态: 0.禁用；1.启用

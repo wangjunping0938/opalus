@@ -45,6 +45,7 @@ class DesignCompany(Base):
     if_award_count = db.IntField(default=0)    # if奖数量
     red_dot_award_count = db.IntField(default=0)    # 红点奖数量
     idea_award_count = db.IntField(default=0) # 美国IDEA工业设计优秀奖数量
+    gmark_award_count = db.IntField(default=0) # G-Mark设计奖数量
 
 
     ## 联系信息
@@ -137,7 +138,7 @@ class DesignCompany(Base):
     craw_count = db.IntField(default=0) # 抓取频次
     kind = db.IntField(default=0)    # 类型: 预设
     type = db.IntField(default=0)    # 类型: 预设
-    craw_user_id = db.IntField(default=0)    # 抓取人ID：1.军平；2.小董; 3.--;
+    craw_user_id = db.IntField(default=0)    # 抓取人ID;
 
     cida_credit_rating = db.IntField(default=0) # 工业设计协会认证等级: 0.NULL; 1.A; 2.AA; 3.AAA;
 

@@ -16,6 +16,7 @@ class SaveForm(FlaskForm):
     user_id = IntegerField()
     deleted = IntegerField()  # 软删除
     type = IntegerField()
+    is_d3in = IntegerField()  # 是否入驻铟果：0.否；1.是；
 
     ## 不同维度打分
     base_score = IntegerField()    # 基础分

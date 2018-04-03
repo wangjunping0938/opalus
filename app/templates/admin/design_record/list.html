@@ -90,6 +90,13 @@
               </select>
           </div>
           <div class="form-group">
+              <select name="is_d3in" class="form-control input-sm">
+                  <option value="0" {% if request.args.get('is_d3in') == '0' %}selected="selected"{%endif%}>--入驻--</option>
+                  <option value="-1" {% if request.args.get('is_d3in') == '-1' %}selected="selected"{%endif%}>否</option>
+                  <option value="1" {% if request.args.get('is_d3in') == '1' %}selected="selected"{%endif%}>是</option>
+              </select>
+          </div>
+          <div class="form-group">
             <input class="form-control input-sm" type="text" name="no" value="{{ request.args.get('no', '') }}" class="form-control" placeholder="期数">
           </div>
           <div class="form-group">
@@ -152,6 +159,7 @@
                 <td>
                     <p>名称: <a href="/admin/design_company/submit?id={{ d.design_company._id }}" target="_blank">{{ d.design_company.name }}</a></p>
                     <p>编号: {{ d.number }}</p>
+                    <p>入驻铟果: {% if d.design_company.d3ing_id %}是{%else%}否{%endif%}</p>
                 </td>
 
                 {% for c in meta.design_dimension_options %}

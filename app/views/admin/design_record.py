@@ -25,6 +25,7 @@ def design_record_list():
     status = force_int(request.args.get('status', 0))
     deleted = force_int(request.args.get('deleted', 0))
     sort = force_int(request.args.get('sort', 0))
+    is_d3in = force_int(request.args.get('is_d3in', 0))
     mark = request.args.get('mark', '')
     number = request.args.get('number', '')
     no = request.args.get('no', '')
@@ -35,6 +36,12 @@ def design_record_list():
         query['no'] = no
     if number:
         query['number'] = number
+
+    if is_d3in:
+        if is_d3in == -1:
+            query['is_d3in'] = 0
+        elif is_d3in == 1:
+            query['is_d3in'] = 1
 
     if status == -1:
         meta['css_disable'] = 'active'
@@ -65,7 +72,7 @@ def design_record_list():
         elif sort == 7:
             sortVal = '-credit_score'
 
-    page_url = url_for('admin.design_record_list', page="#p#", mark=mark, no=no, number=number, sort=sort, status=status)
+    page_url = url_for('admin.design_record_list', page="#p#", mark=mark, no=no, number=number, sort=sort, is_d3in=is_d3in, status=status)
 
     data = DesignRecord.objects(**query).order_by(sortVal).paginate(page=page, per_page=per_page)
     total_count = DesignRecord.objects(**query).count()
@@ -73,7 +80,7 @@ def design_record_list():
     # 过滤数据
     for i, d in enumerate(data.items):
         data.items[i].design_company = {}
-        designCompany = DesignCompany.objects(number=int(d.number)).fields(['_id', 'name', 'logo_url']).first()
+        designCompany = DesignCompany.objects(number=int(d.number)).fields(['_id', 'name', 'logo_url', 'd3ing_id']).first()
         if designCompany:
             data.items[i].design_company = designCompany
 

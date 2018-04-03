@@ -151,11 +151,13 @@
                     <p>IF奖：{{ d.if_award_count }}</p>
                     <p>红点奖：{{ d.red_dot_award_count }}</p>
                     <p>美国IDEA工业设计奖：{{ d.idea_award_count }}</p>
-                    <p>作品数量：{{ d.design_case_count }}</p>
+                    <p>G-Mark设计奖：{{ d.gmark_award_count }}</p>
+                    <p>抓取作品数量：{{ d.design_case_count }}</p>
+                    <p>铟果作品数量：{{ d.d3in_case_count }}</p>
                 </td>
                 <td>
                     <p>抓取次数: {{ d.craw_count }}</p>
-                    <p>负责人: {{ d.craw_user }}</p>                
+                    <p>负责人: {{ d.craw_user_id }}</p>                
                     {% if d.last_on %}
                         <p>抓取时间: {{ d.last_on | date("%Y-%m-%d") }}</p>
                     {%endif%}
