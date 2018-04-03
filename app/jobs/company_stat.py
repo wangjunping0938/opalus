@@ -94,6 +94,7 @@ def company_stat(mark, no):
                 'investment_abroad_count': 0,
                 'annual_return_count': 0,
                 'branch': 0,
+                'company_count': 0,
             }
 
             # 公司规则
@@ -131,6 +132,9 @@ def company_stat(mark, no):
             # 分公司数
             if d.branch:
                 businessConf['branch'] = force_int(d.branch) * conf['branch']
+            # 法人公司数
+            if d.company_count:
+                businessConf['company_count'] = force_int(d.company_count) * conf['company_count']
 
 
             ## 统计商业力指数分值

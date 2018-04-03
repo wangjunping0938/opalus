@@ -47,6 +47,7 @@ class DesignConf(Base):
     investment_abroad_count = db.IntField(default=0) # 对外投资
     annual_return_count = db.IntField(default=0) # 公司年报
     branch = db.IntField(default=0) # 分公司数量
+    company_count = db.IntField(default=0) # 法人公司数量
 
 
     ## 创新力指数

@@ -60,7 +60,7 @@ class SaveForm(FlaskForm):
     registered_capital = StringField('注册资金', validators=[Length(max=50, message="长度小于50个字符")])
     registered_capital_format = IntegerField() # 注册资金格式化数据，百万单位
     registered_time = StringField('注册时间', validators=[Length(max=30, message="长度小于30个字符")])
-    company_count = StringField('公司数量', validators=[Length(max=30, message="长度小于20个字符")])
+    company_count = StringField('法人公司数量', validators=[Length(max=30, message="长度小于20个字符")])
     company_type = StringField('公司类型', validators=[Length(max=30, message="长度小于30个字符")])
     registration_number = StringField('纳税人识别号', validators=[Length(max=50, message="长度小于50个字符")])
     credit_code = StringField('统一信用代码', validators=[Length(max=50, message="长度小于50个字符")])

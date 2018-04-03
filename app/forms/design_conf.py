@@ -45,6 +45,7 @@ class SaveForm(FlaskForm):
     investment_abroad_count = IntegerField() # 对外投资
     annual_return_count = IntegerField() # 公司年报
     branch = IntegerField() # 分公司数量
+    company_count = IntegerField() # 法人公司数量
 
 
     ## 创新力指数

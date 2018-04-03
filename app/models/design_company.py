@@ -66,7 +66,7 @@ class DesignCompany(Base):
     registered_capital = db.StringField(max_length=50, default='') # 注册资金
     registered_capital_format = db.IntField(default=0) # 注册资金格式化
     registered_time = db.StringField(max_length=30, default='') # 注册时间 
-    company_count = db.StringField(max_length=30, default='') # 公司数量
+    company_count = db.StringField(max_length=30, default='') # 法人公司数量
     company_type = db.StringField(max_length=30, default='') # 公司类型
     registration_number = db.StringField(max_length=50, default='') # 工商注册号
     credit_code = db.StringField(max_length=30, default='') # 统一信用代码

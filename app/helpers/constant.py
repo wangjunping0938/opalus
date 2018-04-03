@@ -133,6 +133,7 @@ def design_fields_label_options(field=''):
                 {'field': 'investment_abroad_count', 'name': '对外投资', 'group': 'business'},
                 {'field': 'annual_return_count', 'name': '公司年报', 'group': 'business'},
                 {'field': 'branch', 'name': '分公司数', 'group': 'business'},
+                {'field': 'company_count', 'name': '法人公司数', 'group': 'business'},
                 # 创新力
                 {'field': 'trademark_count', 'name': '商标', 'group': 'innovate'},
                 {'field': 'patent_count', 'name': '专利', 'group': 'innovate'},
