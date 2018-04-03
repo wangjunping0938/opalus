@@ -374,12 +374,34 @@
                         <input type="text" name="ty_score" class="form-control" value="{{ meta.data.ty_score|default(0) }}" placeholder="">
                     </div>
                     <div class="col-xs-2">
-                        <label for="ty_view_count">天眼查浏览数(数量)</label>
-                        <input type="text" name="ty_view_count" class="form-control" value="{{ meta.data.ty_view_count|default(0) }}" placeholder="">
-                    </div>
-                    <div class="col-xs-2">
                         <label for="certification_count">资质证书(数量)</label>
                         <input type="text" name="certification_count" class="form-control" value="{{ meta.data.certification_count|default(0) }}" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="ty_view_count">天眼浏览(<100)</label>
+                        <input type="text" name="ty_view_count_a" class="form-control" value="{{ meta.data.ty_view_count_a|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="ty_view_count">天眼浏览(100-500)</label>
+                        <input type="text" name="ty_view_count_b" class="form-control" value="{{ meta.data.ty_view_count_b|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="ty_view_count">天眼浏览(500-2000)</label>
+                        <input type="text" name="ty_view_count_c" class="form-control" value="{{ meta.data.ty_view_count_c|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="ty_view_count">天眼浏览(2000-5000)</label>
+                        <input type="text" name="ty_view_count_d" class="form-control" value="{{ meta.data.ty_view_count_d|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="ty_view_count">天眼浏览(5000-10000)</label>
+                        <input type="text" name="ty_view_count_e" class="form-control" value="{{ meta.data.ty_view_count_e|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="ty_view_count">天眼浏览(>10000)</label>
+                        <input type="text" name="ty_view_count_f" class="form-control" value="{{ meta.data.ty_view_count_f|default(0) }}" placeholder="">
                     </div>
                 </div>
                 <div class="form-group">

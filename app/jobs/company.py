@@ -5,6 +5,7 @@ from app.models.design_company import DesignCompany
 from flask import current_app, jsonify
 import requests
 import json
+import time
 
 # 统计奖项数量
 @celery.task()
@@ -302,6 +303,38 @@ def export_design_center():
     print("country success count: %d\n" % countryCount)
 
 
+# 更新字段
+@celery.task()
+def company_update():
+    
+    page = 1
+    perPage = 100
+    isEnd = False
+    total = 0
+    query = {}
+    query['deleted'] = 0
+    query['status'] = 0
+
+    while not isEnd:
+        data = DesignCompany.objects(**query).order_by('-created_at').paginate(page=page, per_page=perPage)
+        if not data:
+            print("get data is empty! \n")
+            continue
+
+        # 过滤数据
+        for i, d in enumerate(data.items):
+            ok = d.update(status=1)
+            if ok:
+                time.sleep(0.05)
+                print("------------------\n")
+                total += 1
+
+        print("current page %s: \n" % page)
+        page += 1
+        if len(data.items) < perPage:
+            isEnd = True
+
+    print("is over execute count %s\n" % total)
 
   
 

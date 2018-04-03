@@ -63,7 +63,7 @@ def design_record_list():
         elif sort == 6:
             sortVal = '-effect_score'
         elif sort == 7:
-            sortVal = '-credit_scroe'
+            sortVal = '-credit_score'
 
     page_url = url_for('admin.design_record_list', page="#p#", mark=mark, no=no, number=number, sort=sort, status=status)
 

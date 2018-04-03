@@ -73,7 +73,13 @@ class SaveForm(FlaskForm):
     ## 影响力指数
     is_high_tech = IntegerField()    # 高新企业
     ty_score = IntegerField()    # 天眼查评分
-    ty_view_count = IntegerField()    # 天眼查浏览量
+    #ty_view_count = IntegerField()    # 天眼查浏览量
+    ty_view_count_a = IntegerField()    # 天眼查浏览量 <100
+    ty_view_count_b = IntegerField()    # 天眼查浏览量 >=100 & <500
+    ty_view_count_c = IntegerField()    # 天眼查浏览量 >=500 & < 2000
+    ty_view_count_d = IntegerField()    # 天眼查浏览量 >=2000 & < 5000
+    ty_view_count_e = IntegerField()    # 天眼查浏览量 >=5000 & < 10000
+    ty_view_count_f = IntegerField()    # 天眼查浏览量 >10000
     certification_count = IntegerField() # 资质证书
     cida_credit_rating_a = IntegerField() # 工会认证：A
     cida_credit_rating_b = IntegerField() # 工会认证：AA

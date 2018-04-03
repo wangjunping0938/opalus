@@ -76,7 +76,13 @@ class DesignConf(Base):
     ## 影响力指数
     is_high_tech = db.IntField(default=0)    # 高新企业
     ty_score = db.IntField(default=0)    # 天眼查评分
-    ty_view_count = db.IntField(default=0)    # 天眼查浏览量
+    #ty_view_count = db.IntField(default=0)    # 天眼查浏览量
+    ty_view_count_a = db.IntField(default=0)    # 天眼查浏览量 < 100
+    ty_view_count_b = db.IntField(default=0)    # 天眼查浏览量 >=100 & <500
+    ty_view_count_c = db.IntField(default=0)    # 天眼查浏览量 >=500 & < 2000
+    ty_view_count_d = db.IntField(default=0)    # 天眼查浏览量 >=2000 & < 5000
+    ty_view_count_e = db.IntField(default=0)    # 天眼查浏览量 >=5000 & < 10000
+    ty_view_count_f = db.IntField(default=0)    # 天眼查浏览量 >10000
     certification_count = db.IntField(default=0) # 资质证书
     cida_credit_rating_a = db.IntField(default=0) # 工会认证：A
     cida_credit_rating_b = db.IntField(default=0) # 工会认证：AA

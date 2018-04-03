@@ -25,6 +25,7 @@ def company_stat(mark, no):
     failStatCount = 0
     query = {}
     query['deleted'] = 0
+    query['status'] = 1
 
     while not isEnd:
         data = DesignCompany.objects(**query).order_by('-created_at').paginate(page=page, per_page=perPage)
@@ -245,7 +246,19 @@ def company_stat(mark, no):
                 effectConf['ty_score'] = d.ty_score * conf['ty_score']
             # 天眼查浏览数
             if d.ty_view_count:
-                effectConf['ty_view_count'] = d.ty_view_count * conf['ty_view_count']
+                if d.ty_view_count < 100:
+                    effectConf['ty_view_count'] = conf['ty_view_count_a']
+                elif d.ty_view_count >= 100 and d.ty_view_count < 500:
+                    effectConf['ty_view_count'] = conf['ty_view_count_b']
+                elif d.ty_view_count >= 500 and d.ty_view_count < 2000:
+                    effectConf['ty_view_count'] = conf['ty_view_count_c']
+                elif d.ty_view_count >= 2000 and d.ty_view_count < 5000:
+                    effectConf['ty_view_count'] = conf['ty_view_count_d']
+                elif d.ty_view_count >= 5000 and d.ty_view_count < 10000:
+                    effectConf['ty_view_count'] = conf['ty_view_count_e']
+                elif d.ty_view_count >= 10000:
+                    effectConf['ty_view_count'] = conf['ty_view_count_f']
+
             # 资质证书
             if d.certification_count:
                 effectConf['certification_count'] = d.certification_count * conf['certification_count']
@@ -321,7 +334,7 @@ def company_stat(mark, no):
 
 
             ## 统计社会信誉分值
-            creditScore = 0
+            creditScore = 100
             for k, v in creditConf.items():
                 creditScore += v
 
