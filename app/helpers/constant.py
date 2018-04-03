@@ -133,7 +133,6 @@ def design_fields_label_options(field=''):
                 {'field': 'investment_abroad_count', 'name': '对外投资', 'group': 'business'},
                 {'field': 'annual_return_count', 'name': '公司年报', 'group': 'business'},
                 {'field': 'branch', 'name': '分公司数', 'group': 'business'},
-                {'field': 'tax_rating_count', 'name': '税务评级', 'group': 'business'},
                 # 创新力
                 {'field': 'trademark_count', 'name': '商标', 'group': 'innovate'},
                 {'field': 'patent_count', 'name': '专利', 'group': 'innovate'},
@@ -172,6 +171,7 @@ def design_fields_label_options(field=''):
                 {'field': 'chattel_mortgage_count', 'name': '动产抵押', 'group': 'credit'},
                 {'field': 'tax_notice_count', 'name': '欠税公告', 'group': 'credit'},
                 {'field': 'judicial_sale_count', 'name': '司法拍卖', 'group': 'credit'},
+                {'field': 'tax_rating_count', 'name': '税务评级', 'group': 'credit'},
             ]
 
     if field=='':

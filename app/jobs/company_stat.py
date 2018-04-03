@@ -94,7 +94,6 @@ def company_stat(mark, no):
                 'investment_abroad_count': 0,
                 'annual_return_count': 0,
                 'branch': 0,
-                'tax_rating_count': 0,
             }
 
             # 公司规则
@@ -132,9 +131,7 @@ def company_stat(mark, no):
             # 分公司数
             if d.branch:
                 businessConf['branch'] = force_int(d.branch) * conf['branch']
-            # 税务评级
-            if d.tax_rating_count:
-                businessConf['tax_rating_count'] = d.tax_rating_count * conf['tax_rating_count']
+
 
             ## 统计商业力指数分值
             businessScore = 0
@@ -348,6 +345,7 @@ def company_stat(mark, no):
                 'chattel_mortgage_count': 0,
                 'tax_notice_count': 0,
                 'judicial_sale_count': 0,
+                'tax_rating_count': 0,
             }
 
             # 法律诉讼
@@ -386,6 +384,9 @@ def company_stat(mark, no):
             # 司法拍卖
             if d.judicial_sale_count:
                  creditConf['judicial_sale_count'] = d.judicial_sale_count * conf['judicial_sale_count']
+            # 税务评级
+            if d.tax_rating_count:
+                creditConf['tax_rating_count'] = d.tax_rating_count * conf['tax_rating_count']
 
 
             ## 统计社会信誉分值
