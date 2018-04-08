@@ -34,7 +34,10 @@ def design_company_list():
             query['name'] = {"$regex": q.strip()}
 
     if craw_user_id:
-        query['craw_user_id'] = craw_user_id
+        if craw_user_id == -1:
+            query['craw_user_id'] = 0
+        else:
+            query['craw_user_id'] = craw_user_id
 
     if status == -1:
         meta['css_disable'] = 'active'
