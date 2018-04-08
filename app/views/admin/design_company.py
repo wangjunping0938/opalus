@@ -47,7 +47,7 @@ def design_company_list():
 
     query['deleted'] = deleted
 
-    page_url = url_for('admin.design_company_list', page="#p#", q=q, t=t, status=status)
+    page_url = url_for('admin.design_company_list', page="#p#", q=q, t=t, status=status, craw_user_id=craw_user_id)
 
     data = DesignCompany.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
     total_count = DesignCompany.objects(**query).count()
