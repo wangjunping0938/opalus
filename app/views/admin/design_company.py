@@ -21,6 +21,7 @@ def design_company_list():
     page = force_int(request.args.get('page', 1))
     per_page = force_int(request.args.get('per_page', 100))
     status = force_int(request.args.get('status', 0))
+    craw_user_id = force_int(request.args.get('craw_user_id'), 0)
     deleted = force_int(request.args.get('deleted', 0))
 
     t = force_int(request.args.get('t', 1), 1)
@@ -31,6 +32,9 @@ def design_company_list():
             query['number'] = force_int(q.strip())
         if t==2:
             query['name'] = {"$regex": q.strip()}
+
+    if craw_user_id:
+        query['craw_user_id'] = craw_user_id
 
     if status == -1:
         meta['css_disable'] = 'active'

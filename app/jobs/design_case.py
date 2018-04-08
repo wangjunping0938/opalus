@@ -54,18 +54,69 @@ def d3in_case_stat():
                 print(result['meta']['message'])
                 continue
 
+            if not result['data']:
+                print('案例作品为空')
+                continue
+
+            """
             caseCount = result['meta']['pagination']['total']
+
+            """
+
+            # 统计获奖数量
+            caseCount = 0
+            redDotAwardCount = 0
+            ifAwardCount = 0
+            ideaAwardCount = 0
+            gmarkAwardCount = 0
+            #print(result['data'])
+            for m, n in enumerate(result['data']):
+                caseCount += 1
+                if not 'prizes' in n:
+                    print("案例奖项不存在\n")
+                    continue
+
+
+                if n['prizes']:
+                    if isinstance(n['prizes'], (list)):
+                        awardType = n['prizes'][0]['type']
+                    elif isinstance(n['prizes'], (dict)):
+                        awardType = n['prizes']['type']
+                    else:
+                        awardType = 0
+                    
+                    if awardType == 1:
+                        redDotAwardCount += 1
+                    if awardType == 2:
+                        ifAwardCount += 1
+                    if awardType == 3:
+                        ideaAwardCount += 1
+                    if awardType == 8:
+                        gmarkAwardCount += 1
+                        
+
             if not caseCount:
                 print("没有案例作品---%s.\n" % d.name)
                 continue
 
+            awardRow = {}
+            awardRow['d3in_case_count'] = caseCount
+            if redDotAwardCount:
+                awardRow['red_dot_award_count'] = redDotAwardCount
+            if ifAwardCount:
+                awardRow['if_award_count'] = ifAwardCount
+            if ideaAwardCount:
+                awardRow['idea_award_count'] = ideaAwardCount
+            if gmarkAwardCount:
+                awardRow['gmark_award_count'] = gmarkAwardCount
+
             #company = DesignCompany.objects()
-            ok = d.update(d3in_case_count=caseCount)
+            ok = d.update(**awardRow)
             if not ok:
                 print("更新失败！！！\n")
                 continue
 
-            print("更新成功---%s: %d.\n" % (d.name, caseCount))
+            print("更新成功---%s: %s.\n" % (d.name, awardRow))
             total += 1
 
         print("current page %s: \n" % page)
