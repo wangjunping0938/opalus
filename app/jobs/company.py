@@ -1260,3 +1260,36 @@ def delete_company():
 
     print("is over execute count %s\n" % total)
 
+# 格式化转换注册资金
+@celery.task()
+def registered_capital_format():
+    page = 1
+    perPage = 100
+    isEnd = False
+    total = 0
+    query = {}
+
+    while not isEnd:
+        data = DesignCompany.objects(**query).order_by('-created_at').paginate(page=page, per_page=perPage)
+        if not data:
+            print("get data is empty! \n")
+            continue
+
+        # 过滤数据
+        for i, d in enumerate(data.items):
+            if not d.registered_capital:
+                print("注册资金为空: %s\n" % d.name)
+
+
+            print("注册资金: %s\n" % d.registered_capital)
+
+            #print("更新成功!\n")
+            total += 1
+
+        print("current page %s: \n" % page)
+        #page += 1
+        if len(data.items) < perPage:
+            isEnd = True
+
+    print("is over execute count %s\n" % total)
+    
