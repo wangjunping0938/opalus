@@ -22,7 +22,7 @@ def force_int(value, default=0):
 def force_float_2(value, default=0):
     try:
         value = float(value)
-        return "%.2f" % value
+        return float("%.2f" % value)
     except:
         return default
 

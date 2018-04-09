@@ -3,6 +3,7 @@ from app.extensions import celery
 from app.models.design_case import DesignCase
 from app.models.design_company import DesignCompany
 from flask import current_app, jsonify
+from app.helpers.common import force_int, force_float_2
 import requests
 import json
 import time
@@ -1281,13 +1282,50 @@ def registered_capital_format():
                 print("注册资金为空: %s\n" % d.name)
 
 
-            print("注册资金: %s\n" % d.registered_capital)
+            print("注册资金: %s" % d.registered_capital)
+            strMoney = d.registered_capital
+            strFormatMoney = 0.0
+            if '万人民币' in strMoney:
+                if '(人民币)' in strMoney:
+                    strMoney = strMoney.replace('(人民币)', '')
 
-            #print("更新成功!\n")
+                strMoney = strMoney.replace('万人民币', '')
+                strFormatMoney = force_float_2(strMoney, 0)
+
+            elif '万美元' in strMoney:
+                strMoney = strMoney.replace('万美元', '')
+                strFormatMoney = force_float_2(strMoney, 0)
+                strFormatMoney = strFormatMoney * 6.3
+
+            strFormatMoney = force_float_2(strFormatMoney, 0)
+                    
+            print("格式化：%.2f" % strFormatMoney)
+
+            newMoney = 0
+            if strFormatMoney > 0 and strFormatMoney <= 100:
+                newMoney = 1
+            elif strFormatMoney > 100 and strFormatMoney <= 500:
+                newMoney = 2
+            elif strFormatMoney > 500 and strFormatMoney <= 1000:
+                newMoney = 3
+            elif strFormatMoney > 1000 and strFormatMoney <= 5000:
+                newMoney = 4
+            elif strFormatMoney > 5000:
+                newMoney = 5
+                
+            print("范围输出: %d\n" % newMoney)
+
+            #ok = d.update(registered_capital_format=newMoney)
+            ok = True
+            if not ok:
+                print("更新失败!\n")
+                continue
+
+            print("更新成功!\n")
             total += 1
 
         print("current page %s: \n" % page)
-        #page += 1
+        page += 1
         if len(data.items) < perPage:
             isEnd = True
 
