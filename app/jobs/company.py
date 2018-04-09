@@ -1292,6 +1292,18 @@ def registered_capital_format():
                 strMoney = strMoney.replace('万人民币', '')
                 strFormatMoney = force_float_2(strMoney, 0)
 
+            elif '人民币万元' in strMoney:
+                strMoney = strMoney.replace('人民币万元', '')
+                strFormatMoney = force_float_2(strMoney, 0)
+
+            elif '万元人民币' in strMoney:
+                strMoney = strMoney.replace('万元人民币', '')
+                strFormatMoney = force_float_2(strMoney, 0)
+
+            elif ' 万元 人民币' in strMoney:
+                strMoney = strMoney.replace(' 万元 人民币', '')
+                strFormatMoney = force_float_2(strMoney, 0)
+                
             elif '万美元' in strMoney:
                 strMoney = strMoney.replace('万美元', '')
                 strFormatMoney = force_float_2(strMoney, 0)
