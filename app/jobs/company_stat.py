@@ -493,7 +493,7 @@ def company_average_stat(mark, no):
             scoreQuery = {}
             aveScore = 0
             if maxBase:
-                scoreQuery['base_average'] = int(d.base_score / (maxBase.base_scroe + f) * 100)
+                scoreQuery['base_average'] = int(d.base_score / (maxBase.base_score + f) * 100)
                 aveScore += int(scoreQuery['base_average'] * 0.1)
             if maxBusiness:
                 scoreQuery['business_average'] = int(d.business_score / (maxBusiness.business_score + f) * 100)
