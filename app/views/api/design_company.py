@@ -3,6 +3,7 @@ from . import api
 import datetime
 from app.models.design_company import DesignCompany
 from app.helpers.pager import Pager
+from app.helpers.block import get_block_content
 from app.forms.design_company import SaveForm
 from app.helpers.common import force_int
 
@@ -82,6 +83,18 @@ def design_company_view():
 ## 保存/更新公司信息
 @api.route('/design_company/update', methods=['POST'])
 def design_company_update():
+    # 检测接口是否打开
+    conf = get_block_content('design_grap_switch')
+    if not conf:
+        return jsonify(code=3002, message='接口已关闭!')
+    conf_arr = conf.strip().strip('|').split('|')
+
+    current_app.logger.debug(conf_arr)
+    if len(conf_arr) == 0:
+        return jsonify(code=3002, message='接口已关闭!!')
+    if int(conf_arr[0]) != 1:
+        return jsonify(code=3002, message='接口已关闭!!!')
+
     form = SaveForm(request.values)
     if not form.validate_on_submit():
         return jsonify(code=3004, message=str(form.errors))

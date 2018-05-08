@@ -26,7 +26,17 @@ class SaveForm(FlaskForm):
     effect_score = IntegerField()    # 影响力分
     credit_score = IntegerField()    # 信誉度分
 
+    ## 不同维度平均分（满分100，以最高分为基准）
+    base_average = IntegerField()    # 基础分
+    business_average = IntegerField()    # 商业力分
+    innovate_average = IntegerField()    # 创新力分
+    design_average = IntegerField()    # 设计力分
+    effect_average = IntegerField()    # 影响力分
+    credit_average = IntegerField()    # 信誉分
+
     total_score = IntegerField()    # 总分
+    total_ave_score = IntegerField()  # 总平均分
+    ave_score = IntegerField()    # 平均分
 
 
     def update(self, **param):

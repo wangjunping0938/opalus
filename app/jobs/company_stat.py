@@ -7,9 +7,8 @@ from app.models.design_record import DesignRecord
 from flask import current_app, jsonify
 import requests
 import json
-from werkzeug.datastructures import MultiDict
 
-# 统计奖项数量
+# 公司排行统计
 @celery.task()
 def company_stat(mark, no):
 
@@ -403,7 +402,6 @@ def company_stat(mark, no):
             # baseConf  businessConf  innovateConf  designConf  effectConf  creditConf
             totalScore = baseScore + businessScore + innovateScore + designScore + effectScore + creditScore
 
-
             row = {
                 'mark': mark,
                 'no': no,
@@ -457,4 +455,78 @@ def company_stat(mark, no):
 
     print("is over execute SuccessCount %d ---- failCount: %d\n" % (successStatCount, failStatCount))
 
+    ## 统计平均分
+    print("Begin stat average.....\n")
+    company_average_stat(mark, no)
 
+
+# 公司排行统计
+@celery.task()
+def company_average_stat(mark, no):
+
+
+
+    page = 1
+    perPage = 100
+    isEnd = False
+    total = 0
+    successStatCount = 0
+    failStatCount = 0
+    query = {'mark': mark, 'no': no, 'status': 1}
+    f = 1
+
+    maxTotal = DesignRecord.objects(**query).order_by('-total_score').first()
+    maxBase = DesignRecord.objects(**query).order_by('-base_score').first()   # 基础运作力
+    maxBusiness = DesignRecord.objects(**query).order_by('-business_score').first()   # 商业决策力
+    maxInnovate = DesignRecord.objects(**query).order_by('-innovate_score').first()   # 创新交付力
+    maxDesign = DesignRecord.objects(**query).order_by('-design_score').first()   # 品牌溢价力
+    maxEffect = DesignRecord.objects(**query).order_by('-effect_score').first()   # 客观公信力
+    maxCredit = DesignRecord.objects(**query).order_by('-credit_score').first()   # 风险应激力
+
+    while not isEnd:
+        data = DesignRecord.objects(**query).paginate(page=page, per_page=perPage)
+        if not data:
+            print("get data is empty! \n")
+            continue
+
+        # 过滤数据
+        for i, d in enumerate(data.items):
+            scoreQuery = {}
+            aveScore = 0
+            if maxBase:
+                scoreQuery['base_average'] = int(d.base_score / (maxBase + f) * 100)
+                aveScore += int(scoreQuery['base_average'] * 0.1)
+            if maxBusiness:
+                scoreQuery['business_average'] = int(d.business_score / (maxBusiness + f) * 100)
+                aveScore += int(scoreQuery['business_average'] * 0.25)
+            if maxInnovate:
+                scoreQuery['innovate_average'] = int(d.innovate_score / (maxInnovate + f) * 100)
+                aveScore += int(scoreQuery['innovate_average'] * 0.25)
+            if maxDesign:
+                scoreQuery['design_average'] = int(d.design_score / (maxDesign + f) * 100)
+                aveScore += int(scoreQuery['design_average'] * 0.15)
+            if maxEffect:
+                scoreQuery['effect_average'] = int(d.effect_score / (maxEffect + f) * 100)
+                aveScore += int(scoreQuery['effect_average'] * 0.1)
+            if maxCredit:
+                scoreQuery['credit_average'] = int(d.credit_score / (maxCredit + f) * 100)
+                aveScore += int(scoreQuery['credit_average'] * 0.15)
+
+            if not scoreQuery:
+                print("current number:%s max score is 0\n" % d.number)
+                continue
+            scoreQuery['ave_score'] = aveScore
+            ok = d.update(**scoreQuery)
+            if not ok:
+              print("更新失败~!")
+              continue
+
+            print("更新成功---number: %s.\n" % d.number)
+            total += 1
+
+        print("current page %s: \n" % page)
+        page += 1
+        if len(data.items) < perPage:
+            isEnd = True
+
+    print("is over execute count %s\n" % total)

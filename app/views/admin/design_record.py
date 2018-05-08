@@ -58,19 +58,19 @@ def design_record_list():
     sortVal = '-created_at'
     if sort:
         if sort == 1:
-            sortVal = '-total_score'
+            sortVal = '-ave_score'
         elif sort == 2:
-            sortVal = '-base_score'
+            sortVal = '-base_average'
         elif sort == 3:
-            sortVal = '-business_score'
+            sortVal = '-business_average'
         elif sort == 4:
-            sortVal = '-innovate_score'
+            sortVal = '-innovate_average'
         elif sort == 5:
-            sortVal = '-design_score'
+            sortVal = '-design_average'
         elif sort == 6:
-            sortVal = '-effect_score'
+            sortVal = '-effect_average'
         elif sort == 7:
-            sortVal = '-credit_score'
+            sortVal = '-credit_average'
 
     page_url = url_for('admin.design_record_list', page="#p#", mark=mark, no=no, number=number, sort=sort, is_d3in=is_d3in, status=status)
 

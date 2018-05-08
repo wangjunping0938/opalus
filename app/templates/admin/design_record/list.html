@@ -105,13 +105,13 @@
           <div class="form-group">
               <select name="sort" class="form-control input-sm">
                   <option value="0" {% if request.args.get('sort') == '0' %}selected="selected"{%endif%}>最新</option>
-                  <option value="1" {% if request.args.get('sort') == '1' %}selected="selected"{%endif%}>总分</option>
-                  <option value="2" {% if request.args.get('sort') == '2' %}selected="selected"{%endif%}>基础</option>
-                  <option value="3" {% if request.args.get('sort') == '3' %}selected="selected"{%endif%}>商业力</option>
-                  <option value="4" {% if request.args.get('sort') == '4' %}selected="selected"{%endif%}>创新力</option>
-                  <option value="5" {% if request.args.get('sort') == '5' %}selected="selected"{%endif%}>设计力</option>
-                  <option value="6" {% if request.args.get('sort') == '6' %}selected="selected"{%endif%}>影响力</option>
-                  <option value="7" {% if request.args.get('sort') == '7' %}selected="selected"{%endif%}>信誉度</option>
+                  <option value="1" {% if request.args.get('sort') == '1' %}selected="selected"{%endif%}>平均分</option>
+                  <option value="2" {% if request.args.get('sort') == '2' %}selected="selected"{%endif%}>基础运作力</option>
+                  <option value="3" {% if request.args.get('sort') == '3' %}selected="selected"{%endif%}>商业决策力</option>
+                  <option value="4" {% if request.args.get('sort') == '4' %}selected="selected"{%endif%}>创新交付力</option>
+                  <option value="5" {% if request.args.get('sort') == '5' %}selected="selected"{%endif%}>品牌溢价力</option>
+                  <option value="6" {% if request.args.get('sort') == '6' %}selected="selected"{%endif%}>客观公信力</option>
+                  <option value="7" {% if request.args.get('sort') == '7' %}selected="selected"{%endif%}>风险应激力</option>
 
               </select>
           </div>
@@ -133,9 +133,9 @@
         <th>LOGO</th>
         <th>公司信息</th>
         {% for c in meta.design_dimension_options %}
-        <th>{{ c.name }}</th>
+        <th>{{ c.short_name }}</th>
         {%endfor%}
-        <th>总分</th>
+        <th>总/平均分</th>
         <th>状态</th>
         <th>创建时间</th>
         <th>操作</th>
@@ -164,7 +164,7 @@
 
                 {% for c in meta.design_dimension_options %}
                   <td>
-                    <span class="badge score-detail" data-toggle="popover" title="{{ c.name }}" data-id="{{ d._id }}" data-type="{{ c.mark }}" style="background-color: {{ c.color }}">{{ d[c.field] }}</span>
+                    <span class="badge score-detail" data-toggle="popover" title="{{ c.name }}[{{ d[c.field] }}]" data-id="{{ d._id }}" data-type="{{ c.mark }}" style="background-color: {{ c.color }}">{{ d[c.average] }}</span>
                       <div id="item-{{ d._id }}-{{ c.mark }}" style="display:none;">
                         {% for f in d[c.group] %}
                           {% for g in meta.design_fields_label_options %}
@@ -177,7 +177,7 @@
                   </td>
                 {%endfor%}
 
-                <td><span class="badge">{{ d.total_score }}</span></td>
+                <td><span class="badge">{{ d.total_score }}/{{ d.ave_score }}</span></td>
                 <td>
                     <p class="status-label">
                         {% if d.status==0 %}

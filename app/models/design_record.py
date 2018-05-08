@@ -37,9 +37,19 @@ class DesignRecord(Base):
     effect_group = db.DictField() # 影响力组
     credit_group = db.DictField() # 信誉分组
 
+    ## 不同维度平均分（满分100，以最高分为基准）
+    base_average = db.IntField(default=0)    # 基础分
+    business_average = db.IntField(default=0)    # 商业力分
+    innovate_average = db.IntField(default=0)    # 创新力分
+    design_average = db.IntField(default=0)    # 设计力分
+    effect_average = db.IntField(default=0)    # 影响力分
+    credit_average = db.IntField(default=0)    # 信誉分
+
     ## 总分
     total_score = db.IntField(default=0)    # 总分
-    ## 平均分
+    # 总平均分(不用)
+    total_ave_score = db.IntField(default=0)
+    ## 平均分(百分制)
     ave_score = db.IntField(default=0)
 
     deleted = db.IntField(default=0)    # 软删除

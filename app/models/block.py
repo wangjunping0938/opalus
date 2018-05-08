@@ -14,7 +14,7 @@ class Block(Base):
     }
 
     _id = db.StringField()
-    mark = db.StringField(max_length=20, required=True, unique=True)    # 唯一标识
+    mark = db.StringField(max_length=30, required=True, unique=True)    # 唯一标识
     name = db.StringField(max_length=30, required=True) # 名称
     user_id = db.IntField(default=0)    # 用户ID
     kind = db.IntField(default=1)    # 类型:

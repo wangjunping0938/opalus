@@ -96,12 +96,12 @@ def company_registered_capital_format_options(id=0):
 # 企业排行维度选项
 def design_dimension_options(mark=''):
     data = [
-                {'id': 1, 'mark': 'base', 'name': '基础分', 'field': 'base_score', 'group': 'base_group', 'color': '#778899'},
-                {'id': 2, 'mark': 'business', 'name': '商业力', 'field': 'business_score', 'group': 'business_group', 'color': '#9932CC'},
-                {'id': 3, 'mark': 'innovate', 'name': '创新力', 'field': 'innovate_score', 'group': 'innovate_group', 'color': '#00BFFF'},
-                {'id': 4, 'mark': 'design', 'name': '设计力', 'field': 'design_score', 'group': 'design_group', 'color': '#F08080'},
-                {'id': 5, 'mark': 'effect', 'name': '影响力', 'field': 'effect_score', 'group': 'effect_group', 'color': '#4169E1'},
-                {'id': 6, 'mark': 'credit', 'name': '信誉度', 'field': 'credit_score', 'group': 'credit_group', 'color': '#66CDAA'},
+        {'id': 1, 'mark': 'base', 'name': '基础运作力', 'short_name': '基础运作', 'field': 'base_score', 'group': 'base_group', 'average': 'base_average', 'color': '#778899'},
+                {'id': 2, 'mark': 'business', 'name': '商业决策力', 'short_name': '商业决策', 'field': 'business_score', 'group': 'business_group', 'average': 'business_average', 'color': '#9932CC'},
+                {'id': 3, 'mark': 'innovate', 'name': '创新交付力', 'short_name': '创新交付', 'field': 'innovate_score', 'group': 'innovate_group', 'average': 'innovate_average', 'color': '#00BFFF'},
+                {'id': 4, 'mark': 'design', 'name': '品牌溢价力', 'short_name': '品牌溢价', 'field': 'design_score', 'group': 'design_group', 'average': 'design_average', 'color': '#F08080'},
+                {'id': 5, 'mark': 'effect', 'name': '客观公信力', 'short_name': '客观公信', 'field': 'effect_score', 'group': 'effect_group', 'average': 'effect_average', 'color': '#4169E1'},
+                {'id': 6, 'mark': 'credit', 'name': '风险应激力', 'short_name': '风险应激', 'field': 'credit_score', 'group': 'credit_group', 'average': 'credit_average', 'color': '#66CDAA'},
             ]
 
     if mark=='':

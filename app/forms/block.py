@@ -10,7 +10,7 @@ from ..models.block import Block
 
 class SaveForm(FlaskForm):
     id = StringField()
-    mark = StringField('唯一标识', validators=[DataRequired(message="唯一标识不能为空"), Length(min=4, max=16, message="长度大于4小于16")])
+    mark = StringField('唯一标识', validators=[DataRequired(message="唯一标识不能为空"), Length(min=4, max=30, message="长度大于4小于30")])
     name = StringField('名称', validators=[DataRequired(message="名称不能为空")])
     code = StringField()
     content = StringField()

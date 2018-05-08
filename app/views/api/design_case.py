@@ -5,6 +5,7 @@ from app.models.design_case import DesignCase
 from app.helpers.pager import Pager
 from bson import ObjectId
 from app.forms.design_case import SaveForm
+from app.helpers.block import get_block_content
 
 ## 列表
 @api.route('/design_case/list')
@@ -67,6 +68,18 @@ def design_case_view():
 ## 保存/更新
 @api.route('/design_case/submit', methods=['POST'])
 def design_case_submit():
+    # 检测接口是否打开
+    conf = get_block_content('design_grap_switch')
+    if not conf:
+        return jsonify(code=3002, message='接口已关闭!')
+    conf_arr = conf.strip().strip('|').split('|')
+
+    current_app.logger.debug(conf_arr)
+    if len(conf_arr) < 1:
+        return jsonify(code=3002, message='接口已关闭!!')
+    if int(conf_arr[1]) != 1:
+        return jsonify(code=3002, message='接口已关闭!!!')
+
     form = SaveForm(request.values)
     if not form.validate_on_submit():
         return jsonify(code=3004, message=str(form.errors))
