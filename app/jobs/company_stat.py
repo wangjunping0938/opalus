@@ -475,7 +475,6 @@ def company_average_stat(mark, no):
     query = {'mark': mark, 'no': no, 'status': 1}
     f = 1
 
-    maxTotal = DesignRecord.objects(**query).order_by('-total_score').first()
     maxBase = DesignRecord.objects(**query).order_by('-base_score').first()   # 基础运作力
     maxBusiness = DesignRecord.objects(**query).order_by('-business_score').first()   # 商业决策力
     maxInnovate = DesignRecord.objects(**query).order_by('-innovate_score').first()   # 创新交付力
@@ -494,22 +493,22 @@ def company_average_stat(mark, no):
             scoreQuery = {}
             aveScore = 0
             if maxBase:
-                scoreQuery['base_average'] = int(d.base_score / (maxBase + f) * 100)
+                scoreQuery['base_average'] = int(d.base_score / (maxBase.base_scroe + f) * 100)
                 aveScore += int(scoreQuery['base_average'] * 0.1)
             if maxBusiness:
-                scoreQuery['business_average'] = int(d.business_score / (maxBusiness + f) * 100)
+                scoreQuery['business_average'] = int(d.business_score / (maxBusiness.business_score + f) * 100)
                 aveScore += int(scoreQuery['business_average'] * 0.25)
             if maxInnovate:
-                scoreQuery['innovate_average'] = int(d.innovate_score / (maxInnovate + f) * 100)
+                scoreQuery['innovate_average'] = int(d.innovate_score / (maxInnovate.innovate_score + f) * 100)
                 aveScore += int(scoreQuery['innovate_average'] * 0.25)
             if maxDesign:
-                scoreQuery['design_average'] = int(d.design_score / (maxDesign + f) * 100)
+                scoreQuery['design_average'] = int(d.design_score / (maxDesign.design_score + f) * 100)
                 aveScore += int(scoreQuery['design_average'] * 0.15)
             if maxEffect:
-                scoreQuery['effect_average'] = int(d.effect_score / (maxEffect + f) * 100)
+                scoreQuery['effect_average'] = int(d.effect_score / (maxEffect.effect_score + f) * 100)
                 aveScore += int(scoreQuery['effect_average'] * 0.1)
             if maxCredit:
-                scoreQuery['credit_average'] = int(d.credit_score / (maxCredit + f) * 100)
+                scoreQuery['credit_average'] = int(d.credit_score / (maxCredit.credit_score + f) * 100)
                 aveScore += int(scoreQuery['credit_average'] * 0.15)
 
             if not scoreQuery:
