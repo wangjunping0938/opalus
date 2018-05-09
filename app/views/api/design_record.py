@@ -4,7 +4,7 @@ import datetime
 from app.models.design_record import DesignRecord
 from app.models.design_company import DesignCompany
 from app.helpers.pager import Pager
-from app.helpers.common import force_int
+from app.helpers.common import force_int, filter_key
 
 ## 列表
 @api.route('/design_record/list')
@@ -53,23 +53,21 @@ def design_record_list():
 
     try:
         fields = ['_id', 'mark', 'no', 'ave_score', 'base_average', 'business_average', 'credit_average', 'design_average', 'effect_average', 'innovate_average', 'total_ave_score', 'type', 'number', 'deleted', 'status']
+        cFields = ['_id', 'name', 'logo_url', 'd3ing_id', 'description', 'scope_business']
         data = DesignRecord.objects(**query).order_by(sortVal).paginate(page=page, per_page=per_page)
         total_count = DesignRecord.objects(**query).count()
-        current_app.logger.debug('aaaa')
 
         # 过滤数据
         rows = []
         for i, d in enumerate(data.items):
-            row = {}
-            for f in fields:
-                if f in d:
-                    row[f] = d[f]
-            row['_id'] = str(d._id)
+            row = filter_key(fields, d)
+            row['_id'] = str(row['_id'])
             row['design_company'] = {}
-            #row.test = 'abc'
-            designCompany = DesignCompany.objects(number=int(d.number)).fields(['_id', 'name', 'logo_url', 'd3ing_id']).first()
+            designCompany = DesignCompany.objects(number=int(d.number)).first()
             if designCompany:
-                row['design_company'] = designCompany
+                designCompany['_id'] = str(designCompany['_id'])
+                newCompany = filter_key(cFields, designCompany)
+                row['design_company'] = newCompany
             rows.append(row)
 
         meta['rows'] = rows

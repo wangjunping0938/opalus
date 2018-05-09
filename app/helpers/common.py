@@ -37,3 +37,12 @@ def gen_sha1(str):
     m = hashlib.sha1()
     m.update(str.encode('utf8'))
     return m.hexdigest()
+
+# 返回指定key对应值
+def filter_key(keys, row):
+    data = {}
+    for f in keys:
+        if f in row:
+            data[f] = row[f]
+
+    return data
