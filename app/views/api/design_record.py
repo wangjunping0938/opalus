@@ -70,6 +70,7 @@ def design_record_list():
             row = filter_key(fields, d)
             row['_id'] = str(row['_id'])
             row['design_company'] = {}
+            row['index'] = i + 1
             designCompany = DesignCompany.objects(number=int(d.number)).first()
             if designCompany:
                 designCompany['_id'] = str(designCompany['_id'])
