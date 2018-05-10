@@ -52,6 +52,7 @@ class DesignRecord(Base):
     ## 平均分(百分制)
     ave_score = db.IntField(default=0)
 
+    rank = db.IntField(default=0)   # 排名
     deleted = db.IntField(default=0)    # 软删除
     status = db.IntField(default=1)    # 状态: 0.禁用；1.启用
 

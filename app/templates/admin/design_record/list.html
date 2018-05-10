@@ -135,6 +135,7 @@
         {% for c in meta.design_dimension_options %}
         <th>{{ c.name }}</th>
         {%endfor%}
+        <th>排行</th>
         <th>总/平均分</th>
         <th>状态</th>
         <th>创建时间</th>
@@ -177,6 +178,7 @@
                   </td>
                 {%endfor%}
 
+                <td>{{ d.rank }}</td>
                 <td><span class="badge">{{ d.total_score }}/{{ d.ave_score }}</span></td>
                 <td>
                     <p class="status-label">

@@ -459,6 +459,10 @@ def company_stat(mark, no):
     print("Begin stat average.....\n")
     company_average_stat(mark, no)
 
+    # 更新排名
+    print("Begin update ranking....\n")
+    company_update_rank(mark, no)
+
 
 # 公司排行统计
 @celery.task()
@@ -515,6 +519,44 @@ def company_average_stat(mark, no):
                 print("current number:%s max score is 0\n" % d.number)
                 continue
             scoreQuery['ave_score'] = aveScore
+            ok = d.update(**scoreQuery)
+            if not ok:
+              print("更新失败~!")
+              continue
+
+            print("更新成功---number: %s.\n" % d.number)
+            total += 1
+
+        print("current page %s: \n" % page)
+        page += 1
+        if len(data.items) < perPage:
+            isEnd = True
+
+    print("is over execute count %s\n" % total)
+
+
+# 公司排名统计rank
+@celery.task()
+def company_update_rank(mark, no):
+
+    page = 1
+    perPage = 100
+    isEnd = False
+    total = 0
+    successStatCount = 0
+    failStatCount = 0
+    query = {'mark': mark, 'no': no, 'status': 1}
+
+    while not isEnd:
+        data = DesignRecord.objects(**query).order_by('-ave_score').paginate(page=page, per_page=perPage)
+        if not data:
+            print("get data is empty! \n")
+            continue
+
+        # 过滤数据
+        for i, d in enumerate(data.items):
+            scoreQuery = {}
+            scoreQuery['rank'] = i + 1
             ok = d.update(**scoreQuery)
             if not ok:
               print("更新失败~!")

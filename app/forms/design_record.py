@@ -37,6 +37,7 @@ class SaveForm(FlaskForm):
     total_score = IntegerField()    # 总分
     total_ave_score = IntegerField()  # 总平均分
     ave_score = IntegerField()    # 平均分
+    rank = IntegerField()     # 排名
 
 
     def update(self, **param):
