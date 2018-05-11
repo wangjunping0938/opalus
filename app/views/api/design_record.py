@@ -28,7 +28,7 @@ def design_record_list():
       for d in ids.split(','):
           try:
               id = ObjectId(d)
-              isArr.push(id)
+              isArr.append(id)
           except(Exception) as e:
               pass
       query['_id__in'] = isArr
