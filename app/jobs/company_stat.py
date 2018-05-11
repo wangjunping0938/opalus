@@ -556,7 +556,7 @@ def company_update_rank(mark, no):
         # 过滤数据
         for i, d in enumerate(data.items):
             scoreQuery = {}
-            scoreQuery['rank'] = i + 1
+            scoreQuery['rank'] = int((page -1) * perPage + i + 1)
             ok = d.update(**scoreQuery)
             if not ok:
               print("更新失败~!")

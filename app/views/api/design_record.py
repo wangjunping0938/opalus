@@ -23,7 +23,15 @@ def design_record_list():
     no = int(request.args.get('no', 0))
 
     if ids:
-      query['_id__in'] = list(map(lambda x: ObjectId(x), ids.split(',')))
+      # query['_id__in'] = list(map(lambda x: ObjectId(x), ids.split(',')))
+      isArr = []
+      for d in ids.split(','):
+          try:
+              id = ObjectId(d)
+              isArr.push(id)
+          except(Exception) as e:
+              pass
+      query['_id__in'] = isArr
     else:
         if status == -1:
             query['status'] = 0
