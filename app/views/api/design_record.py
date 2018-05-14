@@ -69,7 +69,7 @@ def design_record_list():
     try:
         fields = ['_id', 'mark', 'no', 'ave_score', 'base_average', 'business_average', 'credit_average', 'design_average', 'effect_average', 'innovate_average', 'ave_score', 'type', 'number', 'rank', 'deleted', 'status']
         cFields = ['_id', 'name', 'logo_url', 'd3ing_id', 'description', 'scope_business']
-        data = DesignRecord.objects(**query).order_by(sortVal).paginate(page=page, per_page=per_page)
+        data = DesignRecord.objects(**query).order_by(sortVal).order_by('-ave_score').paginate(page=page, per_page=per_page)
         total_count = DesignRecord.objects(**query).count()
 
         # 过滤数据
