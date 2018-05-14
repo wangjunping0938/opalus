@@ -74,7 +74,7 @@ def design_record_list():
 
     page_url = url_for('admin.design_record_list', page="#p#", mark=mark, no=no, number=number, sort=sort, is_d3in=is_d3in, status=status)
 
-    data = DesignRecord.objects(**query).order_by(sortVal).paginate(page=page, per_page=per_page)
+    data = DesignRecord.objects(**query).order_by(sortVal).order_by('-ave_score').paginate(page=page, per_page=per_page)
     total_count = DesignRecord.objects(**query).count()
 
     # 过滤数据
