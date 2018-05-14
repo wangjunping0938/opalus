@@ -475,16 +475,17 @@ def company_average_stat(mark, no):
     successStatCount = 0
     failStatCount = 0
     query = {'mark': mark, 'no': no, 'status': 1}
+    nSortVal = '-ave_score'
     f = 1
     bs = 50
     bf = 0.5
 
-    maxBase = DesignRecord.objects(**query).order_by('-base_score').first()   # 基础运作力
-    maxBusiness = DesignRecord.objects(**query).order_by('-business_score').first()   # 商业决策力
-    maxInnovate = DesignRecord.objects(**query).order_by('-innovate_score').first()   # 创新交付力
-    maxDesign = DesignRecord.objects(**query).order_by('-design_score').first()   # 品牌溢价力
-    maxEffect = DesignRecord.objects(**query).order_by('-effect_score').first()   # 客观公信力
-    maxCredit = DesignRecord.objects(**query).order_by('-credit_score').first()   # 风险应激力
+    maxBase = DesignRecord.objects(**query).order_by('-base_score', nSortVal).first()   # 基础运作力
+    maxBusiness = DesignRecord.objects(**query).order_by('-business_score', nSortVal).first()   # 商业决策力
+    maxInnovate = DesignRecord.objects(**query).order_by('-innovate_score', nSortVal).first()   # 创新交付力
+    maxDesign = DesignRecord.objects(**query).order_by('-design_score', nSortVal).first()   # 品牌溢价力
+    maxEffect = DesignRecord.objects(**query).order_by('-effect_score', nSortVal).first()   # 客观公信力
+    maxCredit = DesignRecord.objects(**query).order_by('-credit_score', nSortVal).first()   # 风险应激力
 
     while not isEnd:
         data = DesignRecord.objects(**query).paginate(page=page, per_page=perPage)
@@ -548,7 +549,7 @@ def company_update_rank(mark, no):
     query = {'mark': mark, 'no': no, 'status': 1}
 
     while not isEnd:
-        data = DesignRecord.objects(**query).order_by('-ave_score').paginate(page=page, per_page=perPage)
+        data = DesignRecord.objects(**query).order_by('-ave_score', '-base_average').paginate(page=page, per_page=perPage)
         if not data:
             print("get data is empty! \n")
             continue
