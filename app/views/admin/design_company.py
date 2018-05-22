@@ -15,7 +15,8 @@ def design_company_list():
     meta = {
         'title': '设计公司管理',
         'css_nav_sub_design_company': 'active',
-        'css_nav_design': 'active'
+        'css_nav_design': 'active',
+        'css_all': 'active'
     }
     query = {}
     page = force_int(request.args.get('page', 1))
@@ -23,6 +24,7 @@ def design_company_list():
     status = force_int(request.args.get('status', 0))
     craw_user_id = force_int(request.args.get('craw_user_id'), 0)
     deleted = force_int(request.args.get('deleted', 0))
+    kind = force_int(request.args.get('kind', 0))
 
     t = force_int(request.args.get('t', 1), 1)
     q = request.args.get('q', '')
@@ -39,6 +41,14 @@ def design_company_list():
         else:
             query['craw_user_id'] = craw_user_id
 
+    if kind:
+        if kind == 1:
+            meta['css_industry'] = 'active'
+        elif kind == 2:
+            meta['css_plane'] = 'active'
+        meta['css_all'] = ''
+        query['kind'] = kind
+
     if status == -1:
         meta['css_disable'] = 'active'
         query['status'] = 0
@@ -46,11 +56,11 @@ def design_company_list():
         query['status'] = 1
         meta['css_enable'] = 'active'
     else:
-        meta['css_all'] = 'active'
+        pass
 
     query['deleted'] = deleted
 
-    page_url = url_for('admin.design_company_list', page="#p#", q=q, t=t, status=status, craw_user_id=craw_user_id)
+    page_url = url_for('admin.design_company_list', page="#p#", q=q, t=t, kind=kind, status=status, craw_user_id=craw_user_id)
 
     data = DesignCompany.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
     total_count = DesignCompany.objects(**query).count()

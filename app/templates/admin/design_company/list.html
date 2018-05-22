@@ -50,6 +50,8 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav nav-list">
                 <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.design_company_list') }}">全部</a></li>
+                <li role="presentation" class="{{ meta.css_industry }}"><a href="{{ url_for('admin.design_company_list', kind=1) }}">工业设计</a></li>
+                <li role="presentation" class="{{ meta.css_plane }}"><a href="{{ url_for('admin.design_company_list', kind=2) }}">平面设计</a></li>
             </ul>
         </div>
     </div>

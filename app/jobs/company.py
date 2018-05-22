@@ -1216,8 +1216,430 @@ def generate_company():
                     print("公司已存在: %s" % name)
                     continue
 
-                design_company = DesignCompany(name=name)
-                ok = design_company.save()
+                design_company = DesignCompany(name=name, kind=1)
+                ok = True
+                #ok = design_company.save()
+                if ok:
+                    print("创建成功: %s\n" % name)
+                else:
+                    print("创建失败: %s\n" % name)
+            except(Exception) as e:
+                print(e)
+
+
+# 根据提供的公司名称创建公司--平面设计
+@celery.task()
+def generate_plane_company():
+    data = []
+    str = """
+    重庆桔禾文化创意策划有限公司	https://www.juheplan.com
+    刘宾品牌咨询与设计	http://www.lewbin.com
+    重庆王双企业形象设计有限公司	http://www.wsdesign.cc
+    重庆创写广告有限公司	http://www.cqcxgg.com
+    重庆优道品牌设计广告有限公司	http://www.udaoo.net
+    重庆茁麦文化传播有限公司	http://www.dreambc.com
+    五觉品牌设计公司	http://www.cq5jdesign.com
+    重庆朗优品牌设计有限公司	http://www.longu1.com
+    重庆西略文化传播有限公司	http://www.xlccbrand.com
+    重庆德纳图广告有限公司	http://www.denato.com.cn
+    北京主动一点平面设计有限公司	http://www.59ilogo.com.cn/
+    北京正邦品牌设计公司	http://www.zhengbang.com.cn/
+    北京东道形象设计制作有限责任公司	http://www.dongdao.net/
+    北京早晨设计顾问有限公司	www.morningdesign.com.cn
+    深圳韩家英设计公司	http://www.hanjiaying.com
+    北京理想创意艺术设计有限公司	http://www.bjideal.com
+    北京始创国际企划有限公司	http://www.aici.cn
+    深圳朗图企业形象设计有限公司	http://www.rito.cn
+    石家庄晏钧设计工作室	http://www.yanjun.net
+    成都黑蚁设计有限责任公司	http://www.blackant.cn
+    上海梅高创意咨询有限公司	http://www.meikao.com
+    天津艺点意创科技有限公司	http://www.vipyidian.com/
+    北京朗顿设计顾问有限公司	http://www.randodesign.com
+    高塔品牌管理（北京）有限公司	http://www.gaota.cn
+    上海十树品牌管理咨询有限公司	http://www.shishubrand.com/
+    李华清国际品牌设计有限公司	http://www.lihuaqing.com
+    北京灵智飞扬广告有限公司	http://www.lingzhifeiyang.cn
+    深圳市南风盛世企业形象策划有限公司	http://www.sznfss.com
+    北京清美未来广告设计有限公司	http://www.highestchina.com
+    北京形意达艺术设计有限公司	http://www.x-yd.com
+    上海博尚包装设计有限公司	http://www.posher.cn
+    柏林视觉品牌顾问（北京）有限公司	http://www.blvisual.com
+    北京东方尚企业策划设计有限公司	http://www.dongfangshang.com
+    杭州巴顿品牌设计有限公司	http://www.hzvis.com
+    广州集和品牌顾问有限公司	http://www.bicobrand.com
+    众耀伟业文化发展（北京）有限公司	http://www.zpopdesign.com
+    美御品牌设计	http://www.mroyal.cn
+    北京吾言吾道品牌咨询有限公司	http://www.shejidesign.com
+    陈幼坚设计公司	www.alanchandesign.com
+    北京妙集国际广告设计有限公司	http://www.miaojibrand.com/
+    北京博创高地国际广告设计有限公司	http://www.boflydesign.com
+    靳刘高设计	http://www.klandk.com
+    深圳优华氏企业形象设计有限公司	http://www.eovas.net
+    广州和一品牌设计顾问有限公司	http://www.bibrand.com
+    李永铨设计有限公司	http://www.tommylidesign.com
+    上海博微设计有限公司	http://www.bfitbrand.com
+    上海沈浩鹏平面设计有限公司	http://www.hopesun.com
+    杭州兰龙品牌设计有限公司	http://www.vislogo.com
+    深圳市锐意纵横品牌策划有限公司	http://www.ryzhch.cn
+    柯力品牌设计（上海）有限公司	http://www.kelidesign.com
+    济南干将莫邪企业形象设计有限公司	http://www.123ci.com
+    深圳市伙伴传祺创意设计有限公司	http://www.shenzhensheji.com/
+    上海三松品牌策划设计有限公司	http://www.sunsonchina.com/
+    上海硕谷品牌设计有限公司	http://www.gsvis.com
+    深圳力锐品牌策划有限公司	http://www.laserbrand.hk/
+    深圳市火狼企业形象设计有限公司	http://www.fw119.com/
+    正午设计顾问有限公司	http://www.12-brand.com
+    北京中美视觉文化传播有限公司	http://www.zhongmeishijue.net
+    深圳市欧兰格广告设计有限公司	http://www.olgmedia.com/
+    深圳市卓纳设计有限公司	http://www.zona.cn
+    深圳市牛势广告有限公司	http://www.szniushi.com
+    上海火太阳品牌设计有限公司	http://www.flamesun.com/
+    上海欧赛斯文化创意有限公司	http://www.osens.cn
+    深圳幕恩品牌设计有限公司	http://www.moonbrand.cn
+    深圳市陈宋品牌顾问有限公司	http://www.csbrand.cn
+    沈阳熙云谷企业形象设计有限公司	http://www.xiyungu.com/
+    北京兰旗之道文化发展有限公司	http://www.lanqi.com
+    宁波市海曙形而上广告设计有限公司	http://www.sensbc.com
+    雅能品牌策划设计公司	http://www.enengcy.com
+    DDG设计有限公司	http://www.ddg.com.tw
+    无锡市菩提树品牌设计有限公司	http://www.pts99.com
+    广东华丽时代品牌设计顾问有限公司	http://www.gtall.cn
+    杭州重墨堂品牌设计有限公司	http://www.zmt.cn/
+    苏州零全设计有限公司	http://www.newtree.cn
+    惠州市威碧恩设计有限公司	http://www.vbn.hk/
+    四川古格王朝品牌设计顾问公司	http://www.ycguge.com
+    成都费思道文化传播有限公司	http://www.feisidao.com
+    青岛弘睿品牌管理顾问有限公司	http://www.hr1949.com/
+    索曼斯(新疆)设计咨询有限公司	http://www.sommesedesign.com
+    大连精睿创想设计有限公司	http://www.jingruicehua.com
+    成都奥动品牌设计传播有限公司	http://www.adonschina.com
+    长春市大马品牌设计有限公司	http://www.damabrand.cn
+    创意共和（大连）设计有限公司	http://www.ideacn.com
+    逗号品牌顾问服务机构	http://www.dohao.cn
+    深圳心铭舍设计顾问有限公司	http://www.xinming.sg
+    深圳晴朗品牌设计机构	http://www.smiledesign.cn
+    深圳市全力形象设计有限公司	http://www.szquanli.com
+    广州甲壳虫设计有限公司	http://www.gzjkc.com
+    杭州朗威品牌策划有限公司	http://www.lkg.cc
+    赤风品牌策划与设计有限公司	http://www.redwind.cn
+    贤草品牌顾问有限公司	http://www.visdom.cn
+    天津深度广告传播有限责任公司	http://www.sigad.com.cn
+    念相品牌设计咨询（上海）有限公司	http://www.nx-design.net
+    唯秀企业形象策划(上海)有限公司	http://www.vshow.net
+    石家庄尚品牌设计有限公司	http://www.spinpai.com
+    石家庄一横设计传播有限公司	http://www.1heng.net/
+    石家庄乐观品牌设计有限公司	http://www.woleguan.com
+    石家庄合一品牌设计顾问有限公司	http://herovi.lofter.com
+    河北美格广告有限公司	http://www.zkingbrand.com
+    河北零度视点设计顾问有限公司	http://www.zerovision.com.cn
+    林佑品牌设计有限公司	http://www.linyousheji.com
+    石家庄上维企划设计公司	http://www.cn-sunv.com
+    后众设计有限公司	http://www.hero-ad.com
+    上海上知营销策划有限公司	http://www.soundsplan.com
+    朗意品牌管理顾问有限公司	http://www.lonbrand.com
+    广州哲仕企业形象设计有限公司	http:/www.thisbrand.cn
+    龙堂品牌设计与传播有限公司	http://www.helloddc.com
+    广州知尖广告有限公司	http://betop365.com
+    观唐-途创品牌策划设计有限公司	http://www.2umj.com/home.html
+    联合创智广州广告公司	http://www.nfyxtime.com
+    海智狮锐广告有限公司	http://www.hzbrand.cn/about.asp?sortid=1
+    深圳市红苹果企业形象策划有限公司	http://www.szredapple.cn/
+    深圳北辰品牌设计有限公司	http://www.brandstardesign.com
+    深圳市标派视觉品牌设计有限公司	http://www.szbpvis.com
+    左右格局（深圳）品牌整合创新体	http://www.zoyoo.net
+    深圳市壹心视觉品牌顾问有限公司	http://www.yixinshijue.com/
+    西可（天津）品牌设计有限公司	http://www.seekbrand.net
+    共鸣创意顾问机构	www.gm-idea.cn
+    商鼎天下品牌设计顾问有限公司	http://www.shangdingteam.com
+    天津雅顿品牌设计有限公司	http://www.tjyadun.com
+    天津绝策品牌设计有限公司	http://www.u-ad.org
+    三人形思企业形象策划（天津）有限公司	http://www.sense-bd.com
+    艾茉尔品牌设计公司	http://www.amoimedia.com
+    天津启源创意科技有限公司	http://www.tjqiyuan.com
+    天津嘉鹤广告有限公司	http://www.caho-ad.com
+    杭州好西好品牌策划有限公司	http://www.haoxhao.com
+    杭州东韵广告策划有限公司	http://www.hzdyad.com
+    杭州亦又品牌设计有限公司	http://www.yiubd.com
+    杭州知物设计有限公司	http://www.zhiwudesign.com
+    善美品牌设计有限公司	http://www.somebrand.cn
+    杭州出位设计有限公司	http://www.true-way.cn/
+    杭州艾都广告有限公司	http://www.idocis.cn
+    沐客品牌策划有限公司	http://www.mukeued.com
+    南京唐韵品牌管理有限公司	http://www.sbschina.com
+    允承文化发展有限公司	http://www.yunchengcn.com
+    可可青设计顾问机构	http://www.cogreendesign.com
+    南京方卓文化传播有限公司	http://www.njfzad.com
+    南京六朝品牌策划有限公司	http://www.lclogo.com
+    汉迪品牌策略设计顾问公司	http://www.njhandy.com
+    时创邦品牌设计有限公司	http://www.shichuang-nj.co
+    大川品牌设计机构	http://www.78vi.com
+    南京灵光企业形象设计有限公司	http://www.lingual.cn
+    柠檬创意有限公司	http://www.lemonn.cn
+    济南麦道平面设计中心	http://www.jnmaidao.cn
+    济南果实品牌设计有限公司	http://www.gainsee.com
+    海右博纳品牌管理公司	http://www.hibona.cn
+    非蝉品牌设计机构	http://www.facons.cn
+    济南吾将广告有限公司	http://www.wujoon.cn
+    济南上玄唯象品牌策划有限公司	http://www.sxwxci.com
+    济南向北广告有限公司	http://www.dbb2008.cn
+    济南太歌广告有限公司	http://www.jinantaige.com
+    青岛迈致品牌创意有限公司	https://www.img.ltd
+    山岛设计有限公司	http://www.tianyudesign.com
+    本生品牌设计有限公司	http://www.benshengsheji.com
+    青岛荣德品牌策划有限公司	http://www.adronge.com/index.aspx
+    青岛悟本正奇广告有限公司	http://www.hd3s.com/
+    优尔品牌营销策划有限公司	http://www.usersbrand.com
+    青岛左晨品牌策划有限公司	http://www.zochenbrand.com
+    鑫立方设计有限公司	http://www.design3.cc/
+    艺达思广告装饰有限公司	http://www.haozy33.cn/
+    青岛盛元方略品牌策划有限公司	http://www.syfled.com
+    大连艾森品牌传播有限公司	http://www.aissenbrand.com
+    相同创意营销策划（大连）有限公司	http://www.xiangtong1975.com
+    大连旨一传媒有限公司	http://www.genie-idea.com
+    大连壹品形象设计有限公司	http://www.ypin.net
+    大连汤迈创意传媒有限公司	http://www.tommimade.com
+    大连集田品牌设计有限公司	http://www.jitiandesign.cn
+    大连润悟设计有限公司	http://www.runwellbrand.com
+    大连壹鸣品牌设计有限责任公司	http://www.yimingdl.com
+    中邦品牌设计有限公司	http://www.zonbon.net
+    宁波麟石广告设计有限公司	http://www.flint-crea.com
+    宁波本来印象企业形象设计有限公司	http://www.nbvis.com
+    百特品牌策划有限公司	http://www.nbbt.cn
+    宁波盛道美创品牌设计有限公司	http://www.sd-mc.com
+    融圣智扬广告有限公司	http://www.holywis.com
+    宁波优合传美广告传播有限公司	http://www.yhcm.net
+    汉瑞品牌设计创作室	http://www.herogroup.org
+    宁波智慧天成广告有限公司	http://www.nbzhihui.com
+    宁波力创品牌设计有限公司	http://lcbrand.com
+    厦门軒視策划设计有限公司	http://www.xmxuanshi.com
+    智再品牌策划有限公司	http://www.zz-ad.com
+    合袁(厦门)品牌设计事务所有限公司	http://www.heyedesign.com
+    厦门幻想美广告有限公司	http://www.hxmad.com
+    厦门东晨视界文化传播有限公司	http://www.xmchange.com
+    厦门九智品牌策划有限公司	http://www.xiangvi.com
+    厦门大鱼广告有限公司	http://www.maxjob.cn/
+    杜微白品牌策划机构	http://www.duweibai.com
+    厦门壹笔品牌管理有限公司	http://www.yibivi.com
+    成都彼安迪广告设计有限公司	http://www.bd2001.com/
+    成都九田品牌设计顾问有限公司	http://www.cd9tian.com
+    成都九一堂品牌设计有限公司	http://www.jyt2004.com
+    成都瞳创广告有限公司	http://www.tocreate.cc
+    成都蜥奎概念品牌设计公司	http://www.cdsecret.com/
+    成都火之鸟广告有限公司	http://www.028bird.com
+    武汉市摩纳广告有限公司	http://www.whmona.com
+    武汉莯恩设计策略有限公司	http://mu-en.com
+    武汉艾的尔广告设计有限公司	http://www.adersj.com
+    武汉上辰品牌形象有限公司	http://www.sc-vis.com
+    武汉十方道合文化传媒有限公司	http://www.sfdhbrand.com
+    武汉傅敏设计	http://www.fm312.com/
+    楚韵意品文化创意有限公司	http://cyypsheji.com
+    武汉光禾创想广告有限公司	http://www.whghcx.com
+    武汉良玉设计有限公司	https://iworld.market
+    武汉锐联品牌设计有限公司	http://www.whruilian.com
+    哈尔滨浅渚企业形象策划有限公司	http://www.qianzhu.cc
+    哈尔滨金泽广告有限公司	http://jzgolden.com
+    哈尔滨力天企业形象设计有限公司	http://www.dulitian.com
+    哈尔滨邦德品牌形象设计公司	http://www.bangdegg.com
+    黑龙江省布凡设计有限责任公司	http://www.hljjingyi.com
+    哈尔滨多维广告有限公司	http://www.dwvis.com/
+    哈尔滨世纪蜂鸟文化传播有限公司	http://www.hrbfnwh.com
+    哈尔滨首巷品牌设计公司	http://0451000.com
+    哈尔滨彩韵堂设计印务有限公司	http://www.hrbcyt.com
+    简高品牌设计有限公司	http://www.concis.cn
+    妙集广告设计有限公司	http://www.symiaoji.com
+    沈阳禅墨品牌策划有限公司	http://www.sychanmo.com
+    卓摩品牌设计有限公司	http://www.zoomvi.com
+    沈阳丹田设计有限公司	http://www.dantianfly.com
+    沈阳艾的企业顾问有限公司	http://www.a-idear.com
+    沈阳视金石广告设计有限公司	http://www.sjs588.com/
+    沈阳维多曼广告策划有限公司	http://www.vidoman.com
+    沈阳壹度广告有限公司	http://www.yiduad.com
+    沈阳鲜道视觉创意设计	http://www.123vis.com
+    西安格尚品牌营销策划	http://www.xageshang.com/anli.php
+    西安开端品牌设计有限公司	http://www.kaiduan.cc
+    本易品牌机构有限公司	http://www.xabenyi.com
+    西安壹南品牌文化传播有限公司	http://www.onesouth.cn
+    西安必然广告文化传播有限公司	http://www.birancc.cc
+    西安灵波深智广告有限公司	http://www.mimad.cn
+    西安泰勒广告有限公司	http://xataile.com
+    西安十方营销策划有限公司	http://ideafine.com
+    西安荣智广告文化传播有限公司	http://www.rz2011.com
+    非同广告设计机构	http://www.ficton.com.cn
+    长春佐旗品牌策划设计有限公司	http://www.zuoqisheji.com
+    长春茗尊文化传播有限公司	http://www.ccmz.cn
+    吉林省致远品牌设计有限公司	http://www.zhiyuansheji.com
+    长春市兰韵企业形象设计有限责任公司	http://www.cclanyun.com
+    长春真象设计有限公司	http://www.zhenxiangsj.com
+    吉林省麒禹天下营销策划有限公司	http://www.jlqiyu.com
+    长春汇象品牌设计有限公司	http://www.c362.com/
+    长春市亦品九画品牌设计有限公司	http://www.ccypjh.com
+    长春北邦品牌设计有限公司	http://www.ndesign.cn
+    湖南美艺品牌管理有限公司	http://www.csmy.cn
+    长沙核桃广告设计有限公司	http://www.2012heart.com
+    远行品牌管理顾问	http://www.cnyuanxing.com
+    长沙正正品牌设计事务所	http://www.zhengsheji.com
+    长沙融策品牌设计有限公司	http://www.rocher.cc
+    长沙赤松品牌设计工作室	http://www.hncsbrand.com
+    湖南汇智远扬设计有限公司	http://www.cstw.cn
+    湖南大和品牌设计有限公司	http://www.andbrand.com.cn
+    长沙市正扬品牌策划有限公司	http://www.zhengyangcs.com
+    长沙在意品牌策划有限公司	http://www.zaiyiad.cn
+    上良（福州）品牌形象设计有限公司	http://www.slbrand.cn
+    无限度 ( 福州 ) 品牌传播机构	http://www.vasdo.cn
+    福建弘度文化传播有限公司	http://www.hondc.com
+    麦智品牌设计公司	http://www.mi-ze.com
+    福州蓝禾品牌设计有限公司	http://www.lanham.cn
+    福州立众文化传媒有限公司	http://www.risenmedia.cn
+    柒俊景品牌设计有限公司	http://www.7ovdesign.com
+    福州牧格广告有限公司	http://www.mo-ge.cn
+    福州市原色文化传播有限公司	http://www.fzyswh.com
+    思维攻略(福建)设计有限公司	http://www.sividesign.com
+    澜际品牌（郑州）设计策划有限公司	http://www.lonege.com
+    勤略品牌顾问机构	http://www.qinluecn.com
+    郑州惟度品牌设计有限公司	http://www.welldodesign.com
+    言十品牌整合机构	http://www.yanshiji.com
+    无形品牌策划有限公司	http://www.wuxingcehua.com
+    新大陆品牌整合机构	http://www.newlandds.com
+    郑州唯创品牌设计有限公司	http://www.zzvchuang.com
+    河南蜂鸟文化传播有限公司	http://www.fengniaosj.com
+    郑州凸凹品牌设计有限公司	http://www.tuaobrand.com/
+    郑州天右同道企业形象设计有限公司	http://www.topiobrand.com
+    苏州上马设计有限公司	http://szsmcc.com
+    苏州上活文化艺术传播有限公司	http://www.onvie.net/
+    苏州新年华品牌策划有限公司	http://www.carnival-2005sz.com
+    苏州其道品牌策划有限公司	http://www.qidaoad.com
+    苏州熏墨堂品牌设计有限公司	http://www.centmo.com
+    苏州视尊广告有限公司	http://www.hellovisun.com
+    苏州傲美设计有限公司	http://www.aomei-design.com
+    苏州磐石设计有限公司	http://www.panshi-d.com
+    苏州市嘉禾金马广告有限公司	http://www.szjm.cn
+    苏州美太广告传播有限公司	http://meitaiad.com
+    佛山市灵灵柒品牌设计有限公司	http://www.007db.com
+    汇点品牌策划有限公司	http://www.hopead168.com
+    佛山市东睿文化传播有限公司	http://www.fsdongrui.cn
+    何国辉设计有限公司	http://www.heguohuidesign.com
+    佛山市智野创意广告有限公司	http://www.zhiyead.com
+    佛山市三十七计品牌设计有限公司	http://www.37idea.com
+    佛山红星品象文化策划有限公司	http://www.reds-star.com/
+    佛山灵成广告有限公司	http://www.fslcad.com
+    通道品牌设计有限公司	http://www.dautonhk.com
+    佛山市锐艺广告策划有限公司	http://www.a068.com
+    广东视维品牌营销咨询有限公司	http://www.sivibrand.com
+    程刚广告有限公司	http://www.dg80.cn
+    墨象序品牌策划设计创意机构	http://www.begooo.cn
+    锦色乾坤广告设计有限公司	http://www.daoccn.com/
+    东莞市合奇道品牌设计有限公司	http://www.dghqd.com
+    东莞市五源企业形象设计有限公司	http://www.f5vi.com
+    东莞市视道品牌策划设计有限公司	http://www.visdao.com/video/
+    东莞市龙大品牌设计有限公司	http://www.dragon-vi.com
+    东莞市源素品牌设计有限公司	http://www.yesobrand.com
+    CBD品牌设计有限公司	http://www.cbdbrand.com
+    巴木创意设计中心	http://www.bamuidea.com/
+    无锡易视创意广告有限公司	http://www.eastdesign.cc
+    无锡岑越企业形象策划有限公司	http://logo.sxl.cn/
+    百乐士广告有限公司	http://www.wxblaze.com
+    无锡市博邦品牌设计有限公司	http://www.bobang.news
+    朗睿品牌设计有限公司	http://www.86vi.cn
+    世联视觉营销设计机构	http://www.wisdomunion.com.cn
+    无锡米一创意设计有限公司	http://www.miyi-china.com
+    无锡创知文化发展有限公司	http://www.wxtrans.com
+    山西创见文化传播有限公司	http://www.xuchuangsheji.com
+    太原德音文化传播有限公司	http://www.deyinwenhua.cn
+    山西零点设计有限公司	http://www.sxzero.com
+    LISO贾艺峰品牌资产管理公司	http://www.liso2005.com
+    山西黑与白包装制品有限公司	http://hybsj.cn
+    山西浪涛品牌设计有限公司	http://www.sxbzsj.com
+    山西焰雨文化创意有限公司	http://www.sxyanyu.com
+    太原中睿品牌设计有限公司	http://www.wisee.net
+    典创品牌设计机构	http://www.shanxidc.com
+    山西汉墨堂广告有限公司	http://www.shanxihanmotang.com
+    四夕堂品牌设计有限公司	http://www.sixidesign.com
+    曦芝品牌设计有限公司	http://www.sunwar.com.cn
+    合肥翰思雅品牌设计有限公司	http://www.hfhansel.com
+    合肥芒致品牌设计有限公司	http://www.hfvis.com
+    合肥伊赛文化传播有限公司	http://www.yisaiwenhua.com
+    合肥尚也广告传媒有限公司	http://www.hfshangye.com
+    智漾设计有限公司	http://www.wis-team.com
+    风火锐意企业管理有限公司	http://www.fenghuoruiyi.net
+    合肥天麦道道品牌视觉设计有限公司	http://www.ahtomer.com/
+    威视计企业形象设计有限公司	http://www.hfcis.com
+    懿木品牌设计有限公司	http://www.emuvis.com
+    南昌品至营销策划有限公司	http://www.pinzhif.com
+    南昌水蓝设计广告有限公司	http://www.ncwbd.com
+    引力文化传播有限公司	http://www.jxylsj.cn
+    天睿品牌形象设计管理机构	http://www.truibrand.com
+    南昌天水传媒有限公司	http://www.nctscm.com
+    南昌星际品牌设计有限公司	http://www.jxxjzz.com
+    江西奇可文化传播有限公司	http://www.chic998.com
+    南昌思蜕广告设计有限公司	http://www.siitui.com
+    广西赛朗文化传媒有限公司	http://www.sambrand.cn
+    广西大界文化传媒有限公司	http://www.letrue.cn
+    和壹品牌设计有限公司	http://www.hoit.cn
+    合岸品牌设计顾问有限公司	https://www.lancbd.com
+    广西南宁兰韵文化传播有限公司	http://www.gxlanyun.com
+    壹零零柒品牌设计有限公司	http://1007ad.cn
+    万聚品牌策划设计	http://www.gxwanju.com
+    如鱼品牌设计有限公司	http://www.520ruyu.com
+    天地汇品牌设计机构	http://www.gxtdh.net
+    仪通设计有限公司	http://www.yitongsheji.com
+    昆明极佳品牌设计有限公司	http://logovi.com
+    昆明上维品牌设计有限公司	http://sunvi.net
+    昆明金弦品牌策划设计有限公司	http://www.jx1995.com
+    灵狐品牌设计有限公司	http://www.kmsfbd.com
+    水墨文化传播（昆明）有限公司	http://www.smc919.com
+    肖恩品牌设计有限公司	http://www.seanzxh.com
+    昆明市西山区目音广告工作室	http://my-08.com
+    昆明新设绘企业形象设计有限公司	http://www.xsh168.com/
+    昆明锐力营销策划有限公司	http://www.reray.com
+    昆明红门创意广告有限公司	http://www.homenad.com/###
+    温州三形品牌设计有限公司	http://www.sanxan.com
+    先觉品牌设计有限公司	http://www.muzzibrand.com
+    温州形上品牌设计策划有限公司	http://www.ifdesign.cc
+    温州智合设计有限公司	http://www.wzchiho.com
+    温州超视觉设计有限公司	http://chaovds.com
+    温州柏宏品牌设计有限公司	http://www.hoho-d.com
+    温州之尚艺术设计有限公司	http://www.shang-design.com.cn
+    佐尚形象策划工作室	http://www.z-sch.com
+    温州标志工场	http://www.logo581.com
+    温州斐格品牌设计有限公司	http://www.figobrand.com
+    乌鲁木齐美无画品牌设计	http://www.meiwuhua.com
+    新疆大印象广告有限公司	http://www.dyxad.com
+    乌鲁木齐山水品牌设计工作室	http://www.xjsheji.com
+    乌鲁木齐合合创想广告有限公司	http://www.xjhehesheji.com
+    上行设计有限公司	http://sunsund.com
+    灵熙（贵阳）品牌设计顾问有限公司	http://www.cnclemon.com
+    贵州179品牌设计有限公司	http://www.gz179.com
+    贵州传说品牌设计有公司  http://www.chuan-shuo.net
+    贵州言思品牌设计有限公司	http://www.yesbrandcc.com
+    贵州之彩广告设计有限公司	http://www.zhicaiad.com
+    贵州步道设计有限公司	http://www.budo4a.com
+    贵州乐意智作文化传媒有限公司	http://www.gzlyzz.com
+    贵州灵智天创传媒有限公司	http://www.tccnvis.com
+    酷站设计有限公司	http://www.koozhan.com
+    """
+    l = str.split('\n')
+    l = []
+    print('aaaaaaaa')
+    for i in l:
+        row_arr = i.split('	')
+        if len(row_arr) != 2:
+            print(row_arr)
+            continue
+
+        print(row_arr)
+        name = row_arr[0].strip()
+        url = row_arr[1].strip()
+        if name:
+            try:
+                design_company = DesignCompany.objects(name=name).first()
+                # 如果存在，则跳过
+                if design_company:
+                    print("公司已存在: %s" % name)
+                    continue
+
+                design_company = DesignCompany(name=name, url=url, kind=2)
+                ok = True
+                #ok = design_company.save()
                 if ok:
                     print("创建成功: %s\n" % name)
                 else:
