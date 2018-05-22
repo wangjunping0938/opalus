@@ -131,8 +131,8 @@ class SaveForm(FlaskForm):
     remark = StringField('备注', validators=[Length(max=1000, message="长度小于1000个字符")])   # 备注
     perfect_degree = IntegerField() # 信息完整度
     craw_count = IntegerField() # 抓取频次
-    kind = IntegerField()    # 类型: 预设
-    type = IntegerField()    # 类型: 预设
+    kind = IntegerField()    # 类型: 1.工业设计；2.平面设计；3.--；
+    type = IntegerField()    # 类型：预设;
     craw_user_id = IntegerField()    # 抓取人ID：1.军平；2.董永胜; 3.--;
     user_id = IntegerField()
     last_on = DateTimeField()    # 最后一次抓取时间

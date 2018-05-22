@@ -1343,3 +1343,39 @@ def registered_capital_format():
 
     print("is over execute count %s\n" % total)
     
+
+# 批量设置公司类型
+@celery.task()
+def batch_set_field():
+    page = 1
+    perPage = 100
+    isEnd = False
+    total = 0
+    query = {}
+
+    while not isEnd:
+        data = DesignCompany.objects(**query).order_by('-created_at').paginate(page=page, per_page=perPage)
+        if not data:
+            print("get data is empty! \n")
+            continue
+
+        # 过滤数据
+        for i, d in enumerate(data.items):
+            if d.kind:
+                continue
+
+            ok = True
+            #ok = d.update(kind=1)
+            if not ok:
+                print("更新失败!\n")
+                continue
+
+            print("更新成功!\n")
+            total += 1
+
+        print("current page %s: \n" % page)
+        page += 1
+        if len(data.items) < perPage:
+            isEnd = True
+
+    print("is over execute count %s\n" % total)

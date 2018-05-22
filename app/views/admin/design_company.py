@@ -57,7 +57,13 @@ def design_company_list():
 
     # 过滤数据
     for i, d in enumerate(data.items):
-        pass
+        if data.items[i].kind == 1:
+            kind_label = '工业设计'
+        elif data.items[i].kind == 2:
+            kind_label = '平台设计'
+        else:
+            kind_label = '--'
+        data.items[i].kind_label = kind_label
 
     meta['data'] = data.items
 

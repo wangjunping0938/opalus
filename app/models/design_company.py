@@ -136,7 +136,7 @@ class DesignCompany(Base):
 
     perfect_degree = db.IntField(default=0) # 信息完整度
     craw_count = db.IntField(default=0) # 抓取频次
-    kind = db.IntField(default=0)    # 类型: 预设
+    kind = db.IntField(default=0)    # 类型: 1.工业设计；2.平面设计；3.--；
     type = db.IntField(default=0)    # 类型: 预设
     craw_user_id = db.IntField(default=0)    # 抓取人ID;
 
