@@ -249,15 +249,15 @@ def company_stat(mark, no):
                 #designConf['d3in_case_count'] = d.d3in_case_count * conf['d3in_case_count']
                 if d.d3in_case_count <= 5:
                     designConf['d3in_case_count'] = conf['d3in_case_count_a']
-                elif d.d3in_case_count >5 and d.d3in_case_count <= 20:
+                elif d.d3in_case_count > 5 and d.d3in_case_count <= 20:
                     designConf['d3in_case_count'] = conf['d3in_case_count_b']
-                elif d.d3in_case_count >20 and d.d3in_case_count <= 50:
+                elif d.d3in_case_count > 20 and d.d3in_case_count <= 50:
                     designConf['d3in_case_count'] = conf['d3in_case_count_c']
-                elif d.d3in_case_count >50 and d.d3in_case_count <= 100:
+                elif d.d3in_case_count > 50 and d.d3in_case_count <= 100:
                     designConf['d3in_case_count'] = conf['d3in_case_count_d']
-                elif d.d3in_case_count >100 and d.d3in_case_count <= 500:
+                elif d.d3in_case_count > 100 and d.d3in_case_count <= 500:
                     designConf['d3in_case_count'] = conf['d3in_case_count_e']
-                elif d.d3in_case_count >500
+                elif d.d3in_case_count > 500:
                     designConf['d3in_case_count'] = conf['d3in_case_count_f']
                     
 
