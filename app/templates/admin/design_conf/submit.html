@@ -429,13 +429,36 @@
                 </div>
                 <div class="form-group">
                     <div class="col-xs-2">
+                        <label for="d3in_case_count_a">铟果作品(1-5)</label>
+                        <input type="text" name="d3in_case_count_a" class="form-control" value="{{ meta.data.d3in_case_count_a|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="d3in_case_count_b">铟果作品(6-20)</label>
+                        <input type="text" name="d3in_case_count_b" class="form-control" value="{{ meta.data.d3in_case_count_b|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="d3in_case_count_c">铟果作品(21-50)</label>
+                        <input type="text" name="d3in_case_count_c" class="form-control" value="{{ meta.data.d3in_case_count_c|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="d3in_case_count_d">铟果作品(51-100)</label>
+                        <input type="text" name="d3in_case_count_d" class="form-control" value="{{ meta.data.d3in_case_count_d|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="d3in_case_count_e">铟果作品(101-500)</label>
+                        <input type="text" name="d3in_case_count_e" class="form-control" value="{{ meta.data.d3in_case_count_e|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="d3in_case_count_f">铟果作品(501+)</label>
+                        <input type="text" name="d3in_case_count_f" class="form-control" value="{{ meta.data.d3in_case_count_f|default(0) }}" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2">
                         <label for="design_case_count">抓取作品(数量)</label>
                         <input type="text" name="design_case_count" class="form-control" value="{{ meta.data.design_case_count|default(0) }}" placeholder="">
                     </div>
-                    <div class="col-xs-2">
-                        <label for="d3in_case_count">铟果作品(数量)</label>
-                        <input type="text" name="d3in_case_count" class="form-control" value="{{ meta.data.d3in_case_count|default(0) }}" placeholder="">
-                    </div>
+
                 </div>
             </div>
         </div>

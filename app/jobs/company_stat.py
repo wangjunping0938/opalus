@@ -246,7 +246,20 @@ def company_stat(mark, no):
                 designConf['design_case_count'] = d.design_case_count * conf['design_case_count']
             # 铟果作品数
             if d.d3in_case_count:
-                designConf['d3in_case_count'] = d.d3in_case_count * conf['d3in_case_count']
+                #designConf['d3in_case_count'] = d.d3in_case_count * conf['d3in_case_count']
+                if d.d3in_case_count <= 5:
+                    designConf['d3in_case_count'] = conf['d3in_case_count_a']
+                elif d.d3in_case_count >5 and d.d3in_case_count <= 20:
+                    designConf['d3in_case_count'] = conf['d3in_case_count_b']
+                elif d.d3in_case_count >20 and d.d3in_case_count <= 50:
+                    designConf['d3in_case_count'] = conf['d3in_case_count_c']
+                elif d.d3in_case_count >50 and d.d3in_case_count <= 100:
+                    designConf['d3in_case_count'] = conf['d3in_case_count_d']
+                elif d.d3in_case_count >100 and d.d3in_case_count <= 500:
+                    designConf['d3in_case_count'] = conf['d3in_case_count_e']
+                elif d.d3in_case_count >500
+                    designConf['d3in_case_count'] = conf['d3in_case_count_f']
+                    
 
             # 红星奖
             if d.red_star_award_count:

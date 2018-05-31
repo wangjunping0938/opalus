@@ -84,6 +84,12 @@ class SaveForm(FlaskForm):
     ## 设计力指数
     design_case_count = IntegerField() # 抓取作品数量
     d3in_case_count = IntegerField() # 铟果作品数量
+    d3in_case_count_a = IntegerField() # 铟果作品数量(1-5)
+    d3in_case_count_b = IntegerField() # 铟果作品数量(6-20)
+    d3in_case_count_c = IntegerField() # 铟果作品数量(21-50)
+    d3in_case_count_d = IntegerField() # 铟果作品数量(51-100)
+    d3in_case_count_e = IntegerField() # 铟果作品数量(101-500)
+    d3in_case_count_f = IntegerField() # 铟果作品数量(500+)
     design_center_province = IntegerField()    # 是否是设计中心: 省级；
     design_center_county = IntegerField()    # 是否是设计中心: 国家级；
     red_star_award_count = IntegerField()    # 红星奖数量

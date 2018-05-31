@@ -85,6 +85,12 @@ class DesignConf(Base):
     ## 设计力指数
     design_case_count = db.IntField(default=0) # 抓取作品数量
     d3in_case_count = db.IntField(default=0) # 铟果作品数量
+    d3in_case_count_a = db.IntField(default=0) # 铟果作品数量(1-5)
+    d3in_case_count_b = db.IntField(default=0) # 铟果作品数量(6-20)
+    d3in_case_count_c = db.IntField(default=0) # 铟果作品数量(21-50)
+    d3in_case_count_d = db.IntField(default=0) # 铟果作品数量(51-100)
+    d3in_case_count_e = db.IntField(default=0) # 铟果作品数量(101-500)
+    d3in_case_count_f = db.IntField(default=0) # 铟果作品数量(500+)
     design_center_province = db.IntField(default=0)    # 是否是设计中心: 省级；
     design_center_county = db.IntField(default=0)    # 是否是设计中心: 国家级；
     red_star_award_count = db.IntField(default=0)    # 红星奖数量
