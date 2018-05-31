@@ -34,6 +34,8 @@ def design_case_list():
                 query['_id'] = ''
         if t==2:
             query['title'] = {"$regex": q.strip()}
+        if t==3:
+            query['target_id'] = q.strip()
 
     if prize_label:
         query['prize_label'] = prize_label
