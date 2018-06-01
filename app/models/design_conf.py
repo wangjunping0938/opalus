@@ -135,6 +135,7 @@ class DesignConf(Base):
     tax_notice_count = db.IntField(default=0) # 欠税公告
     judicial_sale_count = db.IntField(default=0) # 司法拍卖
     tax_rating_count = db.IntField(default=0) # 税务评级
+    credit_enter_extra = db.IntField(default=0) # 入驻铟果额外加分
 
 
     status = db.IntField(default=0)    # 状态: 0.禁用；1.启用

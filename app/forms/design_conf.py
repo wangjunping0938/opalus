@@ -134,6 +134,7 @@ class SaveForm(FlaskForm):
     tax_notice_count = IntegerField() # 欠税公告
     judicial_sale_count = IntegerField() # 司法拍卖
     tax_rating_count = IntegerField() # 税务评级
+    credit_enter_extra = IntegerField() # 入驻额外加分
 
     def update(self):
         id = self.data['id']

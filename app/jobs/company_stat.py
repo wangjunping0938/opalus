@@ -362,6 +362,7 @@ def company_stat(mark, no):
                 'tax_notice_count': 0,
                 'judicial_sale_count': 0,
                 'tax_rating_count': 0,
+                'credit_enter_extra': 0,
             }
 
             # 法律诉讼
@@ -403,6 +404,9 @@ def company_stat(mark, no):
             # 税务评级
             if d.tax_rating_count:
                 creditConf['tax_rating_count'] = d.tax_rating_count * conf['tax_rating_count']
+            # 入驻加分
+            if d.credit_enter_extra:
+                creditConf['credit_enter_extra'] = conf['credit_enter_extra']
 
 
             ## 统计社会信誉分值

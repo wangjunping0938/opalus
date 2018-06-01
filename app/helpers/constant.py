@@ -173,6 +173,7 @@ def design_fields_label_options(field=''):
                 {'field': 'tax_notice_count', 'name': '欠税公告', 'group': 'credit'},
                 {'field': 'judicial_sale_count', 'name': '司法拍卖', 'group': 'credit'},
                 {'field': 'tax_rating_count', 'name': '税务评级', 'group': 'credit'},
+                {'field': 'credit_enter_extra', 'name': '入驻加分', 'group': 'credit'},
             ]
 
     if field=='':
