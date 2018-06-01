@@ -405,7 +405,7 @@ def company_stat(mark, no):
             if d.tax_rating_count:
                 creditConf['tax_rating_count'] = d.tax_rating_count * conf['tax_rating_count']
             # 入驻加分
-            if d.credit_enter_extra:
+            if d.is_d3in:
                 creditConf['credit_enter_extra'] = conf['credit_enter_extra']
 
 
