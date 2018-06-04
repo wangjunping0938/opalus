@@ -161,6 +161,7 @@
                     <p>名称: <a href="/admin/design_company/submit?id={{ d.design_company._id }}" target="_blank">{{ d.design_company.name }}</a></p>
                     <p>编号: {{ d.number }}</p>
                     <p>入驻铟果: {% if d.design_company.d3ing_id %}是{%else%}否{%endif%}</p>
+                    <p>简介: {{ d.design_company.description }}</p>
                 </td>
 
                 {% for c in meta.design_dimension_options %}
