@@ -717,6 +717,47 @@
         </div>
     </div>
 
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse"
+                   href="#extra-score-info">
+                    额外加减分项(注意平均分不能超过100或低于50)
+                </a>
+            </h4>
+        </div>
+        <div id="extra-score-info" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="extra_base_score">基础运作力</label>
+                        <input type="text" name="extra_base_score" class="form-control" value="{{ meta.data.extra_base_score|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="extra_business_score">商业决策力</label>
+                        <input type="text" name="extra_business_score" class="form-control" value="{{ meta.data.extra_business_score|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="extra_innovate_score">创新交付力</label>
+                        <input type="text" name="extra_innovate_score" class="form-control" value="{{ meta.data.extra_innovate_score }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="extra_design_score">品牌溢价力</label>
+                        <input type="text" name="extra_design_score" class="form-control" value="{{ meta.data.extra_design_score|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="extra_effect_score">客观公信力</label>
+                        <input type="text" name="extra_effect_score" class="form-control" value="{{ meta.data.extra_effect_score|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="extra_credit_score">风险应激力</label>
+                        <input type="text" name="extra_credit_score" class="form-control" value="{{ meta.data.extra_credit_score }}" placeholder="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </div>
 

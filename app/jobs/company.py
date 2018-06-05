@@ -114,6 +114,9 @@ def d3in_company_stat():
             if d['company_size']:
                 query['scale'] = d['company_size']
                 query['scale_label'] = d['company_size_val']
+            # 简介
+            if d['company_profile']:
+                query['description'] = d['company_profile']
             # 网址
             if d['web']:
                 query['url'] = d['web']

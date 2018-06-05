@@ -120,6 +120,14 @@ class SaveForm(FlaskForm):
     works_copyright_count = IntegerField() # 作品著作权
     icp_count = IntegerField() # 网站备案
 
+    ## 平台额外加减分项
+    extra_base_score = IntegerField() # 基础运作分
+    extra_business_score = IntegerField() # 商业决策力
+    extra_innovate_score = IntegerField() # 创新交付力
+    extra_design_score = IntegerField() # 品牌溢价力
+    extra_effect_score = IntegerField() # 客观公信力
+    extra_credit_score = IntegerField() # 风险应激力
+
 
     ## 附加
     tags = StringField('标签', validators=[Length(max=100, message="长度小于100个字符")])   # 标签

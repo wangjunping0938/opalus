@@ -142,6 +142,14 @@ class DesignCompany(Base):
 
     cida_credit_rating = db.IntField(default=0) # 工业设计协会认证等级: 0.NULL; 1.A; 2.AA; 3.AAA;
 
+    ## 平台额外加减分项
+    extra_base_score = db.IntField(default=0) # 基础运作分
+    extra_business_score = db.IntField(default=0) # 商业决策力
+    extra_innovate_score = db.IntField(default=0) # 创新交付力
+    extra_design_score = db.IntField(default=0) # 品牌溢价力
+    extra_effect_score = db.IntField(default=0) # 客观公信力
+    extra_credit_score = db.IntField(default=0) # 风险应激力
+
 
     last_on = db.DateTimeField()    # 最后一次抓取时间
 
