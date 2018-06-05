@@ -513,7 +513,7 @@ def company_average_stat(mark, no):
         # 过滤数据
         for i, d in enumerate(data.items):
             designCompany = DesignCompany.objects(number=int(d.number)).fields(['_id', 'name', 'extra_base_score', 'extra_business_score', 'extra_innovate_score', 'extra_design_score', 'extra_effect_score', 'extra_credit_score']).first()
-            if !designCompany:
+            if not designCompany:
                 continue
 
             scoreQuery = {}
