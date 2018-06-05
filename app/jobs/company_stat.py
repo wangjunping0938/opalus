@@ -512,26 +512,48 @@ def company_average_stat(mark, no):
 
         # 过滤数据
         for i, d in enumerate(data.items):
+            designCompany = DesignCompany.objects(number=int(d.number)).fields(['_id', 'name', 'extra_base_score', 'extra_business_score', 'extra_innovate_score', 'extra_design_score', 'extra_effect_score', 'extra_credit_score']).first()
+            if !designCompany:
+                continue
+
             scoreQuery = {}
             aveScore = 0
             if maxBase:
-                scoreQuery['base_average'] = int(d.base_score / (maxBase.base_score + f) * 100 * bf + bs)
-                aveScore += int(scoreQuery['base_average'] * 0.1)
+                base_average = int(d.base_score / (maxBase.base_score + f) * 100 * bf + bs)
+                if designCompany.extra_base_score:
+                    base_average += designCompany.extra_base_score
+                scoreQuery['base_average'] = base_average
+                aveScore += int(base_average * 0.1)
             if maxBusiness:
-                scoreQuery['business_average'] = int(d.business_score / (maxBusiness.business_score + f) * 100 * bf + bs)
-                aveScore += int(scoreQuery['business_average'] * 0.25)
+                business_average = int(d.business_score / (maxBusiness.business_score + f) * 100 * bf + bs)
+                if designCompany.extra_business_score:
+                    business_average += designCompany.extra_business_score
+                scoreQuery['business_average'] = business_average
+                aveScore += int(business_average * 0.25)
             if maxInnovate:
-                scoreQuery['innovate_average'] = int(d.innovate_score / (maxInnovate.innovate_score + f) * 100 * bf + bs)
-                aveScore += int(scoreQuery['innovate_average'] * 0.25)
+                innovate_average = int(d.innovate_score / (maxInnovate.innovate_score + f) * 100 * bf + bs)
+                if designCompany.extra_innovate_score:
+                    innovate_average += designCompany.extra_innovate_score
+                scoreQuery['innovate_average'] = innovate_average
+                aveScore += int(innovate_average * 0.25)
             if maxDesign:
-                scoreQuery['design_average'] = int(d.design_score / (maxDesign.design_score + f) * 100 * bf + bs)
-                aveScore += int(scoreQuery['design_average'] * 0.15)
+                design_average = int(d.design_score / (maxDesign.design_score + f) * 100 * bf + bs)
+                if designCompany.extra_design_score:
+                    design_average += designCompany.extra_design_score
+                scoreQuery['design_average'] = design_average
+                aveScore += int(design_average * 0.15)
             if maxEffect:
-                scoreQuery['effect_average'] = int(d.effect_score / (maxEffect.effect_score + f) * 100 * bf + bs)
-                aveScore += int(scoreQuery['effect_average'] * 0.1)
+                effect_average = int(d.effect_score / (maxEffect.effect_score + f) * 100 * bf + bs)
+                if designCompany.extra_effect_score:
+                    effect_average += designCompany.extra_effect_score
+                scoreQuery['effect_average'] = effect_average
+                aveScore += int(effect_average * 0.1)
             if maxCredit:
-                scoreQuery['credit_average'] = int(d.credit_score / (maxCredit.credit_score + f) * 100 * bf + bs)
-                aveScore += int(scoreQuery['credit_average'] * 0.15)
+                credit_average = int(d.credit_score / (maxCredit.credit_score + f) * 100 * bf + bs)
+                if designCompany.extra_credit_score:
+                    credit_average += designCompany.extra_credit_score
+                scoreQuery['credit_average'] = credit_average
+                aveScore += int(credit_average * 0.15)
 
             if not scoreQuery:
                 print("current number:%s max score is 0\n" % d.number)
