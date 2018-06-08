@@ -189,7 +189,7 @@ def design_record_delete():
         arr = ids.split(',')
         for d in arr:
             design_record = DesignRecord.objects(_id=ObjectId(d)).first()
-            design_record.delete() if design_record else None
+            design_record.mark_delete() if design_record else None
     except(Exception) as e:
         return jsonify(success=False, message=str(e))
 

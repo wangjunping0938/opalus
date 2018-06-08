@@ -113,15 +113,6 @@ def design_company_update():
         if not request.values.get(key):
             data.pop(key)
 
-    # 公司数量整理
-    if 'company_count' in data:
-        if ',' in data['company_count']:
-            company_count_arr = data['company_count'].split(',')
-            company_count = 0
-            for n in company_count_arr:
-               company_count += force_int(n)
-            data['company_count'] = str(company_count)
-
     if not number:
         return jsonify(code=3001, message='编号不存在!')
 
@@ -137,6 +128,22 @@ def design_company_update():
 
         if not data:
             return jsonify(code=3003, message='至少传入一个参数!')
+
+        # 公司数量整理
+        if 'company_count' in data:
+            if ',' in data['company_count']:
+                company_count_arr = data['company_count'].split(',')
+                company_count = 0
+                for n in company_count_arr:
+                   company_count += force_int(n)
+                data['company_count'] = str(company_count)
+
+        # 如果已入驻铟果，一些字段忽略存储
+        if design_company.d3ing_id:
+            ignore_field = ['short_name', 'branch', 'english_name', 'scale_label', 'description', 'url', 'logo_url', 'province', 'city', 'address', 'contact_name', 'contact_phone', 'contact_email']
+            for ig in ignore_field:
+                if ig in data:
+                    data.pop(ig)
 
         data['inc__craw_count'] = 1 # 自增
         data['last_on'] = datetime.datetime.now()

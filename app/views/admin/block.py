@@ -4,6 +4,7 @@ from flask import render_template, request, current_app, url_for, jsonify, g, fl
 from . import admin
 from app.models.block import Block
 from app.helpers.pager import Pager
+from app.helpers.role import check_role
 from app.forms.block import SaveForm, setStatus
 from bson import ObjectId
 
@@ -34,8 +35,9 @@ def block_list():
         meta['css_all'] = 'active'
 
     query['deleted'] = deleted
+    current_app.logger.debug(type(g.user))
 
-    data = Block.objects(**query).order_by('create_at').paginate(page=page, per_page=per_page)
+    data = Block.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
     total_count = Block.objects(**query).count()
 
     meta['data'] = data.items
@@ -81,7 +83,7 @@ def block_save():
         
         try:
             if id:
-                block = form.update_one()
+                block = form.update()
             else:
                 block = form.save(user_id=g.user._id)
         except(Exception) as e:
@@ -132,10 +134,14 @@ def block_delete():
         arr = ids.split(',')
         for d in arr:
             block = Block.objects(_id=ObjectId(d)).first()
-            block.mark_delete() if block else None
+            if block:
+                is_pass = check_role(block.role)
+                if is_pass:
+                    block.mark_delete() if block else None
     except(Exception) as e:
         return jsonify(success=False, message=str(e))
 
     return jsonify(success=True, message='操作成功!', data={'ids': ids, 'type':type}, redirect_to=url_for('admin.block_list'))
+
 
 

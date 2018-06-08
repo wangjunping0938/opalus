@@ -106,6 +106,26 @@
                 </div>
             </div>
 
+              <div class="form-group">
+                  <div class="col-xs-4">
+                      <label for="role">权重</label>
+                      <div class="">
+                          <label class="checkbox-inline">
+                              <input type="radio" {% if meta.data.role==1 %}checked="checked"{%endif%} name="role" value="1">
+                              普通
+                          </label>
+                          <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.role==5 %}checked="checked"{%endif%} {% if not g.is_admin %}disabled{%endif%} name="role" value="5">
+                              管理员
+                          </label>
+                          <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.role==8 %}checked="checked"{%endif%} {% if not g.is_system %}disabled{%endif%} name="role" value="8">
+                              系统管理员
+                          </label>
+                      </div>
+                  </div>
+              </div>
+
             <!--
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">

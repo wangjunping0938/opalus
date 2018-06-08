@@ -693,7 +693,7 @@
             <h4 class="panel-title">
                 <a data-toggle="collapse"
                    href="#ty-site-info">
-                    天眼查分析
+                    其它渠道分析
                 </a>
             </h4>
         </div>
@@ -701,16 +701,22 @@
             <div class="panel-body">
                 <div class="form-group">
                     <div class="col-xs-2">
-                        <label for="ty_score">评分</label>
+                        <label for="ty_score">天眼查评分</label>
                         <input type="text" name="ty_score" class="form-control" value="{{ meta.data.ty_score|default(0) }}" placeholder="">
                     </div>
                     <div class="col-xs-2">
-                        <label for="ty_view_count">浏览量</label>
+                        <label for="ty_view_count">天眼查浏览量</label>
                         <input type="text" name="ty_view_count" class="form-control" value="{{ meta.data.ty_view_count|default(0) }}" placeholder="">
                     </div>
                     <div class="col-xs-2">
-                        <label for="ty_last_time">更新时间</label>
+                        <label for="ty_last_time">天眼查更新时间</label>
                         <input type="text" name="ty_last_time" class="form-control" value="{{ meta.data.ty_last_time }}" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2">
+                        <label for="baidu_hot">百度热度</label>
+                        <input type="text" name="baidu_hot" class="form-control" value="{{ meta.data.baidu_hot|default(0) }}" placeholder="">
                     </div>
                 </div>
             </div>

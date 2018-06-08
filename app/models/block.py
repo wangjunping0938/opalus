@@ -22,6 +22,7 @@ class Block(Base):
     code = db.StringField() # 代码块
     content = db.StringField()  # 内容
     remark = db.StringField(max_length=50, required=True)   # 备注
+    role = db.IntField(default=0) # 权重：0.基本；1.编辑；5.超级管理员
     deleted = db.IntField(default=0)    # 是否软删除
 
     created_at = db.DateTimeField()

@@ -585,7 +585,7 @@ def company_update_rank(mark, no):
     total = 0
     successStatCount = 0
     failStatCount = 0
-    query = {'mark': mark, 'no': no, 'status': 1}
+    query = {'mark': mark, 'no': no, 'status': 1, 'deleted': 0}
 
     while not isEnd:
         data = DesignRecord.objects(**query).order_by('-ave_score', '-base_average').paginate(page=page, per_page=perPage)

@@ -3,6 +3,7 @@ from wtforms import TextAreaField, StringField, IntegerField
 from wtforms.validators import DataRequired, Length, EqualTo, NumberRange
 from flask_wtf import FlaskForm
 from bson import ObjectId
+from app.helpers.role import check_role
 
 #from .base import BaseForm
 from ..models.block import Block
@@ -16,13 +17,18 @@ class SaveForm(FlaskForm):
     content = StringField()
     remark = StringField()
     kind = IntegerField()
+    role = IntegerField() # 权重：0.基本；1.编辑；5.超级管理员
     user_id = IntegerField()
 
-    def update_one(self):
+    def update(self):
         id = self.data['id']
         block = Block.objects(_id=ObjectId(id)).first()
         if not block:
             raise ValueError('内容不存在!')
+
+        is_pass = check_role(block.role)
+        if not is_pass:
+            raise ValueError('无权限操作!')
         data = {}
 
         data['mark'] = self.data['mark']
@@ -31,12 +37,18 @@ class SaveForm(FlaskForm):
         data['content'] = self.data['content']
         data['remark'] = self.data['remark']
         data['kind'] = self.data['kind']
+        data['role'] = self.data['role']
 
         ok = block.update(**data)
         return ok
 
     def save(self, **param):
         data = self.data;
+
+        is_pass = check_role(data['role'])
+        if not is_pass:
+            raise ValueError('无权限操作!')
+
         data['user_id'] = param['user_id']
         data.pop('id')
         block = Block(**data)
@@ -56,3 +68,4 @@ class setStatus(FlaskForm):
         data['status'] = self.data['status']
         ok = block.update(**data)
         return ok
+
