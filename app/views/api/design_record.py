@@ -219,13 +219,13 @@ def auto_evaluate(record, company):
 
     arr.append(content)
     if content1:
-        arr.appent(content1)
+        arr.append(content1)
     if content2:
-        arr.appent(content2)
+        arr.append(content2)
     if content3:
-        arr.appent(content3)
+        arr.append(content3)
     if content4:
-        arr.appent(content4)
+        arr.append(content4)
 
     return arr
 
