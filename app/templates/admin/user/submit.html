@@ -147,11 +147,11 @@
                             编辑
                         </label>
                         <label class="checkbox-inline">
-                            <input type="radio" {% if meta.data.role_id==5 %}checked="checked"{%endif%} name="role_id" value="5">
+                            <input type="radio" {% if meta.data.role_id==5 %}checked="checked"{%endif%} {%if not g.is_admin%}disabled{%endif%} name="role_id" value="5">
                             管理员
                         </label>
                         <label class="checkbox-inline">
-                            <input type="radio" {% if meta.data.role_id==8 %}checked="checked"{%endif%} name="role_id" value="8">
+                          <input type="radio" {% if meta.data.role_id==8 %}checked="checked"{%endif%} {%if not g.is_system%}disabled{%endif%} name="role_id" value="8">
                             超级管理员
                         </label>
                     </div>
