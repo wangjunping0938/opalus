@@ -58,14 +58,24 @@ class SignupForm(FlaskForm):
     account = StringField('用户名', validators=[DataRequired(message="账户不能为空"), Length(min=4, max=30, message="长度大于4小于30")])
     password = PasswordField('密码', validators=[DataRequired(), Length(min=6, max=20, message="长度大于6小于20")])
     password_confirm = PasswordField('确认密码', validators=[DataRequired(message="确认密码"), EqualTo('password', message='密码不一致')])
+    phone=StringField("电话",validators=[DataRequired(),Length(max=20)])
+    email=StringField('邮箱',validators=[DataRequired(),Length(max=30,message="长度小于30")])
+    #profile = FormField(ProfileForm)
+    #profile_realname = StringField('真实姓名',validators=[DataRequired(message="姓名不能为空!"),Length(max=30,message="姓名长度不要超过15个汉字!")])
 
     def validate_account(self, field):
         account = self.account.data
+        phone=self.phone.data
+        email=self.email.data
         data = field.data.lower()
         if data in RESERVED_WORDS:
             raise ValueError('不允许使用此用户名')
         if User.objects(account=account).first():
             raise ValueError('账号已存在')
+        if User.objects(phone=phone).first():
+            raise ValueError("该手机号已被注册!")
+        if User.objects(email=email).first():
+            raise ValueError('该email已存在!')
 
     def save(self, **param):
         data = self.data;
