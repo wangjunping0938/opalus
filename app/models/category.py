@@ -13,7 +13,7 @@ class Category(Base):
         'id_field': '_id'
     }
 
-    _id = db.IntField(primary_key=True, required=True, unique=True)
+    _id = db.IntField(primary_key=True, required=True)
     mark = db.StringField(max_length=20)
     name = db.StringField(max_value=30, required=True, unique=True)
     user_id = db.IntField(required=True)

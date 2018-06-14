@@ -14,7 +14,7 @@ class Product(Base):
         'strict': True 
     }
 
-    _id = db.IntField(primary_key=True, required=True, unique=True)
+    _id = db.IntField(primary_key=True, required=True)
     out_number = db.StringField() # 站外编号(sku)
     title = db.StringField(max_length=30) # 名称
     sub_title = db.StringField(max_length=30) # 子名称

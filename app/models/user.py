@@ -15,7 +15,7 @@ class User(Base):
         'strict': True
     }
 
-    _id = db.IntField(primary_key=True, required=True, unique=True)
+    _id = db.IntField(primary_key=True, required=True)
     account = db.StringField(min_value=4, max_value=20, required=True, unique=True)
     phone = db.StringField(max_value=20, default='')
     email = db.StringField(max_value=50, default='')
