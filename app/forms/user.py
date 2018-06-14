@@ -60,7 +60,7 @@ class SignupForm(FlaskForm):
     password_confirm = PasswordField('确认密码', validators=[DataRequired(message="确认密码"), EqualTo('password', message='密码不一致')])
     phone=StringField("电话",validators=[DataRequired(),Length(max=20)])
     email=StringField('邮箱',validators=[DataRequired(),Length(max=30,message="长度小于30")])
-    #profile = FormField(ProfileForm)
+    profile = FormField(ProfileForm)
     #profile_realname = StringField('真实姓名',validators=[DataRequired(message="姓名不能为空!"),Length(max=30,message="姓名长度不要超过15个汉字!")])
 
     def validate_account(self, field):

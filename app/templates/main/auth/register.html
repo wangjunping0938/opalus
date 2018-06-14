@@ -22,6 +22,19 @@
         account: {
             required: true
         },
+        'profile-realname': {
+            required: true
+        },
+        'profile-position': {
+            required: true
+        },
+        phone: {
+            required: true
+        },
+        email: {
+            required: true,
+            email: true
+        },
         password: "required",
         password_confirm: {
             required: true,
@@ -32,6 +45,19 @@
     messages: {
         account: {
             required: "请输入账户名"
+        },
+        'profile-realname': {
+            required: "请输入姓名"
+        },
+        'profile-position': {
+            required: "请输入所属职位"
+        },
+        phone: {
+            required: "请输入手机号码"
+        },
+        email: {
+            required: "请输入邮箱地址",
+            email: "邮箱格式不正确"
         },
         password: "请输入密码",
         password_confirm: {
@@ -69,11 +95,21 @@
                 {{ form.account(class="form-control", placeholder="账户") }}
           </div>
         </div>
-		<div class="form-group">
-			<div class="col-md-5">
-				{{ form.phone(class="form-control",placeholder="电话号码")}}
-			</div>
-		</div>
+        <div class="form-group">
+          <div class="col-md-5">
+                {{ form.profile.realname(class="form-control", placeholder="姓名") }}
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-5">
+                {{ form.profile.position(class="form-control", placeholder="职位") }}
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-5">
+            {{ form.phone(class="form-control",placeholder="电话号码")}}
+          </div>
+        </div>
         <div class="form-group">
           <div class="col-md-5">
             {{ form.email(class="form-control", placeholder="邮箱") }}
