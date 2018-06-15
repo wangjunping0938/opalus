@@ -19,6 +19,8 @@ class SaveForm(FlaskForm):
     in_grap = IntegerField() # 是否完成站内抓取
     out_grap = IntegerField() # 是否完成站外抓取
     grap_times = IntegerField() # 追加次数
+    tyc_status = IntegerField() # 天眼查 抓取进度: 0.未抓取；1.抓取中；2.失败；5.完成；
+    bd_status = IntegerField() # 百度 抓取进度: 0.未抓取；1.抓取中；2.失败；5.完成；
     last_on = DateTimeField()    # 最后一次追加时间
     status = IntegerField()    # 状态: 0.禁用；1.启用
 

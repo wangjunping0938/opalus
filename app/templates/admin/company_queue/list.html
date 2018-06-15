@@ -114,6 +114,8 @@
                           <span class="label label-success">完成</span>
                       {%endif%}
                   </p>
+                  <p>天眼查：{{ d.tyc_status }}</p>
+                  <p>百度：{{ d.bd_status }}</p>
                   <p>追加次数: {{ d.grap_times }}</p>
                   <p>最近追加时间: {{ d.last_on | date("%Y-%m-%d") }}</p>
                 </td>

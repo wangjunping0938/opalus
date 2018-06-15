@@ -8,6 +8,22 @@ import requests
 import json
 import time
 
+# 创建/更新公司信息
+@celery.task()
+def create_company(name, **options):
+    query = {}
+    if not name:
+        return False
+    query['name'] = name
+    item = DesignCompany.objects(name=name).first()
+    if not item:
+        options['name'] = name
+        item = DesignCompany(**options)
+        ok = item.save()
+        if not ok:
+            return False
+    return True
+
 # 统计奖项数量
 @celery.task()
 def award_stat():
@@ -307,9 +323,9 @@ def export_design_center():
     print("country success count: %d\n" % countryCount)
 
 
-# 更新字段
+# 初始化字段
 @celery.task()
-def company_update():
+def init_company():
     
     page = 1
     perPage = 100
@@ -1622,7 +1638,6 @@ def generate_plane_company():
     """
     l = str.split('\n')
     l = []
-    print('aaaaaaaa')
     for i in l:
         row_arr = i.split('	')
         if len(row_arr) != 2:
@@ -1706,6 +1721,8 @@ def registered_capital_format():
             if not d.registered_capital:
                 print("注册资金为空: %s\n" % d.name)
 
+            if d.registered_capital_format:
+                continue
 
             print("注册资金: %s" % d.registered_capital)
             strMoney = d.registered_capital
@@ -1752,8 +1769,8 @@ def registered_capital_format():
                 
             print("范围输出: %d\n" % newMoney)
 
-            #ok = d.update(registered_capital_format=newMoney)
             ok = True
+            ok = d.update(registered_capital_format=newMoney)
             if not ok:
                 print("更新失败!\n")
                 continue
@@ -1804,3 +1821,6 @@ def batch_set_field():
             isEnd = True
 
     print("is over execute count %s\n" % total)
+
+
+    

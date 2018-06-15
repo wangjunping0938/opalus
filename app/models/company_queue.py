@@ -23,6 +23,8 @@ class CompanyQueue(Base):
 
     in_grap = db.IntField(default=0) # 站内抓取进度: 0.未抓取；1.抓取中；5.完成；
     out_grap = db.IntField(default=0) # 站外抓取进度: 0.未抓取；1.抓取中；5.完成；
+    tyc_status = db.IntField(default=0) # 天眼查 抓取进度: 0.未抓取；1.抓取中；2.失败；5.完成；
+    bd_status = db.IntField(default=0) # 百度 抓取进度: 0.未抓取；1.抓取中；2.失败；5.完成；
 
     grap_times = db.IntField(default=0) # 追加次数
     last_on = db.DateTimeField()    # 最后一次追加时间

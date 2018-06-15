@@ -132,5 +132,5 @@ def company_queue_submit():
             return jsonify(code=3010, message='操作失败！')
 
     except(Exception) as e:
-        return jsonify(success=False, message=str(e))
+        return jsonify(code=3011, message=str(e))
 
