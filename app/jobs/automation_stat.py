@@ -3,7 +3,7 @@ from app.extensions import celery
 from app.models.company_queu import CompanyQueue
 from flask import current_app, jsonify
 from app.helpers.common import force_int, force_float_2
-from app.jobs.company import create_company
+from app.jobs.company import create_company, d3in_company_one
 import requests
 import json
 import time

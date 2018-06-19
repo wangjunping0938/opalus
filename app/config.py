@@ -4,7 +4,7 @@ from .env import cf
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'tian' 
+    SECRET_KEY = cf.get('base', 'secret_key')
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     FLASKY_MAIL_SUBJECT_PREFIX = ''
     FLASKY_MAIL_SENDER = '' 
@@ -13,8 +13,8 @@ class Config:
     CONFDIR = os.path.join(PROJECT_DIR, 'etc')
 
     CELERY_IMPORTS = ('app.jobs.base.job', )
-    CELERY_BROKER_URL = 'redis://localhost:6379/0'
-    CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+    CELERY_BROKER_URL = cf.get('redis', 'url')
+    CELERY_RESULT_BACKEND = cf.get('redis', 'url')
 
 
     @staticmethod
@@ -26,28 +26,28 @@ class DevelopmentConfig(Config):
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') 
+    MAIL_USERNAME = cf.get('mail', 'username')
+    MAIL_PASSWORD = cf.get('mail', 'password')
 
     # MongoDB配置
     MONGODB_SETTINGS = {
-        'db': 'opalus',
-        'host': '127.0.0.1', 
-        'port': 27017,
-        'username':'root',
-        'password':''
+        'db': cf.get('mongo', 'db'),
+        'host': cf.get('mongo', 'host'), 
+        'port': cf.getint('mongo', 'port'),
+        'username': cf.get('mongo', 'username'),
+        'password': cf.get('mongo', 'password')
     }
 
     #Redis 配置
-    REDIS_URL = "redis://@localhost:6379/0"
+    REDIS_URL = cf.get('redis', 'url')
 
     WTF_CSRF_ENABLED = False
-    SECRET_KEY = 'opalus'
-    WTF_CSRF_SECRET_KEY = 'opalus'
+    SECRET_KEY = cf.get('base', 'secret_key')
+    WTF_CSRF_SECRET_KEY = cf.get('base', 'wtf_csrf_secret')
 
-    PASSWORD_SECRET = 'opalus'
+    PASSWORD_SECRET = cf.get('base', 'password_secret')
 
-    D3INGO_URL = 'http://sa.taihuoniao.com'
+    D3INGO_URL = cf.get('api', 'd3ingo_url')
 
 
 class TestingConfig(Config): 
@@ -55,45 +55,45 @@ class TestingConfig(Config):
     TESTING = True
     # MongoDB配置
     MONGODB_SETTINGS = {
-        'db': 'opalus',
-        'host': '127.0.0.1', 
-        'port': 27017,
-        'username':'root',
-        'password':''
+        'db': cf.get('mongo', 'db'),
+        'host': cf.get('mongo', 'host'), 
+        'port': cf.getint('mongo', 'port'),
+        'username': cf.get('mongo', 'username'),
+        'password': cf.get('mongo', 'password')
     }
 
     #Redis 配置
-    REDIS_URL = "redis://@localhost:6379/0"
+    REDIS_URL = cf.get('redis', 'url')
 
     WTF_CSRF_ENABLED = False
-    SECRET_KEY = 'opalus'
-    WTF_CSRF_SECRET_KEY = 'opalus'
+    SECRET_KEY = cf.get('base', 'secret_key')
+    WTF_CSRF_SECRET_KEY = cf.get('base', 'wtf_csrf_secret')
 
-    PASSWORD_SECRET = 'opalus'
+    PASSWORD_SECRET = cf.get('base', 'password_secret')
 
-    D3INGO_URL = 'http://sa.taihuoniao.com'
+    D3INGO_URL = cf.get('api', 'd3ingo_url')
 
 class ProductionConfig(Config):
     DEBUG = False
     # MongoDB配置
     MONGODB_SETTINGS = {
-        'db': 'opalus',
-        'host': '127.0.0.1', 
-        'port': 27017,
-        'username':'root',
-        'password':''
+        'db': cf.get('mongo', 'db'),
+        'host': cf.get('mongo', 'host'), 
+        'port': cf.getint('mongo', 'port'),
+        'username': cf.get('mongo', 'username'),
+        'password': cf.get('mongo', 'password')
     }
 
     #Redis 配置
-    REDIS_URL = "redis://@localhost:6379/0"
+    REDIS_URL = cf.get('redis', 'url')
 
     WTF_CSRF_ENABLED = False
-    SECRET_KEY = 'opalus'
-    WTF_CSRF_SECRET_KEY = 'opalus'
+    SECRET_KEY = cf.get('base', 'secret_key')
+    WTF_CSRF_SECRET_KEY = cf.get('base', 'wtf_csrf_secret')
 
-    D3INGO_URL = 'https://d3in-admin.taihuoniao.com'
+    D3INGO_URL = cf.get('api', 'd3ingo_url')
 
-    PASSWORD_SECRET = 'opalus'
+    PASSWORD_SECRET = cf.get('base', 'password_secret')
 
 config = {
     'development': DevelopmentConfig,

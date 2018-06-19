@@ -8,9 +8,10 @@
 
 ### 环境布署
 - 进入当前项目目录  
-- 创建虚拟环境(只在第一次布署时创建)：```/opt/python3/bin/virtualenv env```  
+- 创建虚拟环境(只在第一次布署时创建 < 3.6)：```virtualenv env```  
+- 创建虚拟环境(只在第一次布署时创建 > 3.6)：```python3 -m venv env``` 
 - 切换到虚拟环境：```source env/bin/activate```  
-- 安装依赖: ```/opt/python3/bin/pip3 install -r requirements.txt```   
+- 安装依赖: ```pip3 install -r requirements.txt```   
 
 ### 首次配置
 - 把根目录文件```.env_example```复制到根目录```.env```，作为当前环境的配置文件  
