@@ -73,7 +73,7 @@ def award_stat():
     print("is over execute count %s\n" % total)
 
 
-# 获取铟果设计公司数据并统计
+# 获取铟果设计公司数据并统计--全部
 @celery.task()
 def d3in_company_stat():
     url = "%s/%s" % (current_app.config['D3INGO_URL'], 'opalus/company/list')
@@ -109,61 +109,13 @@ def d3in_company_stat():
             continue
 
         for i, d in enumerate(result['data']):
-            if not d['company_name']:
+            result = update_d3in_company_core(d)
+            if result['success']
+                print("公司存在: %d" % d['id'])
+                print("-----------\n")
+                total += 1
+            else:
                 continue
-            print("公司名称: %s" % d['company_name'])
-            company = DesignCompany.objects(name=d['company_name']).first()
-            if not company:
-                continue
-            query = {}
-            query['d3ing_id'] = d['id']
-            # 简称
-            if d['company_abbreviation']:
-                query['short_name'] = d['company_abbreviation']
-            # 分公司数量
-            if d['branch_office']:
-                query['branch'] = str(d['branch_office'])
-            # 英文名称
-            if d['company_english']:
-                query['english_name'] = d['company_english']
-            # 规模
-            if d['company_size']:
-                query['scale'] = d['company_size']
-                query['scale_label'] = d['company_size_val']
-            # 简介
-            if d['company_profile']:
-                query['description'] = d['company_profile']
-            # 网址
-            if d['web']:
-                query['url'] = d['web']
-            # LOGO
-            if d['logo_image']:
-                query['logo_url'] = d['logo_image']['logo']
-            ## 联系信息
-            if d['province_value']:
-                query['province'] = d['province_value']
-            if d['city_value']:
-                query['city'] = d['city_value']
-            if d['address']:
-                query['address'] = d['address']
-            if d['contact_name'] and not company['contact_name']:
-                query['contact_name'] = d['contact_name']
-            if d['phone'] and not company['contact_phone']:
-                query['contact_phone'] = d['phone']
-            if d['email'] and not company['contact_email']:
-                query['contact_email'] = d['email']
-
-
-            print("更新字段: %s" % query)
-
-            if not query:
-                continue
-            ok = company.update(**query)
-            if not ok:
-                continue
-            print("公司存在: %d" % d['id'])
-            print("-----------\n")
-            total += 1
 
         print("current page %s: \n" % page)
         page += 1
@@ -172,6 +124,48 @@ def d3in_company_stat():
             isEnd = True
                 
     print("is over execute count %s\n" % total)
+
+
+# 获取铟果设计公司数据并统计--单条
+@celery.task()
+def d3in_company_one(d3in_id, **options):
+    result = {success: False, message: ''}
+    url = "%s/%s" % (current_app.config['D3INGO_URL'], 'opalus/company/show')
+    params['id'] = d3in_id
+
+    try:
+        r = requests.get(url, params=params)
+    except(Exception) as e:
+        print(str(e))
+        result['message'] = '请求接口失败'
+        return result
+
+        if not r:
+            print('fetch info fail!!!')
+            result['message'] = '获取接口数据失败'
+            return result
+
+        result = json.loads(r.text)
+        if not 'meta' in result:
+            print("data format error!")
+            result['message'] = '解析失败'
+            return result
+            
+        if not res['meta']['status_code'] == 200:
+            print(res['meta']['message'])
+            result['message'] = res['meta']['message']
+            return result
+
+        resultCore = update_d3in_company_core(res['data'])
+        if resultCore['success']
+            result['success'] = True
+            result['data'] = res['data']
+            print("公司存在: %d" % res['data']['id'])
+            print("-----------\n")
+            return result
+        else:
+            result['message'] = resultCore['message']
+            return result
 
 
 # 获取铟果设计公司数据并统计
@@ -1823,4 +1817,69 @@ def batch_set_field():
     print("is over execute count %s\n" % total)
 
 
+# 更新d3in上数据--核心方法
+# param d  铟果公司数据
+@celery.task()
+def update_d3in_company_core(d):
+    result = {
+      'success': False,
+      'message': ''
+    }
+    if not d['company_name']:
+        result['message'] = 'D3in公司不存在!'
+        return result
+    print("公司名称: %s" % d['company_name'])
+    company = DesignCompany.objects(name=d['company_name']).first()
+    if not company:
+        result['message'] = '公司不存在!'
+        return result
+    query = {}
+    query['d3ing_id'] = d['id']
+    # 简称
+    if d['company_abbreviation']:
+        query['short_name'] = d['company_abbreviation']
+    # 分公司数量
+    if d['branch_office']:
+        query['branch'] = str(d['branch_office'])
+    # 英文名称
+    if d['company_english']:
+        query['english_name'] = d['company_english']
+    # 规模
+    if d['company_size']:
+        query['scale'] = d['company_size']
+        query['scale_label'] = d['company_size_val']
+    # 简介
+    if d['company_profile']:
+        query['description'] = d['company_profile']
+    # 网址
+    if d['web']:
+        query['url'] = d['web']
+    # LOGO
+    if d['logo_image']:
+        query['logo_url'] = d['logo_image']['logo']
+    ## 联系信息
+    if d['province_value']:
+        query['province'] = d['province_value']
+    if d['city_value']:
+        query['city'] = d['city_value']
+    if d['address']:
+        query['address'] = d['address']
+    if d['contact_name'] and not company['contact_name']:
+        query['contact_name'] = d['contact_name']
+    if d['phone'] and not company['contact_phone']:
+        query['contact_phone'] = d['phone']
+    if d['email'] and not company['contact_email']:
+        query['contact_email'] = d['email']
+
+    print("更新字段: %s" % query)
+
+    if not query:
+        result['message'] = '更新内容不空!'
+        return result
+    ok = company.update(**query)
+    if not ok:
+        result['message'] = '更新失败!'
+        return result
+    result['success'] = True
+    return result
     

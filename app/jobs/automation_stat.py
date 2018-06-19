@@ -37,7 +37,12 @@ def auto_company_stat_update():
                 if not isCreate:
                     d.update(in_grap=2)
                     continue
-                
+
+                isUpdate = d3in_company_one(d3in_id)
+                if not isUpdate['success']:
+                    d.update(in_grap=2)
+                    continue
+
             # 外部爬取
             elif d.out_grap == 0:
                 pass
