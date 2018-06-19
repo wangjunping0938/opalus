@@ -35,7 +35,8 @@ class DevelopmentConfig(Config):
         'host': cf.get('mongo', 'host'), 
         'port': cf.getint('mongo', 'port'),
         'username': cf.get('mongo', 'username'),
-        'password': cf.get('mongo', 'password')
+        'password': cf.get('mongo', 'password'),
+        'authentication_source': cf.get('mongo', 'authentication_source')
     }
 
     #Redis 配置
@@ -59,7 +60,8 @@ class TestingConfig(Config):
         'host': cf.get('mongo', 'host'), 
         'port': cf.getint('mongo', 'port'),
         'username': cf.get('mongo', 'username'),
-        'password': cf.get('mongo', 'password')
+        'password': cf.get('mongo', 'password'),
+        'authentication_source': cf.get('mongo', 'authentication_source')
     }
 
     #Redis 配置
@@ -81,7 +83,8 @@ class ProductionConfig(Config):
         'host': cf.get('mongo', 'host'), 
         'port': cf.getint('mongo', 'port'),
         'username': cf.get('mongo', 'username'),
-        'password': cf.get('mongo', 'password')
+        'password': cf.get('mongo', 'password'),
+        'authentication_source': cf.get('mongo', 'authentication_source')
     }
 
     #Redis 配置
