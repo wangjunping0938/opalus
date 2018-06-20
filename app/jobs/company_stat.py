@@ -297,6 +297,7 @@ def company_stat(mark, no):
                 'is_high_tech': 0,
                 'ty_score': 0,
                 'ty_view_count': 0,
+                'bd_hot_count': 0,
                 'certification_count': 0,
                 'cida_credit_rating': 0,
                 'wx_public_count': 0,
@@ -322,6 +323,35 @@ def company_stat(mark, no):
                     effectConf['ty_view_count'] = conf['ty_view_count_e']
                 elif d.ty_view_count >= 10000:
                     effectConf['ty_view_count'] = conf['ty_view_count_f']
+
+            # 百度关键词热度(品牌名或简称)
+            if d.baidu_brand_hot:
+                if d.baidu_brand_hot < 10000:
+                    effectConf['bd_hot_count'] = conf['bd_hot_count_a']
+                elif d.baidu_brand_hot >= 10000 and d.baidu_brand_hot < 200000:
+                    effectConf['bd_hot_count'] = conf['bd_hot_count_b']
+                elif d.baidu_brand_hot >= 200000 and d.baidu_brand_hot < 1000000:
+                    effectConf['bd_hot_count'] = conf['bd_hot_count_c']
+                elif d.baidu_brand_hot >= 1000000 and d.baidu_brand_hot < 5000000:
+                    effectConf['bd_hot_count'] = conf['bd_hot_count_d']
+                elif d.baidu_brand_hot >= 5000000 and d.baidu_brand_hot < 10000000:
+                    effectConf['bd_hot_count'] = conf['bd_hot_count_e']
+                elif d.baidu_brand_hot >= 10000000:
+                    effectConf['bd_hot_count'] = conf['bd_hot_count_f']
+            # 公司全称
+            elif d.baidu_hot:
+                if d.baidu_hot < 10000:
+                    effectConf['bd_hot_count'] = conf['bd_hot_count_a']
+                elif d.baidu_hot >= 10000 and d.baidu_hot < 200000:
+                    effectConf['bd_hot_count'] = conf['bd_hot_count_b']
+                elif d.baidu_hot >= 200000 and d.baidu_hot < 1000000:
+                    effectConf['bd_hot_count'] = conf['bd_hot_count_c']
+                elif d.baidu_hot >= 1000000 and d.baidu_hot < 5000000:
+                    effectConf['bd_hot_count'] = conf['bd_hot_count_d']
+                elif d.baidu_hot >= 5000000 and d.baidu_hot < 10000000:
+                    effectConf['bd_hot_count'] = conf['bd_hot_count_e']
+                elif d.baidu_hot >= 10000000:
+                    effectConf['bd_hot_count'] = conf['bd_hot_count_f']
 
             # 资质证书
             if d.certification_count:

@@ -520,6 +520,32 @@
                 </div>
                 <div class="form-group">
                     <div class="col-xs-2">
+                        <label for="bd_hot_count_a">百度相关结果(<1万)</label>
+                        <input type="text" name="bd_hot_count_a" class="form-control" value="{{ meta.data.bd_hot_count_a|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="bd_hot_count_b">天眼浏览(1-20万)</label>
+                        <input type="text" name="bd_hot_count_b" class="form-control" value="{{ meta.data.bd_hot_count_b|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="bd_hot_count_c">天眼浏览(20-100万)</label>
+                        <input type="text" name="bd_hot_count_c" class="form-control" value="{{ meta.data.bd_hot_count_c|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="bd_hot_count_d">天眼浏览(100-500万)</label>
+                        <input type="text" name="bd_hot_count_d" class="form-control" value="{{ meta.data.bd_hot_count_d|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="bd_hot_count_e">天眼浏览(500-1000万)</label>
+                        <input type="text" name="bd_hot_count_e" class="form-control" value="{{ meta.data.bd_hot_count_e|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="bd_hot_count_f">天眼浏览(>1000万)</label>
+                        <input type="text" name="bd_hot_count_f" class="form-control" value="{{ meta.data.bd_hot_count_f|default(0) }}" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2">
                         <label for="cida_credit_rating_a">工会认证(A)</label>
                         <input type="text" name="cida_credit_rating_a" class="form-control" value="{{ meta.data.cida_credit_rating_a|default(0) }}" placeholder="">
                     </div>

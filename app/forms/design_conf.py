@@ -112,6 +112,13 @@ class SaveForm(FlaskForm):
     ty_view_count_d = IntegerField()    # 天眼查浏览量 >=2000 & < 5000
     ty_view_count_e = IntegerField()    # 天眼查浏览量 >=5000 & < 10000
     ty_view_count_f = IntegerField()    # 天眼查浏览量 >10000
+    # 百度关键词热度
+    bd_hot_count_a = IntegerField()    # 热度量(万) < 1
+    bd_hot_count_b = IntegerField()    # 热度量(万) >=1 & < 20
+    bd_hot_count_c = IntegerField()    # 热度量(万) >=20 & < 100
+    bd_hot_count_d = IntegerField()    # 热度量(万) >=100 & < 500
+    bd_hot_count_e = IntegerField()    # 热度量(万) >=500 & < 1000
+    bd_hot_count_f = IntegerField()    # 热度量(万) >=1000
     certification_count = IntegerField() # 资质证书
     cida_credit_rating_a = IntegerField() # 工会认证：A
     cida_credit_rating_b = IntegerField() # 工会认证：AA

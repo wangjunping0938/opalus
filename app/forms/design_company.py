@@ -73,7 +73,8 @@ class SaveForm(FlaskForm):
     scope_business = StringField('经营范围', validators=[Length(max=2000, message="长度小于2000个字符")])
     organization_code = StringField('组织机构代码', validators=[Length(max=50, message="长度小于50个字符")])
 
-    baidu_hot = IntegerField()  # 百度热度
+    baidu_hot = IntegerField()  # 百度公司名称热度
+    baidu_brand_hot = IntegerField()  # 百度品牌名热度
 
     ## 公司背景(数量)
     key_personnel_count = IntegerField() # 主要人员

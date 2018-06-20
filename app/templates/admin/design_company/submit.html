@@ -715,8 +715,12 @@
                 </div>
                 <div class="form-group">
                     <div class="col-xs-2">
-                        <label for="baidu_hot">百度热度</label>
+                        <label for="baidu_hot">公司名热度(百度)</label>
                         <input type="text" name="baidu_hot" class="form-control" value="{{ meta.data.baidu_hot|default(0) }}" placeholder="">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="baidu_brand_hot">品牌名热度(百度)</label>
+                        <input type="text" name="baidu_brand_hot" class="form-control" value="{{ meta.data.baidu_brand_hot|default(0) }}" placeholder="">
                     </div>
                 </div>
             </div>

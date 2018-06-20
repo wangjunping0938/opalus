@@ -46,7 +46,8 @@ class DesignCompany(Base):
     red_dot_award_count = db.IntField(default=0)    # 红点奖数量
     idea_award_count = db.IntField(default=0) # 美国IDEA工业设计优秀奖数量
     gmark_award_count = db.IntField(default=0) # G-Mark设计奖数量
-    baidu_hot = db.IntField(default=0)  # 百度热度
+    baidu_hot = db.IntField(default=0)  # 百度公司名热度
+    baidu_brand_hot = db.IntField(default=0)  # 百度品牌名热度
 
 
     ## 联系信息

@@ -156,6 +156,7 @@ def design_fields_label_options(field=''):
                 {'field': 'is_high_tech', 'name': '高新企业', 'group': 'effect'},
                 {'field': 'ty_score', 'name': '天眼查分数', 'group': 'effect'},
                 {'field': 'ty_view_count', 'name': '天眼查浏览数', 'group': 'effect'},
+                {'field': 'bd_hot_count', 'name': '百度热度', 'group': 'effect'},
                 {'field': 'certification_count', 'name': '资质证书', 'group': 'effect'},
                 {'field': 'cida_credit_rating', 'name': '工会认证', 'group': 'effect'},
                 {'field': 'wx_public_count', 'name': '公号', 'group': 'effect'},
