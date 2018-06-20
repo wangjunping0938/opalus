@@ -328,15 +328,15 @@ def company_stat(mark, no):
             if d.baidu_brand_hot:
                 if d.baidu_brand_hot < 10000:
                     effectConf['bd_hot_count'] = conf['bd_hot_count_a']
-                elif d.baidu_brand_hot >= 10000 and d.baidu_brand_hot < 200000:
+                elif d.baidu_brand_hot >= 10000 and d.baidu_brand_hot < 100000:
                     effectConf['bd_hot_count'] = conf['bd_hot_count_b']
-                elif d.baidu_brand_hot >= 200000 and d.baidu_brand_hot < 1000000:
+                elif d.baidu_brand_hot >= 100000 and d.baidu_brand_hot < 500000:
                     effectConf['bd_hot_count'] = conf['bd_hot_count_c']
-                elif d.baidu_brand_hot >= 1000000 and d.baidu_brand_hot < 5000000:
+                elif d.baidu_brand_hot >= 500000 and d.baidu_brand_hot < 1000000:
                     effectConf['bd_hot_count'] = conf['bd_hot_count_d']
-                elif d.baidu_brand_hot >= 5000000 and d.baidu_brand_hot < 10000000:
+                elif d.baidu_brand_hot >= 1000000 and d.baidu_brand_hot < 5000000:
                     effectConf['bd_hot_count'] = conf['bd_hot_count_e']
-                elif d.baidu_brand_hot >= 10000000:
+                elif d.baidu_brand_hot >= 5000000:
                     effectConf['bd_hot_count'] = conf['bd_hot_count_f']
             # 公司全称
             elif d.baidu_hot:
