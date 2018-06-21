@@ -29,7 +29,7 @@ def auto_company_stat_update():
         # 过滤数据
         for i, d in enumerate(data.items):
             # 内部统计
-            if d.in_grap == 0 or d.in_grap == 2 or d.in_grap == 5:
+            if d.in_grap == 0 or d.in_grap == 2:
                 # 创建公司
                 param = {}
                 param['d3ing_id'] = d.d3in_id
