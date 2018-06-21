@@ -98,18 +98,22 @@
                 <td>
                   <p>站内抓取进度: 
                       {% if d.in_grap==0 %}
-                          <span class="label label-danger">准备中</span>
+                          <span class="label label-warning">准备中</span>
                       {%elif d.in_grap==1%}
                           <span class="label label-info">进行中</span>
+                      {%elif d.in_grap==2%}
+                          <span class="label label-danger">失败</span>
                       {%elif d.in_grap==5%}
                           <span class="label label-success">完成</span>
                       {%endif%}
                   </p>
                   <p>站外抓取进度:
                       {% if d.out_grap==0 %}
-                          <span class="label label-danger">准备中</span>
+                          <span class="label label-warning">准备中</span>
                       {%elif d.out_grap==1%}
                           <span class="label label-info">进行中</span>
+                      {%elif d.out_grap==2%}
+                          <span class="label label-danger">失败</span>
                       {%elif d.out_grap==5%}
                           <span class="label label-success">完成</span>
                       {%endif%}

@@ -11,9 +11,11 @@ import time
 # 创建/更新公司信息
 @celery.task()
 def create_company(name, **options):
+    result = {'success': False, 'message': ''}
     query = {}
     if not name:
-        return False
+        result['message'] = '公司名称不存在'
+        return result
     query['name'] = name
     item = DesignCompany.objects(name=name).first()
     if not item:
@@ -21,13 +23,15 @@ def create_company(name, **options):
         item = DesignCompany(**options)
         ok = item.save()
         if not ok:
-            return False
-    return True
+            result['message'] = '创建公司信息失败'
+            return result
+    result['success'] = True
+    result['data'] = item
+    return result
 
-# 统计奖项数量
+# 统计奖项数量--全部
 @celery.task()
 def award_stat():
-    
     page = 1
     perPage = 100
     isEnd = False
@@ -43,27 +47,9 @@ def award_stat():
 
         # 过滤数据
         for i, d in enumerate(data.items):
-            # 查看是否含有奖项
-            caseCount = DesignCase.objects(target_id=str(d.number)).count()
-            if caseCount > 0:
-                c = DesignCompany.objects(number=d.number).first()
-                print("%s case_count: %d" % (d.name, caseCount))
-
-                # 更新总数量
-                if d.design_case_count < caseCount:
-                    c.update(design_case_count=caseCount)
-
-                # 更新不同奖项数
-                awardArr = [['红星奖', 'red_star_award_count'], ['中国红棉奖', 'innovative_design_award_count'], ['中国好设计奖', 'china_design_award_count'], ['中国设计智造大奖', 'dia_award_count']]
-                for aw in awardArr:
-                    sCount = DesignCase.objects(target_id=str(d.number), prize_label=aw[0]).count()
-                    if sCount > 0:
-                        if c:
-                            print("update %s: %d" % (aw[0], sCount))
-                            c.update(**{aw[1]: sCount})
-
-                print("------------------\n")
-                total += 1
+            award_stat_core(d)
+            print("------------------\n")
+            total += 1
 
         print("current page %s: \n" % page)
         page += 1
@@ -71,6 +57,12 @@ def award_stat():
             isEnd = True
 
     print("is over execute count %s\n" % total)
+
+
+# 统计奖项--单个
+def award_stat_one(number, **options):
+    company = DesignCompany.objects(number=number).first()
+    award_stat_core(company)
 
 
 # 获取铟果设计公司数据并统计--全部
@@ -110,7 +102,7 @@ def d3in_company_stat():
 
         for i, d in enumerate(result['data']):
             result = update_d3in_company_core(d)
-            if result['success']
+            if result['success']:
                 print("公司存在: %d" % d['id'])
                 print("-----------\n")
                 total += 1
@@ -129,8 +121,9 @@ def d3in_company_stat():
 # 获取铟果设计公司数据并统计--单条
 @celery.task()
 def d3in_company_one(d3in_id, **options):
-    result = {success: False, message: ''}
+    result = {'success': False, 'message': ''}
     url = "%s/%s" % (current_app.config['D3INGO_URL'], 'opalus/company/show')
+    params = {}
     params['id'] = d3in_id
 
     try:
@@ -140,32 +133,32 @@ def d3in_company_one(d3in_id, **options):
         result['message'] = '请求接口失败'
         return result
 
-        if not r:
-            print('fetch info fail!!!')
-            result['message'] = '获取接口数据失败'
-            return result
+    if not r:
+        print('fetch info fail!!!')
+        result['message'] = '获取接口数据失败'
+        return result
 
-        result = json.loads(r.text)
-        if not 'meta' in result:
-            print("data format error!")
-            result['message'] = '解析失败'
-            return result
-            
-        if not res['meta']['status_code'] == 200:
-            print(res['meta']['message'])
-            result['message'] = res['meta']['message']
-            return result
+    res = json.loads(r.text)
+    if not 'meta' in res:
+        print("data format error!")
+        result['message'] = '解析失败'
+        return result
+        
+    if not res['meta']['status_code'] == 200:
+        print(res['meta']['message'])
+        result['message'] = res['meta']['message']
+        return result
 
-        resultCore = update_d3in_company_core(res['data'])
-        if resultCore['success']
-            result['success'] = True
-            result['data'] = res['data']
-            print("公司存在: %d" % res['data']['id'])
-            print("-----------\n")
-            return result
-        else:
-            result['message'] = resultCore['message']
-            return result
+    resultCore = update_d3in_company_core(res['data'])
+    if resultCore['success']:
+        result['success'] = True
+        result['data'] = res['data']
+        print("公司存在: %d" % resultCore['data']['id'])
+        print("-----------\n")
+        return result
+    else:
+        result['message'] = resultCore['message']
+        return result
 
 
 # 获取铟果设计公司数据并统计
@@ -1881,5 +1874,28 @@ def update_d3in_company_core(d):
         result['message'] = '更新失败!'
         return result
     result['success'] = True
+    result['data'] = company
     return result
     
+
+# 统计奖项数
+@celery.task()
+def award_stat_core(d):
+    # 查看是否含有奖项
+    caseCount = DesignCase.objects(target_id=str(d.number)).count()
+    if caseCount > 0:
+        c = DesignCompany.objects(number=d.number).first()
+        print("%s case_count: %d" % (d.name, caseCount))
+
+        # 更新总数量
+        if d.design_case_count < caseCount:
+            c.update(design_case_count=caseCount)
+
+        # 更新不同奖项数
+        awardArr = [['红星奖', 'red_star_award_count'], ['中国红棉奖', 'innovative_design_award_count'], ['中国好设计奖', 'china_design_award_count'], ['中国设计智造大奖', 'dia_award_count']]
+        for aw in awardArr:
+            sCount = DesignCase.objects(target_id=str(d.number), prize_label=aw[0]).count()
+            if sCount > 0:
+                if c:
+                    print("update %s: %d" % (aw[0], sCount))
+                    c.update(**{aw[1]: sCount})
