@@ -72,7 +72,7 @@ def design_company_list():
 ## 查看
 @api.route('/design_company/view')
 def design_company_view():
-    number = request.args.get('number', None)
+    number = force_int(request.args.get('number', None))
     if not number:
         return jsonify(code=3001, message='编号不存在!')
 
