@@ -1825,8 +1825,7 @@ def update_d3in_company_core(d):
 
     query = {}
     company = DesignCompany.objects(name=d['company_name']).first() 
-        #result['message'] = '公司不存在!'
-        #return result
+
     query['d3ing_id'] = d['id']
     # 简称
     if d['company_abbreviation']:
@@ -1873,6 +1872,7 @@ def update_d3in_company_core(d):
     # 没有则创建
     if not company:
         query['name'] = d['company_name']
+        query['status'] = 1
         company = DesignCompany(**query)
         ok = company.save()
         print("创建新公司: %s" % query['name'])

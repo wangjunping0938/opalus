@@ -40,6 +40,7 @@ class SaveForm(FlaskForm):
     idea_award_count = IntegerField() # 美国IDEA工业设计优秀奖数量
     gmark_award_count = IntegerField() # G-Mark设计奖数量
     d3ing_id = IntegerField() # 铟果平台ID
+    status = IntegerField() # 状态
 
 
     ## 联系信息

@@ -15,10 +15,8 @@ def d3in_case_stat():
     perPage = 100
     isEnd = False
     total = 0
-    url = "%s/%s" % (current_app.config['D3INGO_URL'], 'opalus/design_case/list')
     query = {}
     query['deleted'] = 0
-    params = {}
 
     while not isEnd:
         data = DesignCompany.objects(**query).order_by('-created_at').paginate(page=page, per_page=perPage)
@@ -60,6 +58,8 @@ def d3in_case_core(d):
         return result
 
     print("d3ing_id: %d" % d.d3ing_id)
+
+    url = "%s/%s" % (current_app.config['D3INGO_URL'], 'opalus/design_case/list')
     params = {}
     params['design_company_id'] = d.d3ing_id
 
