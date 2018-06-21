@@ -11,7 +11,7 @@ from ..models.company_queue import CompanyQueue
 class SaveForm(FlaskForm):
     id = StringField()
     d3in_id = IntegerField()
-    number = StringField()
+    number = IntegerField()
     name = StringField()
     remark = StringField()
     kind = IntegerField()

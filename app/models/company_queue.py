@@ -15,7 +15,7 @@ class CompanyQueue(Base):
 
     _id = db.StringField()
     d3in_id = db.IntField(default=0)    # 铟果公司ID
-    number = db.StringField()    # 唯一标识
+    number = db.IntField()    # 唯一标识
     name = db.StringField(max_length=50, required=True) # 公司名称
     kind = db.IntField(default=0)    # 类型: 
     type = db.IntField(default=0)    # 类型: 预设
