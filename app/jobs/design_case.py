@@ -60,6 +60,7 @@ def d3in_case_core(d):
         return result
 
     print("d3ing_id: %d" % d.d3ing_id)
+    params = {}
     params['design_company_id'] = d.d3ing_id
 
     try:
