@@ -153,7 +153,7 @@ def d3in_company_one(d3in_id, **options):
     if resultCore['success']:
         result['success'] = True
         result['data'] = res['data']
-        print("公司存在: %d" % resultCore['data']['id'])
+        print("公司存在: %d" % resultCore['data']['d3ing_id'])
         print("-----------\n")
         return result
     else:
