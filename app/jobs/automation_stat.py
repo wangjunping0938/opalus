@@ -29,7 +29,7 @@ def auto_company_stat_update():
         # 过滤数据
         for i, d in enumerate(data.items):
             # 内部统计
-            if d.in_grap == 0 or d.in_grap == 2:
+            if d.in_grap == 0 or d.in_grap == 2 or d.in_grap == 5:
                 # 创建公司
                 param = {}
                 param['d3ing_id'] = d.d3in_id
@@ -37,6 +37,7 @@ def auto_company_stat_update():
                 if not companyResult['success']:
                     d.update(in_grap=2)
                     continue
+                d.update(number=companyResult['data']['number'])
                 print("完成创建公司。..")
                 company = companyResult['data']
                 # 同步铟果官网数据
