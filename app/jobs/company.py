@@ -1822,11 +1822,11 @@ def update_d3in_company_core(d):
         result['message'] = 'D3in公司不存在!'
         return result
     print("公司名称: %s" % d['company_name'])
-    company = DesignCompany.objects(name=d['company_name']).first()
-    if not company:
-        result['message'] = '公司不存在!'
-        return result
+
     query = {}
+    company = DesignCompany.objects(name=d['company_name']).first() 
+        #result['message'] = '公司不存在!'
+        #return result
     query['d3ing_id'] = d['id']
     # 简称
     if d['company_abbreviation']:
@@ -1857,11 +1857,11 @@ def update_d3in_company_core(d):
         query['city'] = d['city_value']
     if d['address']:
         query['address'] = d['address']
-    if d['contact_name'] and not company['contact_name']:
+    if d['contact_name']:
         query['contact_name'] = d['contact_name']
-    if d['phone'] and not company['contact_phone']:
+    if d['phone']:
         query['contact_phone'] = d['phone']
-    if d['email'] and not company['contact_email']:
+    if d['email']:
         query['contact_email'] = d['email']
 
     print("更新字段: %s" % query)
@@ -1869,9 +1869,18 @@ def update_d3in_company_core(d):
     if not query:
         result['message'] = '更新内容不空!'
         return result
-    ok = company.update(**query)
+
+    # 没有则创建
+    if not company:
+        query['name'] = d['company_name']
+        company = DesignCompany(**query)
+        ok = company.save()
+        print("创建新公司: %s" % query['name'])
+    else:
+        ok = company.update(**query)
+
     if not ok:
-        result['message'] = '更新失败!'
+        result['message'] = '创建/更新失败!'
         return result
     result['success'] = True
     result['data'] = company
