@@ -2,6 +2,7 @@
 from app.extensions import celery
 from app.models.design_case import DesignCase
 from app.models.design_company import DesignCompany
+from app.jobs.company_queue import submit_company_queue
 from flask import current_app, jsonify
 from app.helpers.common import force_int, force_float_2
 import requests
@@ -1877,9 +1878,9 @@ def update_d3in_company_core(d):
         ok = company.save()
         print("创建新公司: %s" % query['name'])
         if ok:
-            cres = create_company(d['company_name'], **{'d3ing_id': d['id']})
+            cres = submit_company_queue(d['company_name'], d['id'])
             if cres['success']:
-                print("更新到公司队列")
+                print("已更新到公司队列")
     else:
         ok = company.update(**query)
 

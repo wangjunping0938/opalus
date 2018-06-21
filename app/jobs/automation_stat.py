@@ -70,3 +70,5 @@ def auto_company_stat_update():
         page += 1
         if len(data.items) < perPage:
             isEnd = True
+
+
