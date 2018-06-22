@@ -2,6 +2,7 @@ from flask import request, jsonify, current_app
 from . import api
 import datetime
 from app.models.design_company import DesignCompany
+from app.models.design_record import DesignRecord
 from app.helpers.pager import Pager
 from app.helpers.block import get_block_content
 from app.forms.design_company import SaveForm
@@ -158,3 +159,87 @@ def design_company_update():
         return jsonify(success=False, message=str(e))
 
 
+## 公司排行列表
+@api.route('/design_company/rank')
+def design_company_rank():
+
+    query = {}
+    meta = {}
+    page = int(request.args.get('page', 1))
+    per_page = int(request.args.get('per_page', 20))
+    status = int(request.args.get('status', 0))
+    deleted = int(request.args.get('deleted', 0))
+    kind = int(request.args.get('kind', 0))
+    name = request.args.get('name', '')
+    d3in_ids = request.args.get('d3in_ids', '')
+
+    if d3in_ids:
+        d3in_arr = d3in_ids.split(',')
+        query['d3ing_id__in'] = d3in_arr
+    else:
+        return jsonify(code=400, message='缺少请求参数!', data=[])
+
+    if kind:
+        query['kind'] = kind
+
+    if status == -1:
+        query['status'] = 0
+    if status == 1:
+        query['status'] = 1
+    else:
+        pass
+
+    if name:
+        query['name'] = name
+
+    query['deleted'] = deleted
+
+    try:
+        data = DesignCompany.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
+        total_count = DesignCompany.objects(**query).count()
+
+        recordParam = {
+            'mark': 'plan_a',
+            'no': 0,
+            'deleted': 0
+        }
+
+        # 过滤数据
+        items = []
+        for i, d in enumerate(data.items):
+            item = {}
+            item['_id'] = str(d._id)
+            item['name'] = d.name
+            item['number'] = d.number
+            item['d3ing_id'] = d.d3ing_id
+            recordParam['number'] = d.number
+            record = DesignRecord.objects(**recordParam).first()
+            if record:
+                item['base_average'] = record.base_average
+                item['business_average'] = record.business_average
+                item['innovate_average'] = record.innovate_average
+                item['design_average'] = record.design_average
+                item['effect_average'] = record.effect_average
+                item['credit_average'] = record.credit_average
+                item['ave_score'] = record.ave_score
+            else:
+                item['base_average'] = 50
+                item['business_average'] = 50
+                item['innovate_average'] = 50
+                item['design_average'] = 50
+                item['effect_average'] = 50
+                item['credit_average'] = 50
+                item['ave_score'] = 50
+
+            items.append(item)
+
+        meta['rows'] = items
+    except(Exception) as e:
+        meta['rows'] = ['error']
+        total_count = 0
+
+    meta['total_count'] = total_count
+    meta['page'] = page
+    meta['per_page'] = per_page
+
+    return jsonify(code=200, message='success!', data=meta)
