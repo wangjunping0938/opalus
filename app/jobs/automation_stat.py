@@ -105,7 +105,7 @@ def auto_company_stat_update():
                     'bs': 50,
                     'bf': 0.5
                 }
-                aveRes = average_stat_core(d, **options)
+                aveRes = average_stat_core(genRank['data'], **options)
                 if not aveRes['success']:
                     print(aveRes['message'])
                     d.update(in_grap=2)
