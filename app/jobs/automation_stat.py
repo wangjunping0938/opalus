@@ -7,7 +7,7 @@ from flask import current_app, jsonify
 from app.helpers.common import force_int, force_float_2
 from app.jobs.company import create_company, d3in_company_one, award_stat_one
 from app.jobs.design_case import d3in_case_one_stat
-from app.jobs.company_stat import company_stat_core, ave_update_d3in
+from app.jobs.company_stat import company_stat_core, ave_update_d3in, average_stat_core
 import requests
 import json
 import time
