@@ -2,6 +2,7 @@
 from app.extensions import celery
 from app.models.company_queue import CompanyQueue
 from app.models.design_conf import DesignConf
+from app.models.design_record import DesignRecord
 from flask import current_app, jsonify
 from app.helpers.common import force_int, force_float_2
 from app.jobs.company import create_company, d3in_company_one, award_stat_one
