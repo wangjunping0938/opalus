@@ -7,6 +7,7 @@ from app.models.design_record import DesignRecord
 from flask import current_app, jsonify
 import requests
 import json
+from app.env import cf
 
 # 公司排行统计
 @celery.task()
@@ -85,6 +86,18 @@ def company_average_stat(mark, no):
     maxEffect = DesignRecord.objects(**query).order_by('-effect_score', nSortVal).first()   # 客观公信力
     maxCredit = DesignRecord.objects(**query).order_by('-credit_score', nSortVal).first()   # 风险应激力
 
+    options = {
+        'max_base': maxBase,
+        'max_business': maxBusiness,
+        'max_innovate': maxInnovate,
+        'max_design': maxDesign,
+        'max_effect': maxEffect,
+        'max_credit': maxCredit,
+        'f': 1,
+        'bs': 50,
+        'bf': 0.5
+    }
+
     while not isEnd:
         data = DesignRecord.objects(**query).paginate(page=page, per_page=perPage)
         if not data:
@@ -93,59 +106,19 @@ def company_average_stat(mark, no):
 
         # 过滤数据
         for i, d in enumerate(data.items):
-            designCompany = DesignCompany.objects(number=int(d.number)).fields(['_id', 'name', 'extra_base_score', 'extra_business_score', 'extra_innovate_score', 'extra_design_score', 'extra_effect_score', 'extra_credit_score']).first()
-            if not designCompany:
+            result = average_stat_core(d, **options)
+            if not result['success']:
+                print(result['message'])
                 continue
-
-            scoreQuery = {}
-            aveScore = 0
-            if maxBase:
-                base_average = int(d.base_score / (maxBase.base_score + f) * 100 * bf + bs)
-                if designCompany.extra_base_score:
-                    base_average += designCompany.extra_base_score
-                scoreQuery['base_average'] = base_average
-                aveScore += int(base_average * 0.1)
-            if maxBusiness:
-                business_average = int(d.business_score / (maxBusiness.business_score + f) * 100 * bf + bs)
-                if designCompany.extra_business_score:
-                    business_average += designCompany.extra_business_score
-                scoreQuery['business_average'] = business_average
-                aveScore += int(business_average * 0.25)
-            if maxInnovate:
-                innovate_average = int(d.innovate_score / (maxInnovate.innovate_score + f) * 100 * bf + bs)
-                if designCompany.extra_innovate_score:
-                    innovate_average += designCompany.extra_innovate_score
-                scoreQuery['innovate_average'] = innovate_average
-                aveScore += int(innovate_average * 0.25)
-            if maxDesign:
-                design_average = int(d.design_score / (maxDesign.design_score + f) * 100 * bf + bs)
-                if designCompany.extra_design_score:
-                    design_average += designCompany.extra_design_score
-                scoreQuery['design_average'] = design_average
-                aveScore += int(design_average * 0.15)
-            if maxEffect:
-                effect_average = int(d.effect_score / (maxEffect.effect_score + f) * 100 * bf + bs)
-                if designCompany.extra_effect_score:
-                    effect_average += designCompany.extra_effect_score
-                scoreQuery['effect_average'] = effect_average
-                aveScore += int(effect_average * 0.1)
-            if maxCredit:
-                credit_average = int(d.credit_score / (maxCredit.credit_score + f) * 100 * bf + bs)
-                if designCompany.extra_credit_score:
-                    credit_average += designCompany.extra_credit_score
-                scoreQuery['credit_average'] = credit_average
-                aveScore += int(credit_average * 0.15)
-
-            if not scoreQuery:
-                print("current number:%s max score is 0\n" % d.number)
-                continue
-            scoreQuery['ave_score'] = aveScore
-            ok = d.update(**scoreQuery)
-            if not ok:
-              print("更新失败~!")
-              continue
 
             print("更新成功---number: %s.\n" % d.number)
+            # 更新到铟果
+            dMark = cf.get('rank', 'mark')
+            dNo = cf.getint('rank', 'no') 
+            if mark == dMark and no == dNo:
+                if result['data'].d3in_id:
+                    print("开始更新到铟果[%d]...." % result['data'].d3in_id)
+                    ave_update_d3in(result['data'].d3in_id, result['data'])
             total += 1
 
         print("current page %s: \n" % page)
@@ -663,5 +636,129 @@ def company_stat_core(**options):
     
     print("stat success: %s" % d.number)
     print("------------------\n")
+    result['data'] = item
     result['success'] = True
+    return result
+
+# 公司平均分统计--Core
+@celery.task()
+def average_stat_core(d, **options):
+    result = {'success': False, 'message': ''}
+
+    maxBase = options['max_base']
+    maxBusiness = options['max_business']
+    maxInnovate = options['max_innovate']
+    maxDesign = options['max_design']
+    maxEffect = options['max_effect']
+    maxCredit = options['max_credit']
+    f = options['f']
+    bs = options['bs']
+    bf = options['bf']
+
+    designCompany = DesignCompany.objects(number=int(d.number)).fields(['_id', 'name', 'extra_base_score', 'extra_business_score', 'extra_innovate_score', 'extra_design_score', 'extra_effect_score', 'extra_credit_score']).first()
+    if not designCompany:
+        result['message'] = '公司不存在！'
+        return result
+
+    scoreQuery = {}
+    aveScore = 0
+    if maxBase:
+        base_average = int(d.base_score / (maxBase.base_score + f) * 100 * bf + bs)
+        if designCompany.extra_base_score:
+            base_average += designCompany.extra_base_score
+        scoreQuery['base_average'] = base_average
+        aveScore += int(base_average * 0.1)
+    if maxBusiness:
+        business_average = int(d.business_score / (maxBusiness.business_score + f) * 100 * bf + bs)
+        if designCompany.extra_business_score:
+            business_average += designCompany.extra_business_score
+        scoreQuery['business_average'] = business_average
+        aveScore += int(business_average * 0.25)
+    if maxInnovate:
+        innovate_average = int(d.innovate_score / (maxInnovate.innovate_score + f) * 100 * bf + bs)
+        if designCompany.extra_innovate_score:
+            innovate_average += designCompany.extra_innovate_score
+        scoreQuery['innovate_average'] = innovate_average
+        aveScore += int(innovate_average * 0.25)
+    if maxDesign:
+        design_average = int(d.design_score / (maxDesign.design_score + f) * 100 * bf + bs)
+        if designCompany.extra_design_score:
+            design_average += designCompany.extra_design_score
+        scoreQuery['design_average'] = design_average
+        aveScore += int(design_average * 0.15)
+    if maxEffect:
+        effect_average = int(d.effect_score / (maxEffect.effect_score + f) * 100 * bf + bs)
+        if designCompany.extra_effect_score:
+            effect_average += designCompany.extra_effect_score
+        scoreQuery['effect_average'] = effect_average
+        aveScore += int(effect_average * 0.1)
+    if maxCredit:
+        credit_average = int(d.credit_score / (maxCredit.credit_score + f) * 100 * bf + bs)
+        if designCompany.extra_credit_score:
+            credit_average += designCompany.extra_credit_score
+        scoreQuery['credit_average'] = credit_average
+        aveScore += int(credit_average * 0.15)
+
+    if not scoreQuery:
+        print("current number:%s max score is 0\n" % d.number)
+        result['message'] = 'current number max score is 0'
+        return result
+
+    scoreQuery['ave_score'] = aveScore
+    ok = d.update(**scoreQuery)
+    if not ok:
+        print("更新失败~!")
+        result['message'] = '更新失败!'
+        return false
+
+    result['success'] = True
+    d.d3in_id = designCompany.d3ing_id
+    result['data'] = d
+    return result
+
+# 排行平均分更新到铟果
+@celery.task()
+def ave_update_d3in(d3in_id, d):
+    result = {'success': False, 'message': ''}
+    if not d3in_id:
+        result['message'] = 'd3in_id not exist!'
+        return result
+
+    url = "%s/%s" % (current_app.config['D3INGO_URL'], 'opalus/company/update')
+    params = {
+        'id': d3in_id,
+        'ave_score': d['ave_score'],
+        'base_average': d['base_average'],
+        'credit_average': d['credit_average'],
+        'business_average': d['business_average'],
+        'design_average': d['design_average'],
+        'effect_average': d['effect_average'],
+        'innovate_average': d['innovate_average']
+    }
+
+    try:
+        r = requests.put(url, params=params)
+    except(Exception) as e:
+        print(str(e))
+        result['message'] = str(e)
+        return result
+
+    if not r:
+        print('fetch design_case fail!!!')
+        result['message'] = 'fetch design_case fail!!!'
+        return result
+
+    res = json.loads(r.text)
+    if not 'meta' in res:
+        print("data format error!")
+        res['message'] = 'data format error!'
+        return result
+        
+    if not res['meta']['status_code'] == 200:
+        print(res['meta']['message'])
+        result['message'] = res['meta']['message']
+        return result
+
+    result['success'] = True
+    print("更新成功！")
     return result
