@@ -117,7 +117,7 @@ def company_average_stat(mark, no):
             dNo = cf.getint('rank', 'no') 
             if mark == dMark and no == dNo:
                 if result['data'].d3in_id:
-                    print("开始更新到铟果[%d].[%d]..." % result['data'].d3in_id, result['data'].ave_score)
+                    print("开始更新到铟果[%d].[%d]..." % (result['data'].d3in_id, result['data'].ave_score))
                     ave_update_d3in(result['data'].d3in_id, result['data'])
             total += 1
 
