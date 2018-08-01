@@ -1,6 +1,6 @@
 #encoding: utf-8
 from flask import Flask
-from .config import config
+import datetime
 import os
 from flask_mongoengine import MongoEngine, MongoEngineSessionInterface
 from flask_wtf.csrf import CSRFProtect
@@ -12,19 +12,28 @@ from .extensions import celery
 # 加载装饰器
 from .helpers.filters import format_datatime
 
+PROJDIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
+CONFDIR = os.path.join(PROJDIR, 'config')
+
 db = MongoEngine()
 redis_store = FlaskRedis()
 csrf = CSRFProtect()
 
 
-def create_app(config_name):
+def create_app(config=None):
     app = Flask(__name__,
             static_url_path = '/_static',
-            static_folder = config[config_name].PROJECT_DIR + '/static',
+            static_folder = os.path.join(PROJDIR, '../static'),
             template_folder = 'templates')
 
-    app.config.from_object(config[config_name]) #  这里config.py是文件
-    config[config_name].init_app(app)
+    app.config.from_pyfile(os.path.join(CONFDIR, 'app.py'))
+
+    if isinstance(config, dict):
+        app.config.update(config)
+    elif config:
+        app.config.from_pyfile(config)
+
+    app.config.update({'SITE_TIME': datetime.datetime.utcnow()})
 
     db.init_app(app)
     redis_store.init_app(app)

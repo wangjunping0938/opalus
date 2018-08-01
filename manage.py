@@ -1,9 +1,8 @@
 #!env/bin/python
-import os
 from app import create_app, db
 from flask_script import Manager, Server, Shell
 
-app = create_app(os.getenv('FLASK_ENV') or 'development')
+app = create_app()
 manager = Manager(app)
 
 def _make_context():
