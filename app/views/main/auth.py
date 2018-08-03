@@ -39,7 +39,6 @@ def register():
                 return jsonify(success=False, message='注册失败!')
         else:
             return jsonify(success=False, message=str(form.errors))
-
     return render_template('auth/register.html', form=form)
 
 @main.route('/auth/logout')
