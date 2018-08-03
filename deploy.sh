@@ -1,36 +1,34 @@
 #!/bin/bash
-if [ ! -n "$1" ]
-then
-    echo "Usages: sh deploy.sh [start|stop|restart]"
-    exit 0
-fi
+
+### BEGIN SCRIPT INFO
+# Description: uwsgi service startup management script.
+### END SCRIPT INFO
 
 # 加载python环境
-source env/bin/activate
+current_path=$(cd $(dirname $0);pwd)
+source $current_path/venv/bin/activate
 export FLASK_ENV=production
 
-if [ $1 = start ]
-then
-    psid=`ps aux | grep "uwsgi" | grep -v "grep" | wc -l`
-    if [ $psid -gt 4 ]
-    then
-        echo "uwsgi is running!"
-        exit 0
-    else
-        uwsgi --ini ./uwsgi.ini --vhost
-        echo "Start uwsgi service [OK]"
-    fi
-    
-
-elif [ $1 = stop ];then
-    killall -9 uwsgi
-    echo "Stop uwsgi service [OK]"
-elif [ $1 = restart ];then
-    killall -9 uwsgi
-    uwsgi --ini ./uwsgi.ini --vhost
-    echo "Restart uwsgi service [OK]"
-
-else
+case "$1" in
+start)
+	pids=`ps aux | grep "uwsgi" | grep -v "grep" | wc -l`
+	if [ $pids -gt 4 ];then
+		echo "uwsgi is running!"
+		exit 0
+	else
+		uwsgi --ini $current_path/uwsgi.ini --vhost
+		echo "Start uwsgi service [OK]"
+	fi
+;;
+stop)
+	killall -9 uwsgi
+	echo "Stop uwsgi service [OK]"
+;;
+restart)
+	sh $0 stop
+	sh $0 start
+;;
+*)
     echo "Usages: sh uwsgiserver.sh [start|stop|restart]"
-fi
-
+;;
+esac

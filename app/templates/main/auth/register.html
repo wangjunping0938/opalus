@@ -39,7 +39,9 @@
         password_confirm: {
             required: true,
             equalTo: "#password"
-        }
+        },
+        email: "required",
+        phone: "required",
     },
 
     messages: {
@@ -63,7 +65,9 @@
         password_confirm: {
             required: '请确认密码',
             equalTo: '两次密码不一致'
-        }
+        },
+        email: "请输入邮箱",
+        phone: "请输入手机号码",
     },
     submitHandler: function(form) {
       $(form).ajaxSubmit({
