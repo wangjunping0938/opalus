@@ -1,0 +1,6 @@
+.*
+!.env_example
+*.pyc
+uwsgi.ini
+env/*
+deploy.sh
