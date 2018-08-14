@@ -30,11 +30,14 @@ MONGODB_SETTINGS = {
 }
 
 # 邮件系统
-MAIL_SERVER = 'smtp.googlemail.com'
-MAIL_PORT = 587
+MAIL_SERVER = cf.get('mail','server')
+MAIL_PORT = cf.get('mail','port')
 MAIL_USE_TLS = True
 MAIL_USERNAME = cf.get('mail', 'username')
 MAIL_PASSWORD = cf.get('mail', 'password')
+FLASKY_MAIL_SUBJECT_PREFIX='[Opalus-TaiHuoNiao]'
+FLASKY_MAIL_SENDER=cf.get('mail','sender')
+FLASKY_ADMIN=cf.get('mail','admin')
 
 #Redis 配置
 REDIS_URL = cf.get('redis', 'url')

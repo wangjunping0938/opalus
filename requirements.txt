@@ -26,3 +26,5 @@ uWSGI==2.0.14
 vine==1.1.4
 Werkzeug==0.14.1
 WTForms==2.1
+Flask-Login==0.4.1
+Flask-Mail==0.9.1

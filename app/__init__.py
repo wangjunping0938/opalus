@@ -11,6 +11,7 @@ from flask_redis import FlaskRedis
 from .extensions import celery
 # 加载装饰器
 from .helpers.filters import format_datatime
+from flask_mail import Mail
 
 PROJDIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
 CONFDIR = os.path.join(PROJDIR, 'config')
@@ -18,6 +19,7 @@ CONFDIR = os.path.join(PROJDIR, 'config')
 db = MongoEngine()
 redis_store = FlaskRedis()
 csrf = CSRFProtect()
+mail=Mail()
 
 
 def create_app(config=None):
@@ -38,6 +40,7 @@ def create_app(config=None):
     db.init_app(app)
     redis_store.init_app(app)
     csrf.init_app(app)
+    mail.init_app(app)
     #app.session_interface = MongoEngineSessionInterface(db)
 
     celery.init_app(app)
