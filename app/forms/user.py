@@ -44,8 +44,11 @@ class SigninForm(FlaskForm):
         if user.check_password(self.password.data, account):
             if user.status == 1:
                 raise ValueError('账号未通过审核!')
-            if user.status == 0:
+            elif user.status == 0:
                 raise ValueError('账号已禁用!')
+            else:
+                raise ValueError('状态异常!')
+            
 
             # 通过
             if user.status == 5:
