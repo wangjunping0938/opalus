@@ -4,6 +4,7 @@ from werkzeug import security
 from . import db, current_app
 from .base import Base
 from app.helpers.common import gen_sha1
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 
 class User(Base):
@@ -53,8 +54,23 @@ class User(Base):
         passwd = '%s:%s:%s' % (raw, current_app.config['PASSWORD_SECRET'], account)
         return self.password == gen_sha1(passwd)
 
-    def change_password(self, raw):
-        self.password = self.create_password(raw)
-        self.token = self.create_token()
-        return self
+    # 带过期时间的token
+    def generate_token(self, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'id':self._id}).decode('utf-8')
 
+    # 修改密码
+    @staticmethod
+    def reset_password(token, new_password):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token.encode('utf-8'))
+        except Exception as e:
+            return False
+        user = User.objects(_id=data['id']).first()
+        if user is None:
+            return False
+        u_data = {'password':user.create_password(new_password, user.account),
+                  'token':user.create_token(16)}
+        user.update(**u_data)
+        return True

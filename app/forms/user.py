@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from wtforms import TextAreaField, StringField, IntegerField, PasswordField, FormField
+from wtforms import TextAreaField, StringField, IntegerField, PasswordField, FormField ,SubmitField
 from wtforms.validators import DataRequired, Length, EqualTo, NumberRange, Email
 from flask_wtf import FlaskForm, RecaptchaField
 from flask import current_app
@@ -137,3 +137,19 @@ class SaveForm(FlaskForm):
         user.save()
         return user
 
+
+# 忘记密码邮箱提交表单
+class ForgetPasswordForm(FlaskForm):
+    email = StringField('邮箱', validators=[DataRequired(), Length(1,50), Email(message='错误的邮箱格式!')])
+    submit = SubmitField('修改密码')
+
+
+# 重置密码表单
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('新密码', validators=[
+        DataRequired(),
+        Length(min=6, max=20, message='密码长度最小6位,最大20位'),])
+    confirm_password = PasswordField('确认新密码', validators=[
+        DataRequired(),
+        EqualTo('password', message='密码不一致!')])
+    submit = SubmitField('确认重置')
