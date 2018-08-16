@@ -61,7 +61,7 @@ def forget_password():
                 send_mail(user.email,'重置你的密码','auth/email/reset_password',user=user,token=token)
                 tips = '重置密码邮件已发送至您的邮箱,请稍后查看.'
                 flash(tips, 'success')
-                return jsonify(success=True,message=tips, redirect_to=url_for('main.login'))
+                return jsonify(success=True, message=tips) 
             else:
                 tips = '请填写你注册时所用的邮箱地址!'
                 return jsonify(success=False, message=tips)
