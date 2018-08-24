@@ -102,8 +102,8 @@ def auto_company_stat_update():
                     'max_effect': maxEffect,
                     'max_credit': maxCredit,
                     'f': 1,
-                    'bs': 50,
-                    'bf': 0.5
+                    'bs': 60,
+                    'bf': 0.4
                 }
                 aveRes = average_stat_core(genRank['data'], **options)
                 if not aveRes['success']:
