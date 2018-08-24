@@ -93,9 +93,9 @@ def company_average_stat(mark, no):
         'max_design': maxDesign,
         'max_effect': maxEffect,
         'max_credit': maxCredit,
-        'f': 1,
-        'bs': 50,
-        'bf': 0.5
+        'f': f,
+        'bs': bs,
+        'bf': bf
     }
 
     while not isEnd:
