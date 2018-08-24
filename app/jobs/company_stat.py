@@ -76,8 +76,8 @@ def company_average_stat(mark, no):
     query = {'mark': mark, 'no': no, 'status': 1, 'deleted': 0}
     nSortVal = '-ave_score'
     f = 1
-    bs = 50
-    bf = 0.5
+    bs = 60
+    bf = 0.4
 
     maxBase = DesignRecord.objects(**query).order_by('-base_score', nSortVal).first()   # 基础运作力
     maxBusiness = DesignRecord.objects(**query).order_by('-business_score', nSortVal).first()   # 商业决策力
