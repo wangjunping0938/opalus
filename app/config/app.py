@@ -26,6 +26,8 @@ MONGODB_SETTINGS = {
     'port': cf.getint('mongo', 'port'),
     'username': cf.get('mongo', 'username'),
     'password': cf.get('mongo', 'password'),
+    # 由于PyMongo不是进程安全的, 禁止MongoClient实例在进程之间的传递
+    'connect': False,
     'authentication_source': cf.get('mongo', 'authentication_source')
 }
 
