@@ -14,6 +14,7 @@ def design_record_list():
     query = {}
     meta = {}
     ids = request.args.get('ids', '')
+    d3in_id = request.args.get('d3in_id', '')
     page = int(request.args.get('page', 1))
     per_page = int(request.args.get('per_page', 10))
     status = int(request.args.get('status', 1))
@@ -33,6 +34,13 @@ def design_record_list():
               pass
       query['_id__in'] = isArr
     else:
+        number = ''
+        designCompany = DesignCompany.objects(d3ing_id = int(d3in_id)).first()
+        if designCompany:
+            number = str(d3ing_id['number'])
+        if number:
+            query['number'] = number
+
         if status == -1:
             query['status'] = 0
         if status == 1:
