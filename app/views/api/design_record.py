@@ -35,11 +35,12 @@ def design_record_list():
       query['_id__in'] = isArr
     else:
         number = ''
-        designCompany = DesignCompany.objects(d3ing_id = int(d3in_id)).first()
-        if designCompany:
-            number = str(d3ing_id['number'])
-        if number:
-            query['number'] = number
+        if d3in_id:
+            designCompany = DesignCompany.objects(d3ing_id = int(d3in_id)).first()
+            if designCompany:
+                number = str(d3ing_id['number'])
+            if number:
+                query['number'] = number
 
         if status == -1:
             query['status'] = 0
