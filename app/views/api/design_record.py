@@ -38,7 +38,7 @@ def design_record_list():
         if d3in_id:
             designCompany = DesignCompany.objects(d3ing_id = int(d3in_id)).first()
             if designCompany:
-                number = str(d3ing_id['number'])
+                number = str(designCompany['number'])
             if number:
                 query['number'] = number
 
