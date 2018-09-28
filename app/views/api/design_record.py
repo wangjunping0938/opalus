@@ -39,8 +39,9 @@ def design_record_list():
             designCompany = DesignCompany.objects(d3ing_id = int(d3in_id)).first()
             if designCompany:
                 number = str(designCompany['number'])
-            if number:
-                query['number'] = number
+            if not number:
+                return jsonify(code = 0, message = 'success', data = {'rows': [], 'total_count': 0, 'page': 0, 'per_page': 0}) 
+            query['number'] = number
 
         if status == -1:
             query['status'] = 0
@@ -112,6 +113,7 @@ def design_record_list():
     meta['per_page'] = per_page
 
     return jsonify(code=0, message='success!', data=meta)
+
 
 
 # 自动生成评价内容
