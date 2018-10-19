@@ -29,6 +29,7 @@ def create_app(config=None):
             template_folder = 'templates')
 
     app.config.from_pyfile(os.path.join(CONFDIR, 'app.py'))
+    app.config.from_pyfile(os.path.join(CONFDIR, 'qiniu.py'))
 
     if isinstance(config, dict):
         app.config.update(config)

@@ -4,6 +4,7 @@ import time
 import base64
 # 加密
 import hashlib
+from bson import ObjectId
 
 def isset(v): 
    try : 
@@ -46,3 +47,7 @@ def filter_key(keys, row):
             data[f] = row[f]
 
     return data
+
+# 随机生成BsonId
+def gen_mongo_id():
+    return ObjectId().__str__()

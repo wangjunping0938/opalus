@@ -1,0 +1,18 @@
+{% raw %}
+<script id="asset-box-tpl" type="text/template">
+
+      <div class="col-xs-2 item" id="asset-{{ id }}">
+        <div class="thumbnail">
+          <img src="{{ thumb_url }}" alt="{{ name }}">
+          <div class="caption">
+            <!--<h3>{{ name }}</h3>-->
+            <p>{{ name }}</p>
+            <p>
+              <a href="javascript:void(0);" class="set-cover" data-id="{{ id }}" title="设为封面"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span></a>
+              <a href="javascript:void(0);" class="del-asset" data-id="{{ id }}" title="删除"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+            </p>
+          </div>
+        </div>
+      </div>
+</script>
+{% endraw %}

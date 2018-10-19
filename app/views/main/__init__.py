@@ -5,7 +5,7 @@ main = Blueprint('main', __name__, static_url_path='/static',
             static_folder='../../static', template_folder='../../templates/main')
 
 from app import csrf
-from . import index, auth
+from . import index, auth, upload, asset
 from app.helpers.auth import get_current_user
 
 @main.before_request

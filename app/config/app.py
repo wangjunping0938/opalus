@@ -49,6 +49,9 @@ SECRET_KEY = cf.get('base', 'secret_key')
 WTF_CSRF_SECRET_KEY = cf.get('base', 'wtf_csrf_secret')
 
 D3INGO_URL = cf.get('api', 'd3ingo_url')
+ASSET_URL = cf.get('api', 'asset_url')
 
 PASSWORD_SECRET = cf.get('base', 'password_secret')
+
+UPLOAD_FOLDER = cf.get('base', 'upload_folder')
 

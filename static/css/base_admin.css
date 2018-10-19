@@ -73,7 +73,7 @@
 
 .ph-title{font-size: 1em;font-weight:bold;margin-bottom:15px;}
 .ph-list{margin-top:20px;background-color:#fff;}
-.ph-form{margin-top:20px;background-color:#fff;padding:20px 10px 10px 10px;}
+.ph-form{margin-top:20px;background-color:#fff;padding:20px;}
 
 .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
     padding: 10px;
@@ -102,4 +102,14 @@
     padding: 0 0 10px 0;
 }
 
-
+/**
+ * 分页
+ */
+nav ul.pagination {
+    float: left;
+}
+.pager-total {
+    float: left;
+    margin-left: 20px;
+    line-height: 5;
+}
