@@ -16,7 +16,7 @@
     $('.status-handle').on('click', 'a', function(){
         var id = $(this).data('id');
         var evt = $(this).data('evt');
-        var url = "{{ url_for('admin.asset_set_status') }}";
+        var url = "{{ url_for('admin.image_set_status') }}";
         $.post(url, {id: id, status: evt}, function(rs){
             if (rs.success) {
                 var statusLabel = evt == 0 ? false : true
@@ -47,8 +47,10 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav nav-list">
-                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.asset_list') }}">全部</a></li>
-                <li role="presentation" class="{{ meta.css_deleted }}"><a href="{{ url_for('admin.asset_list', deleted=1) }}">回收站</a></li>
+                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.image_list') }}">全部</a></li>
+                <li role="presentation" class="{{ meta.css_enable }}"><a href="{{ url_for('admin.image_list', status=1) }}">启用</a></li>
+                <li role="presentation" class="{{ meta.css_disable }}"><a href="{{ url_for('admin.image_list', status=-1) }}">禁用</a></li>
+                <li role="presentation" class="{{ meta.css_deleted }}"><a href="{{ url_for('admin.image_list', deleted=1) }}">回收站</a></li>
             </ul>
         </div>
     </div>
@@ -56,12 +58,12 @@
     <div class="fl">
         <div class="form-inline">
             <div class="form-group">
-                <a href="{{ url_for('admin.asset_submit') }}" class="btn btn-default">
+                <a href="{{ url_for('admin.image_submit') }}" class="btn btn-default">
                     <i class="glyphicon glyphicon-edit"></i> 创建
                 </a>
             </div>
             <div class="form-group">
-                <a href="{{ url_for('admin.asset_delete') }}" class="btn btn-default ajax-batch-delete">
+                <a href="{{ url_for('admin.image_delete') }}" class="btn btn-default ajax-batch-delete">
                     <i class="glyphicon glyphicon-trash"></i> 删除
                 </a>
             </div>
@@ -70,7 +72,7 @@
     </div>
 
     <div class="fr">
-        <form class="navbar-form navbar-left options-bar" role="search" action="{{ url_for('admin.asset_list') }}" method="GET" id="search-form">
+        <form class="navbar-form navbar-left options-bar" role="search" action="{{ url_for('admin.image_list') }}" method="GET" id="search-form">
           <input type="hidden" name="status" value="{{ request.args.get('status', '') }}" />
           <input type="hidden" name="kind" value="{{ request.args.get('kind', '') }}" />
           <input type="hidden" name="deleted" value="{{ request.args.get('deleted', '') }}" />
@@ -100,11 +102,10 @@
               </label>
             </div>       
         </th>
-        <th>ID</th>
-        <th>图片</th>
-        <th>文件信息</th>
-        <th>类型</th>
-        <th>创建人</th>
+        <th>缩略图</th>
+        <th>图片信息</th>
+        <th>渠道</th>
+        <th>来源</th>
         <th>创建时间</th>
         <th>状态</th>
         <th>操作</th>
@@ -117,26 +118,25 @@
                       </label>
                     </div>
                 </td>
-                <td>{{ d._id }}</td>
                 <td>
                   {% if d.thumb %}
-                    <img src="{{ d.thumb.avs }}" width="80" />
+                    <img src="{{ d.thumb.sm }}" width="100" />
                   {%else%}
-                    <img src="{{ url_for('static', filename='images/avatar_100.png') }}" width="100" />
+                    <img src="{{ d.img_url }}" width="100" />
                   {%endif%}
                 </td>
                 <td>
-                  <p>文件名: {{ d.name }}</p>
-                  <p>路径: {{ d.path }}</p>
-                  <p>类型: {{ d.mime }}</p>
-                  <p>大小: {{ d.size }}</p>
+                  <p>ID: {{ d._id }}</p>
+                  {% if d.title %}<p>标题: {{ d.title }}</p>{% endif %}
+                  {% if d.name %}<p>图片名: {{ d.name }}</p>{% endif %}
+                  {% if d.img_url %}<p>原图地址: {{ d.img_url }}</p>{% endif %}
+                  {% if d.path %}<p>七牛路径: {{ d.path }}</p>{% endif %}
+                  {% if d.local_path %}<p>本地路径: {{ d.local_path }}/{{ d.local_name }}</p>{% endif %}
+                  {% if d.tags_s %}<p>标签: {{ d.tags_s }}</p>{% endif %}
+                  {% if d.brand_id %}<p>品牌ID: {{ d.brand_id }}</p>{% endif %}
                 </td>
-                <td>
-                  <p>关联ID: {{ d.target_id }}</p>
-                  <p>类型: {{ d.asset_type }}</p>
-                  <p>域: {{ d.domain }}</p>
-                </td>
-                <td>{{ d.user_id }}</td>
+                <td>{{ d.channel }}</td>
+                <td>{{ d.evt }}</td>
                 <td>{{ d.created_at | date("%Y-%m-%d") }}</td>
                 <td>
                     <p class="status-label">
@@ -158,13 +158,13 @@
                         {%endif%}                   
                     </p>
                     <p>
-                        <a href="{{ url_for('admin.asset_submit', id=d._id) }}">编辑</a>
+                        <a href="{{ url_for('admin.image_submit', id=d._id) }}">编辑</a>
                         |
                         {% if d.deleted == 0 %}
-                            <a href="{{ url_for('admin.asset_delete', ids=d._id) }}" class="confirm-request">删除</a>
+                            <a href="{{ url_for('admin.image_delete', ids=d._id) }}" class="confirm-request">删除</a>
                         {%endif%}
                         {% if d.deleted == 1 %}
-                        <a href="{{ url_for('admin.asset_remove', ids=d._id) }}" class="confirm-request">移除</a>
+                            <a href="{{ url_for('admin.image_recovery', ids=d._id) }}" class="confirm-request">恢复</a>
                         {%endif%}
                     </p>
                 </td>

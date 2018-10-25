@@ -32,6 +32,7 @@ def handle_file(f, **param):
     user_id = force_int(param['user_id'], 0)
     target_id = param['target_id']
     asset_type = force_int(param['asset_type'], 1)
+    evt = param['evt']
     #上传到七牛后保存的文件名
     asset_name = gen_asset_name(asset_type)
 
@@ -45,7 +46,6 @@ def handle_file(f, **param):
         result['message'] = qnResult['message']
         return result
 
-    # 保存至asset表
     row = {
         'name': fname,
         'mime': mime,
@@ -58,20 +58,25 @@ def handle_file(f, **param):
         'user_id': user_id
     }
 
-    try:
-        asset = Asset(**row)
-        ok = asset.save()
-        if not ok:
-            result['message'] = '保存附件失败'
+    if evt == 1:
+        # 保存至asset表
+        try:
+            asset = Asset(**row)
+            ok = asset.save()
+            if not ok:
+                result['message'] = '保存附件失败'
+                return result
+
+            row['_id'] = str(asset._id)
+
+        except(Exception) as e:
+            result['message'] = str(e)
             return result
 
-        row['_id'] = str(asset._id)
-        result['success'] = 1
-        result['data'] = row
-        return result
-    except(Exception) as e:
-        result['message'] = str(e)
-        return result
+    result['success'] = 1
+    result['data'] = row
+    return result
+
 
 # 七牛上传附件
 def up_qiniu(blob, key):
@@ -126,6 +131,8 @@ def gen_asset_name(asset_type):
     name = 'custom'
     if asset_type == 1:
         name = 'custom'
+    elif asset_type == 2:
+        name = 'image'
     elif asset_type == 5:
         name = 'brand'
 

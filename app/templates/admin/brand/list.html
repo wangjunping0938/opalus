@@ -122,9 +122,9 @@
                 <td>{{ d._id }}</td>
                 <td>
                   {% if d.cover %}
-                  <p><img src="{{ d.cover.get_thumb_path().sm }}" width="120" /></p>
+                    <img src="{{ d.cover.get_thumb_path().sm }}" width="100" />
                   {%else%}
-
+                    <img src="{{ url_for('static', filename='images/avatar_100.png') }}" width="100" />
                   {%endif%}
                 </td>
                 <td>{{ d.name }}</td>

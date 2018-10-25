@@ -4,7 +4,7 @@ from flask import Blueprint
 api = Blueprint('api', __name__, static_url_path='/static',
             static_folder='../../static')
 
-from . import test, product, site, design_company, design_case, design_record, company_queue
+from . import test, product, site, design_company, design_case, design_record, company_queue, image
 
 @api.before_request
 def load_current_user():

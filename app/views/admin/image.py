@@ -8,15 +8,17 @@ from app.helpers.common import force_int
 from app.forms.image import SaveForm, setStatus
 from bson import ObjectId
 
+metaInit = {
+    'title': '图片管理',
+    'css_nav_sub_image': 'active',
+    'css_nav_image': 'active',
+    'css_all': 'active'
+}
+
 ## 列表
 @admin.route('/image/list')
 def image_list():
-    meta = {
-        'title': '设计公司管理',
-        'css_nav_sub_image': 'active',
-        'css_nav_design': 'active',
-        'css_all': 'active'
-    }
+    meta = metaInit.copy()
     query = {}
     page = force_int(request.args.get('page', 1))
     per_page = force_int(request.args.get('per_page', 100))
@@ -50,22 +52,28 @@ def image_list():
     else:
         pass
 
-    query['deleted'] = deleted
+    if deleted == 1:
+        query['deleted'] = 1
+        meta['css_deleted'] = 'active'
+    else:
+        query['deleted'] = 0
 
-    page_url = url_for('admin.image_list', page="#p#", q=q, t=t, kind=kind, status=status)
+    if not status and not deleted:
+        meta['css_all'] = 'active'
+    else:
+        meta['css_all'] = ''
+
+    page_url = url_for('admin.image_list', page="#p#", q=q, t=t, kind=kind, status=status, deleted=deleted)
 
     data = Image.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
     total_count = Image.objects(**query).count()
 
     # 过滤数据
     for i, d in enumerate(data.items):
-        if data.items[i].kind == 1:
-            kind_label = '工业设计'
-        elif data.items[i].kind == 2:
-            kind_label = '平台设计'
-        else:
-            kind_label = '--'
-        data.items[i].kind_label = kind_label
+        data.items[i]._id = str(d._id)
+        data.items[i].thumb = d.get_thumb_path()
+        if d.tags:
+            data.items[i].tags_s = ','.join(d.tags)
 
     meta['data'] = data.items
 
@@ -77,23 +85,18 @@ def image_list():
 ## 编辑
 @admin.route('/image/submit')
 def image_submit():
-    meta = {
-        'title': '设计公司管理',
-        'css_nav_sub_image': 'active',
-        'css_nav_design': 'active'
-    }
+    meta = metaInit.copy()
     id = request.args.get('id', None)
     meta['data'] = None
     if id:
-        image = Image.objects(_id=ObjectId(id)).first()
-        image.tags_label = ','.join(image.tags)
-        meta['data'] = image
+        item = Image.objects(_id=ObjectId(id)).first()
+        item._id = str(item._id)
+        item.thumb = item.get_thumb_path()
+        item.tags_s = ','.join(item.tags)
+        meta['data'] = item
 
     form = SaveForm()
 
-    meta['company_scale_options'] = company_scale_options()
-    meta['company_nature_options'] = company_nature_options()
-    meta['company_registered_capital_format'] = company_registered_capital_format_options()
     meta['referer_url'] = request.environ.get('HTTP_REFERER') if request.environ.get('HTTP_REFERER') else ''
     
     return render_template('admin/image/submit.html', meta=meta, form=form)
@@ -101,11 +104,7 @@ def image_submit():
 ## 保存
 @admin.route('/image/save', methods=['POST'])
 def image_save():
-    meta = {
-        'title': '设计公司管理',
-        'css_nav_sub_image': 'active',
-        'css_nav_design': 'active'
-    }
+    meta = metaInit.copy()
 
     form = SaveForm()
     if form.validate_on_submit():
@@ -153,11 +152,7 @@ def image_set_status():
 ## 删除
 @admin.route('/image/delete', methods=['POST'])
 def image_delete():
-    meta = {
-        'title': '设计公司管理',
-        'css_nav_sub_image': 'active',
-        'css_nav_design': 'active'
-    }
+    meta = metaInit.copy()
 
     ids = request.values.get('ids', '')
     type = request.values.get('type', 1)
@@ -174,4 +169,22 @@ def image_delete():
 
     return jsonify(success=True, message='操作成功!', data={'ids': ids, 'type':type}, redirect_to=url_for('admin.image_list'))
 
+## 恢复
+@admin.route('/image/recovery', methods=['POST'])
+def image_recovery():
+    meta = {}
 
+    ids = request.values.get('ids', '')
+    type = request.values.get('type', 1)
+    if not ids:
+        return jsonify(success=False, message='缺少请求参数!')
+    
+    try:
+        arr = ids.split(',')
+        for d in arr:
+            item = Image.objects(_id=ObjectId(d)).first()
+            item.mark_recovery() if item else None
+    except(Exception) as e:
+        return jsonify(success=False, message=str(e))
+
+    return jsonify(success=True, message='操作成功!', data={'ids': ids, 'type':type}, redirect_to=url_for('admin.image_list'))

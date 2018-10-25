@@ -54,14 +54,15 @@ $('#upload_file').uploadifive({
     'auto' : true,
     'uploadScript' : '/upload',
     'formData': {
-        'target_id': '',
-        'asset_type': 1,
+        'target_id': '{{ meta.data._id|default('') }}',
+        'asset_type': 2,
         'user_id': '{{ g.user._id }}',
         'callback_type': 1,
+        'evt': 2,
         'csrf_token': '{{ csrf_token() }}'
     },
     'fileObjName' : 'file',
-    'buttonText' : '上传',
+    'buttonText' : '上传图片',
     'queueID' : 'tip-queue',
     'fileType' : 'image/*',
     'multi' : true,
@@ -74,13 +75,10 @@ $('#upload_file').uploadifive({
         if (obj.code != 200) {
             alert(obj.message);
         } else {
-            var render = phenix.ajax_render('#asset-box-tpl', 
-              {
-                  id: obj.data._id,
-                  thumb_url: obj.data.thumb_url,
-                  name: obj.data.name
-              })
-            $('#asset_items').append(render)
+            $('#asset_items').find('img').attr('src', obj.data.thumb_url);
+            $('#asset_items').find('p.asset-name').text( obj.data.name);
+            $('input[name=path]').val(obj.data.path);
+            $('input[name=name]').val( obj.data.name);
         }
     },
     onCancel : function(file) {
@@ -96,30 +94,6 @@ $('#upload_file').uploadifive({
     onUpload : function(file) {
     },
 });
-
-
-// 设置封面图
-$('#asset_items').on('click', '.set-cover', function(){
-    var id = $(this).data('id');
-    
-    $('#asset_items .set-cover.active').removeClass('active');
-    $(this).addClass('active');
-    
-    $('#cover_id').val(id);
-});
-
-// 删除附件
-$('#asset_items').on('click', '.del-asset', function(){
-    var id = $(this).data('id');
-    $.get('/asset/ajx_del', {id: id}, function(res) {
-        if(res.code == 0) {
-            $('#asset-' + id).remove();
-        }else{
-            alert(res.message);
-        }
-    }, 'json')
-});
-
 
 {% endblock %}
 
@@ -149,19 +123,79 @@ $('#asset_items').on('click', '.del-asset', function(){
             {{ form.csrf_token }}
             <input type="hidden" name="id" value="{{ meta.data._id|default('') }}" />
             <input type="hidden" name="referer_url" value="{{ meta.referer_url }}" />
+            <input type="hidden" name="cover_id" id="cover_id" value="{{ meta.data.cover_id|default('') }}" />
+            <input type="hidden" name="path" value="{{ meta.data.path|default('') }}" />
+            <input type="hidden" name="name" value="{{ meta.data.name|default('') }}" />
 
             <div class="form-group">
                 <div class="col-xs-4">
-                    <label for="name">上传资源</label>
+                    <label for="name">上传图片</label>
                     <input class="full-width has-padding has-border" id="upload_file" type="file" name="file" />
                     <div id="tip-queue"></div>
                 </div>
             </div>
-            <div id="asset_items" class="row"><!--ajax asset box--></div>
+            <div id="asset_items" class="row">
+                  <div class="col-xs-2 item">
+                      <div class="thumbnail">
+                          {% if meta.data.thumb %}
+                              <img src="{{ meta.data.thumb.sm }}" alt="{{ meta.data.name }}">
+                          {%else%}
+                              <img src="{{ meta.data.img_url }}" alt="{{ meta.data.name }}">
+                          {%endif%}
+                          <div class="caption">
+                            <p class="asset-name">{{ meta.data.name }}</p>
+                          </div>
+                      </div>
+                  </div>
+            
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="title">名称</label>
+                    <input type="text" name="title" class="form-control" value="{{ meta.data.title }}" placeholder="标题">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="brand_id">所属品牌ID</label>
+                    <input type="text" name="brand_id" class="form-control" value="{{ meta.data.brand_id }}" placeholder="所属品牌ID">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="img_url">文件地址</label>
+                    <input type="text" name="img_url" class="form-control" value="{{ meta.data.img_url }}" placeholder="文件地址">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="tags">标签</label>
+                    <input type="text" name="tags" class="form-control" value="{{ meta.data.tags_s }}" placeholder="标签">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="channel">渠道</label>
+                    <input type="text" name="channel" class="form-control" value="{{ meta.data.channel }}" placeholder="渠道">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="remark">备注</label>
+                    <textarea class="form-control" name="remark" rows="3">{{ meta.data.remark|default('') }}</textarea>
+                </div>
+            </div>
 
             <div class="form-group">
                 <div class="col-sm-10">
-                    <a href="{{ url_for('admin.asset_list') }}" class="btn btn-default">取消</a>
+                    <a href="{{ url_for('admin.brand_list') }}" class="btn btn-default">取消</a>
+                    <button type="submit" id="submit_btn" class="btn btn-primary">提交</button>
                 </div>
             </div>
         </form>
@@ -170,7 +204,3 @@ $('#asset_items').on('click', '.del-asset', function(){
 
 {% endblock %}
 
-{% block templates %}
-  {% include "mustache/asset_item.mustache" %}
-  {% include "mustache/asset_list.mustache" %}
-{% endblock %}

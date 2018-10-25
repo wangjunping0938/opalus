@@ -75,16 +75,17 @@
 
                 <h4 class="res_mem_menu_title memMenuTitle {{ meta.css_nav_image|default('') }}" tabindex="-1" title="展开" data-rel="mImageManage">
                     <u class="u u29 res_mem_opt_icon"></u>
-                    <div class="res_mem_menu_link">素材管理</div>
+                    <div class="res_mem_menu_link">素材库管理</div>
                 </h4>
                 <ul id="mImageManage" class="bbc pb5">
-                  <!--
                     <li class="res_mem_list_li">
                         <a class="res_mem_list_link {{ meta.css_nav_sub_image|default('') }}" href="{{ url_for('admin.image_list') }}">图片管理 <span class="g9">»</span></a>
                     </li>
-                    -->
                     <li class="res_mem_list_li">
                         <a class="res_mem_list_link {{ meta.css_nav_sub_brand|default('') }}" href="{{ url_for('admin.brand_list') }}">品牌管理 <span class="g9">»</span></a>
+                    </li>
+                    <li class="res_mem_list_li">
+                        <a class="res_mem_list_link {{ meta.css_nav_sub_tag|default('') }}" href="{{ url_for('admin.tag_list') }}">标签管理 <span class="g9">»</span></a>
                     </li>
 
                 </ul>

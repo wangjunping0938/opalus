@@ -12,12 +12,14 @@ def upload():
         asset_type = request.values.get('asset_type', 1)
         user_id = request.values.get('user_id', 0)
         target_id = request.values.get('target_id', '')
+        evt = int(request.values.get('evt', 1))
         callback_type = request.values.get('callback_type', 1)
 
         param = {
             'asset_type': asset_type,
             'user_id': user_id,
-            'target_id': target_id
+            'target_id': target_id,
+            'evt': evt
         }
         handle_result = handle_file(f, **param)
 
