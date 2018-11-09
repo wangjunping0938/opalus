@@ -2,13 +2,23 @@
 {% block title %}{{ meta.title }}{% endblock %}
 {% block layout_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='uploadifive/uploadifive.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='tags_input_master/dist/jquery.tagsinput.min.css') }}" type="text/css" />
     <style type="text/css">
+
+.def-tags {
+  
+}
+.def-tags span {
+  margin-left:5px;
+  cursor:pointer;
+}
 
     </style>
 {% endblock %}
 
 {% block layout_js %}
     <script type="text/javascript" src="{{ url_for('static', filename='uploadifive/jquery.uploadifive.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='tags_input_master/dist/jquery.tagsinput.min.js') }}"></script>
     <script type="text/javascript">
 
   </script>
@@ -95,6 +105,112 @@ $('#upload_file').uploadifive({
     },
 });
 
+$(':input[name=tags]').tagsInput({
+   'height':'80px',
+   'width':'770px',
+   'interactive':true,
+   'defaultText':'添加标签',
+   //'onAddTag':callback_function,
+   //'onRemoveTag':callback_function,
+   //'onChange' : callback_function,
+   //'delimiter': [',',';'],   // Or a string with a single delimiter. Ex: ';'
+   //'minChars' : 21,
+   //'maxChars' : 1, // if not provided there is no limit
+   'removeWithBackspace' : true
+});
+
+$(':input[name=color_tags]').tagsInput({
+   'height':'80px',
+   'width':'770px',
+   'interactive':true,
+   'defaultText':'添加标签',
+   //'onAddTag':callback_function,
+   //'onRemoveTag':callback_function,
+   //'onChange' : callback_function,
+   //'delimiter': [',',';'],   // Or a string with a single delimiter. Ex: ';'
+   //'minChars' : 21,
+   //'maxChars' : 1, // if not provided there is no limit
+   'removeWithBackspace' : true
+});
+
+$(':input[name=brand_tags]').tagsInput({
+   'height':'80px',
+   'width':'770px',
+   'interactive':true,
+   'defaultText':'添加标签',
+   //'onAddTag':callback_function,
+   //'onRemoveTag':callback_function,
+   //'onChange' : callback_function,
+   //'delimiter': [',',';'],   // Or a string with a single delimiter. Ex: ';'
+   //'minChars' : 21,
+   //'maxChars' : 1, // if not provided there is no limit
+   'removeWithBackspace' : true
+});
+
+$(':input[name=material_tags]').tagsInput({
+   'height':'80px',
+   'width':'770px',
+   'interactive':true,
+   'defaultText':'添加标签',
+   //'onAddTag':callback_function,
+   //'onRemoveTag':callback_function,
+   //'onChange' : callback_function,
+   //'delimiter': [',',';'],   // Or a string with a single delimiter. Ex: ';'
+   //'minChars' : 21,
+   //'maxChars' : 1, // if not provided there is no limit
+   'removeWithBackspace' : true
+});
+
+$(':input[name=style_tags]').tagsInput({
+   'height':'80px',
+   'width':'770px',
+   'interactive':true,
+   'defaultText':'添加标签',
+   //'onAddTag':callback_function,
+   //'onRemoveTag':callback_function,
+   //'onChange' : callback_function,
+   //'delimiter': [',',';'],   // Or a string with a single delimiter. Ex: ';'
+   //'minChars' : 21,
+   //'maxChars' : 1, // if not provided there is no limit
+   'removeWithBackspace' : true
+});
+
+$(':input[name=technique_tags]').tagsInput({
+   'height':'80px',
+   'width':'770px',
+   'interactive':true,
+   'defaultText':'添加标签',
+   //'onAddTag':callback_function,
+   //'onRemoveTag':callback_function,
+   //'onChange' : callback_function,
+   //'delimiter': [',',';'],   // Or a string with a single delimiter. Ex: ';'
+   //'minChars' : 21,
+   //'maxChars' : 1, // if not provided there is no limit
+   'removeWithBackspace' : true
+});
+
+$(':input[name=other_tags]').tagsInput({
+   'height':'80px',
+   'width':'770px',
+   'interactive':true,
+   'defaultText':'添加标签',
+   //'onAddTag':callback_function,
+   //'onRemoveTag':callback_function,
+   //'onChange' : callback_function,
+   //'delimiter': [',',';'],   // Or a string with a single delimiter. Ex: ';'
+   //'minChars' : 21,
+   //'maxChars' : 1, // if not provided there is no limit
+   'removeWithBackspace' : true
+});
+
+$('.def-tags span').click(function(){
+  var evt = $(this).parent('.def-tags').data('evt');
+  var val = $(this).text();
+  if (!$(':input[name='+ evt +']').tagExist(val)) {
+    $(':input[name='+ evt +']').addTag(val);
+  }
+});
+
 {% endblock %}
 
 {% block layout_slider %}
@@ -165,11 +281,11 @@ $('#upload_file').uploadifive({
             </div>
 
             <div class="form-group">
-                <div class="col-xs-8">
+                <div class="col-xs-4">
                     <label for="designer">设计师</label>
                     <input type="text" name="designer" class="form-control" value="{{ meta.data.designer }}" placeholder="设计师">
                 </div>
-                <div class="col-xs-8">
+                <div class="col-xs-4">
                     <label for="company">公司</label>
                     <input type="text" name="company" class="form-control" value="{{ meta.data.company }}" placeholder="公司">
                 </div>
@@ -188,6 +304,7 @@ $('#upload_file').uploadifive({
                     <input type="text" name="tags" class="form-control" value="{{ meta.data.tags_s }}" placeholder="标签">
                 </div>
             </div>
+            <div class="def-tags" data-evt="tags">可选标签：<span class="label label-info">手机1</span><span class="label label-info">手机2</span><span class="label label-info">手机3</span></div>
 
             <div class="form-group">
                 <div class="col-xs-8">
@@ -195,6 +312,7 @@ $('#upload_file').uploadifive({
                     <input type="text" name="color_tags" class="form-control" value="{{ meta.data.color_tags_s }}" placeholder="颜色标签">
                 </div>
             </div>
+            <div class="def-tags" data-evt="color_tags">可选标签：<span class="label label-info">手机1</span><span class="label label-info">手机2</span><span class="label label-info">手机3</span></div>
 
             <div class="form-group">
                 <div class="col-xs-8">
@@ -209,6 +327,7 @@ $('#upload_file').uploadifive({
                     <input type="text" name="technique_tags" class="form-control" value="{{ meta.data.technique_tags_s }}" placeholder="工艺标签">
                 </div>
             </div>
+            <div class="def-tags" data-evt="technique_tags">可选标签：<span class="label label-info">手机1</span><span class="label label-info">手机2</span><span class="label label-info">手机3</span></div>
 
             <div class="form-group">
                 <div class="col-xs-8">
@@ -216,6 +335,7 @@ $('#upload_file').uploadifive({
                     <input type="text" name="brand_tags" class="form-control" value="{{ meta.data.brand_tags_s }}" placeholder="品牌标签">
                 </div>
             </div>
+            <div class="def-tags" data-evt="brand_tags">可选标签：<span class="label label-info">手机1</span><span class="label label-info">手机2</span><span class="label label-info">手机3</span></div>
 
             <div class="form-group">
                 <div class="col-xs-8">
@@ -223,6 +343,7 @@ $('#upload_file').uploadifive({
                     <input type="text" name="style_tags" class="form-control" value="{{ meta.data.style_tags_s }}" placeholder="风格标签">
                 </div>
             </div>
+            <div class="def-tags" data-evt="style_tags">可选标签：<span class="label label-info">手机1</span><span class="label label-info">手机2</span><span class="label label-info">手机3</span></div>
 
             <div class="form-group">
                 <div class="col-xs-8">
@@ -230,6 +351,7 @@ $('#upload_file').uploadifive({
                     <input type="text" name="other_tags" class="form-control" value="{{ meta.data.other_tags_s }}" placeholder="其它标签">
                 </div>
             </div>
+            <div class="def-tags" data-evt="other_tags">可选标签：<span class="label label-info">手机1</span><span class="label label-info">手机2</span><span class="label label-info">手机3</span></div>
 
             <div class="form-group">
                 <div class="col-xs-4">
@@ -246,9 +368,9 @@ $('#upload_file').uploadifive({
             </div>
 
             <div class="form-group">
-                <div class="col-xs-8">
+                <div class="col-xs-12">
                     <label for="info">信息</label>
-                    <textarea class="form-control" name="info" rows="3">{{ meta.data.info|default('') }}</textarea>
+                    <textarea class="form-control" name="info" rows="8">{{ meta.data.info|default('') }}</textarea>
                 </div>
             </div>
 

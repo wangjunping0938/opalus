@@ -8,7 +8,7 @@ from ..models.image import Image
 
 class SaveForm(FlaskForm):
     id = StringField()
-    title = StringField('标题', validators=[Length(max=50, message="长度小于50个字符")])
+    title = StringField('标题', validators=[Length(max=100, message="长度小于50个字符")])
     name = StringField('名称', validators=[Length(max=50, message="长度小于50个字符")])
     kind = IntegerField('类型')
     tags = StringField('标签', validators=[Length(max=500, message="长度小于500个字符")])   # 标签
@@ -16,7 +16,7 @@ class SaveForm(FlaskForm):
     brand_tags = StringField('品牌标签', validators=[Length(max=500, message="长度小于500个字符")]) # 品牌标签
     material_tags = StringField('材质标签', validators=[Length(max=500, message="长度小于500个字符")]) # 材质
     style_tags = StringField('风格标签', validators=[Length(max=500, message="长度小于500个字符")]) # 风格
-    technique_tags = StringField('风格标签', validators=[Length(max=500, message="长度小于500个字符")]) # 风格
+    technique_tags = StringField('工艺标签', validators=[Length(max=500, message="长度小于500个字符")]) # 工艺
     other_tags = StringField('其它标签', validators=[Length(max=500, message="长度小于500个字符")]) # 其它
     img_url = StringField()  # 图片地址
     path = StringField()   # 七牛路径
