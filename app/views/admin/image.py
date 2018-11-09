@@ -93,6 +93,12 @@ def image_submit():
         item._id = str(item._id)
         item.thumb = item.get_thumb_path()
         item.tags_s = ','.join(item.tags)
+        item.color_tags_s = ','.join(item.color_tags)
+        item.brand_tags_s = ','.join(item.brand_tags)
+        item.material_tags_s = ','.join(item.material_tags)
+        item.style_tags_s = ','.join(item.style_tags)
+        item.technique_tags_s = ','.join(item.technique_tags)
+        item.other_tags_s = ','.join(item.other_tags)
         meta['data'] = item
 
     form = SaveForm()
