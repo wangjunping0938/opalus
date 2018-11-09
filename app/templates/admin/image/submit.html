@@ -166,6 +166,17 @@ $('#upload_file').uploadifive({
 
             <div class="form-group">
                 <div class="col-xs-8">
+                    <label for="designer">设计师</label>
+                    <input type="text" name="designer" class="form-control" value="{{ meta.data.designer }}" placeholder="设计师">
+                </div>
+                <div class="col-xs-8">
+                    <label for="company">公司</label>
+                    <input type="text" name="company" class="form-control" value="{{ meta.data.company }}" placeholder="公司">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
                     <label for="img_url">文件地址</label>
                     <input type="text" name="img_url" class="form-control" value="{{ meta.data.img_url }}" placeholder="文件地址">
                 </div>
@@ -175,6 +186,48 @@ $('#upload_file').uploadifive({
                 <div class="col-xs-8">
                     <label for="tags">标签</label>
                     <input type="text" name="tags" class="form-control" value="{{ meta.data.tags_s }}" placeholder="标签">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="color_tags">颜色标签</label>
+                    <input type="text" name="color_tags" class="form-control" value="{{ meta.data.color_tags_s }}" placeholder="颜色标签">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="material_tags">材质标签</label>
+                    <input type="text" name="material_tags" class="form-control" value="{{ meta.data.material_tags_s }}" placeholder="材质标签">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="technique_tags">工艺标签</label>
+                    <input type="text" name="technique_tags" class="form-control" value="{{ meta.data.technique_tags_s }}" placeholder="工艺标签">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="brand_tags">品牌标签</label>
+                    <input type="text" name="brand_tags" class="form-control" value="{{ meta.data.brand_tags_s }}" placeholder="品牌标签">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="style_tags">风格标签</label>
+                    <input type="text" name="style_tags" class="form-control" value="{{ meta.data.style_tags_s }}" placeholder="风格标签">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="other_tags">其它标签</label>
+                    <input type="text" name="other_tags" class="form-control" value="{{ meta.data.other_tags_s }}" placeholder="其它标签">
                 </div>
             </div>
 
@@ -189,6 +242,13 @@ $('#upload_file').uploadifive({
                 <div class="col-xs-8">
                     <label for="remark">备注</label>
                     <textarea class="form-control" name="remark" rows="3">{{ meta.data.remark|default('') }}</textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="info">信息</label>
+                    <textarea class="form-control" name="info" rows="3">{{ meta.data.info|default('') }}</textarea>
                 </div>
             </div>
 

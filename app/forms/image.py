@@ -12,12 +12,21 @@ class SaveForm(FlaskForm):
     name = StringField('名称', validators=[Length(max=50, message="长度小于50个字符")])
     kind = IntegerField('类型')
     tags = StringField('标签', validators=[Length(max=500, message="长度小于500个字符")])   # 标签
+    color_tags = StringField('颜色标签', validators=[Length(max=500, message="长度小于500个字符")]) # 颜色标签
+    brand_tags = StringField('品牌标签', validators=[Length(max=500, message="长度小于500个字符")]) # 品牌标签
+    material_tags = StringField('材质标签', validators=[Length(max=500, message="长度小于500个字符")]) # 材质
+    style_tags = StringField('风格标签', validators=[Length(max=500, message="长度小于500个字符")]) # 风格
+    technique_tags = StringField('风格标签', validators=[Length(max=500, message="长度小于500个字符")]) # 风格
+    other_tags = StringField('其它标签', validators=[Length(max=500, message="长度小于500个字符")]) # 其它
     img_url = StringField()  # 图片地址
     path = StringField()   # 七牛路径
     local_name = StringField()   # 本地文件名称
     local_path = StringField()   # 本地文件路径
     ext = StringField() # 扩展名
     remark = StringField()
+    designer = StringField()
+    company = StringField()
+    info = StringField()
     channel = StringField('渠道', validators=[Length(max=10, message="长度小于10个字符")])  # 渠道
     brand_id = IntegerField()    # 品牌ID
     category_id = IntegerField()    # 分类ID
@@ -61,6 +70,16 @@ class SaveApi(FlaskForm):
     channel = StringField('渠道', validators=[Length(max=10, message="长度小于10个字符")])  # 渠道
     img_url = StringField('图片地址', validators=[DataRequired(message="名称不能为空")])  # 图片地址
     tags = StringField('标签', validators=[Length(max=500, message="长度小于500个字符")])   # 标签
+    color_tags = StringField('颜色标签', validators=[Length(max=500, message="长度小于500个字符")]) # 颜色标签
+    brand_tags = StringField('品牌标签', validators=[Length(max=500, message="长度小于500个字符")]) # 品牌标签
+    material_tags = StringField('材质标签', validators=[Length(max=500, message="长度小于500个字符")]) # 材质
+    style_tags = StringField('风格标签', validators=[Length(max=500, message="长度小于500个字符")]) # 风格
+    technique_tags = StringField('风格标签', validators=[Length(max=500, message="长度小于500个字符")]) # 风格
+    other_tags = StringField('其它标签', validators=[Length(max=500, message="长度小于500个字符")]) # 其它
+    remark = StringField()
+    designer = StringField()
+    company = StringField()
+    info = StringField()
     evt = IntegerField() # 来源
     remark = StringField()
 
