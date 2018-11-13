@@ -73,7 +73,7 @@
 
 .ph-title{font-size: 1em;font-weight:bold;margin-bottom:15px;}
 .ph-list{margin-top:20px;background-color:#fff;}
-.ph-form{margin-top:20px;background-color:#fff;padding:20px;}
+.ph-form{background-color:#fff;}
 
 .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
     padding: 10px;
