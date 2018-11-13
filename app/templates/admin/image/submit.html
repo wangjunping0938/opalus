@@ -6,7 +6,7 @@
     <style type="text/css">
 
 .def-tags {
-  
+  margin-top: -20px;
 }
 .def-tags span {
   margin-left:5px;
@@ -304,7 +304,15 @@ $('.def-tags span').click(function(){
                     <input type="text" name="tags" class="form-control" value="{{ meta.data.tags_s }}" placeholder="标签">
                 </div>
             </div>
-            <div class="def-tags" data-evt="tags">可选标签：<span class="label label-info">手机1</span><span class="label label-info">手机2</span><span class="label label-info">手机3</span></div>
+            {% if meta.default_tags %}
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <div class="def-tags" data-evt="tags">
+                      可选标签：{% for d in meta.default_tags %}<span class="label label-info">{{ d }}</span>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
 
             <div class="form-group">
                 <div class="col-xs-8">
@@ -312,7 +320,15 @@ $('.def-tags span').click(function(){
                     <input type="text" name="color_tags" class="form-control" value="{{ meta.data.color_tags_s }}" placeholder="颜色标签">
                 </div>
             </div>
-            <div class="def-tags" data-evt="color_tags">可选标签：<span class="label label-info">手机1</span><span class="label label-info">手机2</span><span class="label label-info">手机3</span></div>
+            {% if meta.default_color_tags %}
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <div class="def-tags" data-evt="color_tags">
+                      可选标签：{% for d in meta.default_color_tags %}<span class="label label-info">{{ d }}</span>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
 
             <div class="form-group">
                 <div class="col-xs-8">
@@ -320,6 +336,15 @@ $('.def-tags span').click(function(){
                     <input type="text" name="material_tags" class="form-control" value="{{ meta.data.material_tags_s }}" placeholder="材质标签">
                 </div>
             </div>
+            {% if meta.default_material_tags %}
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <div class="def-tags" data-evt="material_tags">
+                      可选标签：{% for d in meta.default_material_tags %}<span class="label label-info">{{ d }}</span>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
 
             <div class="form-group">
                 <div class="col-xs-8">
@@ -327,7 +352,15 @@ $('.def-tags span').click(function(){
                     <input type="text" name="technique_tags" class="form-control" value="{{ meta.data.technique_tags_s }}" placeholder="工艺标签">
                 </div>
             </div>
-            <div class="def-tags" data-evt="technique_tags">可选标签：<span class="label label-info">手机1</span><span class="label label-info">手机2</span><span class="label label-info">手机3</span></div>
+            {% if meta.default_technique_tags %}
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <div class="def-tags" data-evt="technique_tags">
+                      可选标签：{% for d in meta.default_technique_tags %}<span class="label label-info">{{ d }}</span>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
 
             <div class="form-group">
                 <div class="col-xs-8">
@@ -335,7 +368,15 @@ $('.def-tags span').click(function(){
                     <input type="text" name="brand_tags" class="form-control" value="{{ meta.data.brand_tags_s }}" placeholder="品牌标签">
                 </div>
             </div>
-            <div class="def-tags" data-evt="brand_tags">可选标签：<span class="label label-info">手机1</span><span class="label label-info">手机2</span><span class="label label-info">手机3</span></div>
+            {% if meta.default_brand_tags %}
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <div class="def-tags" data-evt="brand_tags">
+                      可选标签：{% for d in meta.default_brand_tags %}<span class="label label-info">{{ d }}</span>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
 
             <div class="form-group">
                 <div class="col-xs-8">
@@ -343,7 +384,15 @@ $('.def-tags span').click(function(){
                     <input type="text" name="style_tags" class="form-control" value="{{ meta.data.style_tags_s }}" placeholder="风格标签">
                 </div>
             </div>
-            <div class="def-tags" data-evt="style_tags">可选标签：<span class="label label-info">手机1</span><span class="label label-info">手机2</span><span class="label label-info">手机3</span></div>
+            {% if meta.default_style_tags %}
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <div class="def-tags" data-evt="style_tags">
+                      可选标签：{% for d in meta.default_style_tags %}<span class="label label-info">{{ d }}</span>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
 
             <div class="form-group">
                 <div class="col-xs-8">
@@ -351,7 +400,15 @@ $('.def-tags span').click(function(){
                     <input type="text" name="other_tags" class="form-control" value="{{ meta.data.other_tags_s }}" placeholder="其它标签">
                 </div>
             </div>
-            <div class="def-tags" data-evt="other_tags">可选标签：<span class="label label-info">手机1</span><span class="label label-info">手机2</span><span class="label label-info">手机3</span></div>
+            {% if meta.default_other_tags %}
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <div class="def-tags" data-evt="other_tags">
+                      可选标签：{% for d in meta.default_other_tags %}<span class="label label-info">{{ d }}</span>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
 
             <div class="form-group">
                 <div class="col-xs-4">

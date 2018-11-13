@@ -7,6 +7,8 @@ from app.helpers.pager import Pager
 from app.helpers.common import force_int
 from app.forms.image import SaveForm, setStatus
 from bson import ObjectId
+from app.helpers.block import get_block_content
+import re
 
 metaInit = {
     'title': '图片管理',
@@ -31,9 +33,11 @@ def image_list():
 
     if q:
         if t==1:
-            query['id'] = force_int(q.strip())
+            query['_id'] = ObjectId(q.strip())
         if t==2:
-            query['name'] = {"$regex": q.strip()}
+            query['channel'] = q.strip()
+        if t==3:
+            query['evt'] = force_int(q.strip())
 
     if kind:
         if kind == 1:
@@ -103,6 +107,14 @@ def image_submit():
         meta['data'] = item
 
     form = SaveForm()
+    
+    meta['default_tags'] = re.split('[,，]', get_block_content('default_tags'))
+    meta['default_color_tags'] = re.split('[,，]', get_block_content('default_color_tags'))
+    meta['default_brand_tags'] = re.split('[,，]', get_block_content('default_brand_tags'))
+    meta['default_material_tags'] = re.split('[,，]', get_block_content('default_material_tags'))
+    meta['default_style_tags'] = re.split('[,，]', get_block_content('default_style_tags'))
+    meta['default_technique_tags'] = re.split('[,，]', get_block_content('default_technique_tags'))
+    meta['default_other_tags'] = re.split('[,，]', get_block_content('default_other_tags'))
 
     meta['referer_url'] = request.environ.get('HTTP_REFERER') if request.environ.get('HTTP_REFERER') else ''
     
