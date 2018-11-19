@@ -4,3 +4,4 @@
 uwsgi.ini
 env/*
 deploy.sh
+__pycache__
