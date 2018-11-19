@@ -185,3 +185,35 @@ def design_fields_label_options(field=''):
                 return d
     return {'field': '', 'name': '', 'group': ''}
 
+
+# 设计奖项
+def prize_options(id=0):
+    data = [
+                {'id':1, 'name': '德国红点设计奖'},
+                {'id':2, 'name': '德国IF设计奖'},
+                {'id':3, 'name': 'IDEA工业设计奖'},
+                {'id':4, 'name': '中国红星奖'},
+                {'id':5, 'name': '中国红棉奖'},
+                {'id':6, 'name': '台湾金点奖'},
+                {'id':7, 'name': '香港DFA设计奖'},
+                {'id':8, 'name': '日本G-Mark设计奖'},
+                {'id':9, 'name': '韩国好设计奖'},
+                {'id':10, 'name': '新加坡设计奖'},
+                {'id':11, 'name': '意大利—Compasso d`Oro设计奖'},
+                {'id':12, 'name': '英国设计奖'},
+                {'id':13, 'name': '中国优秀工业设计奖'},
+                {'id':14, 'name': 'DIA中国设计智造大奖'},
+                {'id':15, 'name': '中国好设计奖'},
+                {'id':16, 'name': '澳大利亚国际设计奖'},
+
+                {'id':-1, 'name': '其它'}
+            ]
+
+    if id==0:
+        return data
+    else:
+        for d in data:
+            if d['id']==id:
+                return d
+    return {'id': 0, 'name': ''}
+

@@ -26,9 +26,12 @@ class SaveForm(FlaskForm):
     remark = StringField()
     designer = StringField()
     company = StringField()
+    prize = StringField()
+    prize_level = StringField() # 奖项级别
     info = StringField()
     channel = StringField('渠道', validators=[Length(max=10, message="长度小于10个字符")])  # 渠道
     brand_id = IntegerField()    # 品牌ID
+    prize_id = IntegerField()    # 奖项ID
     category_id = IntegerField()    # 分类ID
     evt = IntegerField() # 来源
     user_id = IntegerField()
@@ -77,8 +80,12 @@ class SaveApi(FlaskForm):
     technique_tags = StringField('风格标签', validators=[Length(max=500, message="长度小于500个字符")]) # 风格
     other_tags = StringField('其它标签', validators=[Length(max=500, message="长度小于500个字符")]) # 其它
     remark = StringField()
+    brand_id = IntegerField()    # 品牌ID
+    prize_id = IntegerField()    # 奖项ID
     designer = StringField()
     company = StringField()
+    prize = StringField()
+    prize_level = StringField()
     info = StringField()
     evt = IntegerField() # 来源
     remark = StringField()

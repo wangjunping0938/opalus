@@ -274,9 +274,34 @@ $('.def-tags span').click(function(){
             </div>
 
             <div class="form-group">
-                <div class="col-xs-8">
+                <div class="col-xs-4">
                     <label for="brand_id">所属品牌ID</label>
-                    <input type="text" name="brand_id" class="form-control" value="{{ meta.data.brand_id }}" placeholder="所属品牌ID">
+                    <select name="brand_id" class="form-control">
+                        <option value="0">--请选择--</option>
+                        {% for d in meta.brands %}
+                            <option value="{{ d._id }}" {% if meta.data.brand_id==d._id %}selected="selected"{%endif%}>{{ d.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-xs-4">
+                    <label for="prize_id">所属奖项ID</label>
+                    <select name="prize_id" class="form-control">
+                        <option value="0">--请选择--</option>
+                        {% for d in meta.prize_options %}
+                            <option value="{{ d.id }}" {% if meta.data.prize_id==d.id %}selected="selected"{%endif%}>{{ d.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="prize">奖项名称</label>
+                    <input type="text" name="prize" class="form-control" value="{{ meta.data.prize }}" placeholder="奖项名称">
+                </div>
+                <div class="col-xs-4">
+                    <label for="prize_level">奖项等级</label>
+                    <input type="text" name="prize_level" class="form-control" value="{{ meta.data.prize_level }}" placeholder="奖项等级">
                 </div>
             </div>
 

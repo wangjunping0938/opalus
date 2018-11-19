@@ -36,6 +36,9 @@ class Image(Base):
     user_id = db.IntField(default=0)    # 用户ID
     kind = db.IntField(default=1)    # 类型:
     brand_id = db.IntField(default=0)    # 品牌ID
+    prize_id = db.IntField(default=0)   # 奖项ID
+    prize = db.StringField(max_length=50, default='')  # 奖项名称
+    prize_level = db.StringField(max_length=50, default='')  # 奖项级别
     category_id = db.IntField(default=0)    # 分类ID
     status = db.IntField(default=1)    # 状态: 0.禁用；1.启用
     remark = db.StringField(max_length=500, default='')  # 描述

@@ -3,11 +3,13 @@
 from flask import render_template, request, current_app, url_for, jsonify, g, flash
 from . import admin
 from app.models.image import Image
+from app.models.brand import Brand
 from app.helpers.pager import Pager
 from app.helpers.common import force_int
 from app.forms.image import SaveForm, setStatus
 from bson import ObjectId
 from app.helpers.block import get_block_content
+from app.helpers.constant import prize_options
 import re
 
 metaInit = {
@@ -115,6 +117,12 @@ def image_submit():
     meta['default_style_tags'] = re.split('[,，]', get_block_content('default_style_tags'))
     meta['default_technique_tags'] = re.split('[,，]', get_block_content('default_technique_tags'))
     meta['default_other_tags'] = re.split('[,，]', get_block_content('default_other_tags'))
+
+    meta['prize_options'] = prize_options()
+
+    # 获取品牌列表
+    brands = Brand.objects(status=1, deleted=0)[:1000]
+    meta['brands'] = brands
 
     meta['referer_url'] = request.environ.get('HTTP_REFERER') if request.environ.get('HTTP_REFERER') else ''
     
