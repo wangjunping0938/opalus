@@ -8,6 +8,7 @@ from app import create_app
 
 app = create_app()
 
+# 保存图片到本地
 def save_image(response, image):
     if image:
         local_name = image.name
@@ -21,7 +22,7 @@ def save_image(response, image):
         image.local_name = image.name
         image.save()
 
-
+# 下载图片
 def download():
     image_all = Image.objects.all()
     if image_all:
