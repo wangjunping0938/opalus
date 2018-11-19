@@ -3,14 +3,15 @@ from app.models.image import Image
 import os
 import requests
 from app.helpers.common import gen_mongo_id
-from flask import current_app
+
 from app import create_app
 
 app = create_app()
+
 def save_image(response, image):
     if image:
         local_name = image.name
-        bucket_name = current_app.config['QN_BUCKET_NAME']
+        bucket_name = 'opalus'
         local_path = "%s/%s/%s/%s" % (bucket_name, 'image', time.strftime("%y%m%d"), gen_mongo_id())
         if not os._exists(local_path):
             os.makedirs(local_path)
