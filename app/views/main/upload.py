@@ -1,8 +1,7 @@
 from flask import render_template, current_app, jsonify, request
 import os
-from . import main 
+from . import main
 from app import redis_store
-
 from app.helpers.asset import handle_file
 
 @main.route('/upload', methods=['POST'])
@@ -26,7 +25,8 @@ def upload():
         if not handle_result['success']:
             return jsonify(code=500, message=handle_result['message'])
 
-        handle_result['data']['thumb_url'] = os.path.join(current_app.config['ASSET_URL'], handle_result['data']['path'] + '-sm')
+        handle_result['data']['thumb_url'] = os.path.join(current_app.config['ASSET_URL'],
+                                                          handle_result['data']['path'] + '-sm')
         return jsonify(code=200, message='', data=handle_result['data'])
     except(Exception) as e:
         current_app.logger.debug(str(e))
