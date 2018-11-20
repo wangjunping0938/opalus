@@ -8,7 +8,7 @@ from ..models.image import Image
 
 class SaveForm(FlaskForm):
     id = StringField()
-    title = StringField('标题', validators=[Length(max=100, message="长度小于50个字符")])
+    title = StringField('标题', validators=[Length(max=100, message="长度小于100个字符")])
     name = StringField('名称', validators=[Length(max=50, message="长度小于50个字符")])
     kind = IntegerField('类型')
     tags = StringField('标签', validators=[Length(max=500, message="长度小于500个字符")])   # 标签
@@ -67,7 +67,7 @@ class SaveForm(FlaskForm):
 ## 保存 - API
 class SaveApi(FlaskForm):
     id = StringField()
-    title = StringField('标题', validators=[Length(max=50, message="长度小于50个字符")])
+    title = StringField('标题', validators=[Length(max=100, message="长度小于100个字符")])
     name = StringField('名称', validators=[Length(max=50, message="长度小于50个字符")])
     kind = IntegerField('类型')
     channel = StringField('渠道', validators=[Length(max=10, message="长度小于10个字符")])  # 渠道

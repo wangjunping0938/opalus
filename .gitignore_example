@@ -1,5 +1,6 @@
 .*
 !.env_example
+!.gitignore_example
 *.pyc
 uwsgi.ini
 env/*
