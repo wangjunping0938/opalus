@@ -1,6 +1,7 @@
 import time
 import sys
 import os
+
 sys.path.append(os.path.abspath(os.path.dirname("__file__")))
 
 from app.models.image import Image
@@ -12,6 +13,7 @@ import imghdr
 from app.extensions import celery
 from app import create_app
 from app.env import cf
+from bson import ObjectId
 
 app = create_app()
 
@@ -22,22 +24,17 @@ def save_image(response, image, ext):
         local_name = gen_mongo_id()  # 本地文件名
         prefix = cf.get('base', 'upload_folder')  # 本地地址前缀
         bucket_name = 'opalus'
-        prefix = 'D:/img'
         # 本地文件夹
         local_dir = "%s/%s/%s/%s" % (prefix, bucket_name, 'image', time.strftime("%y%m%d"))
         # 本地地址
-        local_path = "%s/%s/%s/%s/%s" % (prefix, bucket_name, 'image', time.strftime("%y%m%d"),local_name)
+        local_path = "%s/%s/%s/%s/%s%s" % (prefix, bucket_name, 'image', time.strftime("%y%m%d"), local_name, "." + ext)
         if not os.path.exists(local_dir):  # 如果没有文件夹，创建文件夹
             os.makedirs(local_dir)
-        with open(local_path+"."+ext, 'wb') as f:  # 保存图片
+        with open(local_path, 'wb') as f:  # 保存图片
             f.write(response.content)
         # 保存数据
         # print(Image.size(local_path)) # 图片尺寸
-        image.local_path = local_path
-        # image.local_name = image.name
-        image.ext = ext
-        image.save()
-
+        image.update(ext=ext, local_path=local_path)
 
 
 # 下载图片
@@ -61,8 +58,9 @@ def download():
                     if ext is None:
                         ext = 'jpeg'
                     save_image(response, image, ext)
+                    total += 1
                 except Exception as e:
-                    print('下载图片失败', str(image._id))
+                    print('下载图片失败,错误图片_id', str(image._id))
 
         print("current page %s: \n" % page)
         page += 1
