@@ -1,30 +1,43 @@
 import time
-from app.models.image import Image
+import sys
 import os
+sys.path.append(os.path.abspath(os.path.dirname("__file__")))
+
+from app.models.image import Image
+
 import requests
 from app.helpers.common import gen_mongo_id
+import imghdr
+
 from app.extensions import celery
 from app import create_app
+from app.env import cf
 
 app = create_app()
 
 
 # 保存图片到本地
-def save_image(response, image):
+def save_image(response, image, ext):
     if image:
-        local_name = image.name  # 本地文件名
-        prefix = 'C:\\Users\\aaa10\\Desktop'  # 本地地址前缀
+        local_name = gen_mongo_id()  # 本地文件名
+        prefix = cf.get('base', 'upload_folder')  # 本地地址前缀
         bucket_name = 'opalus'
-        # 本地地址后缀
-        local_path = "%s%s/%s/%s/%s" % (prefix, bucket_name, 'image', time.strftime("%y%m%d"), gen_mongo_id())
-        if not os._exists(local_path):  # 如果没有文件夹，创建文件夹
-            os.makedirs(local_path)
-        with open(local_path + '/' + local_name, 'wb') as f:  # 保存图片
+        prefix = 'D:/img'
+        # 本地文件夹
+        local_dir = "%s/%s/%s/%s" % (prefix, bucket_name, 'image', time.strftime("%y%m%d"))
+        # 本地地址
+        local_path = "%s/%s/%s/%s/%s" % (prefix, bucket_name, 'image', time.strftime("%y%m%d"),local_name)
+        if not os.path.exists(local_dir):  # 如果没有文件夹，创建文件夹
+            os.makedirs(local_dir)
+        with open(local_path+"."+ext, 'wb') as f:  # 保存图片
             f.write(response.content)
         # 保存数据
+        # print(Image.size(local_path)) # 图片尺寸
         image.local_path = local_path
-        image.local_name = image.name
+        # image.local_name = image.name
+        image.ext = ext
         image.save()
+
 
 
 # 下载图片
@@ -44,7 +57,10 @@ def download():
             if not image.local_path:
                 try:
                     response = requests.get(image.img_url)
-                    save_image(response, image)
+                    ext = imghdr.what('', response.content)  # 扩展名
+                    if ext is None:
+                        ext = 'jpeg'
+                    save_image(response, image, ext)
                 except Exception as e:
                     print('下载图片失败', str(image._id))
 
