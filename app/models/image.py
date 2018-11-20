@@ -31,7 +31,7 @@ class Image(Base):
     style_tags = db.ListField() # 风格
     technique_tags = db.ListField() # 工艺
     other_tags = db.ListField() # 其它
-    designer = db.StringField(max_length=100, default='') # 设计师
+    designer = db.StringField(max_length=200, default='') # 设计师
     company = db.StringField(max_length=100, default='') # 公司
     user_id = db.IntField(default=0)    # 用户ID
     kind = db.IntField(default=1)    # 类型:
