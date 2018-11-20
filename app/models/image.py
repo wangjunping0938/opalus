@@ -14,8 +14,8 @@ class Image(Base):
         'strict': True,
         'id_field': '_id'
     }
-
-    _id = db.StringField()
+    # _id = db.StringField()
+    _id = db.ObjectIdField()
     title = db.StringField(max_length=100, default='') # 标题
     name = db.StringField(max_length=50, default='') # 文件名称
     channel = db.StringField(max_length=10, default='') # 渠道
