@@ -91,4 +91,3 @@ def download():
     d = ImageOperation('download')
     d.operation()
 
-download()
