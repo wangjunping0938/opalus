@@ -33,7 +33,7 @@ def make_celery(app):
     return celery
 
 env = os.getenv('FLASK_ENV') or 'development'
-flask_app = create_app(env)
+flask_app = create_app()
 # 1. Each celery process needs to create an instance of the Flask application.
 # 2. Register the celery object into the app object.
 celery = make_celery(flask_app)
