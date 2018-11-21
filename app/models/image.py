@@ -41,7 +41,7 @@ class Image(Base):
     category_id = db.IntField(default=0)    # 分类ID
     status = db.IntField(default=1)    # 状态: 0.禁用；1.启用
     remark = db.StringField(max_length=500, default='')  # 描述
-    info = db.StringField(max_length=1000, default='')  # 其它json串
+    info = db.StringField(max_length=10000, default='')  # 其它json串
     evt = db.IntField(default=1)    # 来源：1.默认
     deleted = db.IntField(default=0)    # 是否软删除
 
