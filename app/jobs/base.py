@@ -1,6 +1,7 @@
 # coding: utf-8
 from app.extensions import celery
 
+
 # test
 @celery.task()
 def job(a, b):
