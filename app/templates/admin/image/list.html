@@ -131,7 +131,7 @@
                   {% if d.title %}<p>标题: {{ d.title }}</p>{% endif %}
                   {% if d.name %}<p>图片名: {{ d.name }}</p>{% endif %}
                   {% if d.img_url %}<p>原图地址: {{ d.img_url }}</p>{% endif %}
-                  {% if d.path %}<p>七牛路径: {{ d.path }}</p>{% endif %}
+                  {% if d.path %}<p>七牛路径: {{ config.get('ASSET_URL') }}{{ d.path }}</p>{% endif %}
                   {% if d.local_path %}<p>本地路径: {{ d.local_path }}/{{ d.local_name }}</p>{% endif %}
                   {% if d.tags_s %}<p>标签: {{ d.tags_s }}</p>{% endif %}
                   {% if d.brand_id %}<p>品牌ID: {{ d.brand_id }}</p>{% endif %}
