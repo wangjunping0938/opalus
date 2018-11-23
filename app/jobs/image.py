@@ -15,7 +15,7 @@ def decorate(func):
     def loop(self, *args, **kwargs):
         while not self.is_end:
             data = Image.objects.paginate(page=self.page, per_page=self.per_page)
-            if not data:
+            if not len(data.items):
                 print("get data is empty! \n")
                 break
             for i, image in enumerate(data.items):
