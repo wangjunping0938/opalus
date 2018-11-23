@@ -17,7 +17,7 @@ def get_block_content(mark, type=1):
         if not item:
             return content
 
-        if (type == 1):
+        if type == 1:
             content = item.code
         else:
             content = item.content
@@ -25,6 +25,4 @@ def get_block_content(mark, type=1):
         return content
     except(Exception) as e:
         return content
-    else: 
-        pass
 

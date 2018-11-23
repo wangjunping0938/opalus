@@ -33,8 +33,8 @@ class User(Base):
 
 
     def save(self, *args, **kwargs):
-        self.password = self.create_password(self.password, self.account)
         self.account = self.account.lower()
+        self.password = self.create_password(self.password, self.account)
         self.token = self.create_token(16)
         return super(User, self).save(*args, **kwargs)
 

@@ -6,7 +6,7 @@ class MogoCl:
         self.moncl = MongoClient(ip,27017)
         self.db = self.moncl[data_base]
         self.collection = self.db[collection]
-
+    # 从mongodb 中查询数据
     def query_all(self):
         return self.collection.find()
 
@@ -19,12 +19,13 @@ class ElasticObj:
         self.es = Elasticsearch([ip])
         # 用户名密码状态
         # self.es = Elasticsearch([ip],http_auth=('elastic', 'password'),port=9200)
-
+    # 创建索引
     def create_index(self):
+        # 索引是否存在
         if self.es.indices.exists(index=self.index_name) is not True:
             res = self.es.indices.create(self.index_name)
             print(res)
-
+    # 往es中插入数据
     def post_index_data(self,action):
         res = self.es.index(index="index_test", doc_type="doc_type_test", body=action)
         print(res)
