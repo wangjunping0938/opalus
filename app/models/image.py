@@ -16,7 +16,7 @@ class Image(Base):
     }
     _id = db.StringField()
     title = db.StringField(max_length=100, default='') # 标题
-    name = db.StringField(max_length=50, default='') # 文件名称
+    name = db.StringField(max_length=100, default='') # 文件名称
     channel = db.StringField(max_length=10, default='') # 渠道
     img_url = db.StringField(max_length=500, default='') # 图片地址
     path = db.StringField(max_length=100, default='') # 七牛路径
@@ -38,6 +38,7 @@ class Image(Base):
     prize_id = db.IntField(default=0)   # 奖项ID
     prize = db.StringField(max_length=50, default='')  # 奖项名称
     prize_level = db.StringField(max_length=50, default='')  # 奖项级别
+    prize_time = db.StringField(max_length=50, default='')  # 奖项时间
     category_id = db.IntField(default=0)    # 分类ID
     status = db.IntField(default=1)    # 状态: 0.禁用；1.启用
     remark = db.StringField(max_length=500, default='')  # 描述

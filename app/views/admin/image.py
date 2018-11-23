@@ -76,10 +76,20 @@ def image_list():
 
     # 过滤数据
     for i, d in enumerate(data.items):
+        evt_label = ''
         data.items[i]._id = str(d._id)
         data.items[i].thumb = d.get_thumb_path()
         if d.tags:
             data.items[i].tags_s = ','.join(d.tags)
+        if d.evt == 5:
+            evt_label = '军平'
+        elif d.evt == 3:
+            evt_label = '振斌'
+        elif d.evt == 2:
+            evt_label = 'Tian'
+        else:
+            evt_label = '--'
+        data.items[i].evt_label = evt_label
 
     meta['data'] = data.items
     meta['total_count'] = total_count
