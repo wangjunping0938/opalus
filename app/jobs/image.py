@@ -48,7 +48,7 @@ class ImageOperation:
             try:
                 print('开始下载,图片_id', str(image._id))
                 if image.path:
-                    response = requests.get("https://" + image.path)
+                    response = requests.get("https://" + image.get_thumb_path()['sm'])
                 elif image.img_url:
                     response = requests.get(image.img_url)
 
@@ -111,3 +111,6 @@ def download():
     d = ImageOperation()
     d.download()
 
+# 1.python manage.py run  启动项目
+# 2.celery worker -A celery_runner --loglevel=info   启动celery
+# 3.访问 127.0.0.1:8002/image
