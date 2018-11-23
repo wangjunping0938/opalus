@@ -10,6 +10,7 @@ from app.forms.image import SaveForm, setStatus
 from bson import ObjectId
 from app.helpers.block import get_block_content
 from app.helpers.constant import prize_options
+from app.jobs.image import download, upload
 import re
 
 metaInit = {
@@ -18,6 +19,7 @@ metaInit = {
     'css_nav_image': 'active',
     'css_all': 'active'
 }
+
 
 ## 列表
 @admin.route('/image/list')
@@ -34,11 +36,11 @@ def image_list():
     q = request.args.get('q', '')
 
     if q:
-        if t==1:
+        if t == 1:
             query['_id'] = ObjectId(q.strip())
-        if t==2:
+        if t == 2:
             query['channel'] = q.strip()
-        if t==3:
+        if t == 3:
             query['evt'] = force_int(q.strip())
 
     if kind:
@@ -99,6 +101,7 @@ def image_list():
 
     return render_template('admin/image/list.html', meta=meta)
 
+
 ## 编辑
 @admin.route('/image/submit')
 def image_submit():
@@ -119,7 +122,7 @@ def image_submit():
         meta['data'] = item
 
     form = SaveForm()
-    
+
     meta['default_tags'] = re.split('[,，]', get_block_content('default_tags'))
     meta['default_color_tags'] = re.split('[,，]', get_block_content('default_color_tags'))
     meta['default_brand_tags'] = re.split('[,，]', get_block_content('default_brand_tags'))
@@ -135,8 +138,9 @@ def image_submit():
     meta['brands'] = brands
 
     meta['referer_url'] = request.environ.get('HTTP_REFERER') if request.environ.get('HTTP_REFERER') else ''
-    
+
     return render_template('admin/image/submit.html', meta=meta, form=form)
+
 
 ## 保存
 @admin.route('/image/save', methods=['POST'])
@@ -146,7 +150,7 @@ def image_save():
     form = SaveForm()
     if form.validate_on_submit():
         id = request.form.get('id')
-        
+
         try:
             if id:
                 image = form.update()
@@ -157,12 +161,14 @@ def image_save():
 
         if image:
             flash('操作成功!', 'success')
-            redirect_to = request.form.get('referer_url') if request.form.get('referer_url') else url_for('admin.image_list')
-            return jsonify(success=True, message='操作成功!', redirect_to = redirect_to)
+            redirect_to = request.form.get('referer_url') if request.form.get('referer_url') else url_for(
+                'admin.image_list')
+            return jsonify(success=True, message='操作成功!', redirect_to=redirect_to)
         else:
             return jsonify(success=False, message='操作失败!')
     else:
         return jsonify(success=False, message=str(form.errors))
+
 
 ## 操作状态
 @admin.route('/image/set_status', methods=['POST'])
@@ -172,7 +178,7 @@ def image_set_status():
     form = setStatus()
     if form.validate_on_submit():
         id = request.form.get('id')
-        
+
         try:
             image = form.set_status()
         except(Exception) as e:
@@ -184,8 +190,8 @@ def image_set_status():
             return jsonify(success=False, message='操作失败!')
     else:
         return jsonify(success=False, message=str(form.errors))
-    
-    
+
+
 ## 删除
 @admin.route('/image/delete', methods=['POST'])
 def image_delete():
@@ -195,7 +201,7 @@ def image_delete():
     type = request.values.get('type', 1)
     if not ids:
         return jsonify(success=False, message='缺少请求参数!')
-    
+
     try:
         arr = ids.split(',')
         for d in arr:
@@ -204,7 +210,9 @@ def image_delete():
     except(Exception) as e:
         return jsonify(success=False, message=str(e))
 
-    return jsonify(success=True, message='操作成功!', data={'ids': ids, 'type':type}, redirect_to=url_for('admin.image_list'))
+    return jsonify(success=True, message='操作成功!', data={'ids': ids, 'type': type},
+                   redirect_to=url_for('admin.image_list'))
+
 
 ## 恢复
 @admin.route('/image/recovery', methods=['POST'])
@@ -215,7 +223,7 @@ def image_recovery():
     type = request.values.get('type', 1)
     if not ids:
         return jsonify(success=False, message='缺少请求参数!')
-    
+
     try:
         arr = ids.split(',')
         for d in arr:
@@ -224,4 +232,27 @@ def image_recovery():
     except(Exception) as e:
         return jsonify(success=False, message=str(e))
 
-    return jsonify(success=True, message='操作成功!', data={'ids': ids, 'type':type}, redirect_to=url_for('admin.image_list'))
+    return jsonify(success=True, message='操作成功!', data={'ids': ids, 'type': type},
+                   redirect_to=url_for('admin.image_list'))
+
+
+# 上传至七牛云
+@admin.route('/image/qiniu', methods=['GET'])
+def image_qiniu():
+    try:
+        upload.delay()
+    except Exception as e:
+        return jsonify(success=False, message=str(e))
+
+    return jsonify(success=True, message='操作成功!celery正在后台上传')
+
+
+# 下载到本地
+@admin.route('/image/location', methods=['GET'])
+def image_location():
+    try:
+        download.delay()
+    except Exception as e:
+        return jsonify(success=False, message=str(e))
+
+    return jsonify(success=True, message='操作成功!celery正在后台下载')

@@ -15,9 +15,5 @@ def image_index():
     meta = metaInit.copy()
     return render_template('image/index.html', meta=meta)
 
-@main.route('/imagea')
-def image_opera():
-    download.delay()
-    upload.delay()
-    return jsonify(code=200, message='')
+
 

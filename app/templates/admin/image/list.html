@@ -29,6 +29,26 @@
             }
         })
     });
+    $(function () {
+            $('#qiniu').click(function () {
+                    $.ajax({
+                        type: 'GET',
+                        url: '{{ url_for('admin.image_qiniu') }}',
+                        success: function (callback) {
+                            alert(callback.message)
+                        }
+                    })
+            })
+            $('#location').click(function () {
+                    $.ajax({
+                        type: 'GET',
+                        url: '{{ url_for('admin.image_location') }}',
+                        success: function (callback) {
+                            alert(callback.message)
+                        }
+                    })
+            })
+        });
 
 {% endblock %}
 
@@ -71,7 +91,11 @@
         </div>
     </div>
 
+    <button type="button" class="btn btn-default" id="qiniu">上传七牛云</button>
+    <button type="button" class="btn btn-default" id="location">下载至本地</button>
+
     <div class="fr">
+
         <form class="navbar-form navbar-left options-bar" role="search" action="{{ url_for('admin.image_list') }}" method="GET" id="search-form">
           <input type="hidden" name="status" value="{{ request.args.get('status', '') }}" />
           <input type="hidden" name="kind" value="{{ request.args.get('kind', '') }}" />

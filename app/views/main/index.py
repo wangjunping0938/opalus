@@ -1,7 +1,7 @@
 from flask import render_template, current_app, request, jsonify
 from . import main
 from app import redis_store
-from app.jobs.base import job
+
 
 
 @main.route('/')

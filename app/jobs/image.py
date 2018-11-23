@@ -111,6 +111,5 @@ def download():
     d = ImageOperation()
     d.download()
 
-# 1.python manage.py run  启动项目
-# 2.celery worker -A celery_runner --loglevel=info   启动celery
-# 3.访问 127.0.0.1:8002/image
+
+
