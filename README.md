@@ -28,9 +28,12 @@
 - 快捷启动脚本: ```sh deploy.sh start|stop|restart```  
 
 ### 启动任务队列
+首次创建celery日志文件并给写权限:
 ```
-celery worker -A celery_runner --loglevel=info
+vi /var/log/celery.log  
+sudo chmod 777 /var/log/celery.log
 ```
+启动: ```celery worker -A celery_runner --loglevel=info --logfile=/var/log/celery.log```
 
 ### 退出当前虚拟环境
 ```

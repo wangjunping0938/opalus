@@ -187,7 +187,7 @@ def design_fields_label_options(field=''):
 
 
 # 设计奖项
-def prize_options(flag):
+def prize_options(flag=''):
     data = [
                 {'id':1, 'name': '德国红点设计奖'},
                 {'id':2, 'name': '德国IF设计奖'},

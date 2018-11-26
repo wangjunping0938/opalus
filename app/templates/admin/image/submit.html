@@ -240,7 +240,6 @@ $('.def-tags span').click(function(){
             <input type="hidden" name="id" value="{{ meta.data._id|default('') }}" />
             <input type="hidden" name="referer_url" value="{{ meta.referer_url }}" />
             <input type="hidden" name="cover_id" id="cover_id" value="{{ meta.data.cover_id|default('') }}" />
-            <input type="hidden" name="path" value="{{ meta.data.path|default('') }}" />
             <input type="hidden" name="name" value="{{ meta.data.name|default('') }}" />
 
             <div class="form-group">
@@ -320,6 +319,24 @@ $('.def-tags span').click(function(){
                 <div class="col-xs-8">
                     <label for="img_url">文件地址</label>
                     <input type="text" name="img_url" class="form-control" value="{{ meta.data.img_url }}" placeholder="文件地址">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="path">七牛地址</label>
+                    <input type="text" name="path" class="form-control" value="{{ meta.data.path }}" placeholder="七牛地址">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-5">
+                    <label for="local_path">本地路径</label>
+                    <input type="text" name="local_path" class="form-control" value="{{ meta.data.local_path }}" placeholder="本地路径">
+                </div>
+                <div class="col-xs-3">
+                    <label for="local_name">本地文件名</label>
+                    <input type="text" name="local_name" class="form-control" value="{{ meta.data.local_name }}" placeholder="本地文件名">
                 </div>
             </div>
 

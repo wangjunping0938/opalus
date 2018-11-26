@@ -3,8 +3,10 @@ import os
 import sys
 
 sys.path.append(os.path.abspath(os.path.dirname("__file__")))
+from flask import current_app
 from app.models.image import Image
-from qiniu import Auth, put_data
+from qiniu import Auth, put_data, put_file
+from app.helpers.common import gen_mongo_id
 from app.extensions import celery
 from app.env import cf
 import requests
@@ -13,8 +15,10 @@ import imghdr
 
 def decorate(func):
     def loop(self, *args, **kwargs):
+        query = {}
+        query['deleted'] = 0
         while not self.is_end:
-            data = Image.objects.paginate(page=self.page, per_page=self.per_page)
+            data = Image.objects(**query).paginate(page=self.page, per_page=self.per_page)
             if not len(data.items):
                 print("get data is empty! \n")
                 break
@@ -43,12 +47,11 @@ class ImageOperation:
     @decorate
     def download(self, image):
         if not image.local_path:
-            local_name = str(image._id)
             response = ''
             try:
-                print('开始下载,图片_id', str(image._id))
+                print('开始下载,图片: %s' % str(image._id))
                 if image.path:
-                    response = requests.get("https://" + image.get_thumb_path()['sm'])
+                    response = requests.get(os.path.join(current_app.config['ASSET_URL'], image.path))
                 elif image.img_url:
                     response = requests.get(image.img_url)
 
@@ -56,48 +59,60 @@ class ImageOperation:
                 if ext is None:
                     ext = 'jpeg'
 
+                local_name = str(image._id) + '.' + ext
+
+                # mongo存储路径
+                mongo_dir = os.path.join('image', time.strftime("%y%m%d"))
                 # 本地文件夹
-                local_dir = os.path.join(self.prefix, 'image', time.strftime("%y%m%d"))
+                local_dir = os.path.join(self.prefix, mongo_dir)
                 # 本地地址
                 if not os.path.exists(local_dir):  # 如果没有文件夹，创建文件夹
                     os.makedirs(local_dir)
 
-                with open(local_dir + '/' + local_name + '.' + ext, 'wb') as f:  # 保存图片
+                with open(os.path.join(local_dir, local_name), 'wb') as f:  # 保存图片
                     w_long = f.write(response.content)
-                with open(local_dir + '/' + local_name + '.' + ext, 'rb') as f:  # 查看图片
+                with open(os.path.join(local_dir, local_name), 'rb') as f:  # 查看图片
                     r_long = len(f.read())
 
                 if w_long == r_long:  # 保证图片保存成功
                     # 保存数据
                     # print(Image.size(local_path)) # 图片尺寸
-                    mogo_local_dir = os.path.join('image', time.strftime("%y%m%d"))
-                    image.update(ext=ext, local_path=mogo_local_dir, local_name=local_name)
+                    image.update(ext=ext, local_path=mongo_dir, local_name=local_name)
                     self.total += 1
-                    print('下载图片成功,成功图片_id', str(image._id))
+                    print('下载图片成功: %s' % str(image._id))
                     return
-                print('保存图片失败,错误图片_id', str(image._id))
+                print('保存图片失败: %s' % str(image._id))
 
             except Exception as e:
-                print('下载图片失败,错误图片_id', str(image._id))
+                print('下载图片异常:', str(e))
 
     @decorate
     def upload(self, image):
         if not image.path:
-            key = os.path.join(self.bucket_name, 'image', time.strftime("%y%m%d"), image.local_name)
+            key = os.path.join(self.bucket_name, 'image', time.strftime("%y%m%d"), gen_mongo_id())
             try:
-                print('开始上传,图片_id', str(image._id))
+                print('开始上传,图片ID: %s' % str(image._id))
                 # 构建鉴权对象
                 q = Auth(self.accessKey, self.secretKey)
                 # 生成上传 Token，可以指定过期时间等
                 token = q.upload_token(self.bucket_name, key, 600)
-                ret, info = put_data(token, key, os.path.join(self.prefix, image.local_path))
+                if image.local_path:
+                    url = os.path.join(self.prefix, image.local_path, image.local_name)
+                    ret, info = put_file(token, key, url)
+                elif image.img_url:
+                    response = requests.get(image.img_url)
+                    ret, info = put_data(token, key, response.content)
+                else:
+                    print('图片地址不存在ID: %s' % str(image._id))
+                    return False
+
                 if not info.status_code == 200:
                     return info.error
                 image.update(path=key)
                 self.total += 1
-                print('上传七牛云成功，成功图片_id', str(image._id))
+                print('上传七牛云成功: %s' % str(image._id))
             except Exception as e:
-                print('上传七牛云失败，错误图片_id ', str(image._id))
+                print('上传七牛云失败: %s' % str(e))
 
 
 @celery.task()
