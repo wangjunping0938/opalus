@@ -59,3 +59,7 @@ def save_data(design_case):
         # 保存数据到素材库
         image.save()
         print('作品以成功转入素材库,成功作品_id', str(design_case._id))
+
+# 1.python manage.py shell
+# 2.celery worker -A celery_runner --loglevel=info
+# 3.save_data.delay()
