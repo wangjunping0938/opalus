@@ -16,7 +16,7 @@ CONFDIR = os.path.join(PROJECT_DIR, 'config')
 
 # 队列
 CELERY_IMPORTS = ('app.jobs.base.jobs',)
-# CELERY_IMPORTS = ('app.jobs.base.jobs', 'app.jobs.image.download')p
+# CELERY_IMPORTS = ('app.jobs.base.jobs', 'app.jobs.image.download')
 CELERY_BROKER_URL = cf.get('redis', 'url')
 CELERY_RESULT_BACKEND = cf.get('redis', 'url')
 # celery 定时

@@ -7,6 +7,7 @@ from app.helpers.pager import Pager
 from app.forms.design_case import SaveForm, setStatus
 from bson import ObjectId
 from app.helpers.common import force_int
+from app.jobs.design_to_image import save_data
 
 ## 列表
 @admin.route('/design_case/list')
@@ -22,7 +23,6 @@ def design_case_list():
     status = force_int(request.args.get('status', 0))
     deleted = force_int(request.args.get('deleted', 0))
     prize_label = request.args.get('prize_label', '')
-
     t = force_int(request.args.get('t', 1), 1)
     q = request.args.get('q', '')
 
@@ -159,5 +159,6 @@ def design_case_delete():
         return jsonify(success=False, message=str(e))
 
     return jsonify(success=True, message='操作成功!', data={'ids': ids, 'type':type}, redirect_to=url_for('admin.design_case_list'))
+
 
 
