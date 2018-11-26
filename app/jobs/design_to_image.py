@@ -62,4 +62,5 @@ def save_data(design_case):
 
 # 1.python manage.py shell
 # 2.celery worker -A celery_runner --loglevel=info
-# 3.save_data.delay()
+# 3. from app.jobs.design_to_image import save_data
+#    save_data.delay()
