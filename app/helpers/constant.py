@@ -208,6 +208,7 @@ def prize_options(flag=''):
                 {'id':17, 'name': '美国IDEA工业设计优秀奖'},
                 {'id':18, 'name': '中国设计智造大奖'},
                 {'id':19, 'name': '德国红点奖'},
+                {'id':20, 'name': 'DBA设计效能奖'},
 
                 {'id':-1, 'name': '其它'}
             ]
