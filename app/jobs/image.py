@@ -103,7 +103,11 @@ class ImageOperation:
                     ret, info = put_file(token, key, url)
                 elif image.img_url:
                     response = requests.get(image.img_url)
-                    ret, info = put_data(token, key, response.content)
+                    if response.status_code == 200:
+                        ret, info = put_data(token, key, response.content)
+                    else:
+                        print('获取图片错误: %s' % response.status_code)
+                        return False
                 else:
                     print('图片地址不存在ID: %s' % str(image._id))
                     return False
