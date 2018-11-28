@@ -16,6 +16,7 @@ import imghdr
 def decorate(func):
     def loop(self, *args, **kwargs):
         query = {}
+        query['path'] = ''
         query['deleted'] = 0
         while not self.is_end:
             data = Image.objects(**query).paginate(page=self.page, per_page=self.per_page)
@@ -28,6 +29,7 @@ def decorate(func):
             self.page += 1
             if len(data.items) < self.per_page:
                 self.is_end = True
+            self.is_end = True
         print("is over execute count %s\n" % self.total)
 
     return loop
@@ -39,7 +41,7 @@ class ImageOperation:
         self.accessKey = cf.get('qiniu', 'access_key')
         self.secretKey = cf.get('qiniu', 'secret_key')
         self.page = 1
-        self.per_page = 100
+        self.per_page = 10
         self.is_end = False
         self.total = 0
         self.prefix = cf.get('base', 'upload_folder')  # 本地地址前缀
@@ -104,6 +106,10 @@ class ImageOperation:
                     ret, info = put_data(token, key, response.content)
                 else:
                     print('图片地址不存在ID: %s' % str(image._id))
+                    return False
+
+                if not info.status_code == 200:
+                    print('上传七牛失败: %s' % info.error)
                     return False
 
                 if not info.status_code == 200:

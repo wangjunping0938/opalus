@@ -2,6 +2,7 @@ from flask import request, jsonify, current_app
 from . import api
 from app.lib.grab import fetch_platform_site, push_product
 from app.helpers.common import gen_sha1
+from app.env import cf
 
 ## TEST
 @api.route('/test/view')
@@ -42,3 +43,9 @@ def test_push_product():
 @api.route('/test/tools')
 def test_tools():
     return gen_sha1('123456:thn:wangjunping')
+
+@api.route('/test/conf')
+def test_conf():
+    #a = cf.get('redis', 'url')
+    a = '123'
+    return a
