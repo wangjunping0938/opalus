@@ -29,7 +29,6 @@ def decorate(func):
             self.page += 1
             if len(data.items) < self.per_page:
                 self.is_end = True
-            self.is_end = True
         print("is over execute count %s\n" % self.total)
 
     return loop
@@ -41,7 +40,7 @@ class ImageOperation:
         self.accessKey = cf.get('qiniu', 'access_key')
         self.secretKey = cf.get('qiniu', 'secret_key')
         self.page = 1
-        self.per_page = 10
+        self.per_page = 100
         self.is_end = False
         self.total = 0
         self.prefix = cf.get('base', 'upload_folder')  # 本地地址前缀
@@ -103,7 +102,11 @@ class ImageOperation:
                     ret, info = put_file(token, key, url)
                 elif image.img_url:
                     response = requests.get(image.img_url)
-                    ret, info = put_data(token, key, response.content)
+                    if response.status_code == 200:
+                        ret, info = put_data(token, key, response.content)
+                    else:
+                        print('获取图片错误: %s' % response.status_code)
+                        return False
                 else:
                     print('图片地址不存在ID: %s' % str(image._id))
                     return False
@@ -133,4 +136,38 @@ def download():
     d.download()
 
 
+# 批量修改
+@celery.task()
+def image_update():
+
+    page = 1
+    perPage = 100
+    isEnd = False
+    successStatCount = 0
+    failStatCount = 0
+    query = {}
+    #query['deleted'] = 0
+    #query['status'] = 1
+
+    while not isEnd:
+        data = Image.objects(**query).order_by('-created_at').paginate(page=page, per_page=perPage)
+        if not data:
+            print("get data is empty! \n")
+            continue
+
+        # 过滤数据
+        for i, d in enumerate(data.items):
+            img_url = d.img_url.strip()
+            ok = d.update(img_url=img_url)
+            if ok:
+                successStatCount += 1
+            else:
+                failStatCount += 1
+
+        print("current page %s: \n" % page)
+        page += 1
+        if len(data.items) < perPage:
+            isEnd = True
+
+    print("is over execute SuccessCount %d ---- failCount: %d\n" % (successStatCount, failStatCount))
 
