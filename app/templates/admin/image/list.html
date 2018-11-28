@@ -13,6 +13,7 @@
 {% endblock %}
 
 {% block jquery %}
+    // 更新状态
     $('.status-handle').on('click', 'a', function(){
         var id = $(this).data('id');
         var evt = $(this).data('evt');
@@ -24,6 +25,23 @@
                 $('#item-'+id).find('.status-label').html(render)
                 var render = phenix.ajax_render('#admin-status-handle-tpl', {id: id, status: evt, statusLabel: statusLabel})
                 $('#item-'+id).find('.status-handle').html(render)
+            }else{
+                alert(rs.message)
+            }
+        })
+    });
+    // 推荐
+    $('.stick-handle').on('click', 'a', function(){
+        var id = $(this).data('id');
+        var evt = $(this).data('evt');
+        var url = "{{ url_for('admin.image_set_stick') }}";
+        $.post(url, {id: id, evt: evt}, function(rs){
+            if (rs.success) {
+                var stickLabel = evt == 0 ? false : true
+                var render = phenix.ajax_render('#admin-stick-label-tpl', {id: id, evt: evt, stickLabel: stickLabel})
+                $('#item-'+id).find('.stick-label').html(render)
+                var render = phenix.ajax_render('#admin-stick-handle-tpl', {id: id, evt: evt, stickLabel: stickLabel})
+                $('#item-'+id).find('.stick-handle').html(render)
             }else{
                 alert(rs.message)
             }
@@ -114,6 +132,15 @@
               </select>
           </div>
 
+          <div class="form-group">
+              <select name="prize_id" class="form-control input-sm">
+                  <option value="" {% if request.args.get('prize_id') == '' %}selected="selected"{%endif%}>--全部奖项--</option>
+                  {% for d in meta.prize_options %}
+                      <option value="{{ d.id }}" {% if request.args.get('prize_id') == d.id|string %}selected="selected"{%endif%}>{{ d.name }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+
           <button type="submit" class="btn btn-default btn-sm">搜索</button>
         </form>
     </div>
@@ -134,6 +161,7 @@
         <th class="col-md-1">渠道</th>
         <th class="col-md-1">爬手</th>
         <th class="col-md-1">创建时间</th>
+        <th>推荐</th>
         <th>状态</th>
         <th class="col-md-1">操作</th>
         {% for d in meta.data %}
@@ -167,6 +195,16 @@
                 <td>{{ d.evt_label }}</td>
                 <td>{{ d.created_at | date("%Y-%m-%d") }}</td>
                 <td>
+                    <p class="stick-label">
+                        {% if d.stick==0 %}
+                            <span class="label label-default">否</span>
+                        {%endif%}
+                        {% if d.stick==1 %}
+                            <span class="label label-success">是</span>
+                        {%endif%}
+                    </p>
+                </td>
+                <td>
                     <p class="status-label">
                         {% if d.status==0 %}
                             <span class="label label-danger">禁用</span>
@@ -177,13 +215,23 @@
                     </p>
                 </td>
                 <td>
-                    <p class="status-handle">
-                        {% if d.status==0 %}
-                            <a href="javascript:void(0);" data-id="{{ d._id }}" data-evt="1">启用</a>
-                        {%endif%}
-                        {% if d.status==1 %}
-                            <a href="javascript:void(0);" data-id="{{ d._id }}" data-evt="0">禁用</a>
-                        {%endif%}                   
+                    <p>
+                        <span class="status-handle">
+                            {% if d.status==0 %}
+                                <a href="javascript:void(0);" data-id="{{ d._id }}" data-evt="1">启用</a>
+                            {%endif%}
+                            {% if d.status==1 %}
+                                <a href="javascript:void(0);" data-id="{{ d._id }}" data-evt="0">禁用</a>
+                            {%endif%}
+                        </span> |
+                        <span class="stick-handle">
+                            {% if d.stick==0 %}
+                                <a href="javascript:void(0);" data-id="{{ d._id }}" data-evt="1">推荐</a>
+                            {%endif%}
+                            {% if d.stick==1 %}
+                                <a href="javascript:void(0);" data-id="{{ d._id }}" data-evt="0">取消推荐</a>
+                            {%endif%} 
+                        </span>
                     </p>
                     <p>
                         <a href="{{ url_for('admin.image_submit', id=d._id) }}">编辑</a>
@@ -210,5 +258,6 @@
 
 {% block templates %}
   {% include "mustache/admin_status.mustache" %}
+  {% include "mustache/admin_stick.mustache" %}
 {% endblock %}
 

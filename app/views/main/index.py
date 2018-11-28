@@ -2,25 +2,32 @@ from flask import render_template, current_app, request, jsonify
 from . import main
 from app import redis_store
 
-
+metaInit = {
+    'title': '首页',
+    'css_nav_index': 'active',
+}
 
 @main.route('/')
 def index():
-    return render_template('home/index.html')
+    meta = metaInit.copy()
+    return render_template('home/index.html', meta=meta)
 
 
 @main.route('/about')
 def about():
-    return render_template('home/about.html')
+    meta = metaInit.copy()
+    return render_template('home/about.html', meta=meta)
 
 
 @main.route('/contact')
 def contact():
-    return render_template('home/contact.html')
+    meta = metaInit.copy()
+    return render_template('home/contact.html', meta=meta)
 
 
 @main.route('/test')
 def test():
+    meta = metaInit.copy()
     a = 'abc'
     redis_store.set('aa', a)
     b = redis_store.get('aa')

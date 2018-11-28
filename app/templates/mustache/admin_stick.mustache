@@ -1,0 +1,18 @@
+{% raw %}
+<script id="admin-stick-label-tpl" type="text/template">
+    {{#stickLabel}}
+        <span class="label label-success">是</span>
+    {{/stickLabel}}
+    {{^stickLabel}}
+        <span class="label label-default">否</span>
+    {{/stickLabel}}
+</script>
+<script id="admin-stick-handle-tpl" type="text/template">
+    {{#stickLabel}}
+        <a href="javascript:void(0);" data-id="{{ id }}" data-evt="0">取消推荐</a>
+    {{/stickLabel}}
+    {{^stickLabel}}
+        <a href="javascript:void(0);" data-id="{{ id }}" data-evt="1">推荐</a>
+    {{/stickLabel}}
+</script>
+{% endraw %}
