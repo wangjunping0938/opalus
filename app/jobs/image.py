@@ -137,4 +137,38 @@ def download():
     d.download()
 
 
+# 批量修改
+@celery.task()
+def image_update():
+
+    page = 1
+    perPage = 100
+    isEnd = False
+    successStatCount = 0
+    failStatCount = 0
+    query = {}
+    #query['deleted'] = 0
+    #query['status'] = 1
+
+    while not isEnd:
+        data = Image.objects(**query).order_by('-created_at').paginate(page=page, per_page=perPage)
+        if not data:
+            print("get data is empty! \n")
+            continue
+
+        # 过滤数据
+        for i, d in enumerate(data.items):
+            img_url = d.img_url.strip()
+            ok = d.update(img_url=img_url)
+            if ok:
+                successStatCount += 1
+            else:
+                failStatCount += 1
+
+        print("current page %s: \n" % page)
+        page += 1
+        if len(data.items) < perPage:
+            isEnd = True
+
+    print("is over execute SuccessCount %d ---- failCount: %d\n" % (successStatCount, failStatCount))
 
