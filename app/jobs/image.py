@@ -29,7 +29,6 @@ def decorate(func):
             self.page += 1
             if len(data.items) < self.per_page:
                 self.is_end = True
-            self.is_end = True
         print("is over execute count %s\n" % self.total)
 
     return loop
@@ -41,7 +40,7 @@ class ImageOperation:
         self.accessKey = cf.get('qiniu', 'access_key')
         self.secretKey = cf.get('qiniu', 'secret_key')
         self.page = 1
-        self.per_page = 10
+        self.per_page = 100
         self.is_end = False
         self.total = 0
         self.prefix = cf.get('base', 'upload_folder')  # 本地地址前缀
