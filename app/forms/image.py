@@ -18,6 +18,7 @@ class SaveForm(FlaskForm):
     style_tags = StringField('风格标签', validators=[Length(max=500, message="长度小于500个字符")]) # 风格
     technique_tags = StringField('工艺标签', validators=[Length(max=500, message="长度小于500个字符")]) # 工艺
     other_tags = StringField('其它标签', validators=[Length(max=500, message="长度小于500个字符")]) # 其它
+    total_tags = StringField('所有标签') # 所有标签
     img_url = StringField()  # 图片地址
     url = StringField('原文地址', validators=[Length(max=500, message="长度小于500字符")])  # 原文地址
     path = StringField()   # 七牛路径
@@ -48,6 +49,8 @@ class SaveForm(FlaskForm):
             if Image.objects(_id__ne=ObjectId(id), img_url=data['img_url']).first():
                 raise ValueError('图片已存在!!')
         data.pop('id')
+        if 'total_tags' in data:
+            data.pop('total_tags')
         data.pop('user_id')
         #data.pop('csrf_token')
         ok = item.update(**data)
@@ -60,6 +63,8 @@ class SaveForm(FlaskForm):
                 raise ValueError('图片已存在!')
         data['user_id'] = param['user_id']
         data.pop('id')
+        if 'total_tags' in data:
+            data.pop('total_tags')
         item = Image(**data)
         item.save()
         return item

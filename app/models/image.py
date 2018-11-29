@@ -5,6 +5,7 @@ import time
 from flask import current_app
 from . import db
 from .base import Base
+import re
 
 # 图片素材表- image
 class Image(Base):
@@ -32,6 +33,7 @@ class Image(Base):
     style_tags = db.ListField() # 风格
     technique_tags = db.ListField() # 工艺
     other_tags = db.ListField() # 其它
+    total_tags = db.ListField() # 所有标签
     designer = db.StringField(max_length=200, default='') # 设计师
     company = db.StringField(max_length=100, default='') # 公司
     user_id = db.IntField(default=0)    # 用户ID
@@ -71,39 +73,73 @@ class Image(Base):
         return row
 
     def save(self, *args, **kwargs):
+        total_tags = []
         if self.tags and not isinstance(self.tags, list):
-            self.tags = self.tags.split(',')
+            self.tags = re.split('[,，]', self.tags)
+            total_tags += self.tags
         if self.color_tags and not isinstance(self.color_tags, list):
-            self.color_tags = self.color_tags.split(',')
+            self.color_tags = re.split('[,，]', self.color_tags)
+            total_tags += self.color_tags
         if self.brand_tags and not isinstance(self.brand_tags, list):
-            self.brand_tags = self.brand_tags.split(',')
+            self.brand_tags = re.split('[,，]', self.brand_tags)
+            total_tags += self.brand_tags
         if self.material_tags and not isinstance(self.material_tags, list):
-            self.material_tags = self.material_tags.split(',')
+            self.material_tags = re.split('[,，]', self.material_tags)
+            total_tags += self.material_tags
         if self.style_tags and not isinstance(self.style_tags, list):
-            self.style_tags = self.style_tags.split(',')
+            self.style_tags = re.split('[,，]', self.style_tags)
+            total_tags += self.style_tags
         if self.technique_tags and not isinstance(self.technique_tags, list):
-            self.technique_tags = self.technique_tags.split(',')
+            self.technique_tags = re.split('[,，]', self.technique_tags)
+            total_tags += self.technique_tags
         if self.other_tags and not isinstance(self.other_tags, list):
-            self.other_tags = self.other_tags.split(',')
+            self.other_tags = re.split('[,，]', self.other_tags)
+            total_tags += self.other_tags
+
+        # 去重
+        total_tags = list(set(total_tags))
+        # 合并所有标签
+        self.total_tags = total_tags
         return super(Image, self).save(*args, **kwargs)
 
 
     def update(self, *args, **kwargs):
+        total_tags = self.total_tags
         if 'tags' in kwargs.keys() and not isinstance(kwargs['tags'], list):
-            kwargs['tags'] = kwargs['tags'].split(',')
+            kwargs['tags'] = re.split('[,，]', kwargs['tags'])
+            total_tags = self.__tags_merge(total_tags, self.tags, kwargs['tags'])
         if 'color_tags' in kwargs.keys() and not isinstance(kwargs['color_tags'], list):
-            kwargs['color_tags'] = kwargs['color_tags'].split(',')
+            kwargs['color_tags'] = re.split('[,，]', kwargs['color_tags'])
+            total_tags = self.__tags_merge(total_tags, self.color_tags, kwargs['color_tags'])
         if 'brand_tags' in kwargs.keys() and not isinstance(kwargs['brand_tags'], list):
-            kwargs['brand_tags'] = kwargs['brand_tags'].split(',')
+            kwargs['brand_tags'] = re.split('[,，]', kwargs['brand_tags'])
+            total_tags = self.__tags_merge(total_tags, self.brand_tags, kwargs['brand_tags'])
         if 'material_tags' in kwargs.keys() and not isinstance(kwargs['material_tags'], list):
-            kwargs['material_tags'] = kwargs['material_tags'].split(',')
+            kwargs['material_tags'] = re.split('[,，]', kwargs['material_tags'])
+            total_tags = self.__tags_merge(total_tags, self.material_tags, kwargs['material_tags'])
         if 'style_tags' in kwargs.keys() and not isinstance(kwargs['style_tags'], list):
-            kwargs['style_tags'] = kwargs['style_tags'].split(',')
+            kwargs['style_tags'] = re.split('[,，]', kwargs['style_tags'])
+            total_tags = self.__tags_merge(total_tags, self.style_tags, kwargs['style_tags'])
         if 'technique_tags' in kwargs.keys() and not isinstance(kwargs['technique_tags'], list):
-            kwargs['technique_tags'] = kwargs['technique_tags'].split(',')
+            kwargs['technique_tags'] = re.split('[,，]', kwargs['technique_tags'])
+            total_tags = self.__tags_merge(total_tags, self.technique_tags, kwargs['technique_tags'])
         if 'other_tags' in kwargs.keys() and not isinstance(kwargs['other_tags'], list):
-            kwargs['other_tags'] = kwargs['other_tags'].split(',')
+            kwargs['other_tags'] = re.split('[,，]', kwargs['other_tags'])
+            total_tags = self.__tags_merge(total_tags, self.other_tags, kwargs['other_tags'])
+
+            # 去重
+            total_tags = list(set(total_tags))
+            # 合并所有标签
+            kwargs['total_tags'] = total_tags
         return super(Image, self).update(*args, **kwargs)
+
+    # 标签整理
+    def __tags_merge(self, all_tags, old_tags, new_tags):
+        for d in old_tags:
+            if d in all_tags:
+                all_tags.remove(d)
+        all_tags += new_tags
+        return all_tags
 
     # 推荐
     def mark_stick(self, evt=1):
