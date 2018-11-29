@@ -25,7 +25,7 @@ class Asset(Base):
     height = db.IntField(default=0)    # 高
     user_id = db.IntField(default=0)    # 用户ID
     domain = db.StringField(max_length=20) # 所属域
-    asset_type = db.IntField(default=1)    # 图片类型: 1.后台上传；5.品牌logo；
+    asset_type = db.IntField(default=1)    # 图片类型: 1.后台上传；5.品牌logo；7.栏目封面；8.--；
     target_id = db.StringField(default='') # 关联ID
     kind = db.IntField(default=1)    # 类型:
     status = db.IntField(default=1)    # 状态: 0.禁用；1.启用

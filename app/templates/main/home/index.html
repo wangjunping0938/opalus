@@ -1,10 +1,8 @@
 {% extends "layout/column.html" %}
 {% block title %}首页{% endblock %}
 {% block layout_css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/plugin/swiper-3.4.1.min.css') }}" type="text/css" />
-    <style type="text/css">
-
-
+<link rel="stylesheet" href="{{ url_for('static', filename='css/plugin/swiper-3.4.1.min.css') }}" type="text/css" />
+<style type="text/css">
     .swiper-container {
         width: 100%;
         height: 420px;
@@ -29,58 +27,159 @@
         align-items: center;
     }
 
+    .swiper-slide img {
+        width: 100%;
+        height: 420px;
+    }
 
-    </style>
+    .wrap {
+    }
+    .wrap_swiper {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .sidebar_left {
+        width: 855px;
+    }
+
+    .sidebar_right {
+        width: 275px;
+        height: 420px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .overhidden {
+        width: 275px;
+        height: 205px;
+        overflow: hidden;
+        background: red;
+    }
+
+    .overhidden img {
+        height: 205px;
+    }
+
+    .swiper-button-prev {
+        opacity: 0 !important;
+        transition: all .3s ease;
+    }
+
+    .swiper-button-next {
+        opacity: 0;
+        transition: all .3s ease;
+    }
+
+    .sidebar_left:hover .swiper-button-next{
+        opacity: 1;
+    }
+
+    .sidebar_left:hover .swiper-button-prev{
+        opacity: 1 !important;
+    }
+    .thumbnail .text {
+        color: #ffffff;
+        position: absolute;
+        bottom: 10px;
+        padding: 0 10px;
+        opacity: 0;
+        transition: all .5s ease;
+        font-size: 14px;
+        line-height: 24px;
+    }
+
+    .thumbnail:hover .text{
+        opacity: 1;
+    }
+</style>
 {% endblock %}
 
 {% block layout_js %}
-    <script type="text/javascript" src="{{ url_for('static', filename='js/plugin/swiper-3.4.1.jquery.min.js') }}"></script>
-    <script type="text/javascript">
+<script type="text/javascript" src="{{ url_for('static', filename='js/plugin/swiper-3.4.1.jquery.min.js') }}"></script>
+<script type="text/javascript">
 
-  </script>
+</script>
 {% endblock %}
 
 {% block jquery %}
 
-    var swiper = new Swiper('.swiper-container', {
-        paginationClickable: true,
-        //direction: 'vertical',
-        loop: true,
-        autoplay: 3000,
-        
-        // 如果需要分页器
-        pagination: '.swiper-pagination',
+var swiper = new Swiper('.swiper-container', {
+paginationClickable: true,
+//direction: 'vertical',
+<!--loop: true,-->
+<!--autoplay: 3000,-->
 
-        // 如果需要前进后退按钮
-        nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev'
-    });
+// 如果需要分页器
+pagination: '.swiper-pagination',
+
+// 如果需要前进后退按钮
+nextButton: '.swiper-button-next',
+prevButton: '.swiper-button-prev',
+
+observer:true,
+observeParents:true
+});
 
 
 {% endblock %}
 
 {% block layout_slider %}
-
-    <div class="swiper-container">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide" style="background-image: url('https://p4.taihuoniao.com/asset/170228/58b53fb420de8d36438bb0c6-1');"></div>
-            <div class="swiper-slide" style="background-image: url('https://p4.taihuoniao.com/asset/170303/58b8e88b20de8d006f8be4cc-1');"></div>
-            <div class="swiper-slide" style="background-image: url('https://p4.taihuoniao.com/asset/170113/58782624fc8b1236368b6c58-1');"></div>
-        </div>
-        <!-- 如果需要分页器 -->
-        <div class="swiper-pagination"></div>
-        
-        <!-- 如果需要导航按钮 -->
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-
-    </div>
-
 {%endblock%}
 
 {% block content %}
 
+<div class="wrap">
+    <div class="wrap_swiper">
+        <div class="sidebar_left">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <a href="">
+                            <img src="https://p4.taihuoniao.com/asset/181125/5bfaac03fc8b12fc328b6c1f-1" alt="">
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="">
+                            <img src="https://p4.taihuoniao.com/asset/180514/5af96318fc8b12ef128b7f7b-1" alt="">
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="">
+                            <img src="https://p4.taihuoniao.com/asset/180926/5bab023520de8d64578b5f13-1" alt="">
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="">
+                            <img src="https://p4.taihuoniao.com/asset/180416/5ad47ef3fc8b1263068c39fb-1" alt="">
+                        </a>
+                    </div>
+                </div>
+                <!-- 如果需要分页器 -->
+                <div class="swiper-pagination"></div>
 
+                <!-- 如果需要导航按钮 -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+
+            </div>
+        </div>
+        <div class="sidebar_right">
+            <div class="overhidden">
+                <a href="">
+                    <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="">
+                </a>
+            </div>
+            <div class="overhidden">
+                <a href="">
+                    <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}

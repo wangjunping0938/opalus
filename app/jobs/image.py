@@ -161,7 +161,7 @@ def image_update():
         # 过滤数据
         for i, d in enumerate(data.items):
             img_url = d.img_url.strip()
-            ok = d.update(img_url=img_url)
+            ok = d.update(img_url=img_url, other_tags='我是，你的，测试')
             if ok:
                 successStatCount += 1
             else:
