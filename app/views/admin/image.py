@@ -31,6 +31,7 @@ def image_list():
     status = force_int(request.args.get('status', 0))
     deleted = force_int(request.args.get('deleted', 0))
     kind = force_int(request.args.get('kind', 0))
+    prize_id = force_int(request.args.get('prize_id', 0))
 
     t = force_int(request.args.get('t', 1), 1)
     q = request.args.get('q', '')
@@ -42,6 +43,9 @@ def image_list():
             query['channel'] = q.strip()
         if t == 3:
             query['evt'] = force_int(q.strip())
+
+    if prize_id:
+        query['prize_id'] = prize_id
 
     if kind:
         if kind == 1:
@@ -71,7 +75,7 @@ def image_list():
     else:
         meta['css_all'] = ''
 
-    page_url = url_for('admin.image_list', page="#p#", q=q, t=t, kind=kind, status=status, deleted=deleted)
+    page_url = url_for('admin.image_list', page="#p#", q=q, t=t, prize_id=prize_id, kind=kind, status=status, deleted=deleted)
 
     data = Image.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
     total_count = Image.objects(**query).count()
@@ -95,6 +99,7 @@ def image_list():
 
     meta['data'] = data.items
     meta['total_count'] = total_count
+    meta['prize_options'] = prize_options()
 
     pager = Pager(page, per_page, total_count, page_url)
     meta['pager'] = pager.render_view()
@@ -190,6 +195,27 @@ def image_set_status():
             return jsonify(success=False, message='操作失败!')
     else:
         return jsonify(success=False, message=str(form.errors))
+
+## 推荐
+@admin.route('/image/set_stick', methods=['POST'])
+def image_set_stick():
+    meta = metaInit.copy()
+
+    id = request.values.get('id', '')
+    evt = request.values.get('evt', 1)
+    if not id:
+        return jsonify(success=False, message='缺少请求参数!')
+
+    try:
+        image = Image.objects(_id=ObjectId(id)).first()
+        if not image:
+            return jsonify(success=False, message='对象不存在!')           
+        image.mark_stick(evt=evt) if image else None
+    except(Exception) as e:
+        return jsonify(success=False, message=str(e))
+
+    return jsonify(success=True, message='操作成功!', data={'id': id, 'evt': evt},
+                   redirect_to=url_for('admin.image_list'))
 
 
 ## 删除

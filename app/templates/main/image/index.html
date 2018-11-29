@@ -1,6 +1,7 @@
 {% extends "layout/column.html" %}
 {% block title %}素材库{% endblock %}
 {% block layout_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/plugin/swiper-3.4.1.min.css') }}" type="text/css" />
     <style type="text/css">
 
 
@@ -33,6 +34,7 @@
 {% endblock %}
 
 {% block layout_js %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/plugin/swiper-3.4.1.jquery.min.js') }}"></script>
     <script type="text/javascript">
 
   </script>
@@ -40,18 +42,48 @@
 
 {% block jquery %}
 
+    var swiper = new Swiper('.swiper-container', {
+        paginationClickable: true,
+        //direction: 'vertical',
+        loop: true,
+        autoplay: 3000,
+        
+        // 如果需要分页器
+        pagination: '.swiper-pagination',
+
+        // 如果需要前进后退按钮
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev'
+    });
+
 
 {% endblock %}
 
 {% block layout_slider %}
 
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" style="background-image: url('https://p4.taihuoniao.com/asset/170228/58b53fb420de8d36438bb0c6-1');"></div>
+            <div class="swiper-slide" style="background-image: url('https://p4.taihuoniao.com/asset/180514/5af96318fc8b12ef128b7f7b-1');"></div>
+            <div class="swiper-slide" style="background-image: url('https://p4.taihuoniao.com/asset/180926/5bab023520de8d64578b5f13-1');"></div>
+            <div class="swiper-slide" style="background-image: url('https://p4.taihuoniao.com/asset/180416/5ad47ef3fc8b1263068c39fb-1');"></div>
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+        
+        <!-- 如果需要导航按钮 -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
 
+    </div>
 
 {%endblock%}
 
 {% block content %}
 
-
+<div>
+  <h2>最新推荐</h2>
+</div>
 
 
 {% endblock %}

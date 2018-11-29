@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 import os
 import datetime
+import time
 from flask import current_app
 from . import db
 from .base import Base
@@ -19,6 +20,7 @@ class Image(Base):
     name = db.StringField(max_length=100, default='') # 文件名称
     channel = db.StringField(max_length=10, default='') # 渠道
     img_url = db.StringField(max_length=500, default='') # 图片地址
+    url = db.StringField(max_length=500, default='') # 原文地址
     path = db.StringField(max_length=100, default='') # 七牛路径
     local_name = db.StringField(max_length=50, default='') # 本地文件名称
     local_path = db.StringField(max_length=100, default='') # 本地文件路径
@@ -40,6 +42,8 @@ class Image(Base):
     prize_level = db.StringField(max_length=50, default='')  # 奖项级别
     prize_time = db.StringField(max_length=50, default='')  # 奖项时间
     category_id = db.IntField(default=0)    # 分类ID
+    stick = db.IntField(default=0)  # 是否推荐：0.否；1.是；
+    stick_on = db.IntField(default=0)  # 推荐时间；
     status = db.IntField(default=1)    # 状态: 0.禁用；1.启用
     remark = db.StringField(max_length=500, default='')  # 描述
     info = db.StringField(max_length=10000, default='')  # 其它json串
@@ -101,6 +105,15 @@ class Image(Base):
             kwargs['other_tags'] = kwargs['other_tags'].split(',')
         return super(Image, self).update(*args, **kwargs)
 
+    # 推荐
+    def mark_stick(self, evt=1):
+        evt = int(evt)
+        if evt == 1:
+            return super(Image, self).update(stick=1, stick_on=int(time.time()))
+        else:
+            return super(Image, self).update(stick=0)
+
+    # 标记删除
     def mark_delete(self):
         return super(Image, self).update(deleted=1)
 

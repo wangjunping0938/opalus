@@ -19,7 +19,8 @@ def decorate(func):
         query['path'] = ''
         query['deleted'] = 0
         while not self.is_end:
-            data = Image.objects(**query).paginate(page=self.page, per_page=self.per_page)
+            # 倒序 
+            data = Image.objects(**query).order_by('created_at').paginate(page=self.page, per_page=self.per_page)
             if not len(data.items):
                 print("get data is empty! \n")
                 break
@@ -40,7 +41,7 @@ class ImageOperation:
         self.accessKey = cf.get('qiniu', 'access_key')
         self.secretKey = cf.get('qiniu', 'secret_key')
         self.page = 1
-        self.per_page = 100
+        self.per_page = 10
         self.is_end = False
         self.total = 0
         self.prefix = cf.get('base', 'upload_folder')  # 本地地址前缀
@@ -122,6 +123,8 @@ class ImageOperation:
                 print('上传七牛云成功: %s' % str(image._id))
             except Exception as e:
                 print('上传七牛云失败: %s' % str(e))
+        else:
+            print('图片已处理:%s' % str(image._id))
 
 
 @celery.task()

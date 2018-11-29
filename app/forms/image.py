@@ -19,6 +19,7 @@ class SaveForm(FlaskForm):
     technique_tags = StringField('工艺标签', validators=[Length(max=500, message="长度小于500个字符")]) # 工艺
     other_tags = StringField('其它标签', validators=[Length(max=500, message="长度小于500个字符")]) # 其它
     img_url = StringField()  # 图片地址
+    url = StringField('原文地址', validators=[Length(max=500, message="长度小于500字符")])  # 原文地址
     path = StringField()   # 七牛路径
     local_name = StringField()   # 本地文件名称
     local_path = StringField()   # 本地文件路径
@@ -72,6 +73,7 @@ class SaveApi(FlaskForm):
     kind = IntegerField('类型')
     channel = StringField('渠道', validators=[Length(max=10, message="长度小于10个字符")])  # 渠道
     img_url = StringField('图片地址', validators=[DataRequired(message="名称不能为空")])  # 图片地址
+    url = StringField('原文地址', validators=[Length(max=500, message="长度小于500字符")])  # 原文地址
     tags = StringField('标签', validators=[Length(max=500, message="长度小于500个字符")])   # 标签
     color_tags = StringField('颜色标签', validators=[Length(max=500, message="长度小于500个字符")]) # 颜色标签
     brand_tags = StringField('品牌标签', validators=[Length(max=500, message="长度小于500个字符")]) # 品牌标签
@@ -115,3 +117,4 @@ class setStatus(FlaskForm):
         data['status'] = self.data['status']
         ok = item.update(**data)
         return ok
+

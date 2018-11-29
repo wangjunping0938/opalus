@@ -4,6 +4,11 @@ from . import main
 from app import redis_store
 from app.helpers.asset import handle_file
 
+metaInit = {
+    'title': '上传',
+    'css_nav_index': 'active',
+}
+
 @main.route('/upload', methods=['POST'])
 def upload():
     try:

@@ -6,9 +6,15 @@ from ...helpers.auth import login_user, logout_user
 from ...models.user import User
 from ...helpers.email import send_mail
 
+metaInit = {
+    'title': '登录/注册',
+    'css_nav_auth': 'active',
+}
+
 ## 登录
 @main.route('/auth/login', methods=['POST', 'GET'])
 def login():
+    meta = metaInit.copy()
     form = SigninForm()
     if request.method == 'POST':
 
@@ -22,12 +28,13 @@ def login():
 
         return jsonify(success=False, message='创建失败!')
 
-    return render_template('auth/login.html', form=form)
+    return render_template('auth/login.html', meta=meta, form=form)
 
 
 ## 注册
 @main.route('/auth/register', methods=['POST', 'GET'])
 def register():
+    meta = metaInit.copy()
     form = SignupForm()
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -40,7 +47,7 @@ def register():
                 return jsonify(success=False, message='注册失败!')
         else:
             return jsonify(success=False, message=str(form.errors))
-    return render_template('auth/register.html', form=form)
+    return render_template('auth/register.html', meta=meta, form=form)
 
 @main.route('/auth/logout')
 def logout():
@@ -52,6 +59,7 @@ def logout():
 # 忘记密码
 @main.route('/auth/forget_password',methods=['GET','POST'])
 def forget_password():
+    meta = metaInit.copy()
     form=ForgetPasswordForm()
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -65,12 +73,13 @@ def forget_password():
             else:
                 tips = '请填写你注册时所用的邮箱地址!'
                 return jsonify(success=False, message=tips)
-    return render_template('auth/forget_password.html',form=form)
+    return render_template('auth/forget_password.html', meta=meta, form=form)
 
 
 # 重置密码
 @main.route('/auth/reset_password/<token>',methods=['POST','GET'])
 def reset_password(token):
+    meta = metaInit.copy()
     form = ResetPasswordForm()
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -81,4 +90,4 @@ def reset_password(token):
             else:
                 tips = '密码重置失败,请稍后重试!'
                 return jsonify(success=False, message=tips)
-    return render_template('auth/reset_password.html',form=form,token=token)
+    return render_template('auth/reset_password.html', meta=meta, form=form, token=token)
