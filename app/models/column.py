@@ -21,6 +21,7 @@ class Column(Base):
     sub_title = db.StringField(max_length=30)  # 副标题
     description = db.StringField()  # 简述
     target = db.StringField(max_length=1000)  # 标记，用于链接跳转或其它
+    column_zone_id = db.StringField()  # 空间ID
     user_id = db.IntField(default=0)
     sort = db.IntField(default=0) # 排序
     kind = db.IntField(default=1) # 类型：1.--；2.--；3.--

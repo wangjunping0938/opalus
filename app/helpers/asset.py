@@ -135,5 +135,7 @@ def gen_asset_name(asset_type):
         name = 'image'
     elif asset_type == 5:
         name = 'brand'
+    elif asset_type == 7:
+        name = 'column'
 
     return name
