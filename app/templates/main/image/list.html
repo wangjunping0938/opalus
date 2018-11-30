@@ -199,6 +199,7 @@
                 <form action="{{ url_for('main.image_list') }}" method="GET">
                     <input type="hidden" name="status" value="{{ request.args.get('status', '') }}" />
                     <input type="hidden" name="deleted" value="{{ request.args.get('deleted', '') }}" />
+                    <input type="hidden" name="kind" value="{{ request.args.get('kind', '') }}" />
                     <div class="form-group">
                         <label for="search_text">搜索</label>
                         <input type="text" class="form-control" name="tag" value="{{ request.args.get('tag', '') }}" id="search_text" placeholder="请输入搜索内容...">
@@ -225,6 +226,36 @@
               <li role="presentation"><a href="{{ url_for('main.image_list') }}">智能车载</a></li>
           </ul>
       </div>
+    <div class="fr">
+
+        <form class="navbar-form navbar-left options-bar" role="search" action="{{ url_for('main.image_list') }}" method="GET" id="search-form">
+          <input type="hidden" name="status" value="{{ request.args.get('status', '') }}" />
+          <input type="hidden" name="kind" value="{{ request.args.get('kind', '') }}" />
+          <input type="hidden" name="deleted" value="{{ request.args.get('deleted', '') }}" />
+          <div class="form-group">
+            <input class="form-control input-sm" type="text" name="q" value="{{ request.args.get('q', '') }}" class="form-control" placeholder="关键字...">
+          </div>
+
+          <div class="form-group">
+              <select name="t" class="form-control input-sm">
+                  <option value="1" {% if request.args.get('t') == '1' %}selected="selected"{%endif%}>ID</option>
+                  <option value="2" {% if request.args.get('t') == '2' %}selected="selected"{%endif%}>渠道</option>
+                  <option value="3" {% if request.args.get('t') == '3' %}selected="selected"{%endif%}>来源</option>
+              </select>
+          </div>
+
+          <div class="form-group">
+              <select name="prize_id" class="form-control input-sm">
+                  <option value="" {% if request.args.get('prize_id') == '' %}selected="selected"{%endif%}>--全部奖项--</option>
+                  {% for d in meta.prize_options %}
+                      <option value="{{ d.id }}" {% if request.args.get('prize_id') == d.id|string %}selected="selected"{%endif%}>{{ d.name }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+
+          <button type="submit" class="btn btn-default btn-sm">搜索</button>
+        </form>
+    </div>
       <!--
       <div class="prompt">
           <span>你没有输入足够的关键词，请输入要搜索的短语</span><br>
