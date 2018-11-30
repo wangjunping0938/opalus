@@ -11,7 +11,6 @@ from app.extensions import celery
 from app.env import cf
 import requests
 import imghdr
-import random
 
 
 def decorate(func):
@@ -152,6 +151,7 @@ def image_update():
     query = {}
     query['deleted'] = 0
     #query['status'] = 1
+    query['channel'] = 'g_mark'
 
     while not isEnd:
         data = Image.objects(**query).order_by('-created_at').paginate(page=page, per_page=perPage)
@@ -162,12 +162,12 @@ def image_update():
         # 过滤数据
         for i, d in enumerate(data.items):
             #img_url = d.img_url.strip()
-            ran = random.randint(1000000, 9999999)
-            ok = d.update(random=ran)
-            if ok:
-                successStatCount += 1
-            else:
-                failStatCount += 1
+            if d.channel == 'g_mark':
+                ok = d.update(prize_id=8)
+                if ok:
+                    successStatCount += 1
+                else:
+                    failStatCount += 1
 
         print("current page %s: \n" % page)
         page += 1
