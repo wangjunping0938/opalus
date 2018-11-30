@@ -6,6 +6,7 @@ from flask import current_app
 from . import db
 from .base import Base
 import re
+import random
 
 # 图片素材表- image
 class Image(Base):
@@ -50,6 +51,7 @@ class Image(Base):
     remark = db.StringField(max_length=500, default='')  # 描述
     info = db.StringField(max_length=10000, default='')  # 其它json串
     evt = db.IntField(default=1)    # 来源：1.默认
+    random = db.IntField(default=0) # 生成随机数
     deleted = db.IntField(default=0)    # 是否软删除
 
     created_at = db.DateTimeField()
@@ -111,6 +113,9 @@ class Image(Base):
             total_tags += self.other_tags
         else:
             self.other_tags = []
+
+        if not self.random:
+            self.random = random.randint(1000000, 9999999)
 
         # 去重
         total_tags = list(set(total_tags))

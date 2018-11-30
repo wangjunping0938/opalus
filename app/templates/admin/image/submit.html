@@ -496,6 +496,13 @@ $('.def-tags span').click(function(){
             </div>
 
             <div class="form-group">
+                <div class="col-xs-2">
+                    <label for="random">随机数</label>
+                    <input type="number" name="random" disabled="disabled" class="form-control" value="{{ meta.data.random }}" placeholder="随机数">
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-xs-8">
                     <label for="remark">备注</label>
                     <textarea class="form-control" name="remark" rows="3">{{ meta.data.remark|default('') }}</textarea>

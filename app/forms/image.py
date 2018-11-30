@@ -37,6 +37,7 @@ class SaveForm(FlaskForm):
     prize_id = IntegerField()    # 奖项ID
     category_id = IntegerField()    # 分类ID
     evt = IntegerField() # 来源
+    #random = IntegerField() # 随机数
     user_id = IntegerField()
 
 

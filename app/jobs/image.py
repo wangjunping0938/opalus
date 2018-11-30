@@ -11,6 +11,7 @@ from app.extensions import celery
 from app.env import cf
 import requests
 import imghdr
+import random
 
 
 def decorate(func):
@@ -149,7 +150,7 @@ def image_update():
     successStatCount = 0
     failStatCount = 0
     query = {}
-    #query['deleted'] = 0
+    query['deleted'] = 0
     #query['status'] = 1
 
     while not isEnd:
@@ -160,8 +161,9 @@ def image_update():
 
         # 过滤数据
         for i, d in enumerate(data.items):
-            img_url = d.img_url.strip()
-            ok = d.update(img_url=img_url, other_tags='我是，你的，测试')
+            #img_url = d.img_url.strip()
+            ran = random.randint(1000000, 9999999)
+            ok = d.update(random=ran)
             if ok:
                 successStatCount += 1
             else:
