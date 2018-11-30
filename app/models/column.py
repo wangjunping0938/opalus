@@ -16,7 +16,7 @@ class Column(Base):
         'id_field': '_id'
     }
 
-    _id = db.StringField(primary_key=True, required=True)
+    _id = db.StringField()
     title = db.StringField(max_length=30)  # 标题
     sub_title = db.StringField(max_length=30)  # 副标题
     description = db.StringField()  # 简述

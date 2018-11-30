@@ -1,0 +1,128 @@
+{% extends "layout/admin.html" %}
+{% block title %}{{ meta.title }}{% endblock %}
+{% block layout_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='uploadifive/uploadifive.css') }}" type="text/css" />
+    <style type="text/css">
+
+    </style>
+{% endblock %}
+
+{% block layout_js %}
+    <script type="text/javascript" src="{{ url_for('static', filename='uploadifive/jquery.uploadifive.min.js') }}"></script>
+    <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+$("#column-zone-form").validate({
+  //ignore: ".ignore",
+  //debug: true,
+
+  rules: {
+      name: {
+          required: true,
+      }
+  },
+
+  messages: {
+      name: {
+          required: "请输入名称",
+      }
+
+  },
+  submitHandler: function(form) {
+    $(form).ajaxSubmit({
+      dataType: 'json',
+      beforeSubmit: function(){
+        //alert('before'); 
+      },
+      success: function(data){
+        if(data.success){
+          window.location.href=data.redirect_to;
+        }else{
+          alert(data.message);
+        }
+      }
+    });
+  }
+ });
+
+
+
+{% endblock %}
+
+{% block layout_slider %}
+{%endblock%}
+
+{% block content %}
+    <div class="navbar navbar-default border-n nav-stab">
+        <div class="navbar-header">
+            <div class="navbar-brand">
+                {{ meta.title }}
+            </div>
+        </div>
+        <div class="navbar-header">
+            <ul class="nav navbar-nav nav-list">
+                <li role="presentation" class=""><a href="{{ url_for('admin.column_list') }}">栏目列表</a></li>
+                <li role="presentation" class=""><a href="{{ url_for('admin.column_zone_list') }}">位置列表</a></li>
+            </ul>
+        </div>
+        <div class="navbar-collapse collapse fr">
+            <ul class="nav navbar-nav nav-list">
+                <li role="presentation" class=""><a href="{{ url_for('admin.column_submit') }}">+新增栏目</a></li>
+                <li role="presentation" class="{{ meta.css_nav_sub_column }}"><a href="{{ url_for('admin.column_zone_submit') }}">+新增位置</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="ph-form">
+        <form class="form-horizontal" method="POST" action="{{ url_for('admin.column_zone_save') }}" id="column-zone-form">
+            {{ form.csrf_token }}
+            <input type="hidden" name="id" value="{{ meta.data._id|default('') }}" />
+            <input type="hidden" name="referer_url" value="{{ meta.referer_url }}" />
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="name">标识</label>
+                    <input type="text" name="name" class="form-control" value="{{ meta.data.name }}" placeholder="空间标识">
+                </div>
+
+                <div class="col-xs-4">
+                    <label for="title">名称</label>
+                    <input type="text" name="title" class="form-control" value="{{ meta.data.title }}" placeholder="空间名称">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="width">宽</label>
+                    <input type="text" name="width" class="form-control" value="{{ meta.data.width }}" placeholder="空间宽度">
+                </div>
+
+                <div class="col-xs-4">
+                    <label for="height">高</label>
+                    <input type="text" name="height" class="form-control" value="{{ meta.data.height }}" placeholder="空间高度">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <label for="remark">备注</label>
+                    <textarea  name="remark" class="form-control" placeholder="备注">{{ meta.data.remark|default('') }}</textarea>
+                </div>
+                <div class="col-sm-10">
+                    <a href="{{ url_for('admin.column_zone_list') }}" class="btn btn-default">取消</a>
+                    <button type="submit" id="submit_btn" class="btn btn-primary">提交</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+{% endblock %}
+
+{% block templates %}
+  {% include "mustache/asset_item.mustache" %}
+  {% include "mustache/asset_list.mustache" %}
+{% endblock %}
