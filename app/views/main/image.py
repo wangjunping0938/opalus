@@ -95,7 +95,7 @@ def image_list():
 
     page_url = url_for('main.image_list', page="#p#", q=q, t=t, tag=tag, prize_id=prize_id, kind=kind, status=status, deleted=deleted)
 
-    data = Image.objects(**query).order_by('created_at').paginate(page=page, per_page=per_page)
+    data = Image.objects(**query).order_by('random').paginate(page=page, per_page=per_page)
     total_count = Image.objects(**query).count()
 
     # 过滤数据
