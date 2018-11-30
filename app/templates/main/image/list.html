@@ -1,7 +1,6 @@
 {% extends "layout/column.html" %}
-{% block title %}首页{% endblock %}
+{% block title %}素材库{% endblock %}
 {% block layout_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/plugin/swiper-3.4.1.min.css') }}" type="text/css" />
 <style type="text/css">
     .mt-20 a {
         color: #ffffff;
@@ -176,11 +175,14 @@
     .text-c {
         text-align: center;
     }
+
+    .tags span {
+        color: #fff;
+    }
 </style>
 {% endblock %}
 
 {% block layout_js %}
-<script type="text/javascript" src="{{ url_for('static', filename='js/plugin/swiper-3.4.1.jquery.min.js') }}"></script>
 <script type="text/javascript">
 
 </script>
@@ -191,109 +193,147 @@
 {% endblock %}
 
 {% block layout_slider %}
-{%endblock%}
-
-{% block content %}
-
-<div class="wrap">
     <div class="wrap_search">
         <div class="container">
             <div class="search">
-                <form action="">
+                <form action="{{ url_for('main.image_list') }}" method="GET">
+                    <input type="hidden" name="status" value="{{ request.args.get('status', '') }}" />
+                    <input type="hidden" name="deleted" value="{{ request.args.get('deleted', '') }}" />
                     <div class="form-group">
                         <label for="search_text">搜索</label>
-                        <input type="text" class="form-control" id="search_text" placeholder="请输入搜索内容...">
+                        <input type="text" class="form-control" name="tag" value="{{ request.args.get('tag', '') }}" id="search_text" placeholder="请输入搜索内容...">
                         <div class="mt-20">
-                            <a href=""><span>杯子</span></a>
-                            <a href=""><span>杯子</span></a>
-                            <a href=""><span>杯子</span></a>
+                            <a href="{{ url_for('main.image_list', tag='出行户外', status=request.args.get('deleted', ''), deleted=request.args.get('deleted', '')) }}"><span>出行户外</span></a>
+                            <a href="{{ url_for('main.image_list', tag='运动健康') }}"><span>运动健康</span></a>
+                            <a href="{{ url_for('main.image_list', tag='电视影音') }}"><span>电视影音</span></a>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="tab">
-            <ul class="nav nav-pills">
-                <li role="presentation" class="active"><a href="{{ url_for('main.image_list') }}">全部</a></li>
-                <li role="presentation"><a href="{{ url_for('main.image_product') }}">产品</a></li>
-                <li role="presentation"><a href="{{ url_for('main.image_topic') }}">话题</a></li>
-            </ul>
-        </div>
-        <div class="prompt">
-            <span>你没有输入足够的关键词，请输入要搜索的短语</span><br>
-            <span>搜索内容 “智能睡眠灯” , 找到约 2 条结果</span>
-        </div>
-        <div class="tab_button">
-            <a href=""><button class="active">最新</button></a>
-            <a href=""><button>相关度</button></a>
-        </div>
+{%endblock%}
 
-        <div class="list">
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <div class="d_j">
-                        <div class="list_img">
-                            <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="">
-                        </div>
-                        <div class="content">
-                            <div class="title line-clamp-1 d_j_b">
-                                <p>屎味不再是烦恼，我家猫咪就爱它--安美瑞X8空气净化器体验<span class="content_type">话题</span></p>
-                            </div>
-                            <p class="details line-clamp-2">啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊哎哎哎</p>
-                            <div class="mt5">
-                                <p>标签:<span>123</span></p>
-                                <p>奖项:<span>456</span></p>
-                                <p>品牌:<span>789</span></p>
-                            </div>
-                        </div>
+{% block content %}
 
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="d_j">
-                        <div class="list_img">
-                            <!--<img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="">-->
-                        </div>
-                        <div class="content">
-                            <div class="title line-clamp-1 d_j_b">
-                                <p>屎味不再是烦恼，我家猫咪就爱它--安美瑞X8空气净化器体验<span class="content_type">话题</span></p>
-                            </div>
-                            <p class="details line-clamp-2">啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊哎哎哎</p>
-                            <div class="mt5">
-                                <p>标签:<span>123</span></p>
-                                <p>奖项:<span>456</span></p>
-                                <p>品牌:<span>789</span></p>
-                            </div>
-                        </div>
+<div class="wrap">
 
-                    </div>
-                </li>
-            </ul>
-        </div>
+      <div class="tab">
+          <ul class="nav nav-pills">
+              <li role="presentation" class="active"><a href="{{ url_for('main.image_list') }}">全部</a></li>
+              <li role="presentation"><a href="{{ url_for('main.image_list') }}">智能硬件</a></li>
+              <li role="presentation"><a href="{{ url_for('main.image_list') }}">智能车载</a></li>
+          </ul>
+      </div>
+      <!--
+      <div class="prompt">
+          <span>你没有输入足够的关键词，请输入要搜索的短语</span><br>
+          <span>搜索内容 “智能睡眠灯” , 找到约 2 条结果</span>
+      </div>
+      <div class="tab_button">
+          <a href=""><button class="active">最新</button></a>
+          <a href=""><button>相关度</button></a>
+      </div>
 
-        <div class="text-c">
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
-                    <li>
-                        <a href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li>
-                        <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-</div>
+      -->
+
+      <div class="list">
+          <ul class="list-group">
+              {% for d in meta.data %}
+              <li class="list-group-item">
+                  <div class="d_j">
+                      <div class="list_img">
+                          {% if d.thumb %}
+                              <img src="{{ d.thumb.sm }}" alt="{{ d.name }}" />
+                          {%else%}
+                              <img src="{{ d.img_url }}" alt="{{ d.name }}" />
+                          {%endif%}
+                      </div>
+                      <div class="content">
+                          <div class="title line-clamp-1 d_j_b">
+                              <p>{{ d.title }}<span class="content_type">分类</span></p>
+                          </div>
+                          <!--
+                          <p class="details line-clamp-2"></p>
+                          -->
+                          <div class="mt5">
+                            {% if d.prize_label %}
+                            <p>奖项:<span>{{ d.prize_label }}{% if d.prize_level %}[{{ d.prize_level }}]{% if d.prize_time %}--获奖时间:{{ d.prize_time }}{%endif%}{%endif%}</span></p>
+                            {%elif d.prize%}
+                                <p>奖项:<span>{{ d.prize }}{% if d.prize_level %}[{{ d.prize_level }}]{% if d.prize_time %}--获奖时间:{{ d.prize_time }}{%endif%}{%endif%}</span></span></p>
+                            {%endif%}
+                            {% if d.brand %}<p>品牌:<span>{{ d.brand.name }}</span></p>{%endif%}
+                            {% if d.designer %}<p>设计师:<span>{{ d.designer }}</span></p>{%endif%}
+                            {% if d.company %}<p>公司:<span>{{ d.company }}</span></p>{%endif%}
+                              {% if d.total_tags %}
+                              <p class="tags">常规:
+                                {% for d in d.total_tags %}
+                                    <span class="label label-info">{{ d }}</span>
+                                {%endfor%}
+                              </p>
+                              {%endif%}
+
+                              {% if d.color_tags %}
+                              <p class="tags">颜色:
+                                {% for d in d.color_tags %}
+                                    <span class="label label-info">{{ d }}</span>
+                                {%endfor%}
+                              </p>
+                              {%endif%}
+
+                              {% if d.material_tags %}
+                              <p class="tags">材质:
+                                {% for d in d.material_tags %}
+                                    <span class="label label-info">{{ d }}</span>
+                                {%endfor%}
+                              </p>
+                              {%endif%}
+
+                              {% if d.technique_tags|length %}
+                              <p class="tags">工艺:
+                                {% for d in d.technique_tags %}
+                                    <span class="label label-info">{{ d }}</span>
+                                {%endfor%}
+                              </p>
+                              {%endif%}
+
+                              {% if d.style_tags %}
+                              <p class="tags">风格:
+                                {% for d in d.style_tags %}
+                                    <span class="label label-info">{{ d }}</span>
+                                {%endfor%}
+                              </p>
+                              {%endif%}
+
+                              {% if d.brand_tags %}
+                              <p class="tags">品牌:
+                                {% for d in d.brand_tags %}
+                                    <span class="label label-info">{{ d }}</span>
+                                {%endfor%}
+                              </p>
+                              {%endif%}
+
+                              {% if d.other_tags %}
+                              <p class="tags">其它:
+                                {% for d in d.other_tags %}
+                                    <span class="label label-info">{{ d }}</span>
+                                {%endfor%}
+                              </p>
+                              {%endif%}
+                          </div>
+                      </div>
+
+                  </div>
+              </li>
+
+              {%endfor%}
+          </ul>
+      </div>
+
+      <div class="text-c">
+          <!--分页-->
+          {{ meta.pager|safe }}
+          <div class="pager-total">共 {{ meta.total_count }} 条记录</div>
+      </div>
+  </div>
 {% endblock %}

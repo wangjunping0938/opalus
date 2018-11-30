@@ -74,27 +74,43 @@ class Image(Base):
 
     def save(self, *args, **kwargs):
         total_tags = []
+        current_app.logger.debug('aaa')
         if self.tags and not isinstance(self.tags, list):
-            self.tags = re.split('[,，]', self.tags)
+            self.tags = self.__trans_list(self.tags)
             total_tags += self.tags
+        else:
+            self.tags = []
         if self.color_tags and not isinstance(self.color_tags, list):
-            self.color_tags = re.split('[,，]', self.color_tags)
+            self.color_tags = self.__trans_list(self.color_tags)
             total_tags += self.color_tags
+        else:
+            self.color_tags = []
+
         if self.brand_tags and not isinstance(self.brand_tags, list):
-            self.brand_tags = re.split('[,，]', self.brand_tags)
+            self.brand_tags = self.__trans_list(self.brand_tags)
             total_tags += self.brand_tags
+        else:
+            self.brand_tags = []
         if self.material_tags and not isinstance(self.material_tags, list):
-            self.material_tags = re.split('[,，]', self.material_tags)
+            self.material_tags = self.__trans_list(self.material_tags)
             total_tags += self.material_tags
+        else:
+            self.material_tags = []
         if self.style_tags and not isinstance(self.style_tags, list):
-            self.style_tags = re.split('[,，]', self.style_tags)
+            self.style_tags = self.__trans_list(self.style_tags)
             total_tags += self.style_tags
+        else:
+            self.style_tags = []
         if self.technique_tags and not isinstance(self.technique_tags, list):
-            self.technique_tags = re.split('[,，]', self.technique_tags)
+            self.technique_tags = self.__trans_list(self.technique_tags)
             total_tags += self.technique_tags
+        else:
+            self.technique_tags = []
         if self.other_tags and not isinstance(self.other_tags, list):
-            self.other_tags = re.split('[,，]', self.other_tags)
+            self.other_tags = self.__trans_list(self.other_tags)
             total_tags += self.other_tags
+        else:
+            self.other_tags = []
 
         # 去重
         total_tags = list(set(total_tags))
@@ -106,25 +122,25 @@ class Image(Base):
     def update(self, *args, **kwargs):
         total_tags = self.total_tags
         if 'tags' in kwargs.keys() and not isinstance(kwargs['tags'], list):
-            kwargs['tags'] = re.split('[,，]', kwargs['tags'])
+            kwargs['tags'] = self.__trans_list(kwargs['tags'])
             total_tags = self.__tags_merge(total_tags, self.tags, kwargs['tags'])
         if 'color_tags' in kwargs.keys() and not isinstance(kwargs['color_tags'], list):
-            kwargs['color_tags'] = re.split('[,，]', kwargs['color_tags'])
+            kwargs['color_tags'] = self.__trans_list(kwargs['color_tags'])
             total_tags = self.__tags_merge(total_tags, self.color_tags, kwargs['color_tags'])
         if 'brand_tags' in kwargs.keys() and not isinstance(kwargs['brand_tags'], list):
-            kwargs['brand_tags'] = re.split('[,，]', kwargs['brand_tags'])
+            kwargs['brand_tags'] = self.__trans_list(kwargs['brand_tags'])
             total_tags = self.__tags_merge(total_tags, self.brand_tags, kwargs['brand_tags'])
         if 'material_tags' in kwargs.keys() and not isinstance(kwargs['material_tags'], list):
-            kwargs['material_tags'] = re.split('[,，]', kwargs['material_tags'])
+            kwargs['material_tags'] = self.__trans_list(kwargs['material_tags'])
             total_tags = self.__tags_merge(total_tags, self.material_tags, kwargs['material_tags'])
         if 'style_tags' in kwargs.keys() and not isinstance(kwargs['style_tags'], list):
-            kwargs['style_tags'] = re.split('[,，]', kwargs['style_tags'])
+            kwargs['style_tags'] = self.__trans_list(kwargs['style_tags'])
             total_tags = self.__tags_merge(total_tags, self.style_tags, kwargs['style_tags'])
         if 'technique_tags' in kwargs.keys() and not isinstance(kwargs['technique_tags'], list):
-            kwargs['technique_tags'] = re.split('[,，]', kwargs['technique_tags'])
+            kwargs['technique_tags'] = self.__trans_list(kwargs['technique_tags'])
             total_tags = self.__tags_merge(total_tags, self.technique_tags, kwargs['technique_tags'])
         if 'other_tags' in kwargs.keys() and not isinstance(kwargs['other_tags'], list):
-            kwargs['other_tags'] = re.split('[,，]', kwargs['other_tags'])
+            kwargs['other_tags'] = self.__trans_list(kwargs['other_tags'])
             total_tags = self.__tags_merge(total_tags, self.other_tags, kwargs['other_tags'])
 
             # 去重
@@ -140,6 +156,13 @@ class Image(Base):
                 all_tags.remove(d)
         all_tags += new_tags
         return all_tags
+
+    # 转列表并去除空
+    def __trans_list(self, str):
+        list = re.split('[,，]', str)
+        if '' in list:
+            list.remove('')
+        return list
 
     # 推荐
     def mark_stick(self, evt=1):

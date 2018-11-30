@@ -249,7 +249,6 @@
 {%endblock%}
 
 {% block content %}
-<div class="container">
     <div class="wrap">
         <div class="row wrap_swiper">
             <div class="col-xs-9 col-md-9">
@@ -309,53 +308,30 @@
                 <a href="{{ url_for('main.image_list') }}"><span class="font-18 c_3 cur_p">更多</span></a>
             </div>
             <div class="row margin">
+                {% for d in meta.sticks %}
                 <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
                     <div class="thumbnail">
-                        <a href="{{ url_for('main.image_list') }}" class="max_h_160 overflow">
-                            <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
+                        <a href="javascript:void(0);" class="max_h_160 overflow">
+                          {% if d.thumb %}
+                          <img src="{{ d.thumb.mi }}" alt="{{ d.name }}" />
+                          {%else%}
+                            <img src="{{ d.img_url }}" alt="{{ d.name }}" />
+                          {%endif%}
                         </a>
                         <div class="text">
-                            <p>啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</p>
+                          <p>{{ d.title }}</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                    <div class="thumbnail">
-                        <a href="#" class="max_h_160 overflow">
-                            <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
-                        </a>
-                        <div class="text">
-                            <p>最新推荐</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                    <div class="thumbnail">
-                        <a href="#" class="max_h_160 overflow">
-                            <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
-                        </a>
-                        <div class="text">
-                            <p>啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-                    <div class="thumbnail max_h_160">
-                        <a href="#">
-                            <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
-                        </a>
-                        <div class="text">
-                            <p>你好你好你好你好你好你好你好你好</p>
-                        </div>
-                    </div>
-                </div>
+                {%endfor%}
+
             </div>
         </div>
 
         <div class="three">
             <div class="margin_20 d_j">
                 <h2 class="public_h2">设计案例</h2>
-                <a href="{{ url_for('main.image_list') }}"><span class="font-18 c_3 cur_p">更多</span></a>
+                <!--<a href="{{ url_for('main.image_list') }}"><span class="font-18 c_3 cur_p">更多</span></a>-->
             </div>
             <div class="row margin">
                 <div class="col-xs-4 col-md-4">
@@ -385,7 +361,7 @@
         <div class="two">
             <div class="margin_20 d_j">
                 <h2 class="public_h2">专题</h2>
-                <a href="{{ url_for('main.image_list') }}"><span class="font-18 c_3 cur_p">更多</span></a>
+                <!--<a href="{{ url_for('main.image_list') }}"><span class="font-18 c_3 cur_p">更多</span></a>-->
             </div>
             <div class="row margin">
                 <div class="col-xs-6 col-md-6">
@@ -405,7 +381,6 @@
             </div>
         </div>
     </div>
-</div>
 
 
 {% endblock %}
