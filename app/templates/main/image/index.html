@@ -137,21 +137,16 @@
         border:  none;
         position: relative;
         box-shadow: 0 5px 10px 0 #eee;
+        border-radius: 0;
     }
 
     .max_h_160 {
         height: 160px;
         overflow: hidden;
     }
-    .text {
-        height: 30px;
-        overflow: hidden;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 1;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-    }
+
     .thumbnail .text {
+        height: 40px;
         color: #ffffff;
         position: absolute;
         bottom: 0;
@@ -162,6 +157,10 @@
         line-height: 24px;
         background: rgba(0,0,0,.6);
         width: 100%;
+    }
+
+    .line-h-40 {
+        line-height: 40px;
     }
 
     .thumbnail:hover .text{
@@ -199,6 +198,23 @@
         display: block;
     }
 
+
+    .line-clamp-1 {
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+    }
+
+    .line-clamp-2 {
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+    }
+
     @media (min-width: 992px) and (max-width: 1200px) {
         .sidebar_right {
             margin-top: 38px;
@@ -213,7 +229,7 @@
 
     @media (max-width: 768px) {
         .sidebar_right {
-            margin-top: 78px;
+            margin-top: 89px;
         }
     }
 </style>
@@ -294,7 +310,7 @@
                             <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="">
                         </a>
                     </div>
-                    <div class="overhidden" style="margin-top: 10px">
+                    <div class="overhidden" style="margin-top: 4%">
                         <a href="">
                             <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="">
                         </a>
@@ -315,7 +331,9 @@
                             <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
                         </a>
                         <div class="text">
-                            <p>啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</p>
+                            <div class="line-clamp-1 line-h-40">
+                                <p>啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -325,7 +343,9 @@
                             <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
                         </a>
                         <div class="text">
-                            <p>最新推荐</p>
+                            <div class="line-clamp-1 line-h-40">
+                                <p>啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -335,7 +355,9 @@
                             <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
                         </a>
                         <div class="text">
-                            <p>啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</p>
+                            <div class="line-clamp-1 line-h-40">
+                                <p>啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -345,7 +367,9 @@
                             <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
                         </a>
                         <div class="text">
-                            <p>你好你好你好你好你好你好你好你好</p>
+                            <div class="line-clamp-1 line-h-40">
+                                <p>哎哎哎</p>
+                            </div>
                         </div>
                     </div>
                 </div>
