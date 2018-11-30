@@ -3,6 +3,9 @@
 {% block layout_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/plugin/swiper-3.4.1.min.css') }}" type="text/css" />
 <style type="text/css">
+    [class*="col-"] {
+        padding: 0 2px;
+    }
     .swiper-container {
         width: 100%;
         height: 420px;
@@ -28,11 +31,18 @@
     }
 
     .swiper-slide img {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
         width: 100%;
-        height: 420px;
+        margin: auto;
+        display: block;
     }
 
     .wrap {
+        overflow: hidden;
     }
     .wrap_swiper {
         display: flex;
@@ -41,26 +51,27 @@
     }
 
     .sidebar_left {
-        width: 855px;
+        /*margin: 0px 15px;*/
     }
 
     .sidebar_right {
-        width: 275px;
-        height: 420px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
     }
 
     .overhidden {
-        width: 275px;
-        height: 205px;
+        max-height: 205px;
         overflow: hidden;
-        background: red;
     }
 
+    .overhidden a {
+        position: relative;
+        display: block;
+        overflow: hidden;
+    }
     .overhidden img {
-        height: 205px;
+        width: 100%;
     }
 
     .swiper-button-prev {
@@ -86,11 +97,34 @@
         margin-top: 30px;
     }
 
+    .margin_20 {
+        margin-bottom: 20px;
+    }
+
+    .d_j {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .d_j a {
+        text-decoration: none;
+    }
+    .font-18 {
+        font-size: 18px;
+    }
+
+    .c_3 {
+        color: #333333;
+    }
+
+    .cur_p {
+        cursor: pointer;
+    }
+
     .public_h2 {
         font-size: 24px;
         color: #000000;
         margin-left: 5px;
-        margin-bottom: 20px;
     }
 
     .margin {
@@ -102,29 +136,32 @@
         padding: 0;
         border:  none;
         position: relative;
+        box-shadow: 0 5px 10px 0 #eee;
     }
 
-    .max_h_200 {
-        height: 200px;
+    .max_h_160 {
+        height: 160px;
         overflow: hidden;
     }
     .text {
-        height: 48px;
+        height: 30px;
         overflow: hidden;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 1;
         text-overflow: ellipsis;
         display: -webkit-box;
     }
     .thumbnail .text {
         color: #ffffff;
         position: absolute;
-        bottom: 10px;
+        bottom: 0;
         padding: 0 10px;
         opacity: 0;
         transition: all .5s ease;
         font-size: 14px;
         line-height: 24px;
+        background: rgba(0,0,0,.6);
+        width: 100%;
     }
 
     .thumbnail:hover .text{
@@ -138,8 +175,8 @@
     }
 
 
-    .max_h_285 {
-        height: 285px;
+    .max_h_215 {
+        height: 215px;
 
     }
     .overflow {
@@ -161,6 +198,24 @@
         margin: auto;
         display: block;
     }
+
+    @media (min-width: 992px) and (max-width: 1200px) {
+        .sidebar_right {
+            margin-top: 38px;
+        }
+    }
+
+    @media (min-width: 768px) and (max-width: 992px) {
+        .sidebar_right {
+            margin-top: 78px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .sidebar_right {
+            margin-top: 78px;
+        }
+    }
 </style>
 {% endblock %}
 
@@ -176,8 +231,8 @@
     var swiper = new Swiper('.swiper-container', {
         paginationClickable: true,
         //direction: 'vertical',
-        <!--loop: true,-->
-        <!--autoplay: 3000,-->
+        loop: true,
+        autoplay: 3000,
 
         // 如果需要分页器
         pagination: '.swiper-pagination',
@@ -185,9 +240,6 @@
         // 如果需要前进后退按钮
         nextButton: '.swiper-button-next',
         prevButton: '.swiper-button-prev',
-
-observer:true,
-observeParents:true
     });
 
 
@@ -197,144 +249,158 @@ observeParents:true
 {%endblock%}
 
 {% block content %}
+<div class="container">
+    <div class="wrap">
+        <div class="row wrap_swiper">
+            <div class="col-xs-9 col-md-9">
+                <div class="sidebar_left">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <a href="">
+                                    <img src="https://p4.taihuoniao.com/asset/181125/5bfaac03fc8b12fc328b6c1f-1" alt="">
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="">
+                                    <img src="https://p4.taihuoniao.com/asset/180514/5af96318fc8b12ef128b7f7b-1" alt="">
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="">
+                                    <img src="https://p4.taihuoniao.com/asset/180926/5bab023520de8d64578b5f13-1" alt="">
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="">
+                                    <img src="https://p4.taihuoniao.com/asset/180416/5ad47ef3fc8b1263068c39fb-1" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <!-- 如果需要分页器 -->
+                        <div class="swiper-pagination"></div>
 
-<div class="wrap">
-    <div class="wrap_swiper">
-        <div class="sidebar_left">
-            <div class="swiper-container">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a href="">
-                            <img src="https://p4.taihuoniao.com/asset/181125/5bfaac03fc8b12fc328b6c1f-1" alt="">
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="">
-                            <img src="https://p4.taihuoniao.com/asset/180514/5af96318fc8b12ef128b7f7b-1" alt="">
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="">
-                            <img src="https://p4.taihuoniao.com/asset/180926/5bab023520de8d64578b5f13-1" alt="">
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="">
-                            <img src="https://p4.taihuoniao.com/asset/180416/5ad47ef3fc8b1263068c39fb-1" alt="">
-                        </a>
-                    </div>
-                </div>
-                <!-- 如果需要分页器 -->
-                <div class="swiper-pagination"></div>
+                        <!-- 如果需要导航按钮 -->
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
 
-                <!-- 如果需要导航按钮 -->
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-
-            </div>
-        </div>
-        <div class="sidebar_right">
-            <div class="overhidden">
-                <a href="">
-                    <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="">
-                </a>
-            </div>
-            <div class="overhidden">
-                <a href="">
-                    <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="">
-                </a>
-            </div>
-        </div>
-    </div>
-    <!--最新推荐-->
-    <div class="news">
-        <h2 class="public_h2">最新推荐</h2>
-        <div class="row margin">
-            <div class="col-xs-3 col-md-3">
-                <div class="thumbnail">
-                    <a href="#" class="max_h_200 overflow">
-                        <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
-                    </a>
-                    <div class="text">
-                        <p>啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</p>
                     </div>
                 </div>
             </div>
             <div class="col-xs-3 col-md-3">
-                <div class="thumbnail">
-                    <a href="#" class="max_h_200 overflow">
-                        <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
-                    </a>
-                    <div class="text">
-                        <p>最新推荐</p>
+                <div class="sidebar_right">
+                    <div class="overhidden">
+                        <a href="#">
+                            <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="">
+                        </a>
                     </div>
-                </div>
-            </div>
-            <div class="col-xs-3 col-md-3">
-                <div class="thumbnail">
-                    <a href="#" class="max_h_200 overflow">
-                        <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
-                    </a>
-                    <div class="text">
-                        <p>啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-3 col-md-3">
-                <div class="thumbnail max_h_200">
-                    <a href="#">
-                        <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
-                    </a>
-                    <div class="text">
-                        <p>你好你好你好你好你好你好你好你好</p>
+                    <div class="overhidden" style="margin-top: 10px">
+                        <a href="">
+                            <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="">
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="three">
-        <h2 class="public_h2">设计案例</h2>
-        <div class="row margin">
-            <div class="col-xs-4 col-md-4">
-                <div class="thumbnail">
-                    <a href="#" class="max_h_285 overflow">
-                        <img class="public_img" src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
-                    </a>
-                </div>
+        <!--最新推荐-->
+        <div class="news">
+            <div class="margin_20 d_j">
+                <h2 class="public_h2">最新推荐</h2>
+                <a href="{{ url_for('main.image_list') }}"><span class="font-18 c_3 cur_p">更多</span></a>
             </div>
-            <div class="col-xs-4 col-md-4">
-                <div class="thumbnail">
-                    <a href="#" class="max_h_285 overflow">
-                        <img class="public_img" src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
-                    </a>
+            <div class="row margin">
+                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                    <div class="thumbnail">
+                        <a href="{{ url_for('main.image_list') }}" class="max_h_160 overflow">
+                            <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
+                        </a>
+                        <div class="text">
+                            <p>啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-xs-4 col-md-4">
-                <div class="thumbnail">
-                    <a href="#" class="max_h_285 overflow">
-                        <img class="public_img" src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
-                    </a>
+                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                    <div class="thumbnail">
+                        <a href="#" class="max_h_160 overflow">
+                            <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
+                        </a>
+                        <div class="text">
+                            <p>最新推荐</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                    <div class="thumbnail">
+                        <a href="#" class="max_h_160 overflow">
+                            <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
+                        </a>
+                        <div class="text">
+                            <p>啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                    <div class="thumbnail max_h_160">
+                        <a href="#">
+                            <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
+                        </a>
+                        <div class="text">
+                            <p>你好你好你好你好你好你好你好你好</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="two">
-        <h2 class="public_h2">专题</h2>
-        <div class="row margin">
-            <div class="col-xs-6 col-md-6">
-                <div class="thumbnail">
-                    <a href="#" class="max_300 overflow">
-                        <img class="public_img" src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
-                    </a>
+        <div class="three">
+            <div class="margin_20 d_j">
+                <h2 class="public_h2">设计案例</h2>
+                <a href="{{ url_for('main.image_list') }}"><span class="font-18 c_3 cur_p">更多</span></a>
+            </div>
+            <div class="row margin">
+                <div class="col-xs-4 col-md-4">
+                    <div class="thumbnail">
+                        <a href="#" class="max_h_215 overflow">
+                            <img class="public_img" src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-4 col-md-4">
+                    <div class="thumbnail">
+                        <a href="#" class="max_h_215 overflow">
+                            <img class="public_img" src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-4 col-md-4">
+                    <div class="thumbnail">
+                        <a href="#" class="max_h_215 overflow">
+                            <img class="public_img" src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="col-xs-6 col-md-6">
-                <div class="thumbnail">
-                    <a href="#" class="max_300 overflow">
-                        <img class="public_img" src="https://p4.taihuoniao.com/asset/181121/5bf4b4403ffca224638b8fbb-1" alt="...">
-                    </a>
+        </div>
+
+        <div class="two">
+            <div class="margin_20 d_j">
+                <h2 class="public_h2">专题</h2>
+                <a href="{{ url_for('main.image_list') }}"><span class="font-18 c_3 cur_p">更多</span></a>
+            </div>
+            <div class="row margin">
+                <div class="col-xs-6 col-md-6">
+                    <div class="thumbnail">
+                        <a href="#" class="max_300 overflow">
+                            <img class="public_img" src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-6">
+                    <div class="thumbnail">
+                        <a href="#" class="max_300 overflow">
+                            <img class="public_img" src="https://p4.taihuoniao.com/asset/181121/5bf4b4403ffca224638b8fbb-1" alt="...">
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
