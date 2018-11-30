@@ -46,8 +46,7 @@
     .nav-pills>li {
         width: 90px;
         text-align: center;
-        font-size: 18px;
-    }
+     }
     .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
         color: #ff3366;
         background-color: #ffffff;
@@ -123,10 +122,21 @@
         color: rgba(112,123,135,.92);
         font-size: 18px;
     }
-
+    .list_img {
+      width: 200px;
+      height: 200px;
+      position:relative;
+      overflow: hidden;
+    }
     .list_img img {
-        width: 175px;
-        height: 130px;
+       width: 100%;
+      max-height: 180px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
     }
 
     .line-clamp-1 {
@@ -158,6 +168,8 @@
 
     .d_j_b p{
         max-width: 850px;
+        font-size:16px
+        line-height:1
     }
 
     .mt5 {
@@ -165,10 +177,10 @@
     }
 
     .mt5 p {
-        font-size: 16px;
+        font-size: 14px;
     }
 
-    .mt5 span {
+    .tags span {
         color: #666666;
         margin-left: 10px;
     }
@@ -179,6 +191,23 @@
 
     .tags span {
         color: #fff;
+    }
+
+    .gs {
+      display:flex;
+    }
+
+    .gs p {
+      margin-left:15px;
+    }
+
+    .gs p:first-child {
+      margin-left:0;
+    }
+
+    .gs span {
+      margin-left:5px;
+      color:#666;
     }
 </style>
 {% endblock %}
@@ -294,10 +323,12 @@
                             {%elif d.prize%}
                                 <p>奖项:<span>{{ d.prize }}{% if d.prize_level %}[{{ d.prize_level }}]{% if d.prize_time %}--获奖时间:{{ d.prize_time }}{%endif%}{%endif%}</span></span></p>
                             {%endif%}
-                            {% if d.brand %}<p>品牌:<span>{{ d.brand.name }}</span></p>{%endif%}
-                            {% if d.designer %}<p>设计师:<span>{{ d.designer }}</span></p>{%endif%}
-                            {% if d.company %}<p>公司:<span>{{ d.company }}</span></p>{%endif%}
-                              {% if d.total_tags %}
+                            <div class="gs">
+                               {% if d.company %}<p>公司:<span>{{ d.company }}</span></p>{%endif%}
+                              {% if d.brand %}<p>品牌:<span>{{ d.brand.name }}</span></p>{%endif%}
+                              {% if d.designer %}<p>设计师:<span>{{ d.designer }}</span></p>{%endif%}
+                            </div>
+                                                                                     {% if d.total_tags %}
                               <p class="tags">常规:
                                 {% for d in d.total_tags %}
                                     <span class="label label-info">{{ d }}</span>
