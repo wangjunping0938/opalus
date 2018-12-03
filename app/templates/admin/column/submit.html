@@ -1,0 +1,242 @@
+{% extends "layout/admin.html" %}
+{% block title %}{{ meta.title }}{% endblock %}
+{% block layout_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='uploadifive/uploadifive.css') }}" type="text/css"/>
+    <style type="text/css">
+
+    </style>
+{% endblock %}
+
+{% block layout_js %}
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='uploadifive/jquery.uploadifive.min.js') }}"></script>
+    <script type="text/javascript">
+
+    </script>
+{% endblock %}
+
+{% block jquery %}
+
+    $("#item-form").validate({
+    //ignore: ".ignore",
+    //debug: true,
+
+    rules: {
+    name: {
+    required: true,
+    }
+    },
+
+    messages: {
+    name: {
+    required: "请输入名称",
+    }
+
+    },
+    submitHandler: function(form) {
+    $(form).ajaxSubmit({
+    dataType: 'json',
+    beforeSubmit: function(){
+    //alert('before');
+    },
+    success: function(data){
+    if(data.success){
+    window.location.href=data.redirect_to;
+    }else{
+    alert(data.message);
+    }
+    }
+    });
+    }
+    });
+
+    // 上传
+    $('#upload_file').uploadifive({
+    'auto' : true,
+    'uploadScript' : '/upload',
+    'formData': {
+    'target_id': '{{ meta.data._id|default('') }}',
+    'asset_type': 7,
+    'user_id': '{{ g.user._id }}',
+    'callback_type': 1,
+    'csrf_token': '{{ csrf_token() }}'
+    },
+    'fileObjName' : 'file',
+    'buttonText' : '上传Logo',
+    'queueID' : 'tip-queue',
+    'fileType' : 'image/*',
+    'multi' : true,
+    'fileSizeLimit'   : 5242880,
+    'uploadLimit' : 10,
+    'queueSizeLimit'  : 10,
+    'removeCompleted' : true,
+    'onUploadComplete' : function(file, data) {
+    var obj = JSON.parse(data);
+    if (obj.code != 200) {
+    alert(obj.message);
+    } else {
+    // 记录asset_id
+    phenix.record_asset_id('asset_ids', obj.data._id)
+    var render = phenix.ajax_render('#asset-box-tpl',
+    {
+    id: obj.data._id,
+    thumb_url: obj.data.thumb_url,
+    name: obj.data.name
+    })
+    $('#asset_items').append(render)
+    document.getElementById("submit_btn").disabled = false;
+    }
+    },
+    onCancel : function(file) {
+    /* 注意：取消后应重新设置uploadLimit */
+    //$data    = $(this).data('uploadifive'),
+    //settings = $data.settings;
+    //settings.uploadLimit++;
+    //alert(file.name + " 已取消上传~!");
+    },
+    onFallback : function() {
+    alert("该浏览器无法使用!");
+    },
+    onUpload : function(file) {
+    document.getElementById("submit_btn").disabled = true;//当开始上传文件，要防止上传未完成而表单被提交
+    },
+    });
+
+    {% if meta.is_edit %}
+        // 获取asset列表
+        $.get('/asset/ajx_list', {target_id: "{{ meta.data._id }}", asset_type: 7, cover_id: "{{ meta.data.cover_id }}
+        "}, function(res) {
+        var render = phenix.ajax_render('#asset-list-box-tpl', res.data)
+        $('#asset_items').append(render)
+        }, 'json')
+    {% endif %}
+
+    // 设置封面图
+    $('#asset_items').on('click', '.set-cover', function(){
+    var id = $(this).data('id');
+
+    $('#asset_items .set-cover.active').removeClass('active');
+    $(this).addClass('active');
+
+    $('#cover_id').val(id);
+    });
+
+    // 删除附件
+    $('#asset_items').on('click', '.del-asset', function(){
+    var id = $(this).data('id');
+    $.get('/asset/ajx_del', {id: id}, function(res) {
+    if(res.code == 0) {
+    $('#asset-' + id).remove();
+    }else{
+    alert(res.message);
+    }
+    }, 'json')
+    });
+
+
+{% endblock %}
+
+{% block layout_slider %}
+{% endblock %}
+
+{% block content %}
+    <div class="navbar navbar-default border-n nav-stab">
+        <div class="navbar-header">
+            <div class="navbar-brand">
+                {{ meta.title }}
+            </div>
+        </div>
+        <div class="navbar-header">
+            <ul class="nav navbar-nav nav-list">
+                <li role="presentation" class=""><a href="{{ url_for('admin.column_list') }}">栏目列表</a>
+                </li>
+                <li role="presentation" class=""><a href="{{ url_for('admin.column_zone_list') }}">位置列表</a>
+                </li>
+            </ul>
+        </div>
+        <div class="navbar-collapse collapse fr">
+            <ul class="nav navbar-nav nav-list">
+                <li role="presentation" class="{{ meta.css_nav_sub_column }}"><a href="{{ url_for('admin.column_submit') }}">+新增栏目</a>
+                </li>
+                <li role="presentation" class=""><a href="{{ url_for('admin.column_zone_submit') }}">+新增位置</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="ph-form">
+        <form class="form-horizontal" method="POST" action="{{ url_for('admin.column_save') }}" id="item-form">
+            {{ form.csrf_token }}
+            <input type="hidden" name="id" value="{{ meta.data._id|default('') }}"/>
+            <input type="hidden" name="referer_url" value="{{ meta.referer_url }}"/>
+            <input type="hidden" name="cover_id" id="cover_id" value="{{ meta.data.cover_id|default('') }}"/>
+            <input type="hidden" name="asset_ids" id="asset_ids" value=""/>
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="name">上传图片</label>
+                    <input class="full-width has-padding has-border" id="upload_file" type="file" name="file"/>
+                    <div id="tip-queue"></div>
+                </div>
+            </div>
+            <div id="asset_items" class="row"><!--ajax asset box--></div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="title">标题</label>
+                    <input type="text" name="title" class="form-control" value="{{ meta.data.title }}" placeholder="标题">
+                </div>
+
+                <div class="col-xs-4">
+                    <label for="sub_title">副标题</label>
+                    <input type="text" name="sub_title" class="form-control" value="{{ meta.data.sub_title }}"
+                           placeholder="副标题">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="sort">排序</label>
+                    <input type="text" name="sort" class="form-control" value="{{ meta.data.sort }}"
+                           placeholder="数字越小越靠前">
+                </div>
+
+                <div class="col-xs-4">
+                    <label for="column_zone_id">所属位置</label>
+                    <select name="column_zone_id" class="form-control">
+                        {% for i in meta.column_zone %}
+                            <option value="{{ i._id }}" {% if meta.data.column_zone_id==i._id %}selected="selected"{% endif %}>{{ i.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <label for="target">链接地址</label>
+                    <input type="text" name="target" class="form-control"
+                           value="{{ meta.data.target }}" placeholder="链接地址">
+                </div>
+                <div class="col-sm-10">
+                    <label for="description">简介</label>
+                    <textarea name="description" class="form-control"
+                              placeholder="简介">{{ meta.data.description|default('') }}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <label for="remark">备注</label>
+                    <textarea name="remark" class="form-control"
+                              placeholder="备注">{{ meta.data.remark|default('') }}</textarea>
+                </div>
+                <div class="col-sm-10">
+                    <a href="{{ url_for('admin.column_list') }}" class="btn btn-default">取消</a>
+                    <button type="submit" id="submit_btn" class="btn btn-primary">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+{% endblock %}
+
+{% block templates %}
+    {% include "mustache/asset_item.mustache" %}
+    {% include "mustache/asset_list.mustache" %}
+{% endblock %}

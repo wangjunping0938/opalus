@@ -1,0 +1,171 @@
+{% extends "layout/admin.html" %}
+{% block title %}{{ meta.title }}{% endblock %}
+{% block layout_css %}
+    <style type="text/css">
+
+    </style>
+{% endblock %}
+
+{% block layout_js %}
+    <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+    $('.status-handle').on('click', 'a', function(){
+        var id = $(this).data('id');
+        var evt = $(this).data('evt');
+        var url = "{{ url_for('admin.column_set_status') }}";
+        $.post(url, {id: id, status: evt}, function(rs){
+            if (rs.success) {
+                var statusLabel = evt == 0 ? false : true
+                var render = phenix.ajax_render('#admin-status-label-tpl', {id: id, status: evt, statusLabel: statusLabel})
+                $('#item-'+id).find('.status-label').html(render)
+                var render = phenix.ajax_render('#admin-status-handle-tpl', {id: id, status: evt, statusLabel: statusLabel})
+                $('#item-'+id).find('.status-handle').html(render)
+            }else{
+                alert(rs.message)
+            }
+        })
+    });
+
+{% endblock %}
+
+{% block layout_slider %}
+{%endblock%}
+
+{% block content %}
+
+<div>
+
+    <div class="navbar navbar-default border-n nav-stab">
+        <div class="navbar-header">
+            <div class="navbar-brand">
+                {{ meta.title }}
+            </div>
+        </div>
+        <div class="navbar-header">
+            <ul class="nav navbar-nav nav-list">
+                <li role="presentation" class="{{ meta.css_nav_sub_column }}"><a href="{{ url_for('admin.column_list') }}">栏目列表</a></li>
+                <li role="presentation" class=""><a href="{{ url_for('admin.column_zone_list') }}">位置列表</a></li>
+            </ul>
+        </div>
+        <div class="navbar-collapse collapse fr">
+            <ul class="nav navbar-nav nav-list">
+                <li role="presentation" class=""><a href="{{ url_for('admin.column_submit') }}">+新增栏目</a></li>
+                <li role="presentation" class=""><a href="{{ url_for('admin.column_zone_submit') }}">+新增位置</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="fr">
+        <form class="navbar-form navbar-left options-bar" role="search" action="{{ url_for('admin.column_list') }}" method="GET" id="search-form">
+          <input type="hidden" name="status" value="{{ request.args.get('status', '') }}" />
+          <input type="hidden" name="kind" value="{{ request.args.get('kind', '') }}" />
+          <input type="hidden" name="deleted" value="{{ request.args.get('deleted', '') }}" />
+          <div class="form-group">
+            <input class="form-control input-sm" type="text" name="q" value="{{ request.args.get('q', '') }}" placeholder="关键字...">
+          </div>
+
+          <div class="form-group">
+              <select name="t" class="form-control input-sm">
+                  <option value="1" {% if request.args.get('t') == '1' %}selected="selected"{%endif%}>ID</option>
+                  <option value="2" {% if request.args.get('t') == '2' %}selected="selected"{%endif%}>名称</option>
+              </select>
+          </div>
+
+          <button type="submit" class="btn btn-default btn-sm">搜索</button>
+        </form>
+    </div>
+
+
+    <table class="table table-striped ph-list">
+        <th>
+            <div class="checkbox list-checkbox">
+              <label>
+                  <input type="checkbox" id="check-all" value="" aria-label="...">
+              </label>
+            </div>
+        </th>
+        <th>图片</th>
+        <th>标题</th>
+        <th>类型</th>
+        <th>排序</th>
+        <th>所属位置</th>
+        <th class="col-md-1">创建时间</th>
+        <th>状态</th>
+        <th class="col-md-1">操作</th>
+        {% for d in meta.data %}
+            <tr id="item-{{ d._id }}">
+                <td>
+                    <div class="checkbox list-checkbox">
+                      <label>
+                          <input type="checkbox" name="check-item" value="{{ d._id }}" aria-label="...">
+                      </label>
+                    </div>
+                </td>
+             <td>
+                  {% if d.cover %}
+                    <img src="{{ d.cover.get_thumb_path().sm }}" width="100" />
+                  {%else%}
+                    <img src="{{ url_for('static', filename='images/avatar_100.png') }}" width="100" />
+                  {%endif%}
+                </td>
+                <td>{{ d.title }}</td>
+
+                <td>
+                    {{ d.kind }}
+                </td>
+                <td>
+                    {{ d.sort }}
+                </td>
+                <td>
+                    {{ d.zone.title }}
+                </td>
+                <td>{{ d.created_at | date("%Y-%m-%d") }}</td>
+                <td>
+                    <p class="status-label">
+                        {% if d.status==0 %}
+                            <span class="label label-danger">禁用</span>
+                        {%endif%}
+                        {% if d.status==1 %}
+                            <span class="label label-success">启用</span>
+                        {%endif%}
+                    </p>
+                </td>
+                <td>
+                    <p class="status-handle">
+                        {% if d.status==0 %}
+                            <a href="javascript:void(0);" data-id="{{ d._id }}" data-evt="1">启用</a>
+                        {%endif%}
+                        {% if d.status==1 %}
+                            <a href="javascript:void(0);" data-id="{{ d._id }}" data-evt="0">禁用</a>
+                        {%endif%}
+                    </p>
+                    <p>
+                        <a href="{{ url_for('admin.column_submit', id=d._id) }}">编辑</a>
+                        |
+                        {% if d.deleted == 0 %}
+                            <a href="{{ url_for('admin.column_delete', ids=d._id) }}" class="confirm-request">删除</a>
+                        {%endif%}
+                        {% if d.deleted == 1 %}
+                            <a href="{{ url_for('admin.column_recovery', ids=d._id) }}" class="confirm-request">恢复</a>
+                        {%endif%}
+                    </p>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <!--分页-->
+    {{ meta.pager|safe }}
+    <div class="pager-total">共 {{ meta.total_count }} 条记录</div>
+
+</div>
+
+{% endblock %}
+
+{% block templates %}
+  {% include "mustache/admin_status.mustache" %}
+{% endblock %}
+

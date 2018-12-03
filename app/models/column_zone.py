@@ -15,7 +15,7 @@ class ColumnZone(Base):
         'id_field': '_id'
     }
 
-    _id = db.StringField(primary_key=True, required=True)
+    _id = db.StringField()
     name = db.StringField(min_value=2, max_value=20, required=True, unique=True)  # 空间标识
     title = db.StringField(min_value=2, max_value=30)  # 空间名称
     user_id = db.IntField(default=0)
