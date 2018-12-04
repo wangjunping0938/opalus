@@ -30,12 +30,14 @@ class SaveForm(FlaskForm):
     company = StringField()
     prize = StringField()
     prize_level = StringField() # 奖项级别
+    prize_time = StringField() # 奖项时间
     info = StringField()
     channel = StringField('渠道', validators=[Length(max=10, message="长度小于10个字符")])  # 渠道
     brand_id = IntegerField()    # 品牌ID
     prize_id = IntegerField()    # 奖项ID
     category_id = IntegerField()    # 分类ID
     evt = IntegerField() # 来源
+    #random = IntegerField() # 随机数
     user_id = IntegerField()
 
 

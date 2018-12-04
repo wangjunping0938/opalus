@@ -58,3 +58,15 @@ form .description {
   color: red;
 }
 
+/**
+ * 分页
+ */
+nav ul.pagination {
+    float: left;
+}
+.pager-total {
+    float: left;
+    margin-left: 20px;
+    line-height: 5;
+}
+
