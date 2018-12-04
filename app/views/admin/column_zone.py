@@ -135,14 +135,9 @@ def column_zone_target():
     meta = metaInit.copy()
     id = request.args.get('id')
     if id:
-        column1 = Column.objects(column_zone_id=id).first()
-        if column1:
-            return redirect(url_for('admin.column_list',t=1,q=str(column1._id)))
+        return redirect(url_for('admin.column_list',t=1,q=str(id)))
 
-        else:
-            return jsonify(success=False, message='内容不存在!')
-    else:
-        return jsonify(success=False, message='操作失败!')
+
 
 # 栏目位置删除
 @admin.route('/column_zone/delete', methods=['POST'])
