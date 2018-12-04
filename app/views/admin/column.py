@@ -72,7 +72,10 @@ def column_list():
 
     for i, d in enumerate(data.items):
         data.items[i].cover = d.cover()
-        data.items[i].zone = ColumnZone.objects(_id=ObjectId(d.column_zone_id)).first()
+        zone = ''
+        if d.column_zone_id:
+            zone = ColumnZone.objects(_id=ObjectId(d.column_zone_id)).first()
+        data.items[i].zone = zone
 
     meta['data'] = data.items
     meta['total_count'] = total_count

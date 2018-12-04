@@ -1,6 +1,7 @@
 from flask import render_template, current_app, request, jsonify
 from . import main
 from app import redis_store
+from app.helpers.block import get_column
 
 metaInit = {
     'title': '首页',
@@ -10,8 +11,9 @@ metaInit = {
 @main.route('/')
 def index():
     meta = metaInit.copy()
+    meta['index_home_slide'] = get_column('index_home_slide', 10)
+    meta['web_home_right_slide'] = get_column('web_home_right_slide', 2)
     return render_template('home/index.html', meta=meta)
-
 
 @main.route('/about')
 def about():

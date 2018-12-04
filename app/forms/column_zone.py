@@ -7,8 +7,8 @@ from ..models.column_zone import ColumnZone
 
 class SaveForm(FlaskForm):
     id = StringField()
-    name = StringField('空间标识',validators=[Length(2,20,message='长度位于2~20之间')])
-    title= StringField('空间名称',validators=[Length(2,30,message='长度位于2~30之间')])
+    name = StringField('空间标识',validators=[Length(2,50,message='长度位于2~50之间')])
+    title= StringField('空间名称',validators=[Length(2,50,message='长度位于2~50之间')])
     user_id = IntegerField() # 用户id
     width = IntegerField()  # 宽
     height = IntegerField()  # 高
