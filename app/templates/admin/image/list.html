@@ -158,6 +158,7 @@
         </th>
         <th>缩略图</th>
         <th>图片信息</th>
+        <th>创建人</th>
         <th class="col-md-1">渠道</th>
         <th class="col-md-1">爬手</th>
         <th class="col-md-1">创建时间</th>
@@ -191,6 +192,7 @@
                   {% if d.brand_id %}<p>品牌ID: {{ d.brand_id }}</p>{% endif %}
                   {% if d.prize_id %}<p>奖项ID: {{ d.prize_id }}</p>{% endif %}
                 </td>
+                <td>{{ d.user_id }}</td>
                 <td>{{ d.channel }}</td>
                 <td>{{ d.evt_label }}</td>
                 <td>{{ d.created_at | date("%Y-%m-%d") }}</td>

@@ -50,30 +50,6 @@
         margin-top: 20px;
     }
 
-    .sidebar_left {
-        /*margin: 0px 15px;*/
-    }
-
-    .sidebar_right {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    .overhidden {
-        max-height: 205px;
-        overflow: hidden;
-    }
-
-    .overhidden a {
-        position: relative;
-        display: block;
-        overflow: hidden;
-    }
-    .overhidden img {
-        width: 100%;
-    }
-
     .swiper-button-prev {
         opacity: 0 !important;
         transition: all .3s ease;
@@ -215,23 +191,14 @@
         display: -webkit-box;
     }
 
-    @media (min-width: 992px) and (max-width: 1200px) {
-        .sidebar_right {
-            margin-top: 38px;
-        }
+    .swiper-button-prev, .swiper-container-rtl {
+        left: 20px;
     }
 
-    @media (min-width: 768px) and (max-width: 992px) {
-        .sidebar_right {
-            margin-top: 78px;
-        }
+    .swiper-button-next, .swiper-container-rtl {
+        right: 20px;
     }
 
-    @media (max-width: 768px) {
-        .sidebar_right {
-            margin-top: 89px;
-        }
-    }
 </style>
 {% endblock %}
 
@@ -267,30 +234,21 @@
 {% block content %}
     <div class="wrap">
         <div class="row wrap_swiper">
-            <div class="col-xs-9 col-md-9">
+            <div class="col-xs-12 col-md-12">
                 <div class="sidebar_left">
                     <div class="swiper-container">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <a href="">
-                                    <img src="https://p4.taihuoniao.com/asset/181125/5bfaac03fc8b12fc328b6c1f-1" alt="">
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="">
-                                    <img src="https://p4.taihuoniao.com/asset/180514/5af96318fc8b12ef128b7f7b-1" alt="">
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="">
-                                    <img src="https://p4.taihuoniao.com/asset/180926/5bab023520de8d64578b5f13-1" alt="">
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a href="">
-                                    <img src="https://p4.taihuoniao.com/asset/180416/5ad47ef3fc8b1263068c39fb-1" alt="">
-                                </a>
-                            </div>
+                            {% if meta.index_home_slide %}
+                                {% for d in meta.index_home_slide %}
+                                    <div class="swiper-slide">
+                                      <a href="{{ d.target }}" target="_blank">
+                                          {% if d.cover %}
+                                              <img src="{{ d.cover.get_thumb_path().bi }}" alt="{{ d.title }}">
+                                          {%endif%}
+                                      </a>
+                                    </div>
+                                {%endfor%}
+                            {%endif%}
                         </div>
                         <!-- 如果需要分页器 -->
                         <div class="swiper-pagination"></div>
@@ -302,20 +260,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-3 col-md-3">
-                <div class="sidebar_right">
-                    <div class="overhidden">
-                        <a href="#">
-                            <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="">
-                        </a>
-                    </div>
-                    <div class="overhidden" style="margin-top: 4%">
-                        <a href="">
-                            <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="">
-                        </a>
-                    </div>
-                </div>
-            </div>
+
         </div>
         <!--最新推荐-->
         <div class="news">
@@ -329,9 +274,9 @@
                     <div class="thumbnail">
                         <a href="javascript:void(0);" class="max_h_160 overflow">
                           {% if d.thumb %}
-                          <img src="{{ d.thumb.mi }}" alt="{{ d.name }}" />
+                          <img class="public_img" src="{{ d.thumb.mi }}" alt="{{ d.name }}" />
                           {%else%}
-                            <img src="{{ d.img_url }}" alt="{{ d.name }}" />
+                            <img class="public_img" src="{{ d.img_url }}" alt="{{ d.name }}" />
                           {%endif%}
                         </a>
                         <div class="text">
@@ -348,31 +293,23 @@
 
         <div class="three">
             <div class="margin_20 d_j">
-                <h2 class="public_h2">设计案例</h2>
+                <h2 class="public_h2">编辑精选</h2>
                 <!--<a href="{{ url_for('main.image_list') }}"><span class="font-18 c_3 cur_p">更多</span></a>-->
             </div>
             <div class="row margin">
-                <div class="col-xs-4 col-md-4">
-                    <div class="thumbnail">
-                        <a href="#" class="max_h_215 overflow">
-                            <img class="public_img" src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-xs-4 col-md-4">
-                    <div class="thumbnail">
-                        <a href="#" class="max_h_215 overflow">
-                            <img class="public_img" src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-xs-4 col-md-4">
-                    <div class="thumbnail">
-                        <a href="#" class="max_h_215 overflow">
-                            <img class="public_img" src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
-                        </a>
-                    </div>
-                </div>
+                {% if meta.image_home_fine %}
+                    {% for d in meta.image_home_fine %}
+                        <div class="col-xs-4 col-md-4">
+                            <div class="thumbnail">
+                                <a href="{{ d.target }}" target="_blank" class="max_h_215 overflow">
+                                    {% if d.cover %}
+                                        <img class="public_img" src="{{ d.cover.get_thumb_path().bi }}" alt="{{ d.title }}" />
+                                    {%endif%}
+                                </a>
+                            </div>
+                        </div>
+                    {%endfor%}
+                {%endif%}
             </div>
         </div>
 
@@ -382,20 +319,19 @@
                 <!--<a href="{{ url_for('main.image_list') }}"><span class="font-18 c_3 cur_p">更多</span></a>-->
             </div>
             <div class="row margin">
-                <div class="col-xs-6 col-md-6">
-                    <div class="thumbnail">
-                        <a href="#" class="max_300 overflow">
-                            <img class="public_img" src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="...">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-6">
-                    <div class="thumbnail">
-                        <a href="#" class="max_300 overflow">
-                            <img class="public_img" src="https://p4.taihuoniao.com/asset/181121/5bf4b4403ffca224638b8fbb-1" alt="...">
-                        </a>
-                    </div>
-                </div>
+                {% if meta.image_home_special %}
+                    {% for d in meta.image_home_special %}
+                        <div class="col-xs-6 col-md-6">
+                            <div class="thumbnail">
+                                <a href="{{ d.target }}" target="_blank" class="max_300 overflow">
+                                    {% if d.cover %}
+                                        <img class="public_img" src="{{ d.cover.get_thumb_path().bi }}" alt="{{ d.title }}" />
+                                    {%endif%}
+                                </a>
+                            </div>
+                        </div>
+                    {%endfor%}
+                {%endif%}
             </div>
         </div>
     </div>

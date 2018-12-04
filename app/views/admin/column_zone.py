@@ -11,12 +11,10 @@ import re
 
 metaInit = {
     'title': '栏目管理',
-    'css_nav_sub_column': 'active',
+    'css_nav_sub_column_zone': 'active',
     'css_nav_column': 'active',
     'css_all': 'active'
 }
-
-
 
 
 # 栏目位置信息列表

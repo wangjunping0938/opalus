@@ -106,23 +106,19 @@
 
 {% block jquery %}
 
-var swiper = new Swiper('.swiper-container', {
-paginationClickable: true,
-//direction: 'vertical',
-<!--loop: true,-->
-<!--autoplay: 3000,-->
+    var swiper = new Swiper('.swiper-container', {
+        paginationClickable: true,
+        //direction: 'vertical',
+        loop: true,
+        autoplay: 3000,
 
-// 如果需要分页器
-pagination: '.swiper-pagination',
+        // 如果需要分页器
+        pagination: '.swiper-pagination',
 
-// 如果需要前进后退按钮
-nextButton: '.swiper-button-next',
-prevButton: '.swiper-button-prev',
-
-observer:true,
-observeParents:true
-});
-
+        // 如果需要前进后退按钮
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+    });
 
 {% endblock %}
 
@@ -136,26 +132,17 @@ observeParents:true
         <div class="sidebar_left">
             <div class="swiper-container">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a href="">
-                            <img src="https://p4.taihuoniao.com/asset/181125/5bfaac03fc8b12fc328b6c1f-1" alt="">
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="">
-                            <img src="https://p4.taihuoniao.com/asset/180514/5af96318fc8b12ef128b7f7b-1" alt="">
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="">
-                            <img src="https://p4.taihuoniao.com/asset/180926/5bab023520de8d64578b5f13-1" alt="">
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="">
-                            <img src="https://p4.taihuoniao.com/asset/180416/5ad47ef3fc8b1263068c39fb-1" alt="">
-                        </a>
-                    </div>
+                    {% if meta.index_home_slide %}
+                        {% for d in meta.index_home_slide %}
+                            <div class="swiper-slide">
+                              <a href="{{ d.target }}" target="_blank">
+                                  {% if d.cover %}
+                                      <img src="{{ d.cover.get_thumb_path().bi }}" alt="{{ d.title }}">
+                                  {%endif%}
+                              </a>
+                            </div>
+                        {%endfor%}
+                    {%endif%}
                 </div>
                 <!-- 如果需要分页器 -->
                 <div class="swiper-pagination"></div>
@@ -167,16 +154,17 @@ observeParents:true
             </div>
         </div>
         <div class="sidebar_right">
-            <div class="overhidden">
-                <a href="">
-                    <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="">
-                </a>
-            </div>
-            <div class="overhidden">
-                <a href="">
-                    <img src="https://p4.taihuoniao.com/asset/181128/5bfdfcdf20de8d5e058b5156-1" alt="">
-                </a>
-            </div>
+            {% if meta.web_home_right_slide %}
+                {% for d in meta.web_home_right_slide %}
+                    <div class="overhidden">
+                        <a href="{{ d.target }}" target="_blank">
+                            {% if d.cover %}
+                                <img src="{{ d.cover.get_thumb_path().bi }}" alt="{{ d.title }}">
+                            {%endif%}
+                        </a>
+                    </div>
+                {%endfor%}
+            {%endif%}
         </div>
     </div>
 </div>

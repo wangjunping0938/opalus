@@ -21,7 +21,7 @@ class Brand(Base):
     description = db.StringField()
     user_id = db.IntField(default=0)
     kind = db.IntField(default=1) # 类型：1.--；2.--；3.--
-    cover_id = db.StringField() # 封面ID
+    cover_id = db.StringField(default='') # 封面ID
     status = db.IntField(default=1)
     deleted = db.IntField(default=0)
     remark = db.StringField()

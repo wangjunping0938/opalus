@@ -29,7 +29,7 @@ class SaveForm(FlaskForm):
             raise ValueError('栏目信息不存在!')
         data = self.data
         if data['title']:
-            if Column.objects(_id__ne=ObjectId(id), name=data['title']).first():
+            if Column.objects(_id__ne=ObjectId(id), title=data['title']).first():
                 raise ValueError('栏目信息已存在!!')
         data.pop('id')
         data.pop('user_id')

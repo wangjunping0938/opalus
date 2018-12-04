@@ -47,8 +47,8 @@
         </div>
         <div class="navbar-header">
             <ul class="nav navbar-nav nav-list">
-                <li role="presentation" class=""><a href="{{ url_for('admin.column_list') }}">栏目列表</a></li>
-                <li role="presentation" class=""><a href="{{ url_for('admin.column_zone_list') }}">位置列表</a></li>
+                <li role="presentation" class="{{ meta.css_nav_sub_column }}"><a href="{{ url_for('admin.column_list') }}">栏目列表</a></li>
+                <li role="presentation" class="{{ meta.css_nav_sub_column_zone }}"><a href="{{ url_for('admin.column_zone_list') }}">位置列表</a></li>
             </ul>
         </div>
         <div class="navbar-collapse collapse fr">

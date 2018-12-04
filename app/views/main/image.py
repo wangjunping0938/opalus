@@ -5,7 +5,7 @@ from app.helpers.constant import prize_options
 from app.helpers.pager import Pager
 from app.models.image import Image
 from app.models.brand import Brand
-
+from app.helpers.block import get_column
 
 from . import main
 from app import redis_store
@@ -34,6 +34,10 @@ def image_index():
         }
         sticks.append(row)
     meta['sticks'] = sticks
+
+    meta['index_home_slide'] = get_column('image_index_slider', 10)
+    meta['image_home_fine'] = get_column('image_home_fine', 3)
+    meta['image_home_special'] = get_column('image_home_special', 2)
     return render_template('image/index.html', meta=meta)
 
 @main.route('/image/list')

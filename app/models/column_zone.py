@@ -16,8 +16,8 @@ class ColumnZone(Base):
     }
 
     _id = db.StringField()
-    name = db.StringField(min_value=2, max_value=20, required=True, unique=True)  # 空间标识
-    title = db.StringField(min_value=2, max_value=30)  # 空间名称
+    name = db.StringField(min_value=2, max_value=50, required=True, unique=True)  # 空间标识
+    title = db.StringField(min_value=2, max_value=50)  # 空间名称
     user_id = db.IntField(default=0)
     width = db.IntField(default=0)  # 图片宽
     height = db.IntField(default=0) # 图片高

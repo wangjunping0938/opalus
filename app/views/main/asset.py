@@ -6,7 +6,7 @@ from bson import ObjectId
 @main.route('/asset/ajx_list')
 def asset_ajx_list():
     page = int(request.args.get('page', 1))
-    per_page = int(request.args.get('per_page', 20))
+    per_page = int(request.args.get('per_page', 10))
     target_id = request.args.get('target_id', '')
     asset_type = int(request.args.get('asset_type', 1))
     cover_id = request.args.get('cover_id', '')
