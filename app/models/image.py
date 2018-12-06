@@ -45,6 +45,7 @@ class Image(Base):
     prize_level = db.StringField(max_length=50, default='')  # 奖项级别
     prize_time = db.StringField(max_length=50, default='')  # 奖项时间
     category_id = db.IntField(default=0)    # 分类ID
+    domain = db.IntField(default=0) # 领域
     stick = db.IntField(default=0)  # 是否推荐：0.否；1.是；
     stick_on = db.IntField(default=0)  # 推荐时间；
     status = db.IntField(default=1)    # 状态: 0.禁用；1.启用

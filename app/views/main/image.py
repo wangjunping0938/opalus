@@ -1,4 +1,4 @@
-from flask import render_template, current_app, request, jsonify, url_for
+from flask import render_template, current_app, request, jsonify, url_for, flash, redirect
 from . import main
 from app.helpers.common import force_int
 from app.helpers.constant import prize_options
@@ -6,6 +6,9 @@ from app.helpers.pager import Pager
 from app.models.image import Image
 from app.models.brand import Brand
 from app.helpers.block import get_column
+from app.transformer.image import t_image_view
+
+from bson import ObjectId
 
 from . import main
 from app import redis_store
@@ -124,3 +127,32 @@ def image_list():
     meta['pager'] = pager.render_view()
     return render_template('image/list.html', meta=meta)
 
+
+# 详情
+@main.route('/image/view')
+def image_view():
+    meta = metaInit.copy()
+
+    id = request.args.get('id', None)
+    if not id:
+        flash('ID不存在!', 'warning')
+        return redirect(url_for('main.image_index'))
+
+    if not len(id) == 24:
+        flash('ID非法！', 'warning')
+        return redirect(url_for('main.image_index'))
+
+    image = Image.objects(_id=ObjectId(id)).first()
+
+    if not image:
+        flash('内容不存在！', 'warning')
+        return redirect(url_for('main.image_index'))
+
+    if image.deleted == 1:
+        flash('内容已删除！', 'warning')
+        return redirect(url_for('main.image_index'))
+
+    #image = tranform
+
+    meta['title'] = "%s-素材库" % image['title'] 
+    return render_template('image/view.html', meta=meta, form=t_image_view(image))
