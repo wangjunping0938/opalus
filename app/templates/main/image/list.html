@@ -305,9 +305,9 @@
                       <a href="{{ url_for('main.image_view', id=d._id) }}" target="_blank">
                           <div class="list_img">
                               {% if d.thumb %}
-                                  <img src="{{ d.thumb.mi }}" alt="{{ d.name }}" />
+                                  <img src="{{ d.thumb.mi }}" alt="{{ d.title }}" />
                               {%else%}
-                                  <img src="{{ d.img_url }}" alt="{{ d.name }}" />
+                                  <img src="{{ d.img_url }}" alt="{{ d.title }}" />
                               {%endif%}
                           </div>
                       </a>
@@ -329,9 +329,9 @@
                               {% if d.brand %}<p>品牌:<span>{{ d.brand.name }}</span></p>{%endif%}
                               {% if d.designer %}<p>设计师:<span>{{ d.designer }}</span></p>{%endif%}
                             </div>
-                                                                                     {% if d.total_tags %}
+                              {% if d.tags %}
                               <p class="tags">常规:
-                                {% for d in d.total_tags %}
+                                {% for d in d.tags %}
                                     <span class="label label-info">{{ d }}</span>
                                 {%endfor%}
                               </p>

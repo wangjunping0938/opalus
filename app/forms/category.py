@@ -11,8 +11,8 @@ from ..models.category import Category
 class SaveForm(FlaskForm):
     id = StringField()
 
-    mark = StringField('标识', validators=[DataRequired(message="标识不能为空"), Length(min=4, max=16, message="长度大于4小于16")])
-    name = StringField('名称', validators=[DataRequired(message="名称不能为空"), Length(min=4, max=16, message="长度大于4小于16")])
+    mark = StringField('标识', validators=[DataRequired(message="标识不能为空"), Length(min=2, max=20, message="长度大于2小于20")])
+    name = StringField('名称', validators=[DataRequired(message="名称不能为空"), Length(min=2, max=30, message="长度大于2小于30")])
     kind = IntegerField('类型', validators=[NumberRange(min=1, max=8, message="类型设置不正确")])
     remark = StringField()
     user_id = IntegerField()
