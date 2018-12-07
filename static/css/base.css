@@ -37,6 +37,10 @@ label.error{
     color: red;
 }
 
+p, span {
+    word-wrap: break-word;
+}
+
 form .description {
     color: #9DA6AB;
     font-size: 0.8em;
@@ -68,5 +72,40 @@ nav ul.pagination {
     float: left;
     margin-left: 20px;
     line-height: 5;
+}
+
+.public_img {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+
+.line-clamp-1 {
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+}
+
+.line-clamp-2 {
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+}
+
+.navbar-default {
+    background: #ffffff;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+    color: #ed3a4a;
+    background: #ffffff;
 }
 

@@ -31,7 +31,7 @@ class Brand(Base):
 
     # 封面
     def cover(self):
-        if self.cover_id and len(self.cover_id) == 12:
+        if self.cover_id and len(self.cover_id) == 24:
             asset = Asset.objects(_id=ObjectId(self.cover_id)).first()
             if asset and asset.deleted==0:
                 return asset
