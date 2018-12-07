@@ -17,11 +17,11 @@ class Category(Base):
     mark = db.StringField(max_length=20)
     name = db.StringField(max_value=30, required=True, unique=True)
     user_id = db.IntField(required=True)
-    kind = db.IntField(default=1) # 类型：1.文档；2.--；3.--
+    kind = db.IntField(default=1) # 类型：1.文档；2.素材；3.--
     pid = db.IntField(default=0)
     cid = db.IntField(default=0)
     sort = db.IntField(default=0) # 排序
-    status = db.IntField(default=1)
+    status = db.IntField(default=0)
     deleted = db.IntField(default=0)
     remark = db.StringField()
 
@@ -39,7 +39,7 @@ class Category(Base):
     def category_kind_options(self, kind=0):
         data = [
                 {'id':1, 'name': '文档'},
-                {'id':2, 'name': '未定义1'},
+                {'id':2, 'name': '素材'},
                 {'id':3, 'name': '未定义2'}
             ]
 

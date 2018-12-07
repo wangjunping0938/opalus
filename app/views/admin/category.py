@@ -24,6 +24,8 @@ def category_list():
         if kind == 1:
             meta['css_doc'] = 'active'
         elif kind == 2:
+            meta['css_image'] = 'active'
+        elif kind == 3:
             meta['css_other'] = 'active'
         else:
             meta['css_all'] = 'active'
@@ -48,7 +50,9 @@ def category_list():
         kind_label = '--'
         if d.kind == 1:
             kind_label = '文档'
-        if d.kind == 2:
+        elif d.kind == 2:
+            kind_label = '素材'
+        else:
             kind_label = '备用'
             
         data.items[i].kind_label = kind_label

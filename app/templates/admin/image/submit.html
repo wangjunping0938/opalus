@@ -281,6 +281,18 @@ $('.def-tags span').click(function(){
 
             <div class="form-group">
                 <div class="col-xs-4">
+                    <label for="category_id">分类</label>
+                    <select name="category_id" class="form-control">
+                        <option value="0">--请选择--</option>
+                        {% for d in meta.categories %}
+                            <option value="{{ d._id }}" {% if meta.data.category_id==d._id %}selected="selected"{%endif%}>{{ d.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
                     <label for="title">名称</label>
                     <input type="text" name="title" class="form-control" value="{{ meta.data.title }}" placeholder="标题">
                 </div>
@@ -288,7 +300,7 @@ $('.def-tags span').click(function(){
 
             <div class="form-group">
                 <div class="col-xs-4">
-                    <label for="brand_id">所属品牌ID</label>
+                    <label for="brand_id">品牌</label>
                     <select name="brand_id" class="form-control">
                         <option value="0">--请选择--</option>
                         {% for d in meta.brands %}
@@ -297,7 +309,7 @@ $('.def-tags span').click(function(){
                     </select>
                 </div>
                 <div class="col-xs-4">
-                    <label for="prize_id">所属奖项ID</label>
+                    <label for="prize_id">奖项</label>
                     <select name="prize_id" class="form-control">
                         <option value="0">--请选择--</option>
                         {% for d in meta.prize_options %}

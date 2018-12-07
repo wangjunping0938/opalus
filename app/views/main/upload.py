@@ -1,7 +1,7 @@
 from flask import render_template, current_app, jsonify, request
 import os
 from . import main
-from app import redis_store
+from app import cache 
 from app.helpers.asset import handle_file
 
 metaInit = {

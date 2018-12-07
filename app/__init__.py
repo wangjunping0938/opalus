@@ -6,7 +6,7 @@ from flask_mongoengine import MongoEngine, MongoEngineSessionInterface
 from flask_wtf.csrf import CSRFProtect
 from jinja2 import filters
 # redis
-from flask_redis import FlaskRedis
+from flask_caching import Cache
 # 定时任务
 from .extensions import celery
 # 加载装饰器
@@ -17,7 +17,7 @@ PROJDIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
 CONFDIR = os.path.join(PROJDIR, 'config')
 
 db = MongoEngine()
-redis_store = FlaskRedis()
+cache = Cache(config={'CACHE_TYPE': 'simple'})
 csrf = CSRFProtect()
 mail=Mail()
 
@@ -39,7 +39,7 @@ def create_app(config=None):
     app.config.update({'SITE_TIME': datetime.datetime.utcnow()})
 
     db.init_app(app)
-    redis_store.init_app(app)
+    cache.init_app(app)
     csrf.init_app(app)
     mail.init_app(app)
     #app.session_interface = MongoEngineSessionInterface(db)

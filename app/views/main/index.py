@@ -1,6 +1,6 @@
 from flask import render_template, current_app, request, jsonify
 from . import main
-from app import redis_store
+from app import cache
 from app.helpers.block import get_column
 
 metaInit = {
@@ -31,8 +31,8 @@ def contact():
 def test():
     meta = metaInit.copy()
     a = 'abc'
-    redis_store.set('aa', a)
-    b = redis_store.get('aa')
+    cache.set('aa', a)
+    b = cache.get('aa')
     # job.delay(1, 2)
     # c = current_app.config['TEST']
     return str(c)

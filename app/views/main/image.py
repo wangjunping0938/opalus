@@ -11,7 +11,6 @@ from app.transformer.image import t_image_view
 from bson import ObjectId
 
 from . import main
-from app import redis_store
 
 metaInit = {
     'title': '素材库',

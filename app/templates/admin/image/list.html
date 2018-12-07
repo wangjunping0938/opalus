@@ -160,7 +160,7 @@
         <th>图片信息</th>
         <th>创建人</th>
         <th class="col-md-1">渠道</th>
-        <th class="col-md-1">爬手</th>
+        <th class="col-md-1">爬取人</th>
         <th class="col-md-1">创建时间</th>
         <th>推荐</th>
         <th>状态</th>
@@ -175,15 +175,18 @@
                     </div>
                 </td>
                 <td>
-                  {% if d.thumb %}
-                    <img src="{{ d.thumb.sm }}" width="100" />
-                  {%else%}
-                    <img src="{{ d.img_url }}" width="100" />
-                  {%endif%}
+                  <a href="{{ url_for('main.image_view', id=d._id) }}" target="_blank">
+                      {% if d.thumb %}
+                        <img src="{{ d.thumb.sm }}" width="100" />
+                      {%else%}
+                        <img src="{{ d.img_url }}" width="100" />
+                      {%endif%}
+                  </a>
                 </td>
                 <td>
                   <p>ID: {{ d._id }}</p>
                   {% if d.title %}<p>标题: {{ d.title }}</p>{% endif %}
+                  {% if d.category %}<p>分类: {{ d.category.name }}</p>{% endif %}
                   {% if d.name %}<p>图片名: {{ d.name }}</p>{% endif %}
                   {% if d.img_url %}<p>原图地址: {{ d.img_url }}</p>{% endif %}
                   {% if d.path %}<p>七牛路径: {{ config.get('ASSET_URL') }}/{{ d.path }}</p>{% endif %}

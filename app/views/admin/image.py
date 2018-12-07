@@ -4,6 +4,7 @@ from flask import render_template, request, current_app, url_for, jsonify, g, fl
 from . import admin
 from app.models.image import Image
 from app.models.brand import Brand
+from app.models.category import Category
 from app.helpers.pager import Pager
 from app.helpers.common import force_int
 from app.forms.image import SaveForm, setStatus
@@ -11,6 +12,7 @@ from bson import ObjectId
 from app.helpers.block import get_block_content
 from app.helpers.constant import prize_options
 from app.jobs.image import download, upload
+from app.transformer.image import t_image_list
 import re
 
 metaInit = {
@@ -81,23 +83,9 @@ def image_list():
     total_count = Image.objects(**query).count()
 
     # 过滤数据
-    for i, d in enumerate(data.items):
-        evt_label = ''
-        data.items[i]._id = str(d._id)
-        data.items[i].thumb = d.get_thumb_path()
-        if d.tags:
-            data.items[i].tags_s = ','.join(d.tags)
-        if d.evt == 5:
-            evt_label = '军平'
-        elif d.evt == 3:
-            evt_label = '振斌'
-        elif d.evt == 2:
-            evt_label = 'Tian'
-        else:
-            evt_label = '--'
-        data.items[i].evt_label = evt_label
+    rows = t_image_list(data)
 
-    meta['data'] = data.items
+    meta['data'] = rows
     meta['total_count'] = total_count
     meta['prize_options'] = prize_options()
 
@@ -137,6 +125,9 @@ def image_submit():
     meta['default_other_tags'] = re.split('[,，]', get_block_content('default_other_tags'))
 
     meta['prize_options'] = prize_options()
+
+    categories = Category.objects(kind=2, status=1, deleted=0)[:20]
+    meta['categories'] = categories
 
     # 获取品牌列表
     brands = Brand.objects(status=1, deleted=0)[:1000]
