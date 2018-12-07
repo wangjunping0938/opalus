@@ -28,6 +28,7 @@ def t_image_view(d):
         'technique_tags': d.technique_tags,
         'style_tags': d.style_tags,
         'other_tags': d.other_tags,
+        'total_tags': d.total_tags,
     }
 
 def t_image_list(data):
@@ -59,6 +60,7 @@ def t_image_list(data):
             'technique_tags': d.technique_tags,
             'style_tags': d.style_tags,
             'other_tags': d.other_tags,
+            'total_tags': d.total_tags,
             'user_id': d.user_id,
             'channel': d.channel,
             'stick': d.stick,

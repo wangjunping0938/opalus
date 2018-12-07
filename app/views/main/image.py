@@ -6,7 +6,7 @@ from app.helpers.pager import Pager
 from app.models.image import Image
 from app.models.brand import Brand
 from app.helpers.block import get_column
-from app.transformer.image import t_image_view
+from app.transformer.image import t_image_view, t_image_list
 
 from bson import ObjectId
 
@@ -118,7 +118,10 @@ def image_list():
         data.items[i].prize_label = prize_label
         data.items[i].brand = brand
 
-    meta['data'] = data.items
+    # 过滤数据
+    rows = t_image_list(data)
+
+    meta['data'] = rows
     meta['total_count'] = total_count
     meta['prize_options'] = prize_options()
 
