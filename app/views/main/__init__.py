@@ -12,6 +12,7 @@ from app.helpers.auth import get_current_user
 def load_current_user():
     g.user = get_current_user()
     if g.user:
+        g.is_edit = True if g.user.role_id in [2, 5, 8] else False
         g.is_admin = True if g.user.role_id in [5, 8] else False
         g.is_system = True if g.user.role_id in [8] else False
 

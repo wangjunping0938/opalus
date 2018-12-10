@@ -49,7 +49,8 @@
             <ul class="nav navbar-nav nav-list">
                 <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.category_list') }}">全部</a></li>
                 <li role="presentation" class="{{ meta.css_doc }}"><a href="{{ url_for('admin.category_list', kind=1) }}">文档</a></li>
-                <li role="presentation" class="{{ meta.css_other }}"><a href="{{ url_for('admin.category_list', kind=2) }}">备用</a></li>
+                <li role="presentation" class="{{ meta.css_image }}"><a href="{{ url_for('admin.category_list', kind=2) }}">素材</a></li>
+                <li role="presentation" class="{{ meta.css_other }}"><a href="{{ url_for('admin.category_list', kind=3) }}">备用</a></li>
             </ul>
         </div>
     </div>

@@ -138,6 +138,11 @@
       margin: auto;
     }
 
+    .title a.editor {
+        font-size: 12px;
+        color: #607B8B;
+    }
+
     .line-clamp-1 {
         overflow: hidden;
         -webkit-box-orient: vertical;
@@ -305,22 +310,22 @@
                       <a href="{{ url_for('main.image_view', id=d._id) }}" target="_blank">
                           <div class="list_img">
                               {% if d.thumb %}
-                                  <img src="{{ d.thumb.mi }}" alt="{{ d.name }}" />
+                                  <img src="{{ d.thumb.mi }}" alt="{{ d.title }}" />
                               {%else%}
-                                  <img src="{{ d.img_url }}" alt="{{ d.name }}" />
+                                  <img src="{{ d.img_url }}" alt="{{ d.title }}" />
                               {%endif%}
                           </div>
                       </a>
                       <div class="content">
                           <div class="title line-clamp-1 d_j_b">
-                            <p><a href="{{ url_for('main.image_view', id=d._id) }}" target="_blank">{{ d.title }}</a><span class="content_type">分类</span></p>
+                            <p><a href="{{ url_for('main.image_view', id=d._id) }}" target="_blank">{{ d.title }}</a>{% if d.category %}<span class="content_type">{{ d.category.name }}</span>{%endif%} {% if g.is_edit %}<a class="editor" href="{{ url_for('admin.image_submit', id=d._id) }}" target="_blank">编辑</a>{%endif%}</p>
                           </div>
                           <!--
                           <p class="details line-clamp-2"></p>
                           -->
                           <div class="mt5">
-                            {% if d.prize_label %}
-                            <p>奖项:<span>{{ d.prize_label }}{% if d.prize_level %}[{{ d.prize_level }}]{% if d.prize_time %}--获奖时间:{{ d.prize_time }}{%endif%}{%endif%}</span></p>
+                            {% if d.prize %}
+                            <p>奖项:<span>{{ d.prize }}{% if d.prize_level %}[{{ d.prize_level }}]{% if d.prize_time %}--获奖时间:{{ d.prize_time }}{%endif%}{%endif%}</span></p>
                             {%elif d.prize%}
                                 <p>奖项:<span>{{ d.prize }}{% if d.prize_level %}[{{ d.prize_level }}]{% if d.prize_time %}--获奖时间:{{ d.prize_time }}{%endif%}{%endif%}</span></span></p>
                             {%endif%}
@@ -329,9 +334,9 @@
                               {% if d.brand %}<p>品牌:<span>{{ d.brand.name }}</span></p>{%endif%}
                               {% if d.designer %}<p>设计师:<span>{{ d.designer }}</span></p>{%endif%}
                             </div>
-                                                                                     {% if d.total_tags %}
+                              {% if d.tags %}
                               <p class="tags">常规:
-                                {% for d in d.total_tags %}
+                                {% for d in d.tags %}
                                     <span class="label label-info">{{ d }}</span>
                                 {%endfor%}
                               </p>
