@@ -38,7 +38,7 @@ class Image(Base):
     designer = db.StringField(max_length=200, default='') # 设计师
     company = db.StringField(max_length=100, default='') # 公司
     user_id = db.IntField(default=0)    # 用户ID
-    kind = db.IntField(default=1)    # 类型:
+    kind = db.IntField(default=1)    # 类型: 1.设计类；5.服装类；
     brand_id = db.IntField(default=0)    # 品牌ID
     prize_id = db.IntField(default=0)   # 奖项ID
     prize = db.StringField(max_length=50, default='')  # 奖项名称

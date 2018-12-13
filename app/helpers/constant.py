@@ -198,6 +198,7 @@ def design_fields_label_options(field=''):
 # 设计奖项
 def prize_options(flag=''):
     data = [
+<<<<<<< HEAD
         {'id': 1, 'name': '德国红点设计奖'},
         {'id': 2, 'name': '德国IF设计奖'},
         {'id': 3, 'name': 'IDEA工业设计奖'},
@@ -224,6 +225,32 @@ def prize_options(flag=''):
 
         {'id': -1, 'name': '其它'}
     ]
+=======
+                {'id':1, 'name': '德国红点设计奖'},
+                {'id':2, 'name': '德国IF设计奖'},
+                {'id':3, 'name': 'IDEA工业设计奖'},
+                {'id':4, 'name': '中国红星奖'},
+                {'id':5, 'name': '中国红棉奖'},
+                {'id':6, 'name': '台湾金点奖'},
+                {'id':7, 'name': '香港DFA设计奖'},
+                {'id':8, 'name': '日本G-Mark设计奖'},
+                {'id':9, 'name': '韩国好设计奖'},
+                {'id':10, 'name': '新加坡设计奖'},
+                {'id':11, 'name': '意大利—Compasso d`Oro设计奖'},
+                {'id':12, 'name': '英国设计奖'},
+                {'id':13, 'name': '中国优秀工业设计奖'},
+                {'id':14, 'name': 'DIA中国设计智造大奖'},
+                {'id':15, 'name': '中国好设计奖'},
+                {'id':16, 'name': '澳大利亚国际设计奖'},
+                {'id':17, 'name': '美国IDEA工业设计优秀奖'},
+                {'id':18, 'name': '中国设计智造大奖'},
+                {'id':20, 'name': 'DBA设计效能奖'},
+                {'id':21, 'name': '东莞杯国际工业设计大奖'},
+                {'id':22, 'name': '中国家具设计金点奖'},
+
+                {'id':-1, 'name': '其它'}
+            ]
+>>>>>>> origin/ts
     if not flag:
         return data
     if isinstance(flag, int):
