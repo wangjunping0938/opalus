@@ -78,8 +78,6 @@ def image_list():
             meta['css_plane'] = 'active'
         meta['css_all'] = ''
         query['kind'] = kind
-    else:
-        query['kind'] = 1
 
     if status == -1:
         meta['css_disable'] = 'active'
