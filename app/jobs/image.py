@@ -150,8 +150,10 @@ def image_update():
     failStatCount = 0
     query = {}
     query['deleted'] = 0
+    query['kind'] = 1
     #query['status'] = 1
     #query['channel'] = 'g_mark'
+    #query['total_tags'] = '女装'
 
     while not isEnd:
         data = Image.objects(**query).order_by('-created_at').paginate(page=page, per_page=perPage)
@@ -163,8 +165,8 @@ def image_update():
         for i, d in enumerate(data.items):
             #img_url = d.img_url.strip()
             if d.channel == 'g_mark':
-                #ok = d.update(prize_id=8)
                 ok = True
+                #ok = d.update(kind=5)
                 if ok:
                     successStatCount += 1
                 else:
