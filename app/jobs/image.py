@@ -11,6 +11,7 @@ from app.extensions import celery
 from app.env import cf
 import requests
 import imghdr
+import random
 
 
 def decorate(func):
@@ -164,9 +165,11 @@ def image_update():
         # 过滤数据
         for i, d in enumerate(data.items):
             #img_url = d.img_url.strip()
-            if d.channel == 'g_mark':
+            #if d.channel == 'g_mark':
+            r = random.randint(1000000, 9999999)
+            if True:
                 ok = True
-                #ok = d.update(kind=5)
+                #ok = d.update(random=r)
                 if ok:
                     successStatCount += 1
                 else:
