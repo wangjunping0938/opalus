@@ -86,8 +86,8 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav nav-list">
                 <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.image_list') }}">全部</a></li>
-                <li role="presentation" class="{{ meta.css_enable }}"><a href="{{ url_for('admin.image_list', status=1) }}">启用</a></li>
-                <li role="presentation" class="{{ meta.css_disable }}"><a href="{{ url_for('admin.image_list', status=-1) }}">禁用</a></li>
+                <li role="presentation" class="{{ meta.css_design }}"><a href="{{ url_for('admin.image_list', kind=1) }}">设计类</a></li>
+                <li role="presentation" class="{{ meta.css_fashion }}"><a href="{{ url_for('admin.image_list', kind=5) }}">服装类</a></li>
                 <li role="presentation" class="{{ meta.css_deleted }}"><a href="{{ url_for('admin.image_list', deleted=1) }}">回收站</a></li>
             </ul>
         </div>
@@ -117,7 +117,6 @@
     <div class="fr">
 
         <form class="navbar-form navbar-left options-bar" role="search" action="{{ url_for('admin.image_list') }}" method="GET" id="search-form">
-          <input type="hidden" name="status" value="{{ request.args.get('status', '') }}" />
           <input type="hidden" name="kind" value="{{ request.args.get('kind', '') }}" />
           <input type="hidden" name="deleted" value="{{ request.args.get('deleted', '') }}" />
           <div class="form-group">
@@ -140,6 +139,13 @@
                   {% endfor %}
               </select>
           </div>
+          <div class="form-group">
+              <select name="status" class="form-control input-sm">
+                  <option value="0" {% if request.args.get('status') == '0' %}selected="selected"{%endif%}>--状态--</option>
+                  <option value="1" {% if request.args.get('status') == '1' %}selected="selected"{%endif%}>启用</option>
+                  <option value="-1" {% if request.args.get('status') == '-1' %}selected="selected"{%endif%}>禁用</option>
+              </select>
+          </div>
 
           <button type="submit" class="btn btn-default btn-sm">搜索</button>
         </form>
@@ -159,6 +165,7 @@
         <th>缩略图</th>
         <th>图片信息</th>
         <th>创建人</th>
+        <th>类型</th>
         <th class="col-md-1">渠道</th>
         <th class="col-md-1">爬取人</th>
         <th class="col-md-1">创建时间</th>
@@ -196,6 +203,7 @@
                   {% if d.prize_id %}<p>奖项ID: {{ d.prize_id }}</p>{% endif %}
                 </td>
                 <td>{{ d.user_id }}</td>
+                <td>{{ d.kind }}</td>
                 <td>{{ d.channel }}</td>
                 <td>{{ d.evt_label }}</td>
                 <td>{{ d.created_at | date("%Y-%m-%d") }}</td>

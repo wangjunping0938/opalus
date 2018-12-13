@@ -50,7 +50,7 @@ def image_list():
     per_page = force_int(request.args.get('per_page', 20))
     status = force_int(request.args.get('status', 1))
     deleted = force_int(request.args.get('deleted', 0))
-    kind = force_int(request.args.get('kind', 0))
+    kind = force_int(request.args.get('kind', 1))
     prize_id = force_int(request.args.get('prize_id', 0))
     tag = request.args.get('tag', '')
 

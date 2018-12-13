@@ -51,18 +51,16 @@ def image_list():
 
     if kind:
         if kind == 1:
-            meta['css_industry'] = 'active'
-        elif kind == 2:
-            meta['css_plane'] = 'active'
+            meta['css_design'] = 'active'
+        elif kind == 5:
+            meta['css_fashion'] = 'active'
         meta['css_all'] = ''
         query['kind'] = kind
 
     if status == -1:
-        meta['css_disable'] = 'active'
         query['status'] = 0
     if status == 1:
         query['status'] = 1
-        meta['css_enable'] = 'active'
     else:
         pass
 
@@ -72,7 +70,7 @@ def image_list():
     else:
         query['deleted'] = 0
 
-    if not status and not deleted:
+    if not kind and not deleted:
         meta['css_all'] = 'active'
     else:
         meta['css_all'] = ''
