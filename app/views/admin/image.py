@@ -32,7 +32,7 @@ def image_list():
     per_page = force_int(request.args.get('per_page', 100))
     status = force_int(request.args.get('status', 0))
     deleted = force_int(request.args.get('deleted', 0))
-    kind = force_int(request.args.get('kind', 1))
+    kind = force_int(request.args.get('kind', 0))
     prize_id = force_int(request.args.get('prize_id', 0))
 
     t = force_int(request.args.get('t', 1), 1)
@@ -51,20 +51,16 @@ def image_list():
 
     if kind:
         if kind == 1:
-            meta['css_industry'] = 'active'
-        elif kind == 2:
-            meta['css_plane'] = 'active'
+            meta['css_design'] = 'active'
+        elif kind == 5:
+            meta['css_fashion'] = 'active'
         meta['css_all'] = ''
         query['kind'] = kind
-    else:
-        query['kind'] = 1
 
     if status == -1:
-        meta['css_disable'] = 'active'
         query['status'] = 0
     if status == 1:
         query['status'] = 1
-        meta['css_enable'] = 'active'
     else:
         pass
 
@@ -74,7 +70,7 @@ def image_list():
     else:
         query['deleted'] = 0
 
-    if not status and not deleted:
+    if not kind and not deleted:
         meta['css_all'] = 'active'
     else:
         meta['css_all'] = ''
