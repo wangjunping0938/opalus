@@ -19,6 +19,7 @@ def decorate(func):
         query = {}
         query['path'] = ''
         query['deleted'] = 0
+        query['kind'] = 1
         while not self.is_end:
             # 倒序 
             data = Image.objects(**query).order_by('created_at').paginate(page=self.page, per_page=self.per_page)
@@ -166,7 +167,7 @@ def image_update():
         for i, d in enumerate(data.items):
             #img_url = d.img_url.strip()
             #if d.channel == 'g_mark':
-            r = random.randint(1000000, 9999999)
+            #r = random.randint(1000000, 9999999)
             if True:
                 ok = True
                 #ok = d.update(random=r)
