@@ -74,6 +74,15 @@
               </select>
           </div>
 
+          <div class="form-group">
+              <select name="column_zone_id" class="form-control input-sm">
+                  <option value="" {% if request.args.get('column_zone_id') == '' %}selected="selected"{%endif%}>--全部位置--</option>
+                  {% for d in meta.column_zone_options %}
+                      <option value="{{ d.id|string }}" {% if request.args.get('column_zone_id') == d.id|string %}selected="selected"{%endif%}>{{ d.title }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+
           <button type="submit" class="btn btn-default btn-sm">搜索</button>
         </form>
     </div>

@@ -26,7 +26,7 @@ def column_list():
     status = force_int(request.args.get('status', 0))
     deleted = force_int(request.args.get('deleted', 0))
     kind = force_int(request.args.get('kind', 0))
-
+    column_zone_id = request.args.get('column_zone_id', 0)
     t = force_int(request.args.get('t', 1), 1)
     q = request.args.get('q', '')
 
@@ -35,6 +35,9 @@ def column_list():
             query['_id'] = ObjectId(q.strip())
         if t == 2:
             query['title'] = q.strip()
+
+    if column_zone_id:
+        query['column_zone_id'] = column_zone_id
 
     if kind:
         if kind == 1:
@@ -76,9 +79,13 @@ def column_list():
         if d.column_zone_id:
             zone = ColumnZone.objects(_id=ObjectId(d.column_zone_id)).first()
         data.items[i].zone = zone
+    column_zones = ColumnZone.objects.all()
+    for i in column_zones:
+        i.id = str(i._id)
 
     meta['data'] = data.items
     meta['total_count'] = total_count
+    meta['column_zone_options'] = column_zones
 
     pager = Pager(page, per_page, total_count, page_url)
     meta['pager'] = pager.render_view()

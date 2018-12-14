@@ -54,6 +54,7 @@ class Image(Base):
     evt = db.IntField(default=1)    # 来源：1.默认
     random = db.IntField(default=0) # 生成随机数
     deleted = db.IntField(default=0)    # 是否软删除
+    color_id = db.ListField(default=[])  # 颜色id
 
     created_at = db.DateTimeField()
     updated_at = db.DateTimeField(default=datetime.datetime.now)

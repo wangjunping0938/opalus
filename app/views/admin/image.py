@@ -12,6 +12,7 @@ from bson import ObjectId
 from app.helpers.block import get_block_content
 from app.helpers.constant import prize_options
 from app.jobs.image import download, upload
+from app.jobs.imagetone import get_tones
 from app.transformer.image import t_image_list
 import re
 
