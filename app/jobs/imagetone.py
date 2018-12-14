@@ -10,7 +10,9 @@ import PIL
 import numpy as np
 import scipy.cluster
 from bson import ObjectId
+from manage import create_app
 
+app = create_app()
 
 #  读取图片并返回ImageExtractor 实例化对象
 def read_file(response):
