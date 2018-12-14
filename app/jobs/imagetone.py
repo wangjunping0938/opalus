@@ -116,7 +116,7 @@ def get_tones():
                 print('网络超时访问图片地址失败',str(image._id))
                 break
             try:
-                if response.status_code == '200':
+                if response.status_code == 200:
                     img = read_file(response)
                 else:
                     break
