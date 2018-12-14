@@ -1,6 +1,7 @@
 import os
 import sys
 from io import BytesIO
+from flask import g
 sys.path.append(os.path.abspath(os.path.dirname("__file__")))
 from app.models.image import Image
 from app.extensions import celery
@@ -9,10 +10,9 @@ import requests
 import PIL
 import numpy as np
 import scipy.cluster
+from app.models.color import Color
 from bson import ObjectId
-from manage import create_app
 
-app = create_app()
 
 #  读取图片并返回ImageExtractor 实例化对象
 def read_file(response):
@@ -64,13 +64,15 @@ class ImageExtractor(object):
         codes = [[int(_) for _ in code] for code in codes]
         self.tones = codes
         for i in self.tones:
-            j = "，".join('%s' %z for z in i)
+            j = ",".join('%s' % z for z in i)
             self.tones_str.append(j)
+        self.rgb2hex()
 
     #  打印顔色
     def get_str_tones(self):
         for ind, each_tone in enumerate(self.tones, 1):
             print(f'Tone {ind}: {each_tone}')
+
     # 获取 hex值
     def rgb2hex(self):
         self.hex = []
@@ -89,45 +91,55 @@ class ImageExtractor(object):
     def rgb_to_pantone(self):
         pass
 
-def get_tones(image):
-    response = requests.get(image.img_url)
-    img = read_file(response)
-    img.reduce_size(img.raw_image.size[1])
-    img.unstack_pixel()
-    img.extract_tones(4)
-    img.rgb2hex()
-    return img
-# def get_tones():
-#     query = {}
-#     query['path'] = ''
-#     query['deleted'] = 0
-#     page = 1
-#     per_page = 100
-#     is_end = False
-#     total = 1
-#     while not is_end:
-#         # 倒序
-#         data = Image.objects(**query).order_by('created_at').paginate(page=page, per_page=per_page)
-#         if not len(data.items):
-#             print("get data is empty! \n")
-#             break
-#         for i, image in enumerate(data.items):
-#             response = requests.get(image.img_url)
-#             img = read_file(response)
-#             img.reduce_size(img.raw_image.size[1])
-#             img.unstack_pixel()
-#             img.extract_tones(4)
-#             img.rgb2hex()
-#             print(image.img_url)
-#             img.print_tones()
-#             print('*'*50)
-#         total += 1
-#         print("current page %s: \n" % page)
-#         page += 1
-#         if len(data.items) < per_page:
-#             is_end = True
-#     print("is over execute count %s\n" % total)
 
-
-
+@celery.task()
+def get_tones():
+    query = {}
+    query['deleted'] = 0
+    # query['color_id'] = []
+    page = 1
+    per_page = 100
+    is_end = False
+    total = 1
+    while not is_end:
+        # 倒序
+        data = Image.objects(**query).order_by('created_at').paginate(page=page, per_page=per_page)
+        if not len(data.items):
+            print("get data is empty! \n")
+            break
+        for i, image in enumerate(data.items):
+            if image.color_id:
+                break
+            try:
+                response = requests.get(image.img_url)
+            except:
+                print('网络超时访问图片地址失败',str(image._id))
+                break
+            try:
+                if response.status_code == '200':
+                    img = read_file(response)
+                else:
+                    break
+            except:
+                print('读取文件失败',str(image._id))
+                break
+            img.reduce_size(img.raw_image.size[1])
+            img.unstack_pixel()
+            img.extract_tones(4)
+            color_id = []
+            for j in range(len(img.tones_str)):
+                color = Color.objects(rgb=img.tones_str[j]).first()
+                if color:
+                    color_id.append(str(color._id))
+                else:
+                    color = Color(rgb=img.tones_str[j], hex=img.hex[j])
+                    ok = color.save()
+                    color_id.append(str(ok._id))
+            image.update(color_id=color_id)
+        total += 1
+        print("current page %s: \n" % page)
+        page += 1
+        if len(data.items) < per_page:
+            is_end = True
+    print("is over execute count %s\n" % total)
 
