@@ -51,10 +51,10 @@ class Image(Base):
     status = db.IntField(default=1)    # 状态: 0.禁用；1.启用
     remark = db.StringField(max_length=500, default='')  # 描述
     info = db.StringField(max_length=10000, default='')  # 其它json串
-    evt = db.IntField(default=1)    # 来源：1.默认
+    evt = db.IntField(default=1)    # 来源：1.默认; 2.TIAN; 3.LZB; 5.WJP 
     random = db.IntField(default=0) # 生成随机数
     deleted = db.IntField(default=0)    # 是否软删除
-    color_id = db.ListField(default=[])  # 颜色id
+    color_ids = db.ListField(default=[])  # 颜色id
 
     created_at = db.DateTimeField()
     updated_at = db.DateTimeField(default=datetime.datetime.now)

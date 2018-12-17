@@ -3,39 +3,42 @@ from wtforms import TextAreaField, StringField, IntegerField
 from wtforms.validators import DataRequired, Length, EqualTo, NumberRange
 from flask_wtf import FlaskForm
 from bson import ObjectId
-from ..models.color import Color
+from app.helpers.role import check_role
 
+#from .base import BaseForm
+from ..models.color import Color
+#from ..helpers import *
 
 class SaveForm(FlaskForm):
     id = StringField()
-    rgb = StringField('rgb色值', validators=[DataRequired(message="RGB不能为空")])
-    hex = StringField()
+    rgb = StringField('rgb', validators=[Length(max=30, message="长度小于30")])
+    hex = StringField('hex', validators=[Length(max=30, message="长度小于30")])
     cmyk = StringField()
-    pantong = StringField()
+    pantone = StringField()
+    remark = StringField()
     user_id = IntegerField()
 
     def update(self):
         id = self.data['id']
-        color = Color.objects(_id=ObjectId(id)).first()
-        if not color:
+        item = Color.objects(_id=ObjectId(id)).first()
+        if not item:
             raise ValueError('内容不存在!')
 
         data = {}
-
-        data['rgb'] = self.data['rgb']
-        data['hex'] = self.data['hex']
-        data['cmyk'] = self.data['cmyk']
-        data['pantong'] = self.data['pantong']
-        ok = color.update(**data)
+        data = self.data
+        data.pop('id')
+        if 'user_id' in data:
+            data.pop('user_id')
+        ok = item.update(**data)
         return ok
 
     def save(self, **param):
-        data = self.data
+        data = self.data;
+        data['user_id'] = param['user_id']
         data.pop('id')
-        color = Color(**data)
-        color.save()
-        return color
-
+        item = Color(**data)
+        item.save()
+        return item
 
 class setStatus(FlaskForm):
     id = StringField()
@@ -43,10 +46,11 @@ class setStatus(FlaskForm):
 
     def set_status(self):
         id = self.data['id']
-        block = Color.objects(_id=ObjectId(id)).first()
-        if not block:
+        item = Color.objects(_id=ObjectId(id)).first()
+        if not item:
             raise ValueError('内容不存在!')
         data = {}
         data['status'] = self.data['status']
-        ok = block.update(**data)
+        ok = item.update(**data)
         return ok
+

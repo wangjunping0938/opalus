@@ -20,8 +20,9 @@ class Color(Base):
     pantone = db.StringField(max_value=30, default='')  # 潘通色卡号
     cmyk = db.StringField(max_value=30, default='')  # CMYK印刷色值
     user_id = db.IntField(default=0)
-    status = db.IntField(default=0)  # 是否禁用：0.否；1.是；
+    status = db.IntField(default=1)  # 是否禁用：0.是；1.否；
     deleted = db.IntField(default=0)  # 软删除
+    remark = db.StringField(max_value=5000, default='') # 备注
     created_at = db.DateTimeField()
     updated_at = db.DateTimeField()
 

@@ -96,7 +96,7 @@ class ImageExtractor(object):
 def get_tones():
     query = {}
     query['deleted'] = 0
-    # query['color_id'] = []
+    # query['color_ids'] = []
     page = 1
     per_page = 100
     is_end = False
@@ -108,7 +108,7 @@ def get_tones():
             print("get data is empty! \n")
             break
         for i, image in enumerate(data.items):
-            if image.color_id:
+            if image.color_ids:
                 break
             try:
                 response = requests.get(image.img_url)
@@ -126,16 +126,16 @@ def get_tones():
             img.reduce_size(img.raw_image.size[1])
             img.unstack_pixel()
             img.extract_tones(4)
-            color_id = []
+            color_ids = []
             for j in range(len(img.tones_str)):
                 color = Color.objects(rgb=img.tones_str[j]).first()
                 if color:
-                    color_id.append(str(color._id))
+                    color_ids.append(str(color._id))
                 else:
                     color = Color(rgb=img.tones_str[j], hex=img.hex[j])
                     ok = color.save()
-                    color_id.append(str(ok._id))
-            image.update(color_id=color_id)
+                    color_ids.append(str(ok._id))
+            image.update(color_ids=color_ids)
         total += 1
         print("current page %s: \n" % page)
         page += 1
