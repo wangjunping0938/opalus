@@ -32,7 +32,7 @@ class SaveForm(FlaskForm):
     prize_level = StringField() # 奖项级别
     prize_time = StringField() # 奖项时间
     info = StringField()
-    channel = StringField('渠道', validators=[Length(max=10, message="长度小于10个字符")])  # 渠道
+    channel = StringField('渠道', validators=[Length(max=30, message="长度小于30个字符")])  # 渠道
     brand_id = IntegerField()    # 品牌ID
     prize_id = IntegerField()    # 奖项ID
     category_id = IntegerField()    # 分类ID
@@ -78,7 +78,7 @@ class SaveApi(FlaskForm):
     title = StringField('标题', validators=[Length(max=100, message="长度小于100个字符")])
     name = StringField('名称', validators=[Length(max=100, message="长度小于100个字符")])
     kind = IntegerField('类型')
-    channel = StringField('渠道', validators=[Length(max=10, message="长度小于10个字符")])  # 渠道
+    channel = StringField('渠道', validators=[Length(max=30, message="长度小于30个字符")])  # 渠道
     img_url = StringField('图片地址', validators=[DataRequired(message="名称不能为空")])  # 图片地址
     url = StringField('原文地址', validators=[Length(max=500, message="长度小于500字符")])  # 原文地址
     tags = StringField('标签', validators=[Length(max=500, message="长度小于500个字符")])   # 标签
