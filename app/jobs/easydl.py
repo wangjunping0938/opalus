@@ -1,7 +1,9 @@
 import base64
 from io import BytesIO
-import requests
 import json
+import requests
+from aip import AipImageClassify
+
 
 # 数据集管理
 class DSManger:
@@ -97,9 +99,6 @@ class DSManger:
             return
 
 
-
-
-
 # ds.ds_add('手机')
 # ds.ds_list()
 # ds.tag_list(21487)
@@ -122,4 +121,19 @@ def check():
         print('模型检验失败')
         return
     return result['results']
-print(check())
+
+
+# 标签识别
+def tag_recognition(url, APP_ID, API_KEY, SECRET_KEY):
+    APP_ID = APP_ID
+    API_KEY = API_KEY
+    SECRET_KEY = SECRET_KEY
+    client = AipImageClassify(APP_ID, API_KEY, SECRET_KEY)
+    img_response = requests.get(url)
+    response = client.advancedGeneral(img_response.content)
+    return response
+
+
+result = tag_recognition('http://s4.taihuoniao.com/opalus/image/181213/5c127210ce156a5ece3d9508', '15180965',
+                         'Gjw3RzhDcMSS8RESUEiVNWkH', 'pZVtDe5Z74cA2ropdsI3s3rGMrFmXH9N')
+print(result)
