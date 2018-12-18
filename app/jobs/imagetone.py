@@ -116,6 +116,8 @@ def get_tones():
             if image.path:
                 img_url = os.path.join(asset_url, image.path)
             else:
+                print('没有上传图片，跳过..')
+                continue
                 img_url = image.img_url
 
             try:
@@ -127,27 +129,32 @@ def get_tones():
                 if response.status_code == 200:
                     img = read_file(response)
                 else:
+                    print('读取图片失败：%s', response.status_code)
                     continue
             except:
-                print('读取文件失败',str(image._id))
+                print('读取文件失败: %s',str(image._id))
                 continue
-            img.reduce_size(img.raw_image.size[1])
-            img.unstack_pixel()
-            img.extract_tones(4)
-            color_ids = []
-            for j in range(len(img.tones_str)):
-                color = Color.objects(rgb=img.tones_str[j]).first()
-                if color:
-                    color_ids.append(str(color._id))
+            try:
+                img.reduce_size(img.raw_image.size[1])
+                img.unstack_pixel()
+                img.extract_tones(4)
+                color_ids = []
+                for j in range(len(img.tones_str)):
+                    color = Color.objects(rgb=img.tones_str[j]).first()
+                    if color:
+                        color_ids.append(str(color._id))
+                    else:
+                        color = Color(rgb=img.tones_str[j], hex=img.hex[j])
+                        ok = color.save()
+                        color_ids.append(str(ok._id))
+                ok = image.update(color_ids=color_ids)
+                if ok:
+                    print('更新成功: %s' % str(image._id))
                 else:
-                    color = Color(rgb=img.tones_str[j], hex=img.hex[j])
-                    ok = color.save()
-                    color_ids.append(str(ok._id))
-            ok = image.update(color_ids=color_ids)
-            if ok:
-                print('更新成功: %s' % str(image._id))
-            else:
-                print('更新失败：%s' % str(image._id))
+                    print('更新失败：%s' % str(image._id))
+            except:
+                print('解析图片失败：%s',str(image._id))
+                continue
         total += 1
         print("current page %s: \n" % page)
         page += 1
