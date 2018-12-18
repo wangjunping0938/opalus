@@ -36,7 +36,7 @@ class Image(Base):
     other_tags = db.ListField() # 其它
     total_tags = db.ListField() # 所有标签
     designer = db.StringField(max_length=200, default='') # 设计师
-    company = db.StringField(max_length=100, default='') # 公司
+    company = db.StringField(max_length=200, default='') # 公司
     user_id = db.IntField(default=0)    # 用户ID
     kind = db.IntField(default=1)    # 类型: 1.设计类；5.服装类；
     brand_id = db.IntField(default=0)    # 品牌ID
@@ -78,7 +78,7 @@ class Image(Base):
 
     def save(self, *args, **kwargs):
         total_tags = []
-        current_app.logger.debug('aaa')
+        #current_app.logger.debug('test')
         if self.tags and not isinstance(self.tags, list):
             self.tags = self.__trans_list(self.tags)
             total_tags += self.tags
@@ -115,6 +115,8 @@ class Image(Base):
             total_tags += self.other_tags
         else:
             self.other_tags = []
+        if self.color_ids and not isinstance(self.color_ids, list):
+            self.color_ids = self.__trans_list(self.color_ids)
 
         if not self.random:
             self.random = random.randint(1000000, 9999999)
@@ -149,6 +151,8 @@ class Image(Base):
         if 'other_tags' in kwargs.keys() and not isinstance(kwargs['other_tags'], list):
             kwargs['other_tags'] = self.__trans_list(kwargs['other_tags'])
             total_tags = self.__tags_merge(total_tags, self.other_tags, kwargs['other_tags'])
+        if 'color_ids' in kwargs.keys() and not isinstance(kwargs['color_ids'], list):
+            kwargs['color_ids'] = self.__trans_list(kwargs['__trans_list'])
 
             # 去重
             total_tags = list(set(total_tags))

@@ -67,7 +67,7 @@ def save_data(design_case):
         ok = True
         #ok = image.save()
         if not ok:
-            print("保存失败: %s" % design_case.prize_label)
+            print("保存成功: %s" % design_case.prize_label)
         else:
             print("保存失败: %s" % str(design_case._id))
 
