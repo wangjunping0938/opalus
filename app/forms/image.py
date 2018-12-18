@@ -18,6 +18,7 @@ class SaveForm(FlaskForm):
     style_tags = StringField('风格标签', validators=[Length(max=500, message="长度小于500个字符")]) # 风格
     technique_tags = StringField('工艺标签', validators=[Length(max=500, message="长度小于500个字符")]) # 工艺
     other_tags = StringField('其它标签', validators=[Length(max=500, message="长度小于500个字符")]) # 其它
+    color_ids = StringField('颜色集合', validators=[Length(max=500, message="长度小于500个字符")]) # 颜色
     total_tags = StringField('所有标签') # 所有标签
     img_url = StringField()  # 图片地址
     url = StringField('原文地址', validators=[Length(max=500, message="长度小于500字符")])  # 原文地址
