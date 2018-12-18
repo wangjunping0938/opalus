@@ -20,7 +20,7 @@ class Image(Base):
     _id = db.StringField()
     title = db.StringField(max_length=100, default='') # 标题
     name = db.StringField(max_length=100, default='') # 文件名称
-    channel = db.StringField(max_length=10, default='') # 渠道
+    channel = db.StringField(max_length=30, default='') # 渠道
     img_url = db.StringField(max_length=500, default='') # 图片地址
     url = db.StringField(max_length=500, default='') # 原文地址
     path = db.StringField(max_length=100, default='') # 七牛路径
