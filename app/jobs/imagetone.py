@@ -1,7 +1,7 @@
 import os
 import sys
 from io import BytesIO
-from flask import g
+from flask import g, current_app
 sys.path.append(os.path.abspath(os.path.dirname("__file__")))
 from app.models.image import Image
 from app.extensions import celery
@@ -96,33 +96,41 @@ class ImageExtractor(object):
 def get_tones():
     query = {}
     query['deleted'] = 0
-    # query['color_ids'] = []
+    #query['color_ids'] = []
     page = 1
     per_page = 100
     is_end = False
     total = 1
+    asset_url = current_app.config['ASSET_URL']
     while not is_end:
         # 倒序
-        data = Image.objects(**query).order_by('created_at').paginate(page=page, per_page=per_page)
+        data = Image.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
         if not len(data.items):
             print("get data is empty! \n")
             break
         for i, image in enumerate(data.items):
             if image.color_ids:
-                break
+                print('色值已存在，跳过...')
+                continue
+            img_url = ''
+            if image.path:
+                img_url = os.path.join(asset_url, image.path)
+            else:
+                img_url = image.img_url
+
             try:
-                response = requests.get(image.img_url)
+                response = requests.get(img_url)
             except:
                 print('网络超时访问图片地址失败',str(image._id))
-                break
+                continue
             try:
                 if response.status_code == 200:
                     img = read_file(response)
                 else:
-                    break
+                    continue
             except:
                 print('读取文件失败',str(image._id))
-                break
+                continue
             img.reduce_size(img.raw_image.size[1])
             img.unstack_pixel()
             img.extract_tones(4)
@@ -135,7 +143,11 @@ def get_tones():
                     color = Color(rgb=img.tones_str[j], hex=img.hex[j])
                     ok = color.save()
                     color_ids.append(str(ok._id))
-            image.update(color_ids=color_ids)
+            ok = image.update(color_ids=color_ids)
+            if ok:
+                print('更新成功: %s' % str(image._id))
+            else:
+                print('更新失败：%s' % str(image._id))
         total += 1
         print("current page %s: \n" % page)
         page += 1

@@ -81,7 +81,7 @@ $('#upload_file').uploadifive({
     'fileObjName' : 'file',
     'buttonText' : '上传图片',
     'queueID' : 'tip-queue',
-    'fileType' : 'image/*',
+    'fileType' : 'image/*',supervisord
     'multi' : true,
     'fileSizeLimit'   : 5242880,
     'uploadLimit' : 10,
@@ -520,6 +520,13 @@ $('.def-tags span').click(function(){
                             <span class="label label-info">{{ d }}</span>
                         {%endfor%}
                     </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="color_ids">色值</label>
+                    <input type="text" name="color_ids" class="form-control" value="{{ meta.data.color_ids_s }}" placeholder="色值">
                 </div>
             </div>
 

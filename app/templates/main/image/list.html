@@ -213,6 +213,48 @@
       margin-left:5px;
       color:#666;
     }
+
+    .color-button {
+        width: 35px;
+        height: 15px;
+        position: relative;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .color-button:hover .b_img {
+        opacity: 1;
+        display: block;
+    }
+
+    .b_img {
+        position: absolute;
+        top: -120px;
+        left: -65px;
+        width: 185px;
+        height: 112px;
+        background: url("{{ url_for('static', filename='images/t@2x.png') }}");
+        background-size: cover;
+        opacity: 0;
+        transition: all .3s ease;
+        padding: 5px 0px 10px 10px;
+        display: none;
+    }
+
+    .b_img p {
+        width: auto;
+        color: #ffffff;
+        font-size: 12px;
+        text-align: left;
+        line-height: 1.2;
+        margin: 3px;
+    }
+
+    .b_img span {
+        color: #ffffff;
+        font-size: 12px;
+        margin-left: 0;
+    }
 </style>
 {% endblock %}
 
@@ -386,6 +428,22 @@
                               <p class="tags">其它:
                                 {% for d in d.other_tags %}
                                     <span class="label label-info">{{ d }}</span>
+                                {%endfor%}
+                              </p>
+                              {%endif%}
+
+                              {% if d.colors %}
+                              <p class="tags">色值:
+                                {% for c in d.colors %}
+                                <button class="color-button" type="button" style="background: rgb({{ c.rgb }})">
+                                    <div class="b_img">
+                                        <p>--</p>
+                                        <p>HEX：<span>{{ c.hex }}</span></p>
+                                        <p>RGB：<span>{{ c.rgb }}</span></p>
+                                        <p>CMYK：<span>{{ c.cmyk }}</span></p>
+                                        <p>Pantone：<span>{{ c.pantone }}</span></p>
+                                    </div>
+                                </button>
                                 {%endfor%}
                               </p>
                               {%endif%}
