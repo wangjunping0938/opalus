@@ -109,20 +109,20 @@ def get_tones():
             break
         for i, image in enumerate(data.items):
             if image.color_ids:
-                break
+                continue
             try:
                 response = requests.get(image.img_url)
             except:
                 print('网络超时访问图片地址失败',str(image._id))
-                break
+                continue
             try:
                 if response.status_code == 200:
                     img = read_file(response)
                 else:
-                    break
+                    continue
             except:
                 print('读取文件失败',str(image._id))
-                break
+                continue
             img.reduce_size(img.raw_image.size[1])
             img.unstack_pixel()
             img.extract_tones(4)
