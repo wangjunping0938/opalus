@@ -96,7 +96,7 @@ def design_record_list():
 
     pager = Pager(page, per_page, total_count, page_url)
     meta['pager'] = pager.render_view()
-    
+    meta['total_count'] = total_count 
     meta['design_dimension_options'] = design_dimension_options()
     meta['design_fields_label_options'] = design_fields_label_options()
     #current_app.logger.debug('aaaa')

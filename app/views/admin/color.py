@@ -47,6 +47,7 @@ def color_list():
     rows = t_color_list(data)
 
     meta['data'] = rows
+    meta['total_count'] = total_count
     pager = Pager(page, per_page, total_count, page_url)
     meta['pager'] = pager.render_view()
 
