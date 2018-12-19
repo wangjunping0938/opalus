@@ -273,7 +273,7 @@ $('.def-tags span').click(function(){
                         </label>
                         <label class="checkbox-inline">
                             <input type="radio" {% if meta.data.kind==5 %}checked="checked"{%endif%} name="kind" value="5">
-                            服装类
+                            其它类
                         </label>
                     </div>
                 </div>
@@ -520,6 +520,13 @@ $('.def-tags span').click(function(){
                             <span class="label label-info">{{ d }}</span>
                         {%endfor%}
                     </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="color_ids">色值</label>
+                    <input type="text" name="color_ids" class="form-control" value="{{ meta.data.color_ids_s }}" placeholder="色值">
                 </div>
             </div>
 

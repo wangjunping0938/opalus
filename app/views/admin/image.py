@@ -111,6 +111,7 @@ def image_submit():
         item.style_tags_s = ','.join(item.style_tags)
         item.technique_tags_s = ','.join(item.technique_tags)
         item.other_tags_s = ','.join(item.other_tags)
+        item.color_ids_s = ','.join(item.color_ids)
         meta['data'] = item
 
     form = SaveForm()

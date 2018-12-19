@@ -3,7 +3,6 @@
 {% block layout_css %}
     <style type="text/css">
 
-
     </style>
 {% endblock %}
 
@@ -80,6 +79,7 @@
             </div>
         </th>
         <th>ID</th>
+        <th>色卡</th>
         <th>RGB</th>
         <th>十六进制</th>
         <th>潘通色卡号</th>
@@ -98,6 +98,7 @@
                     </div>
                 </td>
                 <td>{{ d._id }}</td>
+                <td><span class="bg-block" style="background-color:rgb({{ d.rgb }});">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> </td>
                 <td>{{ d.rgb }}</td>
                 <td>{{ d.hex }}</td>
                 <td>{{ d.pantone }}</td>
@@ -135,6 +136,7 @@
 
     <!--分页-->
     {{ meta.pager|safe }}
+    <div class="pager-total">共 {{ meta.total_count }} 条记录</div>
 
 </div>
 

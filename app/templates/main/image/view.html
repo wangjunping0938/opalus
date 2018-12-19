@@ -160,7 +160,7 @@
         height: 18px;
         position: relative;
         border-radius: 4px;
-        border: none;
+        border: 1px solid #ccc;
     }
 
     .public_ul li button:hover .b_img {
@@ -307,25 +307,20 @@
                             </li>
                             {%endif%}
                             <li class="public_li">
+                                {% if form.colors %}
                                 <p>颜色:</p>
-                                <button type="button" style="background: red">
+                                {% for c in form.colors %}
+                                <button type="button" style="background: rgb({{ c.rgb }})">
                                     <div class="b_img">
-                                        <p>灰色</p>
-                                        <p>HEX：<span>#B1B2B7</span></p>
-                                        <p>RGB：<span>177，178，183</span></p>
-                                        <p>CMYK：<span>0.36，0.28，0.24，0</span></p>
-                                        <p>Pantone：<span>17-1564</span></p>
+                                        <p>--</p>
+                                        <p>HEX：<span>{{ c.hex }}</span></p>
+                                        <p>RGB：<span>{{ c.rgb }}</span></p>
+                                        <p>CMYK：<span>{{ c.cmyk }}</span></p>
+                                        <p>Pantone：<span>{{ c.pantone }}</span></p>
                                     </div>
                                 </button>
-                                <button type="button" style="background: blue">
-                                    <div class="b_img">
-                                        <p>灰色</p>
-                                        <p>HEX：<span>#B1B2B7</span></p>
-                                        <p>RGB：<span>177，178，183</span></p>
-                                        <p>CMYK：<span>0.36，0.28，0.24，0</span></p>
-                                        <p>Pantone：<span>17-1564</span></p>
-                                    </div>
-                                </button>
+                                {%endfor%}
+                                {%endif%}
                             </li>
                             {% if form.other_tags %}
                             <li class="public_li">

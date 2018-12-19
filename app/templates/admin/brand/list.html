@@ -104,8 +104,7 @@
         </th>
         <th>ID</th>
         <th>Logo</th>
-        <th>名称</th>
-        <th>类型</th>
+        <th>信息</th>
         <th>创建人</th>
         <th class="col-md-1">创建时间</th>
         <th>状态</th>
@@ -127,9 +126,11 @@
                     <img src="{{ url_for('static', filename='images/avatar_100.png') }}" width="100" />
                   {%endif%}
                 </td>
-                <td>{{ d.name }}</td>
                 <td>
-                    {{ d.kind }}
+                  <p>名称: {{ d.name }}</p>
+                  {% if d.en_name %}<p>名称: {{ d.en_name }}</p>{%endif%}
+                  {% if d.country %}<p>国家: {{ d.country }}</p>{%endif%}
+                  {% if d.found_time %}<p>创办时间: {{ d.found_time }}</p>{%endif%}
                 </td>
                 <td>{{ d.user_id }}</td>
                 <td>{{ d.created_at | date("%Y-%m-%d") }}</td>

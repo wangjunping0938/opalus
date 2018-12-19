@@ -17,14 +17,19 @@ class Brand(Base):
     }
 
     _id = db.IntField(primary_key=True, required=True)
-    name = db.StringField(min_value=2, max_value=30, required=True, unique=True)  # 品牌名称
-    description = db.StringField()
+    name = db.StringField(min_value=2, max_value=30, required=True, unique=True)  # 名称
+    en_name = db.StringField(max_value=30, default='')  # 英文名称
+    url = db.StringField(default='')  # 网址
+    category_id = db.IntField(default=0) # 分类
+    country = db.StringField(default='') # 分类
+    description = db.StringField(default='')
     user_id = db.IntField(default=0)
     kind = db.IntField(default=1) # 类型：1.--；2.--；3.--
     cover_id = db.StringField(default='') # 封面ID
+    found_time = db.StringField(default='') # 创办时间
     status = db.IntField(default=1)
     deleted = db.IntField(default=0)
-    remark = db.StringField()
+    remark = db.StringField(default='')
 
     created_at = db.DateTimeField()
     updated_at = db.DateTimeField(default=datetime.datetime.now)

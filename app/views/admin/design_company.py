@@ -76,7 +76,7 @@ def design_company_list():
         data.items[i].kind_label = kind_label
 
     meta['data'] = data.items
-
+    meta['total_count'] = total_count
     pager = Pager(page, per_page, total_count, page_url)
     meta['pager'] = pager.render_view()
 
