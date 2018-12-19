@@ -39,8 +39,7 @@ def site_list():
     # 过滤数据
     for i, d in enumerate(data.items):
         if d.site_from == 0:
-            data.items[i].site_from_label
-            data.items[i].site_type_label
+            data.items[i].site_from_label = platform_options()
         else:
             label = platform_options(d.site_from)
             data.items[i].site_from_label = label['name']

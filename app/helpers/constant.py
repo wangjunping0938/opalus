@@ -12,14 +12,10 @@ def platform_options(id=0):
         {'id': 6, 'name': '差评', 'type': 1},
         {'id': 7, 'name': '其它', 'type': 0}
     ]
-
-    if id == 0:
-        return data
-    else:
-        for d in data:
-            if d['id'] == id:
-                return d
-    return {'id': 0, 'name': ''}
+    for d in data:
+        if d['id'] == id:
+            return d
+    return {'id': 0, 'name': '','type': 0}
 
 
 # 获取网站模式
