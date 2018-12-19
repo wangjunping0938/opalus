@@ -7,24 +7,20 @@ import requests
 sys.path.append(os.path.abspath(os.path.dirname("__file__")))
 from app.models.color import Color
 from app.extensions import celery
-from manage import create_app
-
-app = create_app()
-
 
 
 def get_cmyk(color):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
     }
-    rgb = ','.join(color.rgb)
+    rgb = color.rgb.split(',')
     data = {'RGB_R': rgb[0], 'RGB_G': rgb[1], 'RGB_B': rgb[2], 'rgb_iccprofile': '0', 'cmyk_iccprofile': '9',
             'intent': '3'}
     cmyk_host = 'https://www.colortell.com/rgb2cmyk'
-    response = requests.post(cmyk_host, data=data,headers=headers)
+    response = requests.post(cmyk_host, data=data, headers=headers)
     rex = re.compile(r'<td><code>(\d*?).</code></td>', re.M)
     result = rex.findall(response.text)
-    result = [str(i / 100) for i in result]
+    result = [str(int(i) / 100) for i in result]
     cmyk = ','.join(result)
     return cmyk
 
@@ -38,13 +34,12 @@ def get_pantone(color):
     }
 
     pantone_host = 'https://www.qtccolor.com/findColor.aspx'
-    params = {'render': '1', 'subbrand': '4', 'take': '30', 'word': color.hex}
+    params = {'render': '1', 'subbrand': '2,31', 'take': '30', 'word': color.hex}
     response = requests.get(pantone_host, params=params, headers=headers)
     rex = re.compile(r'<div class="ColorCode">(.+?)</div></a>', re.M)
     result = rex.findall(response.text)
     pantone = result[0]
     return pantone
-
 
 
 @celery.task()
@@ -62,9 +57,14 @@ def cmyk():
 
         for i, color in enumerate(data.items):
             if color.cmyk:
+                print('cmyk值存在跳过:', str(color._id))
                 continue
             cmyk = get_cmyk(color)
-            color.update(cmyk=cmyk)
+            ok = color.update(cmyk=cmyk)
+            if ok:
+                print('更新成功：%s' % str(color._id))
+            else:
+                print('更新失败：%s' % str(color._id))
 
         total += 1
         print("current page %s: \n" % page)
@@ -72,7 +72,6 @@ def cmyk():
         if len(data.items) < per_page:
             is_end = True
     print("is over execute count %s\n" % total)
-
 
 
 @celery.task()
@@ -90,9 +89,14 @@ def pantone():
 
         for i, color in enumerate(data.items):
             if color.pantone:
+                print('pantone值存在跳过:', str(color._id))
                 continue
             pantone = get_pantone(color)
-            color.update(pantone=pantone)
+            ok = color.update(pantone=pantone)
+            if ok:
+                print('更新成功：%s' % str(color._id))
+            else:
+                print('更新失败：%s' % str(color._id))
 
         total += 1
         print("current page %s: \n" % page)
@@ -100,4 +104,3 @@ def pantone():
         if len(data.items) < per_page:
             is_end = True
     print("is over execute count %s\n" % total)
-
