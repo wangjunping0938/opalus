@@ -96,6 +96,7 @@ class ImageExtractor(object):
 def get_tones():
     query = {}
     query['deleted'] = 0
+    query['kind'] = 1
     #query['color_ids'] = []
     page = 1
     per_page = 100

@@ -177,6 +177,28 @@ $('#asset_items').on('click', '.del-asset', function(){
                     <label for="name">名称</label>
                     <input type="text" name="name" class="form-control" value="{{ meta.data.name }}" placeholder="品牌名称">
                 </div>
+                <div class="col-xs-4">
+                    <label for="en_name">英文名称</label>
+                    <input type="text" name="en_name" class="form-control" value="{{ meta.data.en_name }}" placeholder="英文名称">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="url">网址</label>
+                    <input type="text" name="url" class="form-control" value="{{ meta.data.url }}" placeholder="网址">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="found_time">创办时间</label>
+                    <input type="text" name="found_time" class="form-control" value="{{ meta.data.found_time }}" placeholder="创办时间">
+                </div>
+                <div class="col-xs-4">
+                    <label for="country">国家</label>
+                    <input type="text" name="country" class="form-control" value="{{ meta.data.country }}" placeholder="国家">
+                </div>
             </div>
 
             <div class="form-group">

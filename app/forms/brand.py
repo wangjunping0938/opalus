@@ -12,8 +12,13 @@ class SaveForm(FlaskForm):
     id = StringField()
 
     name = StringField('名称', validators=[DataRequired(message="名称不能为空"), Length(min=2, max=30, message="长度大于2小于30个字符")])
+    en_name = StringField()
     asset_type = IntegerField()
     kind = IntegerField()
+    category_id = IntegerField()
+    country = StringField()
+    found_time = StringField()
+    url = StringField()
     remark = StringField()
     cover_id = StringField()
     description = StringField()
