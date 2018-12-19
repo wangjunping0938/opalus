@@ -152,7 +152,7 @@ class Image(Base):
             kwargs['other_tags'] = self.__trans_list(kwargs['other_tags'])
             total_tags = self.__tags_merge(total_tags, self.other_tags, kwargs['other_tags'])
         if 'color_ids' in kwargs.keys() and not isinstance(kwargs['color_ids'], list):
-            kwargs['color_ids'] = self.__trans_list(kwargs['__trans_list'])
+            kwargs['color_ids'] = self.__trans_list(kwargs['color_ids'])
 
             # 去重
             total_tags = list(set(total_tags))
