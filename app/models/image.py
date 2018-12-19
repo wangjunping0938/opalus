@@ -35,6 +35,8 @@ class Image(Base):
     technique_tags = db.ListField() # 工艺
     other_tags = db.ListField() # 其它
     total_tags = db.ListField() # 所有标签
+    price = db.StringField(default='')    # 销售价
+    currency_type = db.IntField(default=1) # 币种: 1.RMB；2.美元；3.--；
     designer = db.StringField(max_length=200, default='') # 设计师
     company = db.StringField(max_length=200, default='') # 公司
     user_id = db.IntField(default=0)    # 用户ID
@@ -117,6 +119,8 @@ class Image(Base):
             self.other_tags = []
         if self.color_ids and not isinstance(self.color_ids, list):
             self.color_ids = self.__trans_list(self.color_ids)
+        else:
+            self.color_ids = []
 
         if not self.random:
             self.random = random.randint(1000000, 9999999)

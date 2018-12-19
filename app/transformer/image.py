@@ -36,6 +36,8 @@ def t_image_view(d):
         'total_tags': d.total_tags,
         'color_ids': d.color_ids,
         'colors': color_tran(d.color_ids),
+        'currency_type': d.currency_type,
+        'price': d.price,
     }
 
 def t_image_list(data):
@@ -77,6 +79,8 @@ def t_image_list(data):
             'status': d.status,
             'color_ids': d.color_ids,
             'colors': color_tran(d.color_ids),
+            'currency_type': d.currency_type,
+            'price': d.price,
             'created_at': d.created_at,
             'updated_at': d.updated_at,
         }
@@ -126,7 +130,8 @@ def evt_label(evt):
 def color_tran(color_ids):
     colors = []
     for i in color_ids:
-        color = Color.objects(_id=ObjectId(i)).first()
-        if color:
-            colors.append(color)
+        if len(i) == 24:
+            color = Color.objects(_id=ObjectId(i)).first()
+            if color:
+                colors.append(color)
     return colors

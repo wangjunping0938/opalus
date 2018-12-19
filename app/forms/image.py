@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from wtforms import TextAreaField, StringField, IntegerField
+from wtforms import TextAreaField, StringField, IntegerField, FloatField
 from wtforms.validators import DataRequired, Length, EqualTo, NumberRange
 from flask_wtf import FlaskForm
 from bson import ObjectId
@@ -26,6 +26,8 @@ class SaveForm(FlaskForm):
     local_name = StringField()   # 本地文件名称
     local_path = StringField()   # 本地文件路径
     ext = StringField() # 扩展名
+    price = StringField()    # 销售价
+    currency_type = IntegerField() # 币种: 1.RMB；2.美元；3.--；
     remark = StringField()
     designer = StringField()
     company = StringField()
@@ -90,6 +92,8 @@ class SaveApi(FlaskForm):
     technique_tags = StringField('风格标签', validators=[Length(max=500, message="长度小于500个字符")]) # 风格
     other_tags = StringField('其它标签', validators=[Length(max=500, message="长度小于500个字符")]) # 其它
     remark = StringField()
+    price = StringField()    # 销售价
+    currency_type = IntegerField() # 币种: 1.RMB；2.美元；3.--；
     brand_id = IntegerField()    # 品牌ID
     prize_id = IntegerField()    # 奖项ID
     designer = StringField()
