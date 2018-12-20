@@ -4,6 +4,7 @@ from flask import render_template, request, current_app, url_for, jsonify, g, fl
 from . import admin
 from app.models.image import Image
 from app.models.brand import Brand
+from app.models.site import Site
 from app.models.category import Category
 from app.helpers.pager import Pager
 from app.helpers.common import force_int
@@ -35,6 +36,7 @@ def image_list():
     deleted = force_int(request.args.get('deleted', 0))
     kind = force_int(request.args.get('kind', 0))
     prize_id = force_int(request.args.get('prize_id', 0))
+    site_mark = request.args.get('site_mark','')
 
     t = force_int(request.args.get('t', 1), 1)
     q = request.args.get('q', '')
@@ -70,24 +72,25 @@ def image_list():
         meta['css_deleted'] = 'active'
     else:
         query['deleted'] = 0
-
+    if site_mark:
+        query['channel'] = site_mark
     if not kind and not deleted:
         meta['css_all'] = 'active'
     else:
         meta['css_all'] = ''
 
-    page_url = url_for('admin.image_list', page="#p#", q=q, t=t, prize_id=prize_id, kind=kind, status=status, deleted=deleted)
+    page_url = url_for('admin.image_list', page="#p#", q=q, t=t, prize_id=prize_id,site_mark=site_mark, kind=kind, status=status, deleted=deleted)
 
     data = Image.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
     total_count = Image.objects(**query).count()
-
+    site_list = Site.objects.all()
     # 过滤数据
     rows = t_image_list(data)
 
     meta['data'] = rows
     meta['total_count'] = total_count
     meta['prize_options'] = prize_options()
-
+    meta['site_list'] = site_list
     pager = Pager(page, per_page, total_count, page_url)
     meta['pager'] = pager.render_view()
 

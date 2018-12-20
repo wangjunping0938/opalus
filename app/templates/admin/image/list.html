@@ -130,7 +130,6 @@
                   <option value="3" {% if request.args.get('t') == '3' %}selected="selected"{%endif%}>来源</option>
               </select>
           </div>
-
           <div class="form-group">
               <select name="prize_id" class="form-control input-sm">
                   <option value="" {% if request.args.get('prize_id') == '' %}selected="selected"{%endif%}>--全部奖项--</option>
@@ -139,6 +138,15 @@
                   {% endfor %}
               </select>
           </div>
+          <div class="form-group">
+              <select name="site_mark" class="form-control input-sm">
+                  <option value="" {% if request.args.get('site_mark') == '' %}selected="selected"{%endif%}>--全部渠道--</option>
+                  {% for d in meta.site_list %}
+                      <option value="{{ d.mark }}" {% if request.args.get('site_mark') == d.mark|string %}selected="selected"{%endif%}>{{ d.name }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+
           <div class="form-group">
               <select name="status" class="form-control input-sm">
                   <option value="0" {% if request.args.get('status') == '0' %}selected="selected"{%endif%}>--状态--</option>
