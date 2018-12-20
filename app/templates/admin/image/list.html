@@ -204,9 +204,10 @@
                   {% if d.category %}<p>分类: {{ d.category.name }}</p>{% endif %}
                   {% if d.name %}<p>图片名: {{ d.name }}</p>{% endif %}
                   {% if d.img_url %}<p>原图地址: {{ d.img_url }}</p>{% endif %}
+                  {% if d.url %}<p>原文地址: {{ d.url }}</p>{% endif %}
                   {% if d.path %}<p>七牛路径: {{ config.get('ASSET_URL') }}/{{ d.path }}</p>{% endif %}
                   {% if d.local_path %}<p>本地路径: {{ d.local_path }}/{{ d.local_name }}</p>{% endif %}
-                  {% if d.tags_s %}<p>标签: {{ d.tags_s }}</p>{% endif %}
+                  {% if d.total_tags_s %}<p>标签: {{ d.total_tags_s }}</p>{% endif %}
                   {% if d.brand_id %}<p>品牌ID: {{ d.brand_id }}</p>{% endif %}
                   {% if d.prize_id %}<p>奖项ID: {{ d.prize_id }}</p>{% endif %}
                 </td>

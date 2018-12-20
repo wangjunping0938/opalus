@@ -72,6 +72,7 @@ def t_image_list(data):
             'style_tags': d.style_tags,
             'other_tags': d.other_tags,
             'total_tags': d.total_tags,
+            'total_tags_s':','.join(d.total_tags),
             'user_id': d.user_id,
             'channel': d.channel,
             'stick': d.stick,
