@@ -11,3 +11,7 @@ db.image.ensureIndex({'brand_id':1}, {background: true});
 db.image.ensureIndex({'category_id':1}, {background: true});
 db.image.ensureIndex({'stick_on':-1}, {background: true});
 db.image.ensureIndex({'title':1}, {background: true});
+
+# color - 色值表
+db.color.ensureIndex({'rgb':1}, {background: true});
+db.color.ensureIndex({'hex':1}, {background: true});

@@ -21,7 +21,7 @@ def color_list():
     meta = metaInit.copy()
     query = {}
     page = int(request.args.get('page', 1))
-    per_page = 20
+    per_page = 100
     status = int(request.args.get('status', 0))
     deleted = int(request.args.get('deleted', 0))
     page_url = url_for('admin.color_list', page="#p#", status=status)
