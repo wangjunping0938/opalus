@@ -47,7 +47,7 @@ def site_list():
         data.items[i].site_type_label = platform_type(d.site_type)
 
     meta['data'] = data.items
-
+    meta['total_count'] = total_count
     pager = Pager(page, per_page, total_count, page_url)
     meta['pager'] = pager.render_view()
 

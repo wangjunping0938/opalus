@@ -524,6 +524,22 @@ $('.def-tags span').click(function(){
             </div>
 
             <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="price">价格</label>
+                    <input type="text" name="price" class="form-control" value="{{ meta.data.price }}" placeholder="价格">
+                </div>
+
+                <div class="col-xs-4">
+                    <label for="currency_type">币种</label>
+                    <select name="currency_type" class="form-control">
+                        <option value="0">--请选择--</option>
+                        <option value="1" {% if meta.data.currency_type==1 %}selected="selected"{%endif%}>RMB</option>
+                        <option value="2" {% if meta.data.currency_type==2 %}selected="selected"{%endif%}>美元</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-xs-8">
                     <label for="color_ids">色值</label>
                     <input type="text" name="color_ids" class="form-control" value="{{ meta.data.color_ids_s }}" placeholder="色值">
