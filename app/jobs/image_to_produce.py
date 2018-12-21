@@ -68,6 +68,7 @@ def save_data(image):
         produce.remark = image.remark  # 备注
         produce.info = image.info  # 信息
         produce.evt = image.evt  # 来源
+        produce.cover_id = str(image._id)  # 初始封面
         if image.prize_id:
             prize_list = []
             prize_dict = {}
