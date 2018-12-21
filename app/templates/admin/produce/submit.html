@@ -92,12 +92,11 @@ $('#upload_file').uploadifive({
             alert(obj.message);
         } else {
             // 记录asset_id
-            alert(obj.data)
             phenix.record_asset_id('asset_ids', obj.data._id)
             var render = phenix.ajax_render('#asset-box-tpl',
               {
                   id: obj.data._id,
-                  thumb_url: obj.data.thumb_url,
+                  url: obj.data.thumb_url,
                   name: obj.data.name,
               })
             $('#asset_items').append(render)

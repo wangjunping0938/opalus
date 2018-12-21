@@ -56,10 +56,7 @@ def t_produce_list(data):
             'company': d.company,
             'designer': d.designer,
             'kind': d.kind,
-            # 'prize_id': d.prize_id,
-            # 'prize': fetch_prize(d.prize_id, d.prize),
-            # 'prize_level': d.prize_level,
-            # 'prize_time': d.prize_time,
+            'prize_names': get_prize(d.prize),
             'brand_id': d.brand_id,
             'brand': fetch_brand(d.brand_id),
             'tags': d.tags,
@@ -107,7 +104,12 @@ def fetch_prize(prize_id, prize):
         prize_label = ''
 
     return prize_label
-
+def get_prize(prize):
+    prize_names = []
+    for i in prize:
+        prize_names.append(i['name'])
+    prize_names = ','.join(prize_names)
+    return prize_names
 
 # 品牌
 def fetch_brand(brand_id):

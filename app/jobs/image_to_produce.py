@@ -8,9 +8,6 @@ from app.extensions import celery
 import functools
 from bson import ObjectId
 
-from manage import create_app
-
-app = create_app()
 
 
 def decorate(func):
@@ -43,7 +40,8 @@ def decorate(func):
 
 @decorate
 def save_data(image):
-    produce = Produce.objects(title=image.title).first()
+    # 根据标题 和 渠道 判断 是否重复产品
+    produce = Produce.objects(title=image.title,channel=image.channel).first()
     if produce:
         print('此素材已存在产品库', str(produce._id))
     else:
@@ -93,4 +91,4 @@ def save_data(image):
         print('保存素材target失败,失败素材ID', str(image._id))
 
 
-save_data()
+

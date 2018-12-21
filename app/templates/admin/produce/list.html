@@ -187,7 +187,7 @@
                   {% if d.price %}<p>价格: {% if currency_type == 1 %}￥{% elif currency_type == 2 %}${% endif %}{{ d.price }}</p>{% endif %}
                   {% if d.total_tags_s %}<p>标签: {{ d.total_tags_s }}</p>{% endif %}
                   {% if d.brand_id %}<p>品牌ID: {{ d.brand_id }}</p>{% endif %}
-{#                  {% if d.prize_id %}<p>奖项ID: {{ d.prize_id }}</p>{% endif %}#}
+                  {% if d.prize_names %}<p>奖项名称: {{ d.prize_names }}</p>{% endif %}
                 </td>
                 <td>{{ d.editor }}</td>
                 <td>{{ d.kind }}</td>

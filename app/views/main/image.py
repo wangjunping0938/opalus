@@ -199,9 +199,13 @@ def image_ajx_list():
                 'img_url': d.img_url,
                 'asset_type': d.asset_type,
                 'domain': d.domain,
-                'thumb_url': thumb_url,
                 'is_cover': is_cover,
             }
+            if thumb_url:
+                field['url'] = thumb_url
+            elif d.img_url:
+                field['url'] = d.img_url
+
             fields.append(field)
 
         meta['rows'] = fields
