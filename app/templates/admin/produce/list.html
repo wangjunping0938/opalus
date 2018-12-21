@@ -17,7 +17,7 @@
     $('.status-handle').on('click', 'a', function(){
         var id = $(this).data('id');
         var evt = $(this).data('evt');
-        var url = "{{ url_for('admin.image_set_status') }}";
+        var url = "{{ url_for('admin.produce_set_status') }}";
         $.post(url, {id: id, status: evt}, function(rs){
             if (rs.success) {
                 var statusLabel = evt == 0 ? false : true
@@ -34,7 +34,7 @@
     $('.stick-handle').on('click', 'a', function(){
         var id = $(this).data('id');
         var evt = $(this).data('evt');
-        var url = "{{ url_for('admin.image_set_stick') }}";
+        var url = "{{ url_for('admin.produce_set_stick') }}";
         $.post(url, {id: id, evt: evt}, function(rs){
             if (rs.success) {
                 var stickLabel = evt == 0 ? false : true
@@ -47,26 +47,6 @@
             }
         })
     });
-    $(function () {
-            $('#qiniu').click(function () {
-                    $.ajax({
-                        type: 'GET',
-                        url: '{{ url_for('admin.image_qiniu') }}',
-                        success: function (callback) {
-                            alert(callback.message)
-                        }
-                    })
-            })
-            $('#location').click(function () {
-                    $.ajax({
-                        type: 'GET',
-                        url: '{{ url_for('admin.image_location') }}',
-                        success: function (callback) {
-                            alert(callback.message)
-                        }
-                    })
-            })
-        });
 
 {% endblock %}
 
@@ -85,10 +65,10 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav nav-list">
-                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.image_list') }}">全部</a></li>
-                <li role="presentation" class="{{ meta.css_design }}"><a href="{{ url_for('admin.image_list', kind=1) }}">设计类</a></li>
-                <li role="presentation" class="{{ meta.css_fashion }}"><a href="{{ url_for('admin.image_list', kind=5) }}">服装类</a></li>
-                <li role="presentation" class="{{ meta.css_deleted }}"><a href="{{ url_for('admin.image_list', deleted=1) }}">回收站</a></li>
+                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.produce_list') }}">全部</a></li>
+                <li role="presentation" class="{{ meta.css_design }}"><a href="{{ url_for('admin.produce_list', kind=1) }}">设计类</a></li>
+                <li role="presentation" class="{{ meta.css_fashion }}"><a href="{{ url_for('admin.produce_list', kind=5) }}">服装类</a></li>
+                <li role="presentation" class="{{ meta.css_deleted }}"><a href="{{ url_for('admin.produce_list', deleted=1) }}">回收站</a></li>
             </ul>
         </div>
     </div>
@@ -96,12 +76,12 @@
     <div class="fl">
         <div class="form-inline">
             <div class="form-group">
-                <a href="{{ url_for('admin.image_submit') }}" class="btn btn-default">
+                <a href="{{ url_for('admin.produce_submit') }}" class="btn btn-default">
                     <i class="glyphicon glyphicon-edit"></i> 创建
                 </a>
             </div>
             <div class="form-group">
-                <a href="{{ url_for('admin.image_delete') }}" class="btn btn-default ajax-batch-delete">
+                <a href="{{ url_for('admin.produce_delete') }}" class="btn btn-default ajax-batch-delete">
                     <i class="glyphicon glyphicon-trash"></i> 删除
                 </a>
             </div>
@@ -116,7 +96,7 @@
 
     <div class="fr">
 
-        <form class="navbar-form navbar-left options-bar" role="search" action="{{ url_for('admin.image_list') }}" method="GET" id="search-form">
+        <form class="navbar-form navbar-left options-bar" role="search" action="{{ url_for('admin.produce_list') }}" method="GET" id="search-form">
           <input type="hidden" name="kind" value="{{ request.args.get('kind', '') }}" />
           <input type="hidden" name="deleted" value="{{ request.args.get('deleted', '') }}" />
           <div class="form-group">
@@ -170,9 +150,9 @@
               </label>
             </div>       
         </th>
-        <th>缩略图</th>
-        <th>图片信息</th>
-        <th>创建人</th>
+        <th>封面</th>
+        <th>产品信息</th>
+        <th>编辑人</th>
         <th>类型</th>
         <th class="col-md-1">渠道</th>
         <th class="col-md-1">爬取人</th>
@@ -190,29 +170,26 @@
                     </div>
                 </td>
                 <td>
-                  <a href="{{ url_for('main.image_view', id=d._id) }}" target="_blank">
-                      {% if d.thumb %}
-                        <img src="{{ d.thumb.sm }}" width="100" />
-                      {%else%}
-                        <img src="{{ d.img_url }}" width="100" />
-                      {%endif%}
-                  </a>
+{#                <a href="{{ url_for('main.image_view', id=d._id) }}" target="_blank">#}
+                  {% if d.cover %}
+                    <img src="{{ d.thumb.sm }}" width="100" />
+                  {%else%}
+                    <img src="{{ url_for('static', filename='images/avatar_100.png') }}" width="100" />
+                  {%endif%}
+{#                </a>>#}
                 </td>
                 <td>
                   <p>ID: {{ d._id }}</p>
                   {% if d.title %}<p>标题: {{ d.title }}</p>{% endif %}
                   {% if d.category %}<p>分类: {{ d.category.name }}</p>{% endif %}
-                  {% if d.name %}<p>图片名: {{ d.name }}</p>{% endif %}
                   {% if d.img_url %}<p>原图地址: {{ d.img_url }}</p>{% endif %}
                   {% if d.url %}<p>原文地址: {{ d.url }}</p>{% endif %}
                   {% if d.price %}<p>价格: {% if currency_type == 1 %}￥{% elif currency_type == 2 %}${% endif %}{{ d.price }}</p>{% endif %}
-                  {% if d.path %}<p>七牛路径: {{ config.get('ASSET_URL') }}/{{ d.path }}</p>{% endif %}
-                  {% if d.local_path %}<p>本地路径: {{ d.local_path }}/{{ d.local_name }}</p>{% endif %}
                   {% if d.total_tags_s %}<p>标签: {{ d.total_tags_s }}</p>{% endif %}
                   {% if d.brand_id %}<p>品牌ID: {{ d.brand_id }}</p>{% endif %}
-                  {% if d.prize_id %}<p>奖项ID: {{ d.prize_id }}</p>{% endif %}
+{#                  {% if d.prize_id %}<p>奖项ID: {{ d.prize_id }}</p>{% endif %}#}
                 </td>
-                <td>{{ d.user_id }}</td>
+                <td>{{ d.editor }}</td>
                 <td>{{ d.kind }}</td>
                 <td>{{ d.channel }}</td>
                 <td>{{ d.evt_label }}</td>
@@ -257,13 +234,13 @@
                         </span>
                     </p>
                     <p>
-                        <a href="{{ url_for('admin.image_submit', id=d._id) }}">编辑</a>
+                        <a href="{{ url_for('admin.produce_submit', id=d._id) }}">编辑</a>
                         |
                         {% if d.deleted == 0 %}
-                            <a href="{{ url_for('admin.image_delete', ids=d._id) }}" class="confirm-request">删除</a>
+                            <a href="{{ url_for('admin.produce_delete', ids=d._id) }}" class="confirm-request">删除</a>
                         {%endif%}
                         {% if d.deleted == 1 %}
-                            <a href="{{ url_for('admin.image_recovery', ids=d._id) }}" class="confirm-request">恢复</a>
+                            <a href="{{ url_for('admin.produce_recovery', ids=d._id) }}" class="confirm-request">恢复</a>
                         {%endif%}
                     </p>
                 </td>

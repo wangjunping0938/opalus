@@ -1,0 +1,585 @@
+{% extends "layout/admin.html" %}
+{% block title %}{{ meta.title }}{% endblock %}
+{% block layout_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='uploadifive/uploadifive.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='tags_input_master/dist/jquery.tagsinput.min.css') }}" type="text/css" />
+    <style type="text/css">
+
+.def-tags {
+  margin-top: -20px;
+}
+.def-tags span {
+  margin-left:5px;
+  cursor:pointer;
+  white-space: normal;
+}
+
+    </style>
+{% endblock %}
+
+{% block layout_js %}
+    <script type="text/javascript" src="{{ url_for('static', filename='uploadifive/jquery.uploadifive.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='tags_input_master/dist/jquery.tagsinput.min.js') }}"></script>
+    <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+$("#item-form").validate({
+  //ignore: ".ignore",
+  //debug: true,
+
+  rules: {
+      name: {
+          required: true,
+      },
+      kind: {
+          required: true,
+      }
+  },
+
+  messages: {
+      name: {
+          required: "请输入名称",
+      },
+      kind: {
+          required: "请选择类型",
+      }
+
+  },
+  submitHandler: function(form) {
+    $(form).ajaxSubmit({
+      dataType: 'json',
+      beforeSubmit: function(){
+        //alert('before'); 
+      },
+      success: function(data){
+        if(data.success){
+          window.location.href=data.redirect_to;
+        }else{
+          alert(data.message);
+        }
+      }
+    });
+  }
+ });
+
+// 上传
+$('#upload_file').uploadifive({
+    'auto' : true,
+    'uploadScript' : '/upload',
+    'formData': {
+        'target_id': '{{ meta.data._id|default('') }}',
+        'asset_type': 2,
+        'user_id': '{{ g.user._id }}',
+        'callback_type': 1,
+        'csrf_token': '{{ csrf_token() }}'
+    },
+    'fileObjName' : 'file',
+    'buttonText' : '上传素材',
+    'queueID' : 'tip-queue',
+    'fileType' : 'image/*',
+    'multi' : true,
+    'fileSizeLimit'   : 10042880,
+    'uploadLimit' : 10,
+    'queueSizeLimit'  : 10,
+    'removeCompleted' : true,
+    'onUploadComplete' : function(file, data) {
+        var obj = JSON.parse(data);
+        if (obj.code != 200) {
+            alert(obj.message);
+        } else {
+            // 记录asset_id
+            alert(obj.data)
+            phenix.record_asset_id('asset_ids', obj.data._id)
+            var render = phenix.ajax_render('#asset-box-tpl',
+              {
+                  id: obj.data._id,
+                  thumb_url: obj.data.thumb_url,
+                  name: obj.data.name,
+              })
+            $('#asset_items').append(render)
+            document.getElementById("submit_btn").disabled = false;
+        }
+    },
+    onCancel : function(file) {
+        /* 注意：取消后应重新设置uploadLimit */
+        //$data	= $(this).data('uploadifive'),
+        //settings = $data.settings;
+        //settings.uploadLimit++;
+        //alert(file.name + " 已取消上传~!");
+    },
+    onFallback : function() {
+        alert("该浏览器无法使用!");
+    },
+    onUpload : function(file) {
+        document.getElementById("submit_btn").disabled = true;//当开始上传文件，要防止上传未完成而表单被提交
+    },
+});
+
+{% if meta.is_edit %}
+    // 获取image列表
+    $.get('/image/ajx_list', {target_id: "{{ meta.data._id }}", asset_type: 2, cover_id: "{{ meta.data.cover_id }}"}, function(res) {
+        var render = phenix.ajax_render('#asset-list-box-tpl', res.data)
+        $('#asset_items').append(render)
+    }, 'json')
+{%endif%}
+
+// 设置封面图
+$('#asset_items').on('click', '.set-cover', function(){
+    var id = $(this).data('id');
+
+    $('#asset_items .set-cover.active').removeClass('active');
+    $(this).addClass('active');
+
+    $('#cover_id').val(id);
+});
+
+// 删除image
+$('#asset_items').on('click', '.del-asset', function(){
+    var id = $(this).data('id');
+    $.get('/image/ajx_del', {id: id}, function(res) {
+        if(res.code == 0) {
+            $('#asset-' + id).remove();
+        }else{
+            alert(res.message);
+        }
+    }, 'json')
+});
+
+
+
+$(':input[name=tags]').tagsInput({
+   'height':'80px',
+   'width':'770px',
+   'interactive':true,
+   'defaultText':'添加标签',
+   //'onAddTag':callback_function,
+   //'onRemoveTag':callback_function,
+   //'onChange' : callback_function,
+   //'delimiter': [',',';'],   // Or a string with a single delimiter. Ex: ';'
+   //'minChars' : 21,
+   //'maxChars' : 1, // if not provided there is no limit
+   'removeWithBackspace' : true
+});
+
+$(':input[name=color_tags]').tagsInput({
+   'height':'80px',
+   'width':'770px',
+   'interactive':true,
+   'defaultText':'添加标签',
+   //'onAddTag':callback_function,
+   //'onRemoveTag':callback_function,
+   //'onChange' : callback_function,
+   //'delimiter': [',',';'],   // Or a string with a single delimiter. Ex: ';'
+   //'minChars' : 21,
+   //'maxChars' : 1, // if not provided there is no limit
+   'removeWithBackspace' : true
+});
+
+$(':input[name=brand_tags]').tagsInput({
+   'height':'80px',
+   'width':'770px',
+   'interactive':true,
+   'defaultText':'添加标签',
+   //'onAddTag':callback_function,
+   //'onRemoveTag':callback_function,
+   //'onChange' : callback_function,
+   //'delimiter': [',',';'],   // Or a string with a single delimiter. Ex: ';'
+   //'minChars' : 21,
+   //'maxChars' : 1, // if not provided there is no limit
+   'removeWithBackspace' : true
+});
+
+$(':input[name=material_tags]').tagsInput({
+   'height':'80px',
+   'width':'770px',
+   'interactive':true,
+   'defaultText':'添加标签',
+   //'onAddTag':callback_function,
+   //'onRemoveTag':callback_function,
+   //'onChange' : callback_function,
+   //'delimiter': [',',';'],   // Or a string with a single delimiter. Ex: ';'
+   //'minChars' : 21,
+   //'maxChars' : 1, // if not provided there is no limit
+   'removeWithBackspace' : true
+});
+
+$(':input[name=style_tags]').tagsInput({
+   'height':'80px',
+   'width':'770px',
+   'interactive':true,
+   'defaultText':'添加标签',
+   //'onAddTag':callback_function,
+   //'onRemoveTag':callback_function,
+   //'onChange' : callback_function,
+   //'delimiter': [',',';'],   // Or a string with a single delimiter. Ex: ';'
+   //'minChars' : 21,
+   //'maxChars' : 1, // if not provided there is no limit
+   'removeWithBackspace' : true
+});
+
+$(':input[name=technique_tags]').tagsInput({
+   'height':'80px',
+   'width':'770px',
+   'interactive':true,
+   'defaultText':'添加标签',
+   //'onAddTag':callback_function,
+   //'onRemoveTag':callback_function,
+   //'onChange' : callback_function,
+   //'delimiter': [',',';'],   // Or a string with a single delimiter. Ex: ';'
+   //'minChars' : 21,
+   //'maxChars' : 1, // if not provided there is no limit
+   'removeWithBackspace' : true
+});
+
+$(':input[name=other_tags]').tagsInput({
+   'height':'80px',
+   'width':'770px',
+   'interactive':true,
+   'defaultText':'添加标签',
+   //'onAddTag':callback_function,
+   //'onRemoveTag':callback_function,
+   //'onChange' : callback_function,
+   //'delimiter': [',',';'],   // Or a string with a single delimiter. Ex: ';'
+   //'minChars' : 21,
+   //'maxChars' : 1, // if not provided there is no limit
+   'removeWithBackspace' : true
+});
+
+$(':input[name=total_tags]').tagsInput({
+   'height':'80px',
+   'width':'770px',
+   'interactive':true,
+   'defaultText':'添加标签',
+   //'onAddTag':callback_function,
+   //'onRemoveTag':callback_function,
+   //'onChange' : callback_function,
+   //'delimiter': [',',';'],   // Or a string with a single delimiter. Ex: ';'
+   //'minChars' : 21,
+   //'maxChars' : 1, // if not provided there is no limit
+   'removeWithBackspace' : false
+});
+
+$('.def-tags span').click(function(){
+  var evt = $(this).parent('.def-tags').data('evt');
+  var val = $(this).text();
+  if (!$(':input[name='+ evt +']').tagExist(val)) {
+    $(':input[name='+ evt +']').addTag(val);
+  }
+});
+
+{% endblock %}
+
+{% block layout_slider %}
+{%endblock%}
+
+{% block content %}
+
+    <div class="navbar navbar-default border-n nav-stab">
+        <div class="navbar-header">
+            <div class="navbar-brand">
+                {{ meta.title }}
+            </div>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav nav-list">
+                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.image_list') }}">全部</a></li>
+                <li role="presentation" class="{{ meta.css_design }}"><a href="{{ url_for('admin.image_list', kind=1) }}">设计类</a></li>
+                <li role="presentation" class="{{ meta.css_fashion }}"><a href="{{ url_for('admin.image_list', kind=5) }}">服装类</a></li>
+                <li role="presentation" class="{{ meta.css_deleted }}"><a href="{{ url_for('admin.image_list', deleted=1) }}">回收站</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="ph-form">
+        <form class="form-horizontal" method="POST" action="{{ url_for('admin.produce_save') }}" id="item-form">
+            {{ form.csrf_token }}
+            <input type="hidden" name="id" value="{{ meta.data._id|default('') }}" />
+            <input type="hidden" name="referer_url" value="{{ meta.referer_url }}" />
+            <input type="hidden" name="cover_id" id="cover_id" value="{{ meta.data.cover_id|default('') }}" />
+            <input type="hidden" name="name" value="{{ meta.data.name|default('') }}" />
+            <input type="hidden" name="asset_ids" id="asset_ids" value="" />
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="kind">类型</label>
+                    <div class="">
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.kind==1 %}checked="checked"{%endif%} name="kind" value="1">
+                            设计类
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.kind==5 %}checked="checked"{%endif%} name="kind" value="5">
+                            其它类
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="name">上传图片</label>
+                    <input class="full-width has-padding has-border" id="upload_file" type="file" name="file" />
+                    <div id="tip-queue"></div>
+                </div>
+            </div>
+            <div id="asset_items" class="row"><!--ajax asset box--></div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="category_id">分类</label>
+                    <select name="category_id" class="form-control">
+                        <option value="0">--请选择--</option>
+                        {% for d in meta.categories %}
+                            <option value="{{ d._id }}" {% if meta.data.category_id==d._id %}selected="selected"{%endif%}>{{ d.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="title">标题</label>
+                    <input type="text" name="title" class="form-control" value="{{ meta.data.title }}" placeholder="标题">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="brand_id">品牌</label>
+                    <select name="brand_id" class="form-control">
+                        <option value="0">--请选择--</option>
+                        {% for d in meta.brands %}
+                            <option value="{{ d._id }}" {% if meta.data.brand_id==d._id %}selected="selected"{%endif%}>{{ d.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+{#                <div class="col-xs-4">#}
+{#                    <label for="prize_id">奖项</label>#}
+{#                    <select name="prize_id" class="form-control">#}
+{#                        <option value="0">--请选择--</option>#}
+{#                        {% for d in meta.prize_options %}#}
+{#                            <option value="{{ d.id }}" {% if meta.data.prize_id==d.id %}selected="selected"{%endif%}>{{ d.name }}</option>#}
+{#                        {% endfor %}#}
+{#                    </select>#}
+{#                </div>#}
+            </div>
+
+{#            <div class="form-group">#}
+{#                <div class="col-xs-3">#}
+{#                    <label for="prize">奖项名称</label>#}
+{#                    <input type="text" name="prize" class="form-control" value="{{ meta.data.prize }}" placeholder="奖项名称">#}
+{#                </div>#}
+{#                <div class="col-xs-2">#}
+{#                    <label for="prize_level">奖项等级</label>#}
+{#                    <input type="text" name="prize_level" class="form-control" value="{{ meta.data.prize_level }}" placeholder="奖项等级">#}
+{#                </div>#}
+{#                <div class="col-xs-3">#}
+{#                    <label for="prize_time">时间</label>#}
+{#                    <input type="text" name="prize_time" class="form-control" value="{{ meta.data.prize_time }}" placeholder="时间">#}
+{#                </div>#}
+{#            </div>#}
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="url">原文地址</label>
+                    <input type="text" name="url" class="form-control" value="{{ meta.data.url }}" placeholder="原文地址">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="designer">设计师</label>
+                    <input type="text" name="designer" class="form-control" value="{{ meta.data.designer }}" placeholder="设计师">
+                </div>
+                <div class="col-xs-4">
+                    <label for="company">公司</label>
+                    <input type="text" name="company" class="form-control" value="{{ meta.data.company }}" placeholder="公司">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="tags">标签</label>
+                    <input type="text" name="tags" class="form-control" value="{{ meta.data.tags_s }}" placeholder="标签">
+                </div>
+            </div>
+            {% if meta.default_tags %}
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <div class="def-tags" data-evt="tags">
+                      可选标签：{% for d in meta.default_tags %}<span class="label label-info">{{ d }}</span>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="color_tags">颜色标签</label>
+                    <input type="text" name="color_tags" class="form-control" value="{{ meta.data.color_tags_s }}" placeholder="颜色标签">
+                </div>
+            </div>
+            {% if meta.default_color_tags %}
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <div class="def-tags" data-evt="color_tags">
+                      可选标签：{% for d in meta.default_color_tags %}<span class="label label-info">{{ d }}</span>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="material_tags">材质标签</label>
+                    <input type="text" name="material_tags" class="form-control" value="{{ meta.data.material_tags_s }}" placeholder="材质标签">
+                </div>
+            </div>
+            {% if meta.default_material_tags %}
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <div class="def-tags" data-evt="material_tags">
+                      可选标签：{% for d in meta.default_material_tags %}<span class="label label-info">{{ d }}</span>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="technique_tags">工艺标签</label>
+                    <input type="text" name="technique_tags" class="form-control" value="{{ meta.data.technique_tags_s }}" placeholder="工艺标签">
+                </div>
+            </div>
+            {% if meta.default_technique_tags %}
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <div class="def-tags" data-evt="technique_tags">
+                      可选标签：{% for d in meta.default_technique_tags %}<span class="label label-info">{{ d }}</span>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="brand_tags">品牌标签</label>
+                    <input type="text" name="brand_tags" class="form-control" value="{{ meta.data.brand_tags_s }}" placeholder="品牌标签">
+                </div>
+            </div>
+            {% if meta.default_brand_tags %}
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <div class="def-tags" data-evt="brand_tags">
+                      可选标签：{% for d in meta.default_brand_tags %}<span class="label label-info">{{ d }}</span>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="style_tags">风格标签</label>
+                    <input type="text" name="style_tags" class="form-control" value="{{ meta.data.style_tags_s }}" placeholder="风格标签">
+                </div>
+            </div>
+            {% if meta.default_style_tags %}
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <div class="def-tags" data-evt="style_tags">
+                      可选标签：{% for d in meta.default_style_tags %}<span class="label label-info">{{ d }}</span>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="other_tags">其它标签</label>
+                    <input type="text" name="other_tags" class="form-control" value="{{ meta.data.other_tags_s }}" placeholder="其它标签">
+                </div>
+            </div>
+            {% if meta.default_other_tags %}
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <div class="def-tags" data-evt="other_tags">
+                      可选标签：{% for d in meta.default_other_tags %}<span class="label label-info">{{ d }}</span>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="total_tags">所有标签集合(参考):</label>
+                    <div>
+                        {% for d in meta.data.total_tags %}
+                            <span class="label label-info">{{ d }}</span>
+                        {%endfor%}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="price">价格</label>
+                    <input type="text" name="price" class="form-control" value="{{ meta.data.price }}" placeholder="价格">
+                </div>
+
+                <div class="col-xs-4">
+                    <label for="currency_type">币种</label>
+                    <select name="currency_type" class="form-control">
+                        <option value="0">--请选择--</option>
+                        <option value="1" {% if meta.data.currency_type==1 %}selected="selected"{%endif%}>RMB</option>
+                        <option value="2" {% if meta.data.currency_type==2 %}selected="selected"{%endif%}>美元</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="channel">渠道</label>
+                    <input type="text" name="channel" class="form-control" value="{{ meta.data.channel }}" placeholder="渠道">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-2">
+                    <label for="random">随机数</label>
+                    <input type="number" name="random" disabled="disabled" class="form-control" value="{{ meta.data.random }}" placeholder="随机数">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="remark">备注</label>
+                    <textarea class="form-control" name="remark" rows="3">{{ meta.data.remark|default('') }}</textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <label for="info">信息</label>
+                    <textarea class="form-control" name="info" rows="8">{{ meta.data.info|default('') }}</textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <a href="{{ url_for('admin.produce_list') }}" class="btn btn-default">取消</a>
+                    <button type="submit" id="submit_btn" class="btn btn-primary">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+{% endblock %}
+{% block templates %}
+  {% include "mustache/asset_item.mustache" %}
+  {% include "mustache/asset_list.mustache" %}
+{% endblock %}
+

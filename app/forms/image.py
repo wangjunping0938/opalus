@@ -103,7 +103,7 @@ class SaveApi(FlaskForm):
     prize_time = StringField()
     info = StringField()
     evt = IntegerField() # 来源
-    remark = StringField()
+
 
     def validate_img_url(self, field):
         if field.data:

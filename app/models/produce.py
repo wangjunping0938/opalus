@@ -3,89 +3,73 @@ import os
 import datetime
 import time
 from flask import current_app
+from bson import ObjectId
 from . import db
 from .base import Base
 import re
 import random
+from app.models.image import Image
 
-# 图片素材表- image
-class Image(Base):
-
+# 产品库表- produce
+class Produce(Base):
     meta = {
-        'collection': 'image',
+        'collection': 'produce',
         'ordering': ['-created_at'],
         'strict': True,
         'id_field': '_id'
     }
     _id = db.StringField()
-    title = db.StringField(max_length=100, default='') # 标题
-    name = db.StringField(max_length=100, default='') # 文件名称
-    channel = db.StringField(max_length=30, default='') # 渠道
-    img_url = db.StringField(max_length=500, default='') # 图片地址
-    url = db.StringField(max_length=500, default='') # 原文地址
-    path = db.StringField(max_length=100, default='') # 七牛路径
-    local_name = db.StringField(max_length=50, default='') # 本地文件名称
-    local_path = db.StringField(max_length=100, default='') # 本地文件路径
-    ext = db.StringField(max_length=10, default='') # 扩展名
-    tags = db.ListField() # 标签
-    color_tags = db.ListField() # 颜色标签
-    brand_tags = db.ListField() # 品牌标签
-    material_tags = db.ListField() # 材质
-    style_tags = db.ListField() # 风格
-    technique_tags = db.ListField() # 工艺
-    other_tags = db.ListField() # 其它
-    total_tags = db.ListField() # 所有标签
-    price = db.StringField(default='')    # 销售价
-    currency_type = db.IntField(default=1) # 币种: 1.RMB；2.美元；3.--；
-    designer = db.StringField(max_length=200, default='') # 设计师
-    company = db.StringField(max_length=200, default='') # 公司
-    user_id = db.IntField(default=0)    # 用户ID
-    kind = db.IntField(default=1)    # 类型: 1.设计类；5.服装类；
-    brand_id = db.IntField(default=0)    # 品牌ID
-    prize_id = db.IntField(default=0)   # 奖项ID
-    prize = db.StringField(max_length=50, default='')  # 奖项名称
-    prize_level = db.StringField(max_length=50, default='')  # 奖项级别
-    prize_time = db.StringField(max_length=50, default='')  # 奖项时间
-    category_id = db.IntField(default=0)    # 分类ID
-    domain = db.IntField(default=0) # 领域
+    title = db.StringField(max_length=100, default='')  # 标题
+    channel = db.StringField(max_length=30, default='')  # 渠道
+    url = db.StringField(max_length=500, default='')  # 原文地址
+    tags = db.ListField()  # 标签
+    color_tags = db.ListField()  # 颜色标签
+    brand_tags = db.ListField()  # 品牌标签
+    material_tags = db.ListField()  # 材质
+    style_tags = db.ListField()  # 风格
+    technique_tags = db.ListField()  # 工艺
+    other_tags = db.ListField()  # 其它
+    total_tags = db.ListField()  # 所有标签
+    price = db.StringField(default='')  # 销售价
+    currency_type = db.IntField(default=1)  # 币种: 1.RMB；2.美元；3.--；
+    designer = db.StringField(max_length=200, default='')  # 设计师
+    company = db.StringField(max_length=200, default='')  # 公司
+    user_id = db.IntField(default=0)  # 用户ID
+    kind = db.IntField(default=1)  # 类型: 1.设计类；5.服装类；
+    brand_id = db.IntField(default=0)  # 品牌ID
+    prize = db.ListField(default=[])  # 奖项
+    category_id = db.IntField(default=0)  # 分类ID
+    domain = db.IntField(default=0)  # 领域
     stick = db.IntField(default=0)  # 是否推荐：0.否；1.是；
     stick_on = db.IntField(default=0)  # 推荐时间；
-    status = db.IntField(default=1)    # 状态: 0.禁用；1.启用
+    status = db.IntField(default=1)  # 状态: 0.禁用；1.启用
     remark = db.StringField(max_length=500, default='')  # 描述
     info = db.StringField(max_length=10000, default='')  # 其它json串
-    evt = db.IntField(default=1)    # 来源：1.默认; 2.TIAN; 3.LZB; 5.WJP 
-    random = db.IntField(default=0) # 生成随机数
-    deleted = db.IntField(default=0)    # 是否软删除
-    color_ids = db.ListField(default=[])  # 颜色id
-    target_id = db.StringField(default='')  # 关联产品库ID
-    size = db.IntField()  # 大小
-    width = db.IntField()  # 宽
-    height = db.IntField()  # 高
-    asset_type = db.IntField(default=2)    # 图片类型: 1.后台上传；2.image 素材5.品牌logo；7.栏目封面；8.--；
-
+    evt = db.IntField(default=1)  # 来源：1.默认; 2.TIAN; 3.LZB; 5.WJP
+    random = db.IntField(default=0)  # 生成随机数
+    deleted = db.IntField(default=0)  # 是否软删除
+    cover_id = db.StringField(default='')  # 封面ID
+    editor = db.IntField(default=0)  # 编辑人用户id
+    editor_level = db.IntField(default=0)  # 0 未编辑 1 2 编辑程度
     created_at = db.DateTimeField()
     updated_at = db.DateTimeField(default=datetime.datetime.now)
 
-    # 获取七牛路径
-    def get_thumb_path(self):
-        asset_url = current_app.config['ASSET_URL']
-        path = self.path
-        if not path:
-            return None
+    def cover(self):
+        if self.cover_id and len(self.cover_id) == 24:
+            image = Image.objects(_id=ObjectId(self.cover_id)).first()
+            if image and image.deleted==0:
+                return image
 
-        row = {
-            'sm': os.path.join(asset_url, path + '-sm'),
-            'mi': os.path.join(asset_url, path + '-mi'),
-            'bi': os.path.join(asset_url, path + '-bi'),
-            'avs': os.path.join(asset_url, path + '-avs'),
-            'avm': os.path.join(asset_url, path + '-avm'),
-            'avb': os.path.join(asset_url, path + '-avb'),
-        }
-        return row
+        image = Image.objects(target_id=str(self._id), asset_type=2, deleted=0).first()
+        if image and image.deleted==0:
+            return image
+
+        return None
+
 
     def save(self, *args, **kwargs):
         total_tags = []
-        #current_app.logger.debug('test')
+        # current_app.logger.debug('test')
         if self.tags:
             if not isinstance(self.tags, list):
                 self.tags = self.__trans_list(self.tags)
@@ -129,11 +113,6 @@ class Image(Base):
             total_tags += self.other_tags
         else:
             self.other_tags = []
-        if self.color_ids:
-            if not isinstance(self.color_ids, list):
-                self.color_ids = self.__trans_list(self.color_ids)
-        else:
-            self.color_ids = []
 
         if not self.random:
             self.random = random.randint(1000000, 9999999)
@@ -142,8 +121,7 @@ class Image(Base):
         total_tags = list(set(total_tags))
         # 合并所有标签
         self.total_tags = total_tags
-        return super(Image, self).save(*args, **kwargs)
-
+        return super(Produce, self).save(*args, **kwargs)
 
     def update(self, *args, **kwargs):
         total_tags = self.total_tags
@@ -168,14 +146,12 @@ class Image(Base):
         if 'other_tags' in kwargs.keys() and not isinstance(kwargs['other_tags'], list):
             kwargs['other_tags'] = self.__trans_list(kwargs['other_tags'])
             total_tags = self.__tags_merge(total_tags, self.other_tags, kwargs['other_tags'])
-        if 'color_ids' in kwargs.keys() and not isinstance(kwargs['color_ids'], list):
-            kwargs['color_ids'] = self.__trans_list(kwargs['color_ids'])
 
             # 去重
             total_tags = list(set(total_tags))
             # 合并所有标签
             kwargs['total_tags'] = total_tags
-        return super(Image, self).update(*args, **kwargs)
+        return super(Produce, self).update(*args, **kwargs)
 
     # 标签整理
     def __tags_merge(self, all_tags, old_tags, new_tags):
@@ -196,24 +172,23 @@ class Image(Base):
     def mark_stick(self, evt=1):
         evt = int(evt)
         if evt == 1:
-            return super(Image, self).update(stick=1, stick_on=int(time.time()))
+            return super(Produce, self).update(stick=1, stick_on=int(time.time()))
         else:
-            return super(Image, self).update(stick=0)
+            return super(Produce, self).update(stick=0)
 
     # 标记删除
     def mark_delete(self):
-        return super(Image, self).update(deleted=1)
+        return super(Produce, self).update(deleted=1)
 
     # 标记恢复
     def mark_recovery(self):
-        ok = super(Image, self).update(deleted=0)
+        ok = super(Produce, self).update(deleted=0)
         return ok
 
     # 彻底删除，同时删除源文件
     def delete(self):
-        super(Image, self).delete()
+        super(Produce, self).delete()
         # 删除源文件
 
     def __unicode__(self):
-        return self.name
-
+        return self.title

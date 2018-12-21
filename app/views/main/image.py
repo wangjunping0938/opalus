@@ -1,4 +1,4 @@
-from flask import render_template, current_app, request, jsonify, url_for, flash, redirect
+from flask import render_template, current_app, request, jsonify, url_for, flash, redirect, g
 from . import main
 from app.helpers.common import force_int
 from app.helpers.constant import prize_options
@@ -16,6 +16,7 @@ metaInit = {
     'title': '素材库',
     'css_nav_image': 'active',
 }
+
 
 @main.route('/image')
 def image_index():
@@ -41,6 +42,7 @@ def image_index():
     meta['image_home_fine'] = get_column('image_home_fine', 3)
     meta['image_home_special'] = get_column('image_home_special', 2)
     return render_template('image/index.html', meta=meta)
+
 
 @main.route('/image/list')
 def image_list():
@@ -99,7 +101,8 @@ def image_list():
     else:
         meta['css_all'] = ''
 
-    page_url = url_for('main.image_list', page="#p#", q=q, t=t, tag=tag, prize_id=prize_id, kind=kind, status=status, deleted=deleted)
+    page_url = url_for('main.image_list', page="#p#", q=q, t=t, tag=tag, prize_id=prize_id, kind=kind, status=status,
+                       deleted=deleted)
 
     data = Image.objects(**query).order_by('random').paginate(page=page, per_page=per_page)
     total_count = Image.objects(**query).count()
@@ -154,7 +157,79 @@ def image_view():
         flash('内容已删除！', 'warning')
         return redirect(url_for('main.image_index'))
 
-    #image = tranform
+    # image = tranform
 
-    meta['title'] = "%s-素材库" % image['title'] 
+    meta['title'] = "%s-素材库" % image['title']
     return render_template('image/view.html', meta=meta, form=t_image_view(image))
+
+
+@main.route('/image/ajx_list')
+def image_ajx_list():
+    page = int(request.args.get('page', 1))
+    per_page = int(request.args.get('per_page', 10))
+    target_id = request.args.get('target_id', '')
+    asset_type = int(request.args.get('asset_type', 2))
+    cover_id = request.args.get('cover_id', '')
+
+    meta = {}
+    query = {}
+    if target_id:
+        query['target_id'] = target_id
+    query['asset_type'] = asset_type
+    query['deleted'] = 0
+
+    try:
+        data = Image.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
+        total_count = Image.objects(**query).count()
+
+        # 过滤数据
+        fields = []
+        for i, d in enumerate(data.items):
+            thumb_dict = d.get_thumb_path()
+            thumb_url = ''
+            is_cover = False
+            if cover_id == str(d._id):
+                is_cover = True
+            if thumb_dict:
+                thumb_url = thumb_dict['sm']
+            field = {
+                '_id': str(d._id),
+                'name': d.name,
+                'path': d.path,
+                'img_url': d.img_url,
+                'asset_type': d.asset_type,
+                'domain': d.domain,
+                'thumb_url': thumb_url,
+                'is_cover': is_cover,
+            }
+            fields.append(field)
+
+        meta['rows'] = fields
+    except(Exception) as e:
+        meta['rows'] = []
+        total_count = 0
+
+    meta['total_count'] = total_count
+    meta['page'] = page
+    meta['per_page'] = per_page
+
+    return jsonify(code=0, message='success!', data=meta)
+
+
+@main.route('/image/ajx_del')
+def image_ajx_del():
+    id = request.args.get('id', '')
+    if not id:
+        return jsonify(code=500, message='缺少请求参数！')
+
+    try:
+        asset = Image.objects(_id=ObjectId(id)).first()
+        if not asset:
+            return jsonify(code=500, message='内容不存在！')
+        if g.user._id != asset.user_id:
+            return jsonify(code=500, message='没有权限！')
+
+        ok = asset.mark_delete()
+        return jsonify(code=0, message='success')
+    except(Exception) as e:
+        return jsonify(code=500, message=str(e))

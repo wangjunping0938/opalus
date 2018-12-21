@@ -10,6 +10,9 @@ from app.models.asset import Asset
 from app.helpers.common import force_int
 
 # 处理图片
+from app.models.image import Image
+
+
 def handle_file(f, **param):
     result = {'success': 0, 'message': ''}
     if not f:
@@ -59,19 +62,36 @@ def handle_file(f, **param):
     }
 
     if evt == 1:
-        # 保存至asset表
-        try:
-            asset = Asset(**row)
-            ok = asset.save()
-            if not ok:
-                result['message'] = '保存附件失败'
+        # 保存至素材表
+        if asset_type == 2:
+            try:
+                row.pop('mime')
+                row.pop('domain')
+                image = Image(**row)
+                ok = image.save()
+                if not ok:
+                    result['message'] = '保存素材失败'
+                    return result
+
+                row['_id'] = str(image._id)
+
+            except(Exception) as e:
+                result['message'] = str(e)
                 return result
+        else:
+        # 保存至asset表
+            try:
+                asset = Asset(**row)
+                ok = asset.save()
+                if not ok:
+                    result['message'] = '保存附件失败'
+                    return result
 
-            row['_id'] = str(asset._id)
+                row['_id'] = str(asset._id)
 
-        except(Exception) as e:
-            result['message'] = str(e)
-            return result
+            except(Exception) as e:
+                result['message'] = str(e)
+                return result
 
     result['success'] = 1
     result['data'] = row
