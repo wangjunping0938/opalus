@@ -43,9 +43,7 @@ class SaveForm(FlaskForm):
         if not item:
             raise ValueError('产品不存在!')
         data = self.data
-        if data['url']:
-            if Produce.objects(_id__ne=ObjectId(id), img_url=data['url']).first():
-                raise ValueError('产品已存在!!')
+
         data.pop('id')
         if 'total_tags' in data:
             data.pop('total_tags')
@@ -56,8 +54,8 @@ class SaveForm(FlaskForm):
 
     def save(self, **param):
         data = self.data
-        if data['img_url']:
-            if Produce.objects(img_url=data['url']).first():
+        if data['url']:
+            if Produce.objects(url=data['url']).first():
                 raise ValueError('产品已存在!')
         data['user_id'] = param['user_id']
         data.pop('id')
@@ -95,9 +93,9 @@ class SaveApi(FlaskForm):
     info = StringField()
     evt = IntegerField()  # 来源
 
-    def validate_img_url(self, field):
+    def validate_url(self, field):
         if field.data:
-            if Produce.objects(img_url=field.data).first():
+            if Produce.objects(url=field.data).first():
                 raise ValueError('产品已存在!')
 
     def save(self, **param):
