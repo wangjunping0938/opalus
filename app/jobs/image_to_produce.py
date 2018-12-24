@@ -48,7 +48,7 @@ def save_data(image):
         print('新创建产品库')
         produce = Produce()
         produce.title = image.title  # 标题
-        produce.img_url = image.url  # 原文地址
+        produce.url = image.url  # 原文地址
         produce.channel = image.channel  # 渠道
         produce.tags = image.tags  # 标签
         produce.brand_tags = image.brand_tags
@@ -68,6 +68,8 @@ def save_data(image):
         produce.remark = image.remark  # 备注
         produce.info = image.info  # 信息
         produce.evt = image.evt  # 来源
+        produce.status = image.status # 状态
+        produce.deleted = image.deleted # 是否删除
         produce.cover_id = str(image._id)  # 初始封面
         if image.prize_id:
             prize_list = []
