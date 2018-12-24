@@ -40,7 +40,7 @@ class SaveForm(FlaskForm):
         return ok
 
     def save(self, **param):
-        data = self.data;
+        data = self.data
         asset_ids = data['asset_ids']
         data['user_id'] = param['user_id']
         data.pop('id')
