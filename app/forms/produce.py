@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired, Length, EqualTo, NumberRange
 from flask_wtf import FlaskForm
 from bson import ObjectId
 from ..models.produce import Produce
+from ..models.image import Image
 
 
 class SaveForm(FlaskForm):
@@ -36,6 +37,9 @@ class SaveForm(FlaskForm):
     evt = IntegerField() # 来源
     category_id = IntegerField()  # 分类ID
     user_id = IntegerField()
+    asset_type = IntegerField()
+    asset_ids = StringField()
+    cover_id = StringField()
 
     def update(self):
         id = self.data['id']
@@ -43,31 +47,44 @@ class SaveForm(FlaskForm):
         if not item:
             raise ValueError('产品不存在!')
         data = self.data
-        if data['url']:
-            if Produce.objects(_id__ne=ObjectId(id), img_url=data['url']).first():
-                raise ValueError('产品已存在!!')
         data.pop('id')
         if 'total_tags' in data:
             data.pop('total_tags')
         data.pop('user_id')
+        data.pop('asset_type')
+        data.pop('asset_ids')
         # data.pop('csrf_token')
         ok = item.update(**data)
         return ok
 
     def save(self, **param):
         data = self.data
-        if data['img_url']:
-            if Produce.objects(img_url=data['url']).first():
+        asset_ids = data['asset_ids']
+        if data['url']:
+            if Produce.objects(url=data['url']).first():
                 raise ValueError('产品已存在!')
         data['user_id'] = param['user_id']
+        data.pop('asset_ids')
+        data.pop('asset_type')
         data.pop('id')
         if 'total_tags' in data:
             data.pop('total_tags')
         item = Produce(**data)
-        item.save()
+        ok = item.save()
+        if not ok:
+            raise ValueError('保存失败!')
+
+        # 更新附件
+        if asset_ids:
+            asset_arr = asset_ids.strip().split(',')
+            for asset_id in asset_arr:
+                try:
+                    image = Image.objects(_id=ObjectId(asset_id)).first()
+                    if image:
+                        image.update(target_id=str(item._id))
+                except(Exception) as e:
+                    continue
         return item
-
-
 ## 保存 - API
 class SaveApi(FlaskForm):
     id = StringField()

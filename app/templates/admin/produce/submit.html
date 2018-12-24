@@ -285,10 +285,10 @@ $('.def-tags span').click(function(){
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav nav-list">
-                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.image_list') }}">全部</a></li>
-                <li role="presentation" class="{{ meta.css_design }}"><a href="{{ url_for('admin.image_list', kind=1) }}">设计类</a></li>
-                <li role="presentation" class="{{ meta.css_fashion }}"><a href="{{ url_for('admin.image_list', kind=5) }}">服装类</a></li>
-                <li role="presentation" class="{{ meta.css_deleted }}"><a href="{{ url_for('admin.image_list', deleted=1) }}">回收站</a></li>
+                <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.produce_list') }}">全部</a></li>
+                <li role="presentation" class="{{ meta.css_design }}"><a href="{{ url_for('admin.produce_list', kind=1) }}">设计类</a></li>
+                <li role="presentation" class="{{ meta.css_fashion }}"><a href="{{ url_for('admin.produce_list', kind=5) }}">服装类</a></li>
+                <li role="presentation" class="{{ meta.css_deleted }}"><a href="{{ url_for('admin.produce_list', deleted=1) }}">回收站</a></li>
             </ul>
         </div>
     </div>
