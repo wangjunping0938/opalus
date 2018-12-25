@@ -1,5 +1,5 @@
 # coding: utf-8
-from flask import g
+from flask import g, current_app
 from wtforms import TextAreaField, StringField, IntegerField, FloatField
 from wtforms.validators import DataRequired, Length, EqualTo, NumberRange
 from flask_wtf import FlaskForm
@@ -40,7 +40,7 @@ class SaveForm(FlaskForm):
     asset_type = IntegerField()
     asset_ids = StringField()
     cover_id = StringField()
-    #editor_id = IntegerField()
+    editor_id = IntegerField()
     is_editor = IntegerField()
     editor_level = IntegerField()
 
