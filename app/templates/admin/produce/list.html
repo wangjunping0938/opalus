@@ -172,7 +172,7 @@
                 <td>
 {#                <a href="{{ url_for('main.image_view', id=d._id) }}" target="_blank">#}
                   {% if d.cover %}
-                    <img src="{{ d.thumb.sm }}" width="100" />
+                    <img src="{{ d.cover.get_thumb_path().sm }}" width="100" />
                   {%else%}
                     <img src="{{ url_for('static', filename='images/avatar_100.png') }}" width="100" />
                   {%endif%}

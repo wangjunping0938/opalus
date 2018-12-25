@@ -49,7 +49,7 @@ class Produce(Base):
     random = db.IntField(default=0)  # 生成随机数
     deleted = db.IntField(default=0)  # 是否软删除
     cover_id = db.StringField(default='')  # 封面ID
-    editor = db.IntField(default=0)  # 编辑人用户id
+    editor_id = db.IntField(default=0)  # 编辑人用户id
     editor_level = db.IntField(default=0)  # 0 未编辑 1 2 编辑程度
     created_at = db.DateTimeField()
     updated_at = db.DateTimeField(default=datetime.datetime.now)

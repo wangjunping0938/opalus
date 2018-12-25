@@ -40,6 +40,8 @@ class SaveForm(FlaskForm):
     asset_type = IntegerField()
     asset_ids = StringField()
     cover_id = StringField()
+    #editor_id = IntegerField()
+    #editor_level = IntegerField()
 
     def update(self):
         id = self.data['id']

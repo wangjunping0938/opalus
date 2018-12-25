@@ -18,7 +18,7 @@ import re
 metaInit = {
     'title': '产品管理',
     'css_nav_sub_produce': 'active',
-    'css_nav_produce': 'active',
+    'css_nav_image': 'active',
     'css_all': 'active'
 }
 

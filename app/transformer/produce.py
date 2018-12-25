@@ -22,7 +22,7 @@ def t_produce_view(d):
         'company': d.company,
         'designer': d.designer,
         'kind': d.kind,
-        'cover': d.cover,
+        'cover': d.cover(),
         # 'prize_id': d.prize_id,
         # 'prize': fetch_prize(d.prize_id, d.prize),
         # 'prize_level': d.prize_level,
@@ -68,7 +68,7 @@ def t_produce_list(data):
             'other_tags': d.other_tags,
             'total_tags': d.total_tags,
             'total_tags_s': ','.join(d.total_tags),
-            'editor': d.editor,
+            'editor_id': d.editor_id,
             'user_id': d.user_id,
             'channel': d.channel,
             'stick': d.stick,
@@ -85,6 +85,49 @@ def t_produce_list(data):
         rows.append(row)
     return rows
 
+def t_admin_produce_list(data):
+    if not data:
+        return []
+    rows = []
+    # 过滤数据
+    for i, d in enumerate(data.items):
+        row = {
+            '_id': str(d._id),
+            'title': d.title,
+            'category_id': d.category_id,
+            'category': fetch_category(d.category_id),
+            'url': d.url,
+            'company': d.company,
+            'designer': d.designer,
+            'kind': d.kind,
+            'prize_names': get_prize(d.prize),
+            'brand_id': d.brand_id,
+            'brand': fetch_brand(d.brand_id),
+            'tags': d.tags,
+            'tags_s': ','.join(d.tags),
+            'evt_label': evt_label(d.evt),
+            'material_tags': d.material_tags,
+            'technique_tags': d.technique_tags,
+            'style_tags': d.style_tags,
+            'other_tags': d.other_tags,
+            'total_tags': d.total_tags,
+            'total_tags_s': ','.join(d.total_tags),
+            'editor_id': d.editor_id,
+            'user_id': d.user_id,
+            'channel': d.channel,
+            'stick': d.stick,
+            'deleted': d.deleted,
+            'status': d.status,
+            'currency_type': d.currency_type,
+            'price': d.price,
+            'created_at': d.created_at,
+            'updated_at': d.updated_at,
+            'cover': d.cover(),
+        }
+        if row['cover']:
+            row.update({'thumb': d.cover().get_thumb_path()})
+        rows.append(row)
+    return rows
 
 # 分类
 def fetch_category(category_id):
