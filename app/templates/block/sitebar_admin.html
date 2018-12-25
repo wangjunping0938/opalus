@@ -34,9 +34,6 @@
                 </h4>
                 <ul id="mReptileManage" class="bbc pb5">
                     <li class="res_mem_list_li">
-                        <a class="res_mem_list_link {{ meta.css_nav_sub_site|default('') }}" href="{{ url_for('admin.site_list') }}">网站管理 <span class="g9">»</span></a>
-                    </li>
-                    <li class="res_mem_list_li">
                         <a class="res_mem_list_link {{ meta.css_nav_sub_product|default('') }}" href="{{ url_for('admin.product_list') }}">产品管理 <span class="g9">»</span></a>
                     </li>
                     <li class="res_mem_list_li">
@@ -89,6 +86,9 @@
                     </li>
                     <li class="res_mem_list_li">
                         <a class="res_mem_list_link {{ meta.css_nav_sub_color|default('') }}" href="{{ url_for('admin.color_list') }}">色值管理 <span class="g9">»</span></a>
+                    </li>
+                    <li class="res_mem_list_li">
+                        <a class="res_mem_list_link {{ meta.css_nav_sub_site|default('') }}" href="{{ url_for('admin.site_list') }}">网站管理 <span class="g9">»</span></a>
                     </li>
                     <li class="res_mem_list_li">
                         <a class="res_mem_list_link {{ meta.css_nav_sub_image|default('') }}" href="{{ url_for('admin.image_list') }}">图片管理 <span class="g9">»</span></a>
