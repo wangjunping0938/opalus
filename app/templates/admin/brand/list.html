@@ -132,7 +132,7 @@
                   {% if d.country %}<p>国家: {{ d.country }}</p>{%endif%}
                   {% if d.found_time %}<p>创办时间: {{ d.found_time }}</p>{%endif%}
                 </td>
-                <td>{{ d.user_id }}</td>
+                <td>{% if d.user %}{{ d.user.profile.realname }}{%endif%}</td>
                 <td>{{ d.created_at | date("%Y-%m-%d") }}</td>
                 <td>
                     <p class="status-label">

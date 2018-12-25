@@ -2,6 +2,7 @@ import datetime
 #from flask.ext.mongoengine.wtf import model_form
 from app.models import db
 from app.models.asset import Asset
+from app.models.user import User
 from .base import Base
 from bson import ObjectId
 
@@ -44,6 +45,14 @@ class Brand(Base):
         asset = Asset.objects(target_id=str(self._id), asset_type=5, deleted=0).first()
         if asset and asset.deleted==0:
             return asset
+        return None
+
+    def user(self):
+        if self.user_id:
+            user = User.objects(_id=self.user_id).first()
+            if user:
+                return user
+
         return None
 
     # 标记删除

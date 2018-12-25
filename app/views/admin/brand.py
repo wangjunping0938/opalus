@@ -64,6 +64,7 @@ def brand_list():
     # 过滤数据
     for i, d in enumerate(data.items):
         data.items[i].cover = d.cover()
+        data.items[i].user = d.user()
 
     meta['data'] = data.items
     meta['total_count'] = total_count
