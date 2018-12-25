@@ -76,7 +76,7 @@ class Produce(Base):
         return None
 
     def editor(self):
-        if self.user_id:
+        if self.editor_id:
             user = User.objects(_id=self.editor_id).first()
             if user:
                 return user
