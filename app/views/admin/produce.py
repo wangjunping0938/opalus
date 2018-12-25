@@ -81,7 +81,7 @@ def produce_list():
 
     data = Produce.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
     total_count = Produce.objects(**query).count()
-    site_list = Site.objects.all()
+    site_list = Site.objects(kind=1, status=1, deleted=0)
     # 过滤数据
     rows = t_produce_list(data)
     meta['data'] = rows

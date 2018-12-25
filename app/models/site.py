@@ -18,7 +18,7 @@ class Site(Base):
     name = db.StringField(max_length=20) # 名称
     url = db.StringField(max_length=200) # 网址
     user_id = db.IntField(default=0)    # 用户ID
-    kind = db.IntField(default=1)    # 类型:
+    kind = db.IntField(default=1)    # 类型: 1.产品库；2.其它；
     category_id = db.IntField(default=0)    # 分类
     site_from = db.IntField(default=0)    # 站点来源
     site_type = db.IntField(default=0)    # 站点模式 1.销售；2.众筹；3.--

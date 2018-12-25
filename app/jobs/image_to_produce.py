@@ -86,7 +86,7 @@ def save_data(image):
         else:
             print('导入失败,失败素材ID', str(image._id))
     # 保存素材target
-    ok = image.update(target_id=str(produce._id))
+    ok = image.update(target_id=str(produce._id), asset_type=2)
 
     if ok:
         print('保存素材target成功,成功素材ID', str(image._id))

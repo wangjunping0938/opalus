@@ -50,6 +50,7 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav nav-list">
                 <li role="presentation" class="{{ meta.css_all }}"><a href="{{ url_for('admin.site_list') }}">全部</a></li>
+                <li role="presentation" class="{{ meta.css_deleted }}"><a href="{{ url_for('admin.site_list', deleted=1) }}">回收站</a></li>
             </ul>
         </div>
     </div>
@@ -82,7 +83,7 @@
         </th>
         <th>标识/名称</th>
         <th>网址/最后抓取地址</th>
-        <th>来源/模式</th>
+        <th>类型</th>
         <th>创建用户</th>
         <th>状态</th>
         <th class="col-md-1">创建时间</th>
@@ -105,7 +106,7 @@
                   <p><a href="{{ d.last_url }}" target="_blank">{{ d.last_url }}</a></p>
                 </td>
                 <td>
-                    {{ d.site_from_label }}-[{{ d.site_type_label }}]
+                    {% if d.kind == 1 %}产品库{%else%}其它{%endif%}
                 </td>
                 <td>{{ d.user_id }}</td>
                 <td>

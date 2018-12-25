@@ -8,14 +8,16 @@ from app.helpers.constant import platform_options, platform_type
 from app.forms.site import SaveForm, setStatus
 import bson
 
+metaInit = {
+    'title': '网站管理',
+    'css_nav_sub_site': 'active',
+    'css_nav_image': 'active'
+}
+
 ## 列表
 @admin.route('/site/list')
 def site_list():
-    meta = {
-        'title': '网站管理',
-        'css_nav_sub_site': 'active',
-        'css_nav_reptile': 'active'
-    }
+    meta = metaInit.copy()
     query = {}
     page = int(request.args.get('page', 1))
     per_page = int(request.args.get('per_page', 20))
@@ -31,7 +33,12 @@ def site_list():
     else:
         meta['css_all'] = 'active'
 
-    query['deleted'] = deleted
+    if deleted == 1:
+        query['deleted'] = 1
+        meta['css_deleted'] = 'active'
+        meta['css_all'] = ''
+    else:
+        query['deleted'] = 0
 
     data = Site.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
     total_count = Site.objects(**query).count()
@@ -56,11 +63,7 @@ def site_list():
 ## 编辑
 @admin.route('/site/submit')
 def site_submit():
-    meta = {
-        'title': '配置管理',
-        'css_nav_sub_site': 'active',
-        'css_nav_reptile': 'active'
-    }
+    meta = metaInit.copy()
     id = request.args.get('id', None)
     meta['data'] = None
     if id:
@@ -129,11 +132,7 @@ def site_set_status():
 ## 删除
 @admin.route('/site/delete', methods=['POST'])
 def site_delete():
-    meta = {
-        'title': '网站管理',
-        'css_nav_sub_site': 'active',
-        'css_nav_reptile': 'active'
-    }
+    meta = metaInit.copy()
 
     ids = request.values.get('ids', '')
     type = request.values.get('type', 1)

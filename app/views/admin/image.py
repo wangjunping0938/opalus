@@ -83,7 +83,7 @@ def image_list():
 
     data = Image.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
     total_count = Image.objects(**query).count()
-    site_list = Site.objects.all()
+    site_list = Site.objects(kind=1, status=1, deleted=0)
     # 过滤数据
     rows = t_image_list(data)
 

@@ -85,17 +85,21 @@
             {{ form.csrf_token }}
             <input type="hidden" name="id" value="{{ meta.data._id }}" />
             <input type="hidden" name="referer_url" value="{{ meta.referer_url }}" />
-            <input type="hidden" name="site_type" value="{{ meta.data.site_type }}" />
 
             <div class="form-group">
                 <div class="col-xs-4">
-                    <select name="site_from" class="form-control">
-                        {% for d in meta.platform_options %}
-                        <option value="{{ d.id }}" data-type="{{ d.type }}" {% if meta.data.site_from==d.id %}selected="selected"{%endif%}>{{ d.name }}</option>
-                        {% endfor %}
-                    </select>
+                    <label for="kind">类型</label>
+                    <div class="">
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.kind==1 %}checked="checked"{%endif%} name="kind" value="1">
+                            产品库
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.kind==2 %}checked="checked"{%endif%} name="kind" value="2">
+                            其它
+                        </label>
+                    </div>
                 </div>
-
             </div>
 
             <div class="form-group">
