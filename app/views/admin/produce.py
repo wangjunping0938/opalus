@@ -159,7 +159,7 @@ def produce_save():
             if id:
                 produce = form.update()
             else:
-                produce = form.save(user_id=g.user._id)
+                produce = form.save()
         except(Exception) as e:
             return jsonify(success=False, message=str(e))
 

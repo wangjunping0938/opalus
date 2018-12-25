@@ -202,9 +202,9 @@ def image_ajx_list():
                 'is_cover': is_cover,
             }
             if thumb_url:
-                field['url'] = thumb_url
+                field['thumb_url'] = thumb_url
             elif d.img_url:
-                field['url'] = d.img_url
+                field['thumb_url'] = d.img_url
 
             fields.append(field)
 

@@ -96,7 +96,7 @@ $('#upload_file').uploadifive({
             var render = phenix.ajax_render('#asset-box-tpl',
               {
                   id: obj.data._id,
-                  url: obj.data.thumb_url,
+                  thumb_url: obj.data.thumb_url,
                   name: obj.data.name,
               })
             $('#asset_items').append(render)

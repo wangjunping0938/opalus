@@ -95,7 +95,7 @@ class Produce(Base):
         if self.color_tags:
             if not isinstance(self.color_tags, list):
                 self.color_tags = self.__trans_list(self.color_tags)
-            total_tags += self.color_tags
+            #total_tags += self.color_tags
         else:
             self.color_tags = []
 
@@ -146,7 +146,7 @@ class Produce(Base):
             total_tags = self.__tags_merge(total_tags, self.tags, kwargs['tags'])
         if 'color_tags' in kwargs.keys() and not isinstance(kwargs['color_tags'], list):
             kwargs['color_tags'] = self.__trans_list(kwargs['color_tags'])
-            total_tags = self.__tags_merge(total_tags, self.color_tags, kwargs['color_tags'])
+            #total_tags = self.__tags_merge(total_tags, self.color_tags, kwargs['color_tags'])
         if 'brand_tags' in kwargs.keys() and not isinstance(kwargs['brand_tags'], list):
             kwargs['brand_tags'] = self.__trans_list(kwargs['brand_tags'])
             total_tags = self.__tags_merge(total_tags, self.brand_tags, kwargs['brand_tags'])
