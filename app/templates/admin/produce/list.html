@@ -172,7 +172,11 @@
                 <td>
 {#                <a href="{{ url_for('main.image_view', id=d._id) }}" target="_blank">#}
                   {% if d.cover %}
-                    <img src="{{ d.cover.get_thumb_path().sm }}" width="100" />
+                    {% if d.cover.get_thumb_path() %}
+                      <img src="{{ d.cover.get_thumb_path().sm }}" width="100" />
+                    {%else%}
+                      <img src="{{ d.cover.img_url }}" width="100" />
+                    {%endif%}
                   {%else%}
                     <img src="{{ url_for('static', filename='images/avatar_100.png') }}" width="100" />
                   {%endif%}
@@ -189,7 +193,7 @@
                   {% if d.brand_id %}<p>品牌ID: {{ d.brand_id }}</p>{% endif %}
                   {% if d.prize_names %}<p>奖项名称: {{ d.prize_names }}</p>{% endif %}
                 </td>
-                <td>{{ d.editor }}</td>
+                <td>{{ d.editor_id }}</td>
                 <td>{{ d.kind }}</td>
                 <td>{{ d.channel }}</td>
                 <td>{{ d.evt_label }}</td>
