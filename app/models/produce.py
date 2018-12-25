@@ -9,6 +9,7 @@ from .base import Base
 import re
 import random
 from app.models.image import Image
+from app.models.user import User
 
 # 产品库表- produce
 class Produce(Base):
@@ -66,6 +67,21 @@ class Produce(Base):
 
         return None
 
+    def user(self):
+        if self.user_id:
+            user = User.objects(_id=self.user_id).first()
+            if user:
+                return user
+
+        return None
+
+    def editor(self):
+        if self.user_id:
+            user = User.objects(_id=self.editor_id).first()
+            if user:
+                return user
+
+        return None
 
     def save(self, *args, **kwargs):
         total_tags = []

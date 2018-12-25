@@ -1,5 +1,5 @@
 # coding: utf-8
-
+from flask import g
 from wtforms import TextAreaField, StringField, IntegerField, FloatField
 from wtforms.validators import DataRequired, Length, EqualTo, NumberRange
 from flask_wtf import FlaskForm
@@ -41,7 +41,8 @@ class SaveForm(FlaskForm):
     asset_ids = StringField()
     cover_id = StringField()
     #editor_id = IntegerField()
-    #editor_level = IntegerField()
+    is_editor = IntegerField()
+    editor_level = IntegerField()
 
     def update(self):
         id = self.data['id']
@@ -53,7 +54,12 @@ class SaveForm(FlaskForm):
         data.pop('id')
         if 'total_tags' in data:
             data.pop('total_tags')
+
+        if 'is_editor' in data and data['is_editor'] == 1:
+            data['editor_id'] = g.user._id
+            data['editor_level'] = 1
         data.pop('user_id')
+        data.pop('is_editor')
         data.pop('asset_type')
         data.pop('asset_ids')
         # data.pop('csrf_token')
@@ -66,9 +72,13 @@ class SaveForm(FlaskForm):
         if data['url']:
             if Produce.objects(url=data['url']).first():
                 raise ValueError('产品已存在!')
-        data['user_id'] = param['user_id']
+        if 'is_editor' in data and data['is_editor'] == 1:
+            data['editor_id'] = g.user._id
+            data['editor_level'] = 1
+        data['user_id'] = g.user._id
         data.pop('asset_ids')
         data.pop('asset_type')
+        data.pop('is_editor')
         data.pop('id')
         if 'total_tags' in data:
             data.pop('total_tags')

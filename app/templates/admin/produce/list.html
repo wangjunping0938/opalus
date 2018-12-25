@@ -128,6 +128,13 @@
           </div>
 
           <div class="form-group">
+              <select name="editor_level" class="form-control input-sm">
+                  <option value="0" {% if request.args.get('editor_level') == '0' %}selected="selected"{%endif%}>--是否标注--</option>
+                  <option value="1" {% if request.args.get('editor_level') == '1' %}selected="selected"{%endif%}>是</option>
+                  <option value="-1" {% if request.args.get('editor_level') == '-1' %}selected="selected"{%endif%}>否</option>
+              </select>
+          </div>
+          <div class="form-group">
               <select name="status" class="form-control input-sm">
                   <option value="0" {% if request.args.get('status') == '0' %}selected="selected"{%endif%}>--状态--</option>
                   <option value="1" {% if request.args.get('status') == '1' %}selected="selected"{%endif%}>启用</option>
@@ -152,11 +159,10 @@
         </th>
         <th>封面</th>
         <th>产品信息</th>
-        <th>编辑人</th>
-        <th>类型</th>
         <th class="col-md-1">渠道</th>
-        <th class="col-md-1">爬取人</th>
+        <th class="col-md-1">操作者</th>
         <th class="col-md-1">创建时间</th>
+        <th>是否标注</th>
         <th>推荐</th>
         <th>状态</th>
         <th class="col-md-1">操作</th>
@@ -188,16 +194,28 @@
                   {% if d.category %}<p>分类: {{ d.category.name }}</p>{% endif %}
                   {% if d.img_url %}<p>原图地址: {{ d.img_url }}</p>{% endif %}
                   {% if d.url %}<p>原文地址: {{ d.url }}</p>{% endif %}
-                  {% if d.price %}<p>价格: {% if currency_type == 1 %}￥{% elif currency_type == 2 %}${% endif %}{{ d.price }}</p>{% endif %}
+                  {% if d.price %}<p>价格: {% if d.currency_type == 1 %}￥{% elif d.currency_type == 2 %}${% endif %}{{ d.price }}</p>{% endif %}
                   {% if d.total_tags_s %}<p>标签: {{ d.total_tags_s }}</p>{% endif %}
-                  {% if d.brand_id %}<p>品牌ID: {{ d.brand_id }}</p>{% endif %}
+                  {% if d.brand %}<p>品牌ID: {{ d.brand.name }}</p>{% endif %}
                   {% if d.prize_names %}<p>奖项名称: {{ d.prize_names }}</p>{% endif %}
                 </td>
-                <td>{{ d.editor_id }}</td>
-                <td>{{ d.kind }}</td>
                 <td>{{ d.channel }}</td>
-                <td>{{ d.evt_label }}</td>
+                <td>
+                  {% if d.user %}<p>创建人: {{ d.user.profile.realname }}</p>{%endif%}
+                  {% if d.editor %}<p>编辑人: {{ d.editor.profile.realname }}</p>{%endif%}
+                  {% if d.evt_label %}<p>抓取人: {{ d.evt_label }}</p>{%endif%}
+                  </td>
                 <td>{{ d.created_at | date("%Y-%m-%d") }}</td>
+                <td>
+                    <p class="">
+                        {% if d.editor_level==0 %}
+                            <span class="label label-default">否</span>
+                        {%endif%}
+                        {% if d.editor_level==1 %}
+                            <span class="label label-success">是</span>
+                        {%endif%}
+                    </p>
+                </td>
                 <td>
                     <p class="stick-label">
                         {% if d.stick==0 %}

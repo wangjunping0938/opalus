@@ -495,6 +495,7 @@ $('.def-tags span').click(function(){
             </div>
             {% endif %}
 
+            <!--
             <div class="form-group">
                 <div class="col-xs-8">
                     <label for="other_tags">其它标签</label>
@@ -510,6 +511,7 @@ $('.def-tags span').click(function(){
                 </div>
             </div>
             {% endif %}
+            -->
 
             <div class="form-group">
                 <div class="col-xs-8">
@@ -538,6 +540,7 @@ $('.def-tags span').click(function(){
                 </div>
             </div>
 
+            <!--
             <div class="form-group">
                 <div class="col-xs-4">
                     <label for="channel">渠道</label>
@@ -551,6 +554,7 @@ $('.def-tags span').click(function(){
                     <input type="number" name="random" disabled="disabled" class="form-control" value="{{ meta.data.random }}" placeholder="随机数">
                 </div>
             </div>
+            -->
 
             <div class="form-group">
                 <div class="col-xs-8">
@@ -565,6 +569,43 @@ $('.def-tags span').click(function(){
                     <textarea class="form-control" name="info" rows="8">{{ meta.data.info|default('') }}</textarea>
                 </div>
             </div>
+
+
+            <div class="form-group">
+                <div class="col-xs-6">
+                    <div class="checkbox">
+                    <label>
+                        <input name="is_editor" value="1" type="checkbox"> 记录编辑人信息
+                    </label>
+                    </div>
+                </div>
+            </div>
+
+            <!--
+            <div class="form-group">
+                <div class="col-xs-4">
+                    <label for="editor_level">标注完整度</label>
+                    <div class="">
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.editor_level==0 %}checked="checked"{%endif%} name="editor_level" value="0">
+                            未处理
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.editor_level==1 %}checked="checked"{%endif%} name="editor_level" value="1">
+                            低
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.editor_level==5 %}checked="checked"{%endif%} name="editor_level" value="5">
+                            中
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="radio" {% if meta.data.editor_level==8 %}checked="checked"{%endif%} name="editor_level" value="8">
+                            高
+                        </label>
+                    </div>
+                </div>
+            </div>
+            -->
 
             <div class="form-group">
                 <div class="col-sm-10">

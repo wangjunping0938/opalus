@@ -12,7 +12,7 @@ from app.forms.produce import SaveForm, setStatus
 from bson import ObjectId
 from app.helpers.block import get_block_content
 from app.helpers.constant import prize_options
-from app.transformer.produce import t_produce_list
+from app.transformer.produce import t_admin_produce_list
 import re
 
 metaInit = {
@@ -34,7 +34,9 @@ def produce_list():
     deleted = force_int(request.args.get('deleted', 0))
     kind = force_int(request.args.get('kind', 0))
     prize_id = force_int(request.args.get('prize_id', 0))
+    editor_level = force_int(request.args.get('editor_level', 0))
     site_mark = request.args.get('site_mark','')
+
 
     t = force_int(request.args.get('t', 1), 1)
     q = request.args.get('q', '')
@@ -57,6 +59,12 @@ def produce_list():
             meta['css_fashion'] = 'active'
         meta['css_all'] = ''
         query['kind'] = kind
+
+    if editor_level:
+        if editor_level == -1:
+            query['editor_level'] = 0
+        else:
+            query['editor_level'] = editor_level
 
     if status == -1:
         query['status'] = 0
@@ -83,7 +91,7 @@ def produce_list():
     total_count = Produce.objects(**query).count()
     site_list = Site.objects(kind=1, status=1, deleted=0)
     # 过滤数据
-    rows = t_produce_list(data)
+    rows = t_admin_produce_list(data)
     meta['data'] = rows
     meta['total_count'] = total_count
     meta['prize_options'] = prize_options()
