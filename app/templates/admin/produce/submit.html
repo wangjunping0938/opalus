@@ -22,6 +22,56 @@
     <script type="text/javascript" src="{{ url_for('static', filename='tags_input_master/dist/jquery.tagsinput.min.js') }}"></script>
     <script type="text/javascript">
 
+
+    var prize_options = new Array()
+    {% for d in meta.prize_options %}
+    var prize = {'id': {{ d.id }}, 'name': "{{ d.name }}"}
+    prize_options.push(prize);
+    {% endfor %}
+
+    function prize_html(prize='') {
+      var html = '';
+      html += '<div class="prize-item clear">';
+      html += '<div class="col-xs-3">';
+      html += '<select name="prize[]" class="form-control">';
+      html += '<option value="0">--请选择--</option>';
+
+      if (!prize) {
+        prize = {
+          'id': 0,
+          'name': '',
+          'level': '',
+          'time': ''
+        }
+      }
+      
+      var p = '';
+      for (var i = 0; i < prize_options.length; i++) {
+        if (prize.id == prize_options[i].id) {
+          p += '<option value="'+ prize_options[i].id +'" selected="selected">'+ prize_options[i].name +'</option>';       
+        } else {
+          p += '<option value="'+ prize_options[i].id +'">'+ prize_options[i].name +'</option>';
+        }
+      }
+      html += p;
+
+      html += '</select>';
+      html += '</div>';
+      html += '<div class="col-xs-2">';
+      html += '<input type="text" name="prize_level_arr[]" class="form-control" value="'+ prize.level +'" placeholder="级别">';
+      html += '</div>';
+      html += '<div class="col-xs-2">';
+      html += '<input type="text" name="prize_time_arr[]" class="form-control" value="'+ prize.time +'" placeholder="获奖时间">';
+      html += '</div>';
+      html += '<div class="col-xs-2">';
+      html += '<button type="button" class="btn btn-default prize_del_btn">删除</button>';
+      html += '</div>';
+      html += '</div>';
+
+      return html;
+    }
+
+
   </script>
 {% endblock %}
 
@@ -32,7 +82,7 @@ $("#item-form").validate({
   //debug: true,
 
   rules: {
-      name: {
+      title: {
           required: true,
       },
       kind: {
@@ -41,8 +91,8 @@ $("#item-form").validate({
   },
 
   messages: {
-      name: {
-          required: "请输入名称",
+      title: {
+          required: "请输入标题",
       },
       kind: {
           required: "请选择类型",
@@ -270,6 +320,25 @@ $('.def-tags span').click(function(){
   }
 });
 
+// 追加奖项
+$('#prize_add_btn').click(function(){
+  var html = prize_html('');
+  $('#prize-box').append(html);
+});
+
+// 删除奖项
+$('#prize-box').on('click', '.prize_del_btn', function(){
+  $(this).parents('.prize-item').remove();
+});
+
+{% if meta.is_edit and meta.data.prize %}
+    {% for d in meta.data.prize %}
+        var prize = {'id': {{ d.id|default(0) }}, 'name': "{{ d.name|default('') }}", 'level': "{{ d.level|default('') }}", 'time': "{{ d.time|default('') }}"};
+        var html = prize_html(prize);
+        $('#prize-box').append(html);
+    {%endfor%}
+{%endif%}
+
 {% endblock %}
 
 {% block layout_slider %}
@@ -383,10 +452,13 @@ $('.def-tags span').click(function(){
 {#                </div>#}
 {#            </div>#}
 
+            <div class="form-group" id="prize-box">
+                <div class=""><label for="title">奖项</label></div>
+                <!--js fetch-->
+            </div>
             <div class="form-group">
-                <div class="col-xs-8">
-                    <label for="url">原文地址</label>
-                    <input type="text" name="url" class="form-control" value="{{ meta.data.url }}" placeholder="原文地址">
+                <div class="col-sm-10">
+                    <button type="button" id="prize_add_btn" class="btn btn-sm btn-primary">+ 追加奖项</button>
                 </div>
             </div>
 
@@ -398,6 +470,13 @@ $('.def-tags span').click(function(){
                 <div class="col-xs-4">
                     <label for="company">公司</label>
                     <input type="text" name="company" class="form-control" value="{{ meta.data.company }}" placeholder="公司">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <label for="url">原文地址</label>
+                    <input type="text" name="url" class="form-control" value="{{ meta.data.url }}" placeholder="原文地址">
                 </div>
             </div>
 
@@ -580,32 +659,6 @@ $('.def-tags span').click(function(){
                     </div>
                 </div>
             </div>
-
-            <!--
-            <div class="form-group">
-                <div class="col-xs-4">
-                    <label for="editor_level">标注完整度</label>
-                    <div class="">
-                        <label class="checkbox-inline">
-                            <input type="radio" {% if meta.data.editor_level==0 %}checked="checked"{%endif%} name="editor_level" value="0">
-                            未处理
-                        </label>
-                        <label class="checkbox-inline">
-                            <input type="radio" {% if meta.data.editor_level==1 %}checked="checked"{%endif%} name="editor_level" value="1">
-                            低
-                        </label>
-                        <label class="checkbox-inline">
-                            <input type="radio" {% if meta.data.editor_level==5 %}checked="checked"{%endif%} name="editor_level" value="5">
-                            中
-                        </label>
-                        <label class="checkbox-inline">
-                            <input type="radio" {% if meta.data.editor_level==8 %}checked="checked"{%endif%} name="editor_level" value="8">
-                            高
-                        </label>
-                    </div>
-                </div>
-            </div>
-            -->
 
             <div class="form-group">
                 <div class="col-sm-10">

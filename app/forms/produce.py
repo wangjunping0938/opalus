@@ -1,11 +1,17 @@
 # coding: utf-8
 from flask import g, current_app
-from wtforms import TextAreaField, StringField, IntegerField, FloatField
+from wtforms import TextAreaField, StringField, IntegerField, FloatField, FieldList, FormField
 from wtforms.validators import DataRequired, Length, EqualTo, NumberRange
 from flask_wtf import FlaskForm
 from bson import ObjectId
 from ..models.produce import Produce
 from ..models.image import Image
+
+class PrizeForm(FlaskForm):
+    id = IntegerField('ID')
+    level = StringField('level')
+    time = StringField('time')
+    name = StringField('name')
 
 
 class SaveForm(FlaskForm):
@@ -43,6 +49,7 @@ class SaveForm(FlaskForm):
     editor_id = IntegerField()
     is_editor = IntegerField()
     editor_level = IntegerField()
+    prize = FieldList(FormField(PrizeForm))
 
     def update(self):
         id = self.data['id']
@@ -58,6 +65,9 @@ class SaveForm(FlaskForm):
         if 'is_editor' in data and data['is_editor'] == 1:
             data['editor_id'] = g.user._id
             data['editor_level'] = 1
+        if 'prize' in data:
+            current_app.logger.debug('aaaab')
+            current_app.logger.debug(data['prize'])
         data.pop('user_id')
         data.pop('is_editor')
         data.pop('asset_type')
