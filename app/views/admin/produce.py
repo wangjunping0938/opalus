@@ -35,8 +35,7 @@ def produce_list():
     kind = force_int(request.args.get('kind', 0))
     prize_id = force_int(request.args.get('prize_id', 0))
     editor_level = force_int(request.args.get('editor_level', 0))
-    site_mark = request.args.get('site_mark','')
-
+    site_mark = request.args.get('site_mark', '')
 
     t = force_int(request.args.get('t', 1), 1)
     q = request.args.get('q', '')
@@ -48,9 +47,6 @@ def produce_list():
             query['channel'] = q.strip()
         if t == 3:
             query['evt'] = force_int(q.strip())
-
-    # if prize_id:
-    #     query['prize_id'] = prize_id
 
     if kind:
         if kind == 1:
@@ -85,10 +81,16 @@ def produce_list():
     else:
         meta['css_all'] = ''
 
-    page_url = url_for('admin.produce_list', page="#p#", q=q, t=t, prize_id=prize_id,site_mark=site_mark, kind=kind, status=status, deleted=deleted)
-
-    data = Produce.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
-    total_count = Produce.objects(**query).count()
+    page_url = url_for('admin.produce_list', page="#p#", q=q, t=t, prize_id=prize_id, site_mark=site_mark, kind=kind,
+                       status=status, deleted=deleted)
+    if prize_id:
+        query['prize'] = {'$elemMatch': {'id': int(prize_id)}}
+        data = Produce.objects(__raw__=query).order_by('-created_at').paginate(
+            page=page, per_page=per_page)
+        total_count = Produce.objects(__raw__=query).count()
+    else:
+        data = Produce.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
+        total_count = Produce.objects(**query).count()
     site_list = Site.objects(kind=1, status=1, deleted=0)
     # 过滤数据
     rows = t_admin_produce_list(data)
@@ -194,6 +196,7 @@ def produce_set_status():
     else:
         return jsonify(success=False, message=str(form.errors))
 
+
 ## 推荐
 @admin.route('/produce/set_stick', methods=['POST'])
 def produce_set_stick():
@@ -258,6 +261,3 @@ def produce_recovery():
 
     return jsonify(success=True, message='操作成功!', data={'ids': ids, 'type': type},
                    redirect_to=url_for('admin.image_list'))
-
-
-
