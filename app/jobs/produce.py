@@ -38,7 +38,7 @@ def produce_update():
             #if d.channel == 'g_mark':
             if True:
                 ok = True
-                #ok = d.update(random=r)
+                #ok = d.update(sub_title=d.title)
                 if ok:
                     successStatCount += 1
                 else:

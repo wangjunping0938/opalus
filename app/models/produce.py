@@ -21,6 +21,7 @@ class Produce(Base):
     }
     _id = db.StringField()
     title = db.StringField(max_length=100, default='')  # 标题
+    sub_title = db.StringField(max_length=100, default='')  # 子标题
     channel = db.StringField(max_length=30, default='')  # 渠道
     url = db.StringField(max_length=500, default='')  # 原文地址
     tags = db.ListField()  # 标签

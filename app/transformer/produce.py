@@ -13,6 +13,7 @@ def t_produce_view(d):
     return {
         '_id': str(d._id),
         'title': d.title,
+        'sub_title': d.sub_title,
         'name': d.name,
         'category_id': d.category_id,
         'category': fetch_category(d.category_id),
@@ -50,6 +51,7 @@ def t_produce_list(data):
         row = {
             '_id': str(d._id),
             'title': d.title,
+            'sub_title': d.sub_title,
             'category_id': d.category_id,
             'category': fetch_category(d.category_id),
             'url': d.url,
@@ -94,6 +96,7 @@ def t_admin_produce_list(data):
         row = {
             '_id': str(d._id),
             'title': d.title,
+            'sub_title': d.sub_title,
             'category_id': d.category_id,
             'category': fetch_category(d.category_id),
             'url': d.url,

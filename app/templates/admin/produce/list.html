@@ -191,6 +191,7 @@
                 <td>
                   <p>ID: {{ d._id }}</p>
                   {% if d.title %}<p>标题: {{ d.title }}</p>{% endif %}
+                  {% if d.sub_title %}<p>子标题: {{ d.sub_title }}</p>{% endif %}
                   {% if d.category %}<p>分类: {{ d.category.name }}</p>{% endif %}
                   {% if d.img_url %}<p>原图地址: {{ d.img_url }}</p>{% endif %}
                   {% if d.url %}<p>原文地址: {{ d.url }}</p>{% endif %}
