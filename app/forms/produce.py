@@ -61,9 +61,7 @@ class SaveForm(FlaskForm):
         if 'is_editor' in data and data['is_editor'] == 1:
             data['editor_id'] = g.user._id
             data['editor_level'] = 1
-        if 'prize' in data:
-            current_app.logger.debug('aaaab')
-            current_app.logger.debug(data['prize'])
+
         data.pop('user_id')
         data.pop('is_editor')
         data.pop('asset_type')

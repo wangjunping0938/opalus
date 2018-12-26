@@ -360,7 +360,7 @@
                       </a>
                       <div class="content">
                           <div class="title line-clamp-1 d_j_b">
-                            <p><a href="{{ url_for('main.image_view', id=d._id) }}" target="_blank">{{ d.title }}</a>{% if d.category %}<span class="content_type">{{ d.category.name }}</span>{%endif%} {% if g.is_edit %}<a class="editor" href="{{ url_for('admin.image_submit', id=d._id) }}" target="_blank">编辑</a>{%endif%}</p>
+                            <p><a href="{{ url_for('main.image_view', id=d._id) }}" target="_blank">{{ d.title }}</a>{% if d.category %}<span class="content_type">{{ d.category.name }}</span>{%endif%}<!-- {% if g.is_edit %}<a class="editor" href="{{ url_for('admin.image_submit', id=d._id) }}" target="_blank">编辑</a>{%endif%}--></p>
                           </div>
                           <!--
                           <p class="details line-clamp-2"></p>
