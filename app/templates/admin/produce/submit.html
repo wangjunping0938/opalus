@@ -22,18 +22,18 @@
     <script type="text/javascript" src="{{ url_for('static', filename='tags_input_master/dist/jquery.tagsinput.min.js') }}"></script>
     <script type="text/javascript">
 
-
+    var num = 0
     var prize_options = new Array()
     {% for d in meta.prize_options %}
     var prize = {'id': {{ d.id }}, 'name': "{{ d.name }}"}
     prize_options.push(prize);
     {% endfor %}
 
-    function prize_html(prize='') {
+    function prize_html(prize='',index) {
       var html = '';
       html += '<div class="prize-item clear">';
       html += '<div class="col-xs-3">';
-      html += '<select name="prize[]" class="form-control">';
+      html += '<select name="prize-'+index+'-id" class="form-control">';
       html += '<option value="0">--请选择--</option>';
 
       if (!prize) {
@@ -58,16 +58,16 @@
       html += '</select>';
       html += '</div>';
       html += '<div class="col-xs-2">';
-      html += '<input type="text" name="prize_level_arr[]" class="form-control" value="'+ prize.level +'" placeholder="级别">';
+      html += '<input type="text" name="prize-'+index+'-level" class="form-control" value="'+ prize.level +'" placeholder="级别">';
       html += '</div>';
       html += '<div class="col-xs-2">';
-      html += '<input type="text" name="prize_time_arr[]" class="form-control" value="'+ prize.time +'" placeholder="获奖时间">';
+      html += '<input type="text" name="prize-'+index+'-time" class="form-control" value="'+ prize.time +'" placeholder="获奖时间">';
       html += '</div>';
       html += '<div class="col-xs-2">';
       html += '<button type="button" class="btn btn-default prize_del_btn">删除</button>';
       html += '</div>';
       html += '</div>';
-
+      num++;
       return html;
     }
 
@@ -322,7 +322,7 @@ $('.def-tags span').click(function(){
 
 // 追加奖项
 $('#prize_add_btn').click(function(){
-  var html = prize_html('');
+  var html = prize_html('',num);
   $('#prize-box').append(html);
 });
 
@@ -334,7 +334,7 @@ $('#prize-box').on('click', '.prize_del_btn', function(){
 {% if meta.is_edit and meta.data.prize %}
     {% for d in meta.data.prize %}
         var prize = {'id': {{ d.id|default(0) }}, 'name': "{{ d.name|default('') }}", 'level': "{{ d.level|default('') }}", 'time': "{{ d.time|default('') }}"};
-        var html = prize_html(prize);
+        var html = prize_html(prize,{{ loop.index0 }});
         $('#prize-box').append(html);
     {%endfor%}
 {%endif%}

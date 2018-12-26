@@ -8,12 +8,13 @@ from app.models.site import Site
 from app.models.category import Category
 from app.helpers.pager import Pager
 from app.helpers.common import force_int
-from app.forms.produce import SaveForm, setStatus
+from app.forms.produce import SaveForm, setStatus,PrizeForm
 from bson import ObjectId
 from app.helpers.block import get_block_content
 from app.helpers.constant import prize_options
 from app.transformer.produce import t_admin_produce_list
 import re
+from werkzeug.datastructures import MultiDict
 
 metaInit = {
     'title': '产品管理',
@@ -109,6 +110,7 @@ def produce_submit():
     id = request.args.get('id', None)
     meta['data'] = None
     meta['is_edit'] = False
+    form = SaveForm()
     if id:
         item = Produce.objects(_id=ObjectId(id)).first()
         item._id = str(item._id)
@@ -121,9 +123,9 @@ def produce_submit():
         item.other_tags_s = ','.join(item.other_tags)
         meta['data'] = item
         meta['is_edit'] = True
-
-    form = SaveForm()
-
+        # prize_form = PrizeForm(item.prize)
+        # form.prize.append_entry(prize_form)
+        # print(form.prize)
     meta['default_tags'] = re.split('[,，]', get_block_content('default_tags'))
     meta['default_color_tags'] = re.split('[,，]', get_block_content('default_color_tags'))
     meta['default_brand_tags'] = re.split('[,，]', get_block_content('default_brand_tags'))

@@ -33,10 +33,6 @@ class SaveForm(FlaskForm):
     designer = StringField()
     company = StringField()
     domain = IntegerField()
-    # prize_id = IntegerField()  # 奖项ID
-    # prize = StringField()
-    # prize_level = StringField()  # 奖项级别
-    # prize_time = StringField()  # 奖项时间
     info = StringField()
     channel = StringField('渠道', validators=[Length(max=30, message="长度小于30个字符")])  # 渠道
     brand_id = IntegerField()  # 品牌ID

@@ -153,7 +153,7 @@ def fetch_prize(prize_id, prize):
 def get_prize(prize):
     prize_names = []
     for i in prize:
-        prize_names.append(i['name'])
+        prize_names.append(prize_options(i['id'])['name'])
     prize_names = ','.join(prize_names)
     return prize_names
 
