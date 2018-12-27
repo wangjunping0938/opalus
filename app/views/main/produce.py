@@ -59,7 +59,7 @@ def produce_list():
 
     if q:
         if t == 1:
-            query['_id'] = ObjectId(q.strip())
+            query['title'] = {"$regex": q.strip()}
         if t == 2:
             query['channel'] = q.strip()
         if t == 3:

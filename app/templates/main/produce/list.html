@@ -314,7 +314,7 @@
 
           <div class="form-group">
               <select name="t" class="form-control input-sm">
-                  <option value="1" {% if request.args.get('t') == '1' %}selected="selected"{%endif%}>ID</option>
+                  <option value="1" {% if request.args.get('t') == '1' %}selected="selected"{%endif%}>标题</option>
                   <option value="2" {% if request.args.get('t') == '2' %}selected="selected"{%endif%}>渠道</option>
                   <option value="3" {% if request.args.get('t') == '3' %}selected="selected"{%endif%}>来源</option>
               </select>
