@@ -8,6 +8,7 @@ from app.models.color import Color
 from .base import Base
 import re
 import random
+from bson import ObjectId
 
 # 图片素材表- image
 class Image(Base):
