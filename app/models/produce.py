@@ -53,6 +53,7 @@ class Produce(Base):
     cover_id = db.StringField(default='')  # 封面ID
     editor_id = db.IntField(default=0)  # 编辑人用户id
     editor_level = db.IntField(default=0)  # 0 未编辑 1 2 编辑程度
+    edit_on = db.IntField(default=0)  # 编辑时间；
     created_at = db.DateTimeField()
     updated_at = db.DateTimeField(default=datetime.datetime.now)
 

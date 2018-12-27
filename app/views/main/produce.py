@@ -100,7 +100,7 @@ def produce_list():
     page_url = url_for('main.produce_list', page="#p#", q=q, t=t, tag=tag, prize_id=prize_id, kind=kind, status=status,
                        deleted=deleted)
 
-    data = Produce.objects(**query).order_by('random').paginate(page=page, per_page=per_page)
+    data = Produce.objects(**query).order_by('-edit_on').paginate(page=page, per_page=per_page)
     total_count = Produce.objects(**query).count()
 
     # 过滤数据

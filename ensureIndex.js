@@ -27,6 +27,7 @@ db.produce.ensureIndex({'title':1}, {background: true});
 db.produce.ensureIndex({'user_id':1}, {background: true});
 db.produce.ensureIndex({'editor_id':1}, {background: true});
 db.produce.ensureIndex({'editor_level':1}, {background: true});
+db.produce.ensureIndex({'edit_on':-1}, {background: true});
 
 
 # color - 色值表
