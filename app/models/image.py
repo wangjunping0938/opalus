@@ -68,11 +68,11 @@ class Image(Base):
 
     # 获取七牛路径
     def get_thumb_path(self):
-        asset_url = current_app.config['ASSET_URL']
         path = self.path
         if not path:
             return None
 
+        asset_url = current_app.config['ASSET_URL']
         row = {
             'sm': os.path.join(asset_url, path + '-sm'),
             'mi': os.path.join(asset_url, path + '-mi'),

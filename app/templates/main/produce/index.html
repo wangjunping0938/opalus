@@ -1,0 +1,342 @@
+{% extends "layout/column.html" %}
+{% block title %}产品库{% endblock %}
+{% block layout_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/plugin/swiper-3.4.1.min.css') }}" type="text/css" />
+<style type="text/css">
+    [class*="col-"] {
+        padding: 0 2px;
+    }
+    .swiper-container {
+        width: 100%;
+        height: 420px;
+    }
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+
+    .swiper-slide img {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        margin: auto;
+        display: block;
+    }
+
+    .wrap {
+        overflow: hidden;
+    }
+    .wrap_swiper {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .swiper-button-prev {
+        opacity: 0 !important;
+        transition: all .3s ease;
+    }
+
+    .swiper-button-next {
+        opacity: 0;
+        transition: all .3s ease;
+    }
+
+    .sidebar_left:hover .swiper-button-next{
+        opacity: 1;
+    }
+
+    .sidebar_left:hover .swiper-button-prev{
+        opacity: 1 !important;
+    }
+
+    /*最新推荐*/
+    .news {
+        margin-top: 30px;
+    }
+
+    .margin_20 {
+        margin-bottom: 20px;
+    }
+
+    .d_j {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .d_j a {
+        text-decoration: none;
+    }
+    .font-18 {
+        font-size: 18px;
+    }
+
+    .c_3 {
+        color: #333333;
+    }
+
+    .cur_p {
+        cursor: pointer;
+    }
+
+    .public_h2 {
+        font-size: 24px;
+        color: #000000;
+        margin-left: 5px;
+    }
+
+    .margin {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .thumbnail {
+        padding: 0;
+        border:  none;
+        position: relative;
+        box-shadow: 0 5px 10px 0 #eee;
+        border-radius: 0;
+    }
+
+    .max_h_160 {
+        height: 160px;
+        overflow: hidden;
+    }
+
+    .thumbnail .text {
+        height: 40px;
+        color: #ffffff;
+        position: absolute;
+        bottom: 0;
+        padding: 0 10px;
+        opacity: 0;
+        transition: all .5s ease;
+        font-size: 14px;
+        line-height: 24px;
+        background: rgba(0,0,0,.6);
+        width: 100%;
+    }
+
+    .line-h-40 {
+        line-height: 40px;
+    }
+
+    .thumbnail:hover .text{
+        opacity: 1;
+    }
+
+
+    /*设计案例*/
+    .two {
+        margin-top: 30px;
+    }
+
+
+    .max_h_215 {
+        height: 215px;
+
+    }
+    .overflow {
+        display: block;
+        position: relative;
+        overflow: hidden;
+    }
+    .max_300 {
+        height: 300px;
+    }
+
+    .public_img {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        margin: auto;
+        display: block;
+    }
+
+
+    .line-clamp-1 {
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+    }
+
+    .line-clamp-2 {
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+    }
+
+    .swiper-button-prev, .swiper-container-rtl {
+        left: 20px;
+    }
+
+    .swiper-button-next, .swiper-container-rtl {
+        right: 20px;
+    }
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/plugin/swiper-3.4.1.jquery.min.js') }}"></script>
+    <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+    var swiper = new Swiper('.swiper-container', {
+        paginationClickable: true,
+        //direction: 'vertical',
+        loop: true,
+        autoplay: 3000,
+
+        // 如果需要分页器
+        pagination: '.swiper-pagination',
+
+        // 如果需要前进后退按钮
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+    });
+
+
+{% endblock %}
+
+{% block layout_slider %}
+{%endblock%}
+
+{% block content %}
+    <div class="wrap">
+        <div class="row wrap_swiper">
+            <div class="col-xs-12 col-md-12">
+                <div class="sidebar_left">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            {% if meta.index_home_slide %}
+                                {% for d in meta.index_home_slide %}
+                                    <div class="swiper-slide">
+                                      <a href="{{ d.target }}" target="_blank">
+                                          {% if d.cover %}
+                                              <img src="{{ d.cover.get_thumb_path().bi }}" alt="{{ d.title }}">
+                                          {%endif%}
+                                      </a>
+                                    </div>
+                                {%endfor%}
+                            {%endif%}
+                        </div>
+                        <!-- 如果需要分页器 -->
+                        <div class="swiper-pagination"></div>
+
+                        <!-- 如果需要导航按钮 -->
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--最新推荐-->
+        <div class="news">
+            <div class="margin_20 d_j">
+                <h2 class="public_h2">最新推荐</h2>
+                <a href="{{ url_for('main.produce_list') }}"><span class="font-18 c_3 cur_p">更多</span></a>
+            </div>
+            <div class="row margin">
+                {% for d in meta.sticks %}
+                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+                    <div class="thumbnail">
+                        <a href="{{ url_for('main.produce_view', id=d._id) }}" target="_blank" class="max_h_160 overflow">
+                          {% if d.cover %}
+                            {% if d.cover.get_thumb_path() %}
+                              <img class="public_img" src="{{ d.cover.get_thumb_path().mi }}" alt="{{ d.title }}" />
+                            {%else%}
+                              <img class="public_img" src="{{ d.cover.img_url }}" alt="{{ d.title }}" />
+                            {%endif%}
+                          {%endif%}
+                        </a>
+                        <div class="text">
+                            <div class="line-clamp-1 line-h-40">
+                                <p>{{ d.title }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {%endfor%}
+
+            </div>
+        </div>
+
+        <div class="three">
+            <div class="margin_20 d_j">
+                <h2 class="public_h2">编辑精选</h2>
+                <!--<a href="{{ url_for('main.image_list') }}"><span class="font-18 c_3 cur_p">更多</span></a>-->
+            </div>
+            <div class="row margin">
+                {% if meta.image_home_fine %}
+                    {% for d in meta.image_home_fine %}
+                        <div class="col-xs-4 col-md-4">
+                            <div class="thumbnail">
+                                <a href="{{ d.target }}" target="_blank" class="max_h_215 overflow">
+                                    {% if d.cover %}
+                                        <img class="public_img" src="{{ d.cover.get_thumb_path().bi }}" alt="{{ d.title }}" />
+                                    {%endif%}
+                                </a>
+                            </div>
+                        </div>
+                    {%endfor%}
+                {%endif%}
+            </div>
+        </div>
+
+        <div class="two">
+            <div class="margin_20 d_j">
+                <h2 class="public_h2">专题</h2>
+                <!--<a href="{{ url_for('main.image_list') }}"><span class="font-18 c_3 cur_p">更多</span></a>-->
+            </div>
+            <div class="row margin">
+                {% if meta.image_home_special %}
+                    {% for d in meta.image_home_special %}
+                        <div class="col-xs-6 col-md-6">
+                            <div class="thumbnail">
+                                <a href="{{ d.target }}" target="_blank" class="max_300 overflow">
+                                    {% if d.cover %}
+                                        <img class="public_img" src="{{ d.cover.get_thumb_path().bi }}" alt="{{ d.title }}" />
+                                    {%endif%}
+                                </a>
+                            </div>
+                        </div>
+                    {%endfor%}
+                {%endif%}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

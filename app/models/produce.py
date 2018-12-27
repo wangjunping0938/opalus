@@ -68,6 +68,10 @@ class Produce(Base):
 
         return None
 
+    def assets(self):
+        assets = Image.objects(target_id=str(self._id), asset_type=2, deleted=0)[:20]
+        return assets
+
     def user(self):
         if self.user_id:
             user = User.objects(_id=self.user_id).first()

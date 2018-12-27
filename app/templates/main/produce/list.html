@@ -1,0 +1,464 @@
+{% extends "layout/column.html" %}
+{% block title %}产品库{% endblock %}
+{% block layout_css %}
+<style type="text/css">
+    .mt-20 a {
+        color: #ffffff;
+    }
+    .mt-20 a:hover {
+        color: #ffffff;
+        text-decoration: none;
+    }
+    .form-group {
+        color: #ffffff;
+    }
+
+    .wrap_search {
+        height: 250px;
+        background: url("{{ url_for('static', filename='images/support-background.jpg') }}");
+    }
+    .search {
+        width: 62.5%;
+        margin-top: 50px;
+    }
+
+    .search label {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .search input {
+        height: 40px;
+    }
+
+    .mt-20 {
+        margin-top: 20px;
+    }
+
+    .mt-20 span {
+        margin: 0 10px;
+    }
+
+    .tab {
+        margin-top: 20px;
+        border-bottom: 1px solid #e4e5e7
+    }
+    .nav-pills>li {
+        width: 90px;
+        text-align: center;
+     }
+    .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+        color: #ff3366;
+        background-color: #ffffff;
+        border-bottom: 1px solid #ff3366;
+        border-radius: 0;
+    }
+    .nav>li>a:focus, .nav>li>a {
+        color: #5d6266;
+    }
+    .nav>li>a:focus, .nav>li>a:hover {
+        background-color: #ffffff;
+        color: #ff3366;
+    }
+
+    .prompt {
+        margin: 20px 0;
+    }
+
+    .prompt span {
+        font-size: 18px;
+    }
+
+    .tab_button {
+        display: flex;
+    }
+
+    .tab_button button {
+        background: #ffffff;
+        width: 115px;
+        height: 34px;
+        color: #ff3366;
+        border: 2px solid #ff3366;
+        outline:none;
+    }
+
+    .tab_button button:hover {
+        background: #ff3366;
+        color: #ffffff;
+    }
+    .tab_button button.active {
+        color: #ffffff;
+        background: #ff3366;
+    }
+
+    /*列表*/
+    .list {
+        margin-top: 50px;
+    }
+
+    .d_j {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .content {
+        flex: 1;
+        margin-left: 20px;
+    }
+
+    .content_type {
+        color: #ffffff;
+        border-radius: 10px;
+        margin-left: 10px;
+        font-size: 12px;
+        display: inline-block;
+        text-align: center;
+        background: #ff3366;
+        padding: 5px;
+        line-height: 1;
+    }
+
+    .title {
+        color: rgba(112,123,135,.92);
+        font-size: 18px;
+    }
+    .list_img {
+      width: 200px;
+      height: 200px;
+      position:relative;
+      overflow: hidden;
+    }
+    .list_img img {
+       width: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+    }
+
+    .title a.editor {
+        font-size: 12px;
+        color: #607B8B;
+    }
+
+    .line-clamp-1 {
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+    }
+
+    .line-clamp-2 {
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+    }
+
+    .details {
+        font-size: 16px;
+        color: rgba(0,0,0,.87);
+        margin-top: 5px;
+        max-height: 48px;
+    }
+
+    .d_j_b {
+        display: flex;
+    }
+
+    .d_j_b p{
+        max-width: 850px;
+        font-size:16px
+        line-height:1
+    }
+
+    .mt5 {
+        margin-top: 5px;
+    }
+
+    .mt5 p {
+        font-size: 14px;
+    }
+
+    .tags span {
+        color: #666666;
+        margin-left: 10px;
+    }
+
+    .text-c {
+        text-align: center;
+    }
+
+    .tags span {
+        color: #fff;
+    }
+
+    .gs {
+      display:flex;
+    }
+
+    .gs p {
+      margin-left:15px;
+    }
+
+    .gs p:first-child {
+      margin-left:0;
+    }
+
+    .gs span {
+      margin-left:5px;
+      color:#666;
+    }
+
+    .color-button {
+        width: 35px;
+        height: 15px;
+        position: relative;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .color-button:hover .b_img {
+        opacity: 1;
+        display: block;
+    }
+
+    .b_img {
+        position: absolute;
+        top: -120px;
+        left: -65px;
+        width: 185px;
+        height: 112px;
+        background: url("{{ url_for('static', filename='images/t@2x.png') }}");
+        background-size: cover;
+        opacity: 0;
+        transition: all .3s ease;
+        padding: 5px 0px 10px 10px;
+        display: none;
+    }
+
+    .b_img p {
+        width: auto;
+        color: #ffffff;
+        font-size: 12px;
+        text-align: left;
+        line-height: 1.2;
+        margin: 3px;
+    }
+
+    .b_img span {
+        color: #ffffff;
+        font-size: 12px;
+        margin-left: 0;
+    }
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript">
+
+</script>
+{% endblock %}
+
+{% block jquery %}
+
+{% endblock %}
+
+{% block layout_slider %}
+    <div class="wrap_search">
+        <div class="container">
+            <div class="search">
+                <form action="{{ url_for('main.produce_list') }}" method="GET">
+                    <input type="hidden" name="status" value="{{ request.args.get('status', '') }}" />
+                    <input type="hidden" name="deleted" value="{{ request.args.get('deleted', '') }}" />
+                    <input type="hidden" name="kind" value="{{ request.args.get('kind', '') }}" />
+                    <div class="form-group">
+                        <label for="search_text">搜索</label>
+                        <input type="text" class="form-control" name="tag" value="{{ request.args.get('tag', '') }}" id="search_text" placeholder="请输入搜索内容...">
+                        <div class="mt-20">
+                            <a href="{{ url_for('main.produce_list', tag='出行户外', status=request.args.get('deleted', ''), deleted=request.args.get('deleted', '')) }}"><span>出行户外</span></a>
+                            <a href="{{ url_for('main.produce_list', tag='运动健康') }}"><span>运动健康</span></a>
+                            <a href="{{ url_for('main.produce_list', tag='电视影音') }}"><span>电视影音</span></a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{%endblock%}
+
+{% block content %}
+
+<div class="wrap">
+
+      <div class="tab">
+          <ul class="nav nav-pills">
+              <li role="presentation" class="active"><a href="{{ url_for('main.produce_list') }}">全部</a></li>
+              <li role="presentation"><a href="{{ url_for('main.produce_list') }}">智能硬件</a></li>
+              <li role="presentation"><a href="{{ url_for('main.produce_list') }}">智能车载</a></li>
+          </ul>
+      </div>
+    <div class="fr">
+
+        <form class="navbar-form navbar-left options-bar" role="search" action="{{ url_for('main.produce_list') }}" method="GET" id="search-form">
+          <input type="hidden" name="status" value="{{ request.args.get('status', '') }}" />
+          <input type="hidden" name="kind" value="{{ request.args.get('kind', '') }}" />
+          <input type="hidden" name="deleted" value="{{ request.args.get('deleted', '') }}" />
+          <div class="form-group">
+            <input class="form-control input-sm" type="text" name="q" value="{{ request.args.get('q', '') }}" class="form-control" placeholder="关键字...">
+          </div>
+
+          <div class="form-group">
+              <select name="t" class="form-control input-sm">
+                  <option value="1" {% if request.args.get('t') == '1' %}selected="selected"{%endif%}>ID</option>
+                  <option value="2" {% if request.args.get('t') == '2' %}selected="selected"{%endif%}>渠道</option>
+                  <option value="3" {% if request.args.get('t') == '3' %}selected="selected"{%endif%}>来源</option>
+              </select>
+          </div>
+
+          <div class="form-group">
+              <select name="prize_id" class="form-control input-sm">
+                  <option value="" {% if request.args.get('prize_id') == '' %}selected="selected"{%endif%}>--全部奖项--</option>
+                  {% for d in meta.prize_options %}
+                      <option value="{{ d.id }}" {% if request.args.get('prize_id') == d.id|string %}selected="selected"{%endif%}>{{ d.name }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+
+          <button type="submit" class="btn btn-default btn-sm">搜索</button>
+        </form>
+    </div>
+      <!--
+      <div class="prompt">
+          <span>你没有输入足够的关键词，请输入要搜索的短语</span><br>
+          <span>搜索内容 “智能睡眠灯” , 找到约 2 条结果</span>
+      </div>
+      <div class="tab_button">
+          <a href=""><button class="active">最新</button></a>
+          <a href=""><button>相关度</button></a>
+      </div>
+
+      -->
+
+      <div class="list">
+          <ul class="list-group">
+              {% for d in meta.data %}
+              <li class="list-group-item">
+                  <div class="d_j">
+                      <a href="{{ url_for('main.produce_view', id=d._id) }}" target="_blank">
+                          <div class="list_img">
+                              {% if d.cover %}
+                                  {% if d.cover.get_thumb_path() %}
+                                      <img src="{{ d.cover.get_thumb_path().mi }}" alt="{{ d.title }}" />
+                                  {%else%}
+                                      <img src="{{ d.cover.img_url }}" alt="{{ d.title }}" />
+                                  {%endif%}
+                              {%endif%}
+                          </div>
+                      </a>
+                      <div class="content">
+                          <div class="title line-clamp-1 d_j_b">
+                            <p><a href="{{ url_for('main.produce_view', id=d._id) }}" target="_blank">{{ d.title }}</a>{% if d.category %}<span class="content_type">{{ d.category.name }}</span>{%endif%} {% if g.is_edit %}<a class="editor" href="{{ url_for('admin.produce_submit', id=d._id) }}" target="_blank">编辑</a>{%endif%}</p>
+                          </div>
+                          <!--
+                          <p class="details line-clamp-2"></p>
+                          -->
+                          <div class="mt5">
+                            <p>奖项: {{ d.prize_names }}</p>
+                            <div class="gs">
+                               {% if d.company %}<p>公司:<span>{{ d.company }}</span></p>{%endif%}
+                              {% if d.brand %}<p>品牌:<span>{{ d.brand.name }}</span></p>{%endif%}
+                              {% if d.designer %}<p>设计师:<span>{{ d.designer }}</span></p>{%endif%}
+                            </div>
+                              {% if d.tags %}
+                              <p class="tags">常规:
+                                {% for d in d.tags %}
+                                    <span class="label label-info">{{ d }}</span>
+                                {%endfor%}
+                              </p>
+                              {%endif%}
+
+                              {% if d.color_tags %}
+                              <p class="tags">颜色:
+                                {% for d in d.color_tags %}
+                                    <span class="label label-info">{{ d }}</span>
+                                {%endfor%}
+                              </p>
+                              {%endif%}
+
+                              {% if d.material_tags %}
+                              <p class="tags">材质:
+                                {% for d in d.material_tags %}
+                                    <span class="label label-info">{{ d }}</span>
+                                {%endfor%}
+                              </p>
+                              {%endif%}
+
+                              {% if d.technique_tags %}
+                              <p class="tags">工艺:
+                                {% for d in d.technique_tags %}
+                                    <span class="label label-info">{{ d }}</span>
+                                {%endfor%}
+                              </p>
+                              {%endif%}
+
+                              {% if d.style_tags %}
+                              <p class="tags">风格:
+                                {% for d in d.style_tags %}
+                                    <span class="label label-info">{{ d }}</span>
+                                {%endfor%}
+                              </p>
+                              {%endif%}
+
+                              {% if d.brand_tags %}
+                              <p class="tags">品牌:
+                                {% for d in d.brand_tags %}
+                                    <span class="label label-info">{{ d }}</span>
+                                {%endfor%}
+                              </p>
+                              {%endif%}
+
+                              {% if d.other_tags %}
+                              <p class="tags">其它:
+                                {% for d in d.other_tags %}
+                                    <span class="label label-info">{{ d }}</span>
+                                {%endfor%}
+                              </p>
+                              {%endif%}
+
+                              {% if d.colors %}
+                              <p class="tags">色值:
+                                {% for c in d.colors %}
+                                <button class="color-button" type="button" style="background: rgb({{ c.rgb }})">
+                                    <div class="b_img">
+                                        <p>--</p>
+                                        <p>HEX：<span>{{ c.hex }}</span></p>
+                                        <p>RGB：<span>{{ c.rgb }}</span></p>
+                                        <p>CMYK：<span>{{ c.cmyk }}</span></p>
+                                        <p>Pantone：<span>{{ c.pantone }}</span></p>
+                                    </div>
+                                </button>
+                                {%endfor%}
+                              </p>
+                              {%endif%}
+                          </div>
+                      </div>
+
+                  </div>
+              </li>
+
+              {%endfor%}
+          </ul>
+      </div>
+
+      <div class="text-c">
+          <!--分页-->
+          {{ meta.pager|safe }}
+          <div class="pager-total">共 {{ meta.total_count }} 条记录</div>
+      </div>
+  </div>
+{% endblock %}

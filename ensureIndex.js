@@ -1,6 +1,6 @@
 # image - 素材表
 db.image.ensureIndex({'kind':1}, {background: true});
-db.image.ensureIndex({'created_on':-1}, {background: true});
+db.image.ensureIndex({'created_at':-1}, {background: true});
 db.image.ensureIndex({'random':1}, {background: true});
 db.image.ensureIndex({'evt':1}, {background: true});
 db.image.ensureIndex({'channel':1}, {background: true});
@@ -14,7 +14,7 @@ db.image.ensureIndex({'title':1}, {background: true});
 
 # produce - 产品库
 db.produce.ensureIndex({'kind':1}, {background: true});
-db.produce.ensureIndex({'created_on':-1}, {background: true});
+db.produce.ensureIndex({'created_at':-1}, {background: true});
 db.produce.ensureIndex({'random':1}, {background: true});
 db.produce.ensureIndex({'evt':1}, {background: true});
 db.produce.ensureIndex({'channel':1}, {background: true});

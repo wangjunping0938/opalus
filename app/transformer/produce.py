@@ -14,16 +14,16 @@ def t_produce_view(d):
         '_id': str(d._id),
         'title': d.title,
         'sub_title': d.sub_title,
-        'name': d.name,
         'category_id': d.category_id,
         'category': fetch_category(d.category_id),
         'url': d.url,
-        'img_url': d.cover.img_url,
-        'thumb': d.cover.path,
+        'cover': d.cover(),
         'company': d.company,
         'designer': d.designer,
         'kind': d.kind,
         'cover': d.cover(),
+        'assets': d.assets(),
+        'prize': fetch_prize(d.prize),
         # 'prize_id': d.prize_id,
         # 'prize': fetch_prize(d.prize_id, d.prize),
         # 'prize_level': d.prize_level,
@@ -82,8 +82,6 @@ def t_produce_list(data):
             'updated_at': d.updated_at,
             'cover': d.cover(),
         }
-        if row['cover']:
-            row.update({'thumb': d.cover().get_thumb_path()})
         rows.append(row)
     return rows
 
@@ -157,8 +155,13 @@ def get_prize(prize):
     prize_names = []
     for i in prize:
         prize_names.append(prize_options(i['id'])['name'])
-    prize_names = ','.join(prize_names)
+    prize_names = '|'.join(prize_names)
     return prize_names
+
+def fetch_prize(prize):
+    for i, d in enumerate(prize):
+        prize[i]['name'] = prize_options(d['id'])['name']
+    return prize
 
 # 品牌
 def fetch_brand(brand_id):
