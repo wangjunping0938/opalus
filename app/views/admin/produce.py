@@ -48,6 +48,9 @@ def produce_list():
         if t == 3:
             query['evt'] = force_int(q.strip())
 
+    if prize_id:
+        query['prize'] = {'$elemMatch': {'id': int(prize_id)}}
+
     if kind:
         if kind == 1:
             meta['css_design'] = 'active'
@@ -83,14 +86,9 @@ def produce_list():
 
     page_url = url_for('admin.produce_list', page="#p#", q=q, t=t, prize_id=prize_id, site_mark=site_mark, kind=kind,
                        status=status, deleted=deleted)
-    if prize_id:
-        query['prize'] = {'$elemMatch': {'id': int(prize_id)}}
-        data = Produce.objects(__raw__=query).order_by('-created_at').paginate(
-            page=page, per_page=per_page)
-        total_count = Produce.objects(__raw__=query).count()
-    else:
-        data = Produce.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
-        total_count = Produce.objects(**query).count()
+
+    data = Produce.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
+    total_count = Produce.objects(**query).count()
     site_list = Site.objects(kind=1, status=1, deleted=0)
     # 过滤数据
     rows = t_admin_produce_list(data)
@@ -135,7 +133,7 @@ def produce_submit():
 
     meta['prize_options'] = prize_options()
 
-    categories = Category.objects(kind=2, status=1, deleted=0)[:20]
+    categories = Category.objects(kind=2, status=1, deleted=0)[:30]
     meta['categories'] = categories
 
     # 获取品牌列表

@@ -6,6 +6,7 @@ from flask_wtf import FlaskForm
 from bson import ObjectId
 from ..models.produce import Produce
 from ..models.image import Image
+import time
 
 class PrizeForm(FlaskForm):
     id = IntegerField('ID')
@@ -45,6 +46,7 @@ class SaveForm(FlaskForm):
     editor_id = IntegerField()
     is_editor = IntegerField()
     editor_level = IntegerField()
+    edit_on = IntegerField()
     prize = FieldList(FormField(PrizeForm))
 
     def update(self):
@@ -61,6 +63,7 @@ class SaveForm(FlaskForm):
         if 'is_editor' in data and data['is_editor'] == 1:
             data['editor_id'] = g.user._id
             data['editor_level'] = 1
+            data['edit_on'] = int(time.time())
 
         data.pop('user_id')
         data.pop('is_editor')
@@ -79,6 +82,7 @@ class SaveForm(FlaskForm):
         if 'is_editor' in data and data['is_editor'] == 1:
             data['editor_id'] = g.user._id
             data['editor_level'] = 1
+            data['edit_on'] = int(time.time())
         data['user_id'] = g.user._id
         data.pop('asset_ids')
         data.pop('asset_type')

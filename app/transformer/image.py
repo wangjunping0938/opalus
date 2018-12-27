@@ -2,7 +2,6 @@
 from app.helpers.constant import prize_options
 from app.models.category import Category
 from app.models.brand import Brand
-from app.models.color import Color
 
 from bson import ObjectId
 
@@ -35,7 +34,7 @@ def t_image_view(d):
         'other_tags': d.other_tags,
         'total_tags': d.total_tags,
         'color_ids': d.color_ids,
-        'colors': color_tran(d.color_ids),
+        'colors': d.colors(),
         'currency_type': d.currency_type,
         'price': d.price,
     }
@@ -79,7 +78,7 @@ def t_image_list(data):
             'deleted': d.deleted,
             'status': d.status,
             'color_ids': d.color_ids,
-            'colors': color_tran(d.color_ids),
+            'colors': d.colors(),
             'currency_type': d.currency_type,
             'price': d.price,
             'created_at': d.created_at,
@@ -127,12 +126,4 @@ def evt_label(evt):
 
     return evt_label
 
-# 色值
-def color_tran(color_ids):
-    colors = []
-    for i in color_ids:
-        if len(i) == 24:
-            color = Color.objects(_id=ObjectId(i)).first()
-            if color:
-                colors.append(color)
-    return colors
+
