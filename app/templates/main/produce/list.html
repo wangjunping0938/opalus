@@ -321,6 +321,12 @@
           </div>
 
           <div class="form-group">
+              <select name="category_id" class="form-control input-sm">
+                  <option value="" {% if request.args.get('category_id') == '' %}selected="selected"{%endif%}>--全部分类--</option>
+                  {% for d in meta.categories %}
+                      <option value="{{ d._id }}" {% if request.args.get('category_id') == d._id|string %}selected="selected"{%endif%}>{{ d.name }}</option>
+                  {% endfor %}
+              </select>
               <select name="prize_id" class="form-control input-sm">
                   <option value="" {% if request.args.get('prize_id') == '' %}selected="selected"{%endif%}>--全部奖项--</option>
                   {% for d in meta.prize_options %}
@@ -368,7 +374,7 @@
                           <p class="details line-clamp-2"></p>
                           -->
                           <div class="mt5">
-                            <p>奖项: {{ d.prize_names }}</p>
+                            {% if d.prize_names %}<p>奖项: {{ d.prize_names }}</p>{%endif%}
                             <div class="gs">
                                {% if d.company %}<p>公司:<span>{{ d.company }}</span></p>{%endif%}
                               {% if d.brand %}<p>品牌:<span>{{ d.brand.name }}</span></p>{%endif%}

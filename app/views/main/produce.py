@@ -5,6 +5,7 @@ from app.helpers.constant import prize_options
 from app.helpers.pager import Pager
 from app.models.produce import Produce
 from app.models.brand import Brand
+from app.models.category import Category
 from app.helpers.block import get_column
 from app.transformer.produce import t_produce_view, t_produce_list
 
@@ -50,6 +51,7 @@ def produce_list():
     deleted = force_int(request.args.get('deleted', 0))
     kind = force_int(request.args.get('kind', 1))
     prize_id = force_int(request.args.get('prize_id', 0))
+    category_id = force_int(request.args.get('category_id', 0))
     tag = request.args.get('tag', '')
 
     t = force_int(request.args.get('t', 1), 1)
@@ -65,6 +67,9 @@ def produce_list():
 
     if prize_id:
         query['prize'] = {'$elemMatch': {'id': int(prize_id)}}
+
+    if category_id:
+        query['category_id'] = category_id
 
     if tag:
         query['total_tags'] = tag
@@ -97,10 +102,10 @@ def produce_list():
     else:
         meta['css_all'] = ''
 
-    page_url = url_for('main.produce_list', page="#p#", q=q, t=t, tag=tag, prize_id=prize_id, kind=kind, status=status,
+    page_url = url_for('main.produce_list', page="#p#", q=q, t=t, tag=tag, prize_id=prize_id, category_id=category_id, kind=kind, status=status,
                        deleted=deleted)
 
-    data = Produce.objects(**query).order_by('-edit_on').paginate(page=page, per_page=per_page)
+    data = Produce.objects(**query).order_by('-edit_on', '-editor_level').paginate(page=page, per_page=per_page)
     total_count = Produce.objects(**query).count()
 
     # 过滤数据
@@ -109,6 +114,9 @@ def produce_list():
     meta['data'] = rows
     meta['total_count'] = total_count
     meta['prize_options'] = prize_options()
+
+    categories = Category.objects(kind=2, status=1, deleted=0)[:30]
+    meta['categories'] = categories
 
     pager = Pager(page, per_page, total_count, page_url)
     meta['pager'] = pager.render_view()

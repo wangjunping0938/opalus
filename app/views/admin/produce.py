@@ -133,7 +133,7 @@ def produce_submit():
 
     meta['prize_options'] = prize_options()
 
-    categories = Category.objects(kind=2, status=1, deleted=0)[:20]
+    categories = Category.objects(kind=2, status=1, deleted=0)[:30]
     meta['categories'] = categories
 
     # 获取品牌列表
