@@ -17,6 +17,8 @@ def produce_submit():
     if not data:
         return jsonify(code=3003, message='至少传入一个参数!')
     try:
+        if not (data['title'] and data['channel']):
+            return jsonify(code=3003, message='标题和渠道为必填')
         produce = Produce.objects(title=data['title'], channel=data['channel']).first()
         if not produce:
             produce_data = data.copy()
