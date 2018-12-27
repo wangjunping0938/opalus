@@ -317,9 +317,9 @@
                             </li>
                             {%endif%}
                             <li class="public_li">
-                                {% if form.colors %}
+                                {% if form.cover and form.cover.color_ids %}
                                 <p>颜色:</p>
-                                {% for c in form.colors %}
+                                {% for c in form.cover.colors() %}
                                 <button type="button" style="background: rgb({{ c.rgb }})">
                                     <div class="b_img">
                                         <p>--</p>

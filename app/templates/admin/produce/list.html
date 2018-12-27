@@ -176,7 +176,7 @@
                     </div>
                 </td>
                 <td>
-{#                <a href="{{ url_for('main.image_view', id=d._id) }}" target="_blank">#}
+                <a href="{{ url_for('main.produce_view', id=d._id) }}" target="_blank">
                   {% if d.cover %}
                     {% if d.cover.get_thumb_path() %}
                       <img src="{{ d.cover.get_thumb_path().sm }}" width="100" />
@@ -186,7 +186,7 @@
                   {%else%}
                     <img src="{{ url_for('static', filename='images/avatar_100.png') }}" width="100" />
                   {%endif%}
-{#                </a>>#}
+                </a>
                 </td>
                 <td>
                   <p>ID: {{ d._id }}</p>

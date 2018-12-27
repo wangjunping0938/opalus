@@ -4,6 +4,7 @@ import datetime
 import time
 from flask import current_app
 from . import db
+from app.models.color import Color
 from .base import Base
 import re
 import random
@@ -82,6 +83,16 @@ class Image(Base):
             'avb': os.path.join(asset_url, path + '-avb'),
         }
         return row
+
+    # 色值
+    def colors(self):
+        colors = []
+        for i in self.color_ids:
+            if len(i) == 24:
+                color = Color.objects(_id=ObjectId(i)).first()
+                if color:
+                    colors.append(color)
+        return colors
 
     def save(self, *args, **kwargs):
         total_tags = []

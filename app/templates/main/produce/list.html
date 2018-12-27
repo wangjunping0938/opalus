@@ -430,9 +430,9 @@
                               </p>
                               {%endif%}
 
-                              {% if d.colors %}
+                              {% if d.cover and d.cover.color_ids %}
                               <p class="tags">色值:
-                                {% for c in d.colors %}
+                                {% for c in d.cover.colors() %}
                                 <button class="color-button" type="button" style="background: rgb({{ c.rgb }})">
                                     <div class="b_img">
                                         <p>--</p>
