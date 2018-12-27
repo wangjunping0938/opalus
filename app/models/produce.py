@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+import json
 import os
 import datetime
 import time
@@ -135,7 +136,12 @@ class Produce(Base):
             total_tags += self.other_tags
         else:
             self.other_tags = []
-
+        if self.prize:
+            if not isinstance(self.prize, list):
+                prize = self.__trans_prize(self.prize)
+                self.prize = self.__trans_prize(self.prize)
+        else:
+            self.prize = []
         if not self.random:
             self.random = random.randint(1000000, 9999999)
 
@@ -168,7 +174,11 @@ class Produce(Base):
         if 'other_tags' in kwargs.keys() and not isinstance(kwargs['other_tags'], list):
             kwargs['other_tags'] = self.__trans_list(kwargs['other_tags'])
             total_tags = self.__tags_merge(total_tags, self.other_tags, kwargs['other_tags'])
+        if 'prize' in kwargs.keys() and not isinstance(kwargs['prize'], list):
+            kwargs['prize'] = self.__trans_prize(kwargs['prize'])
 
+        else:
+            self.prize = []
             # 去重
             total_tags = list(set(total_tags))
             # 合并所有标签
@@ -190,6 +200,12 @@ class Produce(Base):
             list.remove('')
         return list
 
+    def __trans_prize(self,str):
+        list = re.split('[&]', str)
+        list = [json.loads(i) for i in list]
+        if '' in list:
+            list.remove('')
+        return list
     # 推荐
     def mark_stick(self, evt=1):
         evt = int(evt)
