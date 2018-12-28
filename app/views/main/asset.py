@@ -64,7 +64,7 @@ def asset_ajx_del():
         asset = Asset.objects(_id=ObjectId(id)).first()
         if not asset:
             return jsonify(code=500, message='内容不存在！')
-        if g.user._id != asset.user_id:
+        if not g.is_edit:
             return jsonify(code=500, message='没有权限！')
 
         ok = asset.mark_delete()
