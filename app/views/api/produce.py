@@ -19,6 +19,8 @@ def produce_submit():
     try:
         if not (data['title'] and data['channel']):
             return jsonify(code=3003, message='标题和渠道为必填')
+        if not data['img_urls']:
+            return jsonify(code=3003, message='img_urls为空')
         produce = Produce.objects(title=data['title'], channel=data['channel']).first()
         if not produce:
             produce_data = data.copy()
@@ -26,6 +28,7 @@ def produce_submit():
             produce = Produce(**produce_data)
             produce.save()
         img_urls = data['img_urls'].split(',')
+
         for i in img_urls:
             img_data = {}
             img_data['title'] = data['title']

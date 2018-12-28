@@ -110,6 +110,7 @@ class SaveForm(FlaskForm):
 class SaveApi(FlaskForm):
     id = StringField()
     title = StringField('标题', validators=[Length(max=100, message="长度小于100个字符")])
+    sub_title = StringField('副标题', validators=[Length(max=100, message="长度小于100个字符")])
     kind = IntegerField('类型')
     tags = StringField('标签', validators=[Length(max=500, message="长度小于500个字符")])  # 标签
     color_tags = StringField('颜色标签', validators=[Length(max=500, message="长度小于500个字符")])  # 颜色标签
