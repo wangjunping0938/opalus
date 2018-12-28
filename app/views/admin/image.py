@@ -136,7 +136,7 @@ def image_submit():
     brands = Brand.objects(status=1, deleted=0)[:1000]
     meta['brands'] = brands
 
-    meta['referer_url'] = request.environ.get('HTTP_REFERER') if request.environ.get('HTTP_REFERER') else ''
+    meta['referer_url'] = request.environ.get('HTTP_REFERER') if request.environ.get('HTTP_REFERER') else url_for('admin.image_list')
 
     return render_template('admin/image/submit.html', meta=meta, form=form)
 
