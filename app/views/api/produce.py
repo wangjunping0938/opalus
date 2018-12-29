@@ -27,6 +27,13 @@ def produce_submit():
             produce_data.pop('img_urls')
             produce = Produce(**produce_data)
             produce.save()
+        else:
+            if produce.editor_id != 0:
+                produce_data = data.copy()
+                produce_data.pop('img_urls')
+                ok = produce.update(**produce_data)
+                if not ok:
+                    return jsonify(code=3003, message='产品更新失败')
         img_urls = data['img_urls'].split(',')
 
         for i in img_urls:
