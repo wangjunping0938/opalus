@@ -28,7 +28,7 @@ def produce_submit():
             produce = Produce(**produce_data)
             produce.save()
         else:
-            if produce.editor_id != 0:
+            if produce.editor_id == 0:
                 produce_data = data.copy()
                 produce_data.pop('img_urls')
                 ok = produce.update(**produce_data)
