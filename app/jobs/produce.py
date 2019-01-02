@@ -25,6 +25,7 @@ def produce_update():
     #query['status'] = 1
     #query['channel'] = 'g_mark'
     #query['total_tags'] = '女装'
+    query['channel'] = 'thecool'
 
     while not isEnd:
         data = Produce.objects(**query).order_by('-created_at').paginate(page=page, per_page=perPage)
@@ -38,7 +39,7 @@ def produce_update():
             #if d.channel == 'g_mark':
             if True:
                 ok = True
-                #ok = d.update(sub_title=d.title)
+                ok = d.update(channel='chinagood')
                 if ok:
                     successStatCount += 1
                 else:

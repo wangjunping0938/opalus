@@ -151,9 +151,10 @@ def image_update():
     successStatCount = 0
     failStatCount = 0
     query = {}
-    query['deleted'] = 0
-    query['kind'] = 1
-    query['channel'] = 'a-four'
+    # query['deleted'] = 0
+    # query['kind'] = 1
+    # query['channel'] = 'a-four'
+    query['channel'] = 'thecool'
     #query['status'] = 1
     #query['channel'] = 'g_mark'
     #query['total_tags'] = '女装'
@@ -171,9 +172,10 @@ def image_update():
             #if d.channel == 'g_mark':
             #r = random.randint(1000000, 9999999)
             if True:
-                if not d.img_url.startswith('http'):
-                    ok = d.update(img_url='http://www.a-fourdesign.com'+d.img_url)
+                # if not d.img_url.startswith('http'):
+                #     ok = d.update(img_url='http://www.a-fourdesign.com'+d.img_url)
                 ok = True
+                ok = d.update(channel='chinagood')
                 #ok = d.update(random=r)
                 if ok:
                     successStatCount += 1

@@ -47,9 +47,9 @@ def produce_submit():
             img = Image.objects(img_url=img_url).first()
             if not img:
                 img = Image(**img_data)
-                img.save()
+                ok = img.save()
             else:
-                img.update(target_id=str(produce._id))
+                ok = img.update(target_id=str(produce._id))
             if i == 0:
                 if not produce.cover_id:
                     ok = produce.update(cover_id=str(img._id))
