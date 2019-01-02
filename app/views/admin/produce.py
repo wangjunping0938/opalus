@@ -84,7 +84,7 @@ def produce_list():
     else:
         meta['css_all'] = ''
 
-    page_url = url_for('admin.produce_list', page="#p#", q=q, t=t, prize_id=prize_id, site_mark=site_mark, kind=kind,
+    page_url = url_for('admin.produce_list', page="#p#", q=q, t=t, prize_id=prize_id, site_mark=site_mark, editor_level=editor_level, kind=kind,
                        status=status, deleted=deleted)
 
     data = Produce.objects(**query).order_by('-created_at').paginate(page=page, per_page=per_page)
