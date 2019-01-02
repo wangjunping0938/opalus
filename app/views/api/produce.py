@@ -28,6 +28,7 @@ def produce_submit():
             produce = Produce(**produce_data)
             produce.save()
         else:
+            # if produce.editor_id != 0:
             if produce.editor_id == 0:
                 produce_data = data.copy()
                 produce_data.pop('img_urls')
@@ -36,20 +37,22 @@ def produce_submit():
                     return jsonify(code=3003, message='产品更新失败')
         img_urls = data['img_urls'].split(',')
 
-        for i in img_urls:
+        for i, img_url in enumerate(img_urls):
             img_data = {}
             img_data['title'] = data['title']
-            img_data['img_url'] = i
+            img_data['img_url'] = img_url
             img_data['channel'] = data['channel']
             img_data['url'] = data['url']
             img_data['target_id'] = str(produce._id)
-            img = Image.objects(img_url=i).first()
+            img = Image.objects(img_url=img_url).first()
             if not img:
                 img = Image(**img_data)
                 img.save()
             else:
                 img.update(target_id=str(produce._id))
-            ok = produce.update(cover_id=str(img._id))
+            if i == 0:
+                if not produce.cover_id:
+                    ok = produce.update(cover_id=str(img._id))
 
         if ok:
             return jsonify(code=0, message='success!', data=produce)
